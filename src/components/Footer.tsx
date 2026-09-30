@@ -39,6 +39,14 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             <ul className="space-y-2 text-xs text-slate-400">
               <li>
                 <button
+                  onClick={() => onNavigate('/tools/eligibility')}
+                  className="hover:text-emerald-400 font-semibold transition-colors cursor-pointer text-left"
+                >
+                  Instant Eligibility Matcher (DOB & Category)
+                </button>
+              </li>
+              <li>
+                <button
                   onClick={() => onNavigate('/tools/age')}
                   className="hover:text-white transition-colors cursor-pointer text-left"
                 >
@@ -67,6 +75,14 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                   className="hover:text-white transition-colors cursor-pointer text-left"
                 >
                   Expected Rank & Normalization Predictor
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => onNavigate('/tools/rich-snippet-preview')}
+                  className="hover:text-amber-400 font-semibold transition-colors cursor-pointer text-left"
+                >
+                  Google Snippet & Schema Inspector
                 </button>
               </li>
             </ul>
@@ -119,6 +135,30 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
               Mandatory Policies & Legal
             </h4>
             <ul className="space-y-2 text-xs text-slate-400 mb-4">
+              <li>
+                <button
+                  onClick={() => onNavigate('/trust/editorial')}
+                  className="hover:text-emerald-400 font-semibold transition-colors cursor-pointer text-left"
+                >
+                  Editorial Integrity & Gazette Policy
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => onNavigate('/trust/grievance')}
+                  className="hover:text-emerald-400 font-semibold transition-colors cursor-pointer text-left"
+                >
+                  Statutory Grievance Officer (IT Rules)
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => onNavigate('/trust/authors')}
+                  className="hover:text-white transition-colors cursor-pointer text-left"
+                >
+                  Editorial Board & Authors (E-E-A-T)
+                </button>
+              </li>
               <li>
                 <button
                   onClick={() => onNavigate('/about')}

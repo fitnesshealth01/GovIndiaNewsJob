@@ -12,6 +12,8 @@ import { ArticleView } from './components/ArticleView';
 import { LegalPages } from './components/LegalPages';
 import { FAQHub } from './components/FAQHub';
 import { EligibilityMatcher } from './components/EligibilityMatcher';
+import { GoogleSnippetPreview } from './components/GoogleSnippetPreview';
+import { TrustHub } from './components/TrustHub';
 import { SavedNotificationsModal } from './components/SavedNotificationsModal';
 import { getBookmarks } from './utils/bookmarkStorage';
 import {
@@ -172,45 +174,59 @@ export default function App() {
               </button>{' '}
               ·{' '}
               <button
-                onClick={() => navigate('/article/sbi-po-clerk-2026-recruitment-notification')}
+                onClick={() => navigate('/article/upsc-civil-services-mains-2026-e-admit-card-download')}
+                className="font-bold text-amber-300 hover:underline cursor-pointer"
+              >
+                [NEW] UPSC CSE Mains 2026 Admit Card Out (30 Sep)
+              </button>{' '}
+              ·{' '}
+              <button
+                onClick={() => navigate('/article/ssc-cgl-2026-tier-1-admit-card-all-regions-download')}
+                className="font-bold text-amber-300 hover:underline cursor-pointer"
+              >
+                [NEW] SSC CGL Tier-1 Hall Ticket All Regions (30 Sep)
+              </button>{' '}
+              ·{' '}
+              <button
+                onClick={() => navigate('/article/rrb-alp-cbt-1-city-intimation-admit-card-cen-01-2026')}
+                className="font-bold text-amber-300 hover:underline cursor-pointer"
+              >
+                [NEW] RRB ALP CBT-1 City Slip Active (30 Sep)
+              </button>{' '}
+              ·{' '}
+              <button
+                onClick={() => navigate('/article/sbi-junior-associates-clerk-recruitment-2026')}
                 className="font-semibold text-white hover:underline cursor-pointer"
               >
-                SBI PO & Clerk (10,283 Posts)
+                SBI Clerk 2026 (12,500+ Posts - Apply by 18 Nov)
+              </button>{' '}
+              ·{' '}
+              <button
+                onClick={() => navigate('/article/isro-scientist-engineer-sc-recruitment-2026')}
+                className="font-semibold text-white hover:underline cursor-pointer"
+              >
+                ISRO Scientist SC (303 Posts - Apply by 04 Nov)
+              </button>{' '}
+              ·{' '}
+              <button
+                onClick={() => navigate('/article/rbi-grade-b-officers-recruitment-2026')}
+                className="font-semibold text-white hover:underline cursor-pointer"
+              >
+                RBI Grade B (94 Posts - Apply by 25 Oct)
+              </button>{' '}
+              ·{' '}
+              <button
+                onClick={() => navigate('/article/drdo-rac-scientist-b-recruitment-2026-gate')}
+                className="font-semibold text-white hover:underline cursor-pointer"
+              >
+                DRDO Scientist B (248 Posts - Apply by 15 Dec)
               </button>{' '}
               ·{' '}
               <button
                 onClick={() => navigate('/article/rpf-si-constable-recruitment-2026')}
                 className="font-semibold text-white hover:underline cursor-pointer"
               >
-                Railway RPF SI & Constable (4,660 Posts)
-              </button>{' '}
-              ·{' '}
-              <button
-                onClick={() => navigate('/article/ssc-je-2026-junior-engineer-recruitment')}
-                className="font-semibold text-white hover:underline cursor-pointer"
-              >
-                SSC JE 2026 (1,765 Posts)
-              </button>{' '}
-              ·{' '}
-              <button
-                onClick={() => navigate('/article/ibps-po-clerk-xv-recruitment-2026')}
-                className="font-semibold text-white hover:underline cursor-pointer"
-              >
-                IBPS PO & Clerk XV (5,800+ Posts)
-              </button>{' '}
-              ·{' '}
-              <button
-                onClick={() => navigate('/article/defence-afcat-nda-recruitment-2026')}
-                className="font-semibold text-white hover:underline cursor-pointer"
-              >
-                Defence AFCAT & NDA (717 Posts)
-              </button>{' '}
-              ·{' '}
-              <button
-                onClick={() => navigate('/article/ssc-cgl-2026-recruitment-notification')}
-                className="font-semibold text-white hover:underline cursor-pointer"
-              >
-                SSC CGL 2026 (17,727 Posts)
+                RPF SI & Constable (4,660 Posts)
               </button>
             </div>
           </div>
@@ -446,6 +462,27 @@ export default function App() {
           <div className="space-y-6">
             <EligibilityMatcher onNavigate={navigate} />
           </div>
+        )}
+
+        {/* ROUTE 6.6: GOOGLE SNIPPET PREVIEW & SCHEMA INSPECTOR */}
+        {(currentPath === '/tools/rich-snippet-preview' || currentPath === '/tools/seo') && (
+          <div className="space-y-6">
+            <GoogleSnippetPreview onNavigate={navigate} />
+          </div>
+        )}
+
+        {/* ROUTE 6.7: E-E-A-T & GOOGLE ADSENSE TRUST HUB */}
+        {(currentPath === '/trust/editorial' || currentPath === '/editorial-policy') && (
+          <TrustHub initialTab="editorial" onNavigate={navigate} />
+        )}
+        {(currentPath === '/trust/factcheck' || currentPath === '/trust/fact-checking') && (
+          <TrustHub initialTab="factcheck" onNavigate={navigate} />
+        )}
+        {(currentPath === '/trust/grievance' || currentPath === '/grievance-redressal') && (
+          <TrustHub initialTab="grievance" onNavigate={navigate} />
+        )}
+        {(currentPath === '/trust/authors' || currentPath.startsWith('/authors')) && (
+          <TrustHub initialTab="authors" onNavigate={navigate} />
         )}
 
         {/* ROUTE 7: DEFAULT / HOME VIEW */}

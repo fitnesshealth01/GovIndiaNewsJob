@@ -16,6 +16,7 @@ import {
   Sparkles,
   BookOpen,
   Bookmark,
+  ShieldCheck,
 } from 'lucide-react';
 
 interface HeaderProps {
@@ -279,6 +280,18 @@ export const Header: React.FC<HeaderProps> = ({
                       <span className="text-[11px] text-slate-500">Shift Difficulty & Percentile Curve</span>
                     </div>
                   </button>
+                  <button
+                    onClick={() => handleNavClick('/tools/rich-snippet-preview')}
+                    className="w-full p-2.5 rounded-lg hover:bg-blue-50/50 text-left flex items-start gap-2.5 transition-colors cursor-pointer border-t border-slate-100 mt-1 pt-2"
+                  >
+                    <div className="w-7 h-7 rounded-md bg-amber-100 text-amber-800 font-bold flex items-center justify-center shrink-0">
+                      SEO
+                    </div>
+                    <div>
+                      <span className="font-bold text-slate-900 block">Google Snippet Preview</span>
+                      <span className="text-[11px] text-slate-500">Inspect Schema.org & SERP Card</span>
+                    </div>
+                  </button>
                 </div>
               )}
             </div>
@@ -292,6 +305,17 @@ export const Header: React.FC<HeaderProps> = ({
             >
               <HelpCircle className="w-3.5 h-3.5 text-blue-600" />
               <span>Exam FAQs</span>
+            </button>
+
+            {/* E-E-A-T & Trust Hub Link */}
+            <button
+              onClick={() => handleNavClick('/trust/editorial')}
+              className={`px-3 py-2 rounded-lg transition-colors flex items-center gap-1.5 cursor-pointer ${
+                currentPath.startsWith('/trust') ? 'text-emerald-800 bg-emerald-50 font-bold' : 'hover:bg-slate-100 text-slate-700'
+              }`}
+            >
+              <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
+              <span>Trust & Ethics</span>
             </button>
           </nav>
 

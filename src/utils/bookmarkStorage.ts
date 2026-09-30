@@ -65,6 +65,60 @@ export interface CountdownInfo {
 }
 
 /**
+ * Parses Indian government date formats like "28 Oct 2026", "14-10-2026", "15/12/2026"
+ */
+function parseIndianDate(rawStr: string): Date | null {
+  if (!rawStr) return null;
+  const clean = rawStr.replace(/\(.*?\)/g, '').trim();
+
+  // Try standard parsing first
+  let parsed = new Date(clean);
+  if (!isNaN(parsed.getTime())) {
+    return parsed;
+  }
+
+  // Handle DD-MM-YYYY or DD/MM/YYYY
+  const parts = clean.split(/[-/]/);
+  if (parts.length === 3) {
+    const day = parseInt(parts[0], 10);
+    const month = parseInt(parts[1], 10) - 1;
+    const year = parseInt(parts[2], 10);
+    if (!isNaN(day) && !isNaN(month) && !isNaN(year)) {
+      parsed = new Date(year, month, day, 23, 59, 59);
+      if (!isNaN(parsed.getTime())) return parsed;
+    }
+  }
+
+  // Handle "DD MonthName YYYY" with month names
+  const monthMap: Record<string, number> = {
+    jan: 0, january: 0,
+    feb: 1, february: 1,
+    mar: 2, march: 2,
+    apr: 3, april: 3,
+    may: 4,
+    jun: 5, june: 5,
+    jul: 6, july: 6,
+    aug: 7, august: 7,
+    sep: 8, sept: 8, september: 8,
+    oct: 9, october: 9,
+    nov: 10, november: 10,
+    dec: 11, december: 11
+  };
+
+  const words = clean.toLowerCase().split(/\s+/);
+  if (words.length >= 3) {
+    const day = parseInt(words[0], 10);
+    const monthStr = words[1].replace(/[^a-z]/g, '');
+    const year = parseInt(words[2], 10);
+    if (!isNaN(day) && monthMap[monthStr] !== undefined && !isNaN(year)) {
+      return new Date(year, monthMap[monthStr], day, 23, 59, 59);
+    }
+  }
+
+  return null;
+}
+
+/**
  * Calculates remaining time until application deadline
  */
 export function calculateDeadlineCountdown(lastDateStr?: string): CountdownInfo {
@@ -79,12 +133,10 @@ export function calculateDeadlineCountdown(lastDateStr?: string): CountdownInfo 
   }
 
   try {
-    // Strip parenthetical text like "(23:00 Hrs IST)"
-    const cleanDate = lastDateStr.replace(/\(.*?\)/g, '').trim();
-    const targetDate = new Date(cleanDate);
+    const targetDate = parseIndianDate(lastDateStr);
 
     // If invalid date parsing
-    if (isNaN(targetDate.getTime())) {
+    if (!targetDate || isNaN(targetDate.getTime())) {
       return {
         days: 0,
         hours: 0,
@@ -99,7 +151,12 @@ export function calculateDeadlineCountdown(lastDateStr?: string): CountdownInfo 
       targetDate.setHours(23, 59, 59, 999);
     }
 
-    const now = new Date();
+    // Current reference time: default to now; if current year < 2026, anchor to 30 Sep 2026
+    let now = new Date();
+    if (now.getFullYear() < 2026) {
+      now = new Date('2026-09-30T09:00:00');
+    }
+
     const diffMs = targetDate.getTime() - now.getTime();
 
     if (diffMs <= 0) {
@@ -121,23 +178,23 @@ export function calculateDeadlineCountdown(lastDateStr?: string): CountdownInfo 
         days: 0,
         hours,
         isExpired: false,
-        label: hours > 0 ? `Closes in ${hours}h!` : 'Closing Soon Today!',
+        label: hours > 0 ? `Closes in ${hours}h!` : 'Ends Today!',
         urgency: 'urgent',
       };
-    } else if (days <= 2) {
+    } else if (days <= 3) {
       return {
         days,
         hours,
         isExpired: false,
-        label: `${days}d ${hours}h left`,
+        label: `${days} Days Left · Apply Fast!`,
         urgency: 'urgent',
       };
-    } else if (days <= 7) {
+    } else if (days <= 10) {
       return {
         days,
         hours,
         isExpired: false,
-        label: `${days} days left`,
+        label: `${days} Days Left · Closing Soon`,
         urgency: 'moderate',
       };
     } else {
@@ -145,7 +202,7 @@ export function calculateDeadlineCountdown(lastDateStr?: string): CountdownInfo 
         days,
         hours,
         isExpired: false,
-        label: `${days} days left`,
+        label: `${days} Days Left`,
         urgency: 'plenty',
       };
     }

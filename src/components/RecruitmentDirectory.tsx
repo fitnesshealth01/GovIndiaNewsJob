@@ -226,37 +226,54 @@ export const RecruitmentDirectory: React.FC<RecruitmentDirectoryProps> = ({
                 className="bg-white rounded-xl border border-slate-200 hover:border-blue-400 hover:shadow-sm transition-all p-5 flex flex-col justify-between group relative"
               >
                 <div>
-                  {/* Top line with metadata & bookmark & countdown */}
+                  {/* Top line with metadata, category badge, countdown & bookmark */}
                   <div className="flex items-center justify-between gap-2 mb-2.5">
                     <div className="flex items-center flex-wrap gap-x-2 gap-y-1 text-xs text-slate-500">
-                      <span className="font-semibold text-blue-700">{item.organization}</span>
-                      <span aria-hidden="true">·</span>
+                      <span className={`text-[10px] font-bold px-2 py-0.5 rounded tracking-wide uppercase ${
+                        item.category === 'admit-card'
+                          ? 'bg-purple-100 text-purple-800 border border-purple-200'
+                          : item.category === 'jobs'
+                          ? 'bg-blue-100 text-blue-800 border border-blue-200'
+                          : item.category === 'result'
+                          ? 'bg-emerald-100 text-emerald-800 border border-emerald-200'
+                          : 'bg-amber-100 text-amber-800 border border-amber-200'
+                      }`}>
+                        {item.category === 'admit-card' ? 'Admit Card' : item.category === 'jobs' ? 'Recruitment' : item.category}
+                      </span>
+                      <span className="font-semibold text-slate-800">{item.organization}</span>
+                      <span aria-hidden="true" className="text-slate-300">·</span>
                       <span>{item.publishDate}</span>
                       {item.postCount && (
                         <>
-                          <span aria-hidden="true">·</span>
-                          <span className="font-medium text-slate-800">{item.postCount} Vacancies</span>
+                          <span aria-hidden="true" className="text-slate-300">·</span>
+                          <span className="font-semibold text-emerald-700 bg-emerald-50 px-1.5 py-0.2 rounded">{item.postCount} Posts</span>
                         </>
                       )}
                     </div>
 
                     <div className="flex items-center gap-1.5 shrink-0">
-                      {item.lastDate && (
+                      {item.lastDate ? (
                         <span
-                          className={`text-[10px] font-bold px-2 py-0.5 rounded flex items-center gap-1 ${
+                          className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full flex items-center gap-1 shadow-xs ${
                             countdown.urgency === 'urgent'
-                              ? 'bg-rose-100 text-rose-700 animate-pulse'
+                              ? 'bg-rose-100 text-rose-700 border border-rose-300 animate-pulse'
                               : countdown.urgency === 'moderate'
-                              ? 'bg-amber-100 text-amber-800'
+                              ? 'bg-amber-100 text-amber-800 border border-amber-300'
                               : countdown.urgency === 'expired'
-                              ? 'bg-slate-100 text-slate-500'
-                              : 'bg-emerald-50 text-emerald-700 border border-emerald-200'
+                              ? 'bg-slate-100 text-slate-500 border border-slate-200'
+                              : 'bg-emerald-50 text-emerald-800 border border-emerald-300'
                           }`}
+                          title={`Application Deadline: ${item.lastDate}`}
                         >
                           <Clock className="w-3 h-3" />
                           {countdown.label}
                         </span>
-                      )}
+                      ) : item.examDate ? (
+                        <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200 flex items-center gap-1">
+                          <Calendar className="w-3 h-3" />
+                          Exam: {item.examDate}
+                        </span>
+                      ) : null}
 
                       <button
                         type="button"

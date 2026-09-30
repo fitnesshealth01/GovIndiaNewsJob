@@ -58,9 +58,25 @@ export const Breadcrumb: React.FC<BreadcrumbProps> = ({
       marking: 'Negative Marking Penalty Calculator',
       height: 'Physical Height & Standards Checker',
       rank: 'Rank & Normalization Predictor',
+      eligibility: 'Instant Eligibility Matcher',
+      'rich-snippet-preview': 'Google Rich Snippet & Schema Inspector',
+      seo: 'Google Rich Snippet & Schema Inspector',
     };
     items.push({
       label: toolTitles[sub] || 'Calculator Utility',
+      isCurrent: true,
+    });
+  } else if (currentPath.startsWith('/trust/')) {
+    items.push({ label: 'Trust & Ethics', path: '/trust/editorial' });
+    const sub = currentPath.replace('/trust/', '');
+    const trustTitles: Record<string, string> = {
+      editorial: 'Editorial Policy & Standards',
+      grievance: 'Statutory Grievance Redressal Officer',
+      factcheck: 'Fact-Checking & Rapid Correction',
+      authors: 'Editorial Board & Authors',
+    };
+    items.push({
+      label: trustTitles[sub] || 'Trust Hub',
       isCurrent: true,
     });
   } else if (currentPath === '/tools') {

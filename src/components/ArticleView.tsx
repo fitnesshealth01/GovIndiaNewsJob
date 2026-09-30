@@ -25,8 +25,11 @@ import {
   HelpCircle,
   Bookmark,
   BookmarkCheck,
+  Sparkles,
 } from 'lucide-react';
 import { isBookmarked, toggleBookmark, calculateDeadlineCountdown } from '../utils/bookmarkStorage';
+import { CandidateDiscussion } from './CandidateDiscussion';
+import { buildJobPostingSchema, buildNewsArticleSchema, buildBreadcrumbSchema, injectSchema } from '../utils/seoSchema';
 
 interface ArticleViewProps {
   article: RecruitmentAlert;
@@ -42,6 +45,18 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
   const [copiedLink, setCopiedLink] = useState(false);
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
   const [isSaved, setIsSaved] = useState<boolean>(() => isBookmarked(article.id));
+
+  React.useEffect(() => {
+    const schemas = [
+      article.category === 'jobs' ? buildJobPostingSchema(article) : buildNewsArticleSchema(article),
+      buildBreadcrumbSchema([
+        { name: 'Home', url: '/' },
+        { name: getCategoryLabel(article.category), url: `/?tab=${article.category}` },
+        { name: article.title, url: `/article/${article.slug}` },
+      ]),
+    ];
+    injectSchema(schemas);
+  }, [article]);
 
   const handleToggleSave = () => {
     const res = toggleBookmark(article.id);
@@ -193,6 +208,24 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
             <h1 className="text-xl sm:text-3xl font-extrabold text-slate-900 tracking-tight leading-snug">
               {article.title}
             </h1>
+
+            {/* Gazette Verification Seal */}
+            <div className="flex items-center gap-2 flex-wrap text-xs bg-emerald-50 border border-emerald-200 text-emerald-900 px-3.5 py-2 rounded-xl">
+              <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" />
+              <span className="font-bold">Gazette of India Verified</span>
+              <span className="text-emerald-400">·</span>
+              <span className="text-emerald-700 font-mono text-[11px] truncate max-w-sm">
+                {article.officialGazetteRef}
+              </span>
+              <button
+                type="button"
+                onClick={() => onNavigate('/trust/editorial')}
+                className="ml-auto text-[11px] text-emerald-800 font-semibold hover:underline cursor-pointer flex items-center gap-1"
+              >
+                <span>Editorial Policy</span>
+                <ChevronRight className="w-3 h-3" />
+              </button>
+            </div>
 
             {/* E-E-A-T Author & Editorial Review Box */}
             <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 flex flex-wrap items-center justify-between gap-3 text-xs">
@@ -734,12 +767,13 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
               <AgeCalculator />
             )}
           </div>
+
+          {/* Section 12: Candidate Query Cell & Community Discussion */}
+          <CandidateDiscussion alertId={article.id} alertTitle={article.title} />
         </article>
 
         {/* Right Sidebar: Recommended Tests & Tools (4 cols) */}
         <aside className="lg:col-span-4 space-y-6">
-
-
           {/* Official PYQ CBT Simulator CTA Card */}
           <div className="bg-gradient-to-br from-slate-900 to-blue-950 rounded-2xl p-6 text-white border border-slate-800 shadow-sm space-y-3">
             <span className="text-[11px] font-semibold uppercase tracking-wider text-blue-400">
@@ -760,12 +794,40 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
             </button>
           </div>
 
+          {/* Google SERP & SEO Preview Card */}
+          <div className="bg-white rounded-2xl border border-slate-200 p-5 space-y-3 shadow-xs">
+            <div className="flex items-center gap-2 text-xs font-bold text-blue-700 uppercase tracking-wider">
+              <Sparkles className="w-4 h-4 text-amber-500" />
+              <span>SEO Transparency Engine</span>
+            </div>
+            <h4 className="text-sm font-bold text-slate-900 leading-snug">
+              Google Rich Snippet & Schema Inspector
+            </h4>
+            <p className="text-xs text-slate-600 leading-relaxed">
+              Inspect how this notification renders on Google Search with validated JobPosting / NewsArticle JSON-LD structured data.
+            </p>
+            <button
+              onClick={() => onNavigate('/tools/rich-snippet-preview')}
+              className="w-full py-2 text-xs font-semibold text-blue-700 bg-blue-50 hover:bg-blue-100 rounded-lg border border-blue-200 transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
+            >
+              <span>Inspect Search Snippet</span>
+              <ChevronRight className="w-3.5 h-3.5" />
+            </button>
+          </div>
+
           {/* Quick Tools Box */}
           <div className="bg-white rounded-2xl border border-slate-200 p-5 space-y-3 shadow-xs">
             <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider">
               Smart Exam Tools
             </h4>
             <div className="space-y-2 text-xs">
+              <button
+                onClick={() => onNavigate('/tools/eligibility')}
+                className="w-full p-2.5 rounded-lg border border-emerald-200 hover:bg-emerald-50/50 text-left transition-colors cursor-pointer flex items-center justify-between"
+              >
+                <span className="font-semibold text-emerald-800">Instant Eligibility Matcher</span>
+                <ChevronRight className="w-3.5 h-3.5 text-emerald-600" />
+              </button>
               <button
                 onClick={() => onNavigate('/tools/age')}
                 className="w-full p-2.5 rounded-lg border border-slate-200 hover:border-blue-400 hover:bg-blue-50/30 text-left transition-colors cursor-pointer flex items-center justify-between"
@@ -793,6 +855,33 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
               >
                 <span className="font-semibold text-slate-800">Rank & Normalization</span>
                 <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
+              </button>
+            </div>
+          </div>
+
+          {/* E-E-A-T Editorial & Statutory Grievance Card */}
+          <div className="bg-slate-50 rounded-2xl border border-slate-200 p-5 space-y-3">
+            <div className="flex items-center gap-1.5 text-xs font-bold text-slate-700">
+              <ShieldCheck className="w-4 h-4 text-emerald-600" />
+              <span>Editorial Integrity & Grievance</span>
+            </div>
+            <p className="text-xs text-slate-600 leading-relaxed">
+              GovIndiaNews adheres strictly to Digital Media Ethics Rules 2021. For discrepancies or corrigendum requests:
+            </p>
+            <div className="space-y-1.5 pt-1 text-xs">
+              <button
+                onClick={() => onNavigate('/trust/editorial')}
+                className="w-full py-1.5 text-left text-blue-600 font-semibold hover:underline flex items-center justify-between cursor-pointer"
+              >
+                <span>Editorial Code of Ethics</span>
+                <ChevronRight className="w-3 h-3 text-slate-400" />
+              </button>
+              <button
+                onClick={() => onNavigate('/trust/grievance')}
+                className="w-full py-1.5 text-left text-blue-600 font-semibold hover:underline flex items-center justify-between cursor-pointer"
+              >
+                <span>Grievance Redressal Officer</span>
+                <ChevronRight className="w-3 h-3 text-slate-400" />
               </button>
             </div>
           </div>
