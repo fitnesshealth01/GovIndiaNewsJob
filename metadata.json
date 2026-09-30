@@ -1,0 +1,6 @@
+{
+  "name": "GovIndiaNews - Government Jobs, Exam Utilities & Mock Tests",
+  "description": "GovIndiaNews is an authoritative recruitment news and exam preparation portal featuring official gazette job alerts, smart exam calculators, and live mock test simulators.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

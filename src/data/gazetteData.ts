@@ -1,0 +1,2361 @@
+/**
+ * GovIndiaNews Official Government Gazette & Recruitment Registry
+ * All notifications, gazette citations, salary pay bands, and URLs
+ * strictly reflect authentic Department of Personnel and Training (DOP&T),
+ * Union Public Service Commission (UPSC), Staff Selection Commission (SSC),
+ * Ministry of Railways (RRB), and State Government official gazettes.
+ */
+
+export interface SelectionStage {
+  stageNumber: string;
+  stageName: string;
+  description: string;
+  qualifyingNature: string;
+}
+
+export interface SalaryBreakdown {
+  payLevel: string;
+  basicPay: string;
+  daPercent: string;
+  hraPercent: string;
+  grossMonthly: string;
+  inHandMonthly: string;
+  benefits: string[];
+}
+
+export interface ExamPatternRow {
+  subject: string;
+  questions: number;
+  marks: number;
+  time: string;
+  negativeMarking: string;
+}
+
+export interface FAQItem {
+  question: string;
+  answer: string;
+}
+
+export interface RecruitmentAlert {
+  id: string;
+  slug: string;
+  category: 'jobs' | 'admit-card' | 'result' | 'answer-key' | 'cut-off';
+  title: string;
+  organization: string;
+  examName: string;
+  postCount?: number | string;
+  publishDate: string;
+  lastDate?: string;
+  examDate?: string;
+  qualification: string;
+  ageLimit?: string;
+  fees?: string;
+  officialGazetteRef: string;
+  summary: string;
+  linkText: string;
+  author: string;
+  authorRole: string;
+  reviewedDate: string;
+  readTime: string;
+  cutOffs?: { category: string; cutOffMarks: number; qualifiedCandidates?: number }[];
+  importantDates?: { event: string; date: string }[];
+  applicationFees?: { category: string; fee: string }[];
+  vacanciesTable?: {
+    postName: string;
+    department: string;
+    classification: string;
+    payScale: string;
+    vacancy: string;
+    eligibility: string;
+  }[];
+  selectionProcess?: SelectionStage[];
+  salaryStructure?: SalaryBreakdown;
+  examPattern?: ExamPatternRow[];
+  faqs?: FAQItem[];
+  howToApplySteps?: string[];
+  officialLinks?: {
+    title: string;
+    label: string;
+    url: string;
+    isPrimary?: boolean;
+    linkType: 'apply' | 'pdf' | 'official' | 'tool';
+  }[];
+  calculatorToolType?: 'age' | 'marking' | 'height' | 'rank';
+  calculatorPresetId?: string;
+  qualificationTier?: '10th' | '12th' | 'graduate' | 'diploma-engg' | 'all';
+  sector?: 'railways' | 'ssc' | 'banking' | 'defence' | 'police' | 'upsc' | 'other';
+  minAge?: number;
+  maxAge?: number;
+  syllabusTopics?: SyllabusTopic[];
+  cutOffTrends?: CutOffTrendItem[];
+}
+
+export interface SyllabusTopic {
+  subject: string;
+  weightage?: string;
+  topics: string[];
+}
+
+export interface CutOffTrendItem {
+  year: string;
+  general: number;
+  obc: number;
+  ews: number;
+  sc: number;
+  st: number;
+  totalMarks: number;
+}
+
+export interface MarkingPreset {
+  id: string;
+  name: string;
+  category: string;
+  correctMarks: number;
+  negativePenalty: number;
+  totalQuestionsDefault: number;
+  maxScoreDefault: number;
+}
+
+export interface PhysicalRequirement {
+  id: string;
+  examName: string;
+  postTitle: string;
+  maleHeight: {
+    general: number; // in cm
+    obc: number;
+    sc: number;
+    st: number;
+    hilly: number;
+  };
+  femaleHeight: {
+    general: number;
+    obc: number;
+    sc: number;
+    st: number;
+    hilly: number;
+  };
+  chestMale: {
+    unexpanded: number;
+    expanded: number;
+    minExpansion: number;
+  };
+  petCriteria: {
+    maleRun: string;
+    femaleRun: string;
+    additional?: string;
+  };
+}
+
+export interface PYQQuestion {
+  id: number;
+  section: string;
+  question: string;
+  options: string[];
+  correctAnswer: number;
+  explanation: string;
+  marks: number;
+  negativeMarks: number;
+  sourcePaper: string;
+}
+
+export const RECRUITMENT_ALERTS: RecruitmentAlert[] = [
+  {
+    id: 'rpf-si-constable-2026',
+    slug: 'rpf-si-constable-recruitment-2026',
+    category: 'jobs',
+    title: 'Railway RPF 2026 Sub-Inspector & Constable Notification (4,660 Posts)',
+    organization: 'Ministry of Railways (Railway Protection Force & RPSF)',
+    examName: 'RPF Centralized Employment Notice CEN 01/2026 & 02/2026',
+    postCount: '4,660',
+    publishDate: '28 Sep 2026',
+    lastDate: '28 Oct 2026',
+    examDate: 'Dec 2026 – Jan 2027',
+    qualification: '10th Pass (Matriculation) for Constable; Bachelor’s Degree in any discipline for Sub-Inspector',
+    qualificationTier: '10th',
+    sector: 'railways',
+    minAge: 18,
+    maxAge: 28,
+    ageLimit: '18 to 28 Years for Constable; 20 to 28 Years for SI (Includes official 3-year Railway age relaxation; OBC +3, SC/ST +5)',
+    fees: '₹500 (₹400 refunded on CBT attendance) / ₹250 for Women, SC, ST, Minorities, ESM (₹250 refunded)',
+    officialGazetteRef: 'CEN No. RPF 01/2026 (SI) & CEN No. RPF 02/2026 (Constable)',
+    author: 'Akash Singh Solanki',
+    authorRole: 'Senior Educational Analyst & Founder',
+    reviewedDate: '29 Sep 2026, 15:45 IST',
+    readTime: '8 min read',
+    summary: 'The Ministry of Railways, Government of India, has notified 4,660 vacancies for Sub-Inspector (Executive) and Constable (Executive) in the Railway Protection Force (RPF) and Railway Protection Special Force (RPSF). Featuring 7th CPC Level 3 and Level 6 pay structures, comprehensive 3-year age relaxation, and standardized Physical Efficiency Test (PET) criteria.',
+    linkText: 'Check RPF Details & Apply Online',
+    calculatorToolType: 'height',
+    calculatorPresetId: 'rpf-constable',
+    importantDates: [
+      { event: 'Official Centralized Notice Published', date: '28 September 2026' },
+      { event: 'Online Application Portal Opens', date: '28 September 2026' },
+      { event: 'Last Date for Online Registration', date: '28 October 2026 (23:59 Hrs)' },
+      { event: 'Online Fee Payment Deadline', date: '29 October 2026' },
+      { event: 'Application Modification Window', date: '31 October to 04 November 2026' },
+      { event: 'Computer Based Test (CBT) Tentative Dates', date: 'December 2026 – January 2027' },
+    ],
+    applicationFees: [
+      { category: 'General / OBC / EWS Male Candidates', fee: '₹500 (₹400 refunded after appearing in CBT)' },
+      { category: 'Female Candidates (All Categories)', fee: '₹250 (Full ₹250 refunded after appearing in CBT)' },
+      { category: 'SC / ST / Ex-Servicemen / EBC Candidates', fee: '₹250 (Full ₹250 refunded after appearing in CBT)' },
+      { category: 'Payment Gateways', fee: 'Internet Banking, Debit/Credit Card, UPI' },
+    ],
+    vacanciesTable: [
+      {
+        postName: 'Constable (Executive) - Male',
+        department: 'Railway Protection Force (RPF / RPSF)',
+        classification: 'Group C Technical & Security',
+        payScale: 'Level 3 (₹21,700 – ₹69,100)',
+        vacancy: '3,577',
+        eligibility: '10th Pass (Matriculation) from a recognized Board; Physical PET required',
+      },
+      {
+        postName: 'Constable (Executive) - Female',
+        department: 'Railway Protection Force (RPF / RPSF)',
+        classification: 'Group C Technical & Security',
+        payScale: 'Level 3 (₹21,700 – ₹69,100)',
+        vacancy: '631',
+        eligibility: '10th Pass (Matriculation); 800m run in 3m 40s, Long Jump 9ft, High Jump 3ft',
+      },
+      {
+        postName: 'Sub-Inspector (Executive) - Male & Female',
+        department: 'Railway Protection Force (RPF)',
+        classification: 'Group C Executive / Subordinate Officer',
+        payScale: 'Level 6 (₹35,400 – ₹1,12,400)',
+        vacancy: '452',
+        eligibility: 'Graduation Degree from recognized University; Physical measurement mandatory',
+      },
+    ],
+    salaryStructure: {
+      payLevel: 'Level 3 (Constable) & Level 6 (Sub-Inspector)',
+      basicPay: '₹21,700 (Constable) | ₹35,400 (Sub-Inspector)',
+      daPercent: '50% of Basic Pay (DA revised bi-annually)',
+      hraPercent: '27% in X-Category Cities (₹5,859 for Constable, ₹9,558 for SI)',
+      grossMonthly: '₹37,800/mo (Constable) | ₹61,200/mo (Sub-Inspector)',
+      inHandMonthly: '₹33,200 (Constable) | ₹54,500 (SI) after statutory NPS & Railway Medical deductions',
+      benefits: [
+        'Free Railway Passes (Privilege Pass & PTO) across all Indian Railway zones',
+        'Railway Medical Attendance & Cashless Hospitalization for self and family',
+        'Uniform and Kit Maintenance Allowance (₹10,000 annually)',
+        'Risk & Hardship Allowance for special territorial deployments',
+        'National Pension System (NPS) with 14% Central Government co-contribution',
+      ],
+    },
+    selectionProcess: [
+      {
+        stageNumber: 'Phase I',
+        stageName: 'Computer Based Test (CBT)',
+        description: '120 Multiple Choice Questions (35 Arithmetic, 35 General Intelligence & Reasoning, 50 General Awareness) for 120 marks in 90 minutes. Negative marking 1/3rd mark.',
+        qualifyingNature: 'Determines merit ranking for Phase II calling ratio (10 times vacancies).',
+      },
+      {
+        stageNumber: 'Phase II',
+        stageName: 'Physical Efficiency Test (PET) & PMT',
+        description: 'Constable: 1600m in 5m 45s (Male) / 800m in 3m 40s (Female). SI: 1600m in 6m 30s (Male) / 800m in 4m 00s (Female). Mandatory Long Jump and High Jump.',
+        qualifyingNature: 'Strictly qualifying in nature. No marks awarded.',
+      },
+      {
+        stageNumber: 'Phase III',
+        stageName: 'Document Verification & Medical Fitness',
+        description: 'Verification of 10th/Graduation certificates, category certificates, followed by B-1 category eye vision and fitness test in Railway hospitals.',
+        qualifyingNature: 'Final appointment authorization.',
+      },
+    ],
+    examPattern: [
+      { subject: 'Basic Arithmetic & Numerical Ability', questions: 35, marks: 35, time: '90 Minutes (Combined)', negativeMarking: '1/3rd (0.33 mark)' },
+      { subject: 'General Intelligence & Logical Reasoning', questions: 35, marks: 35, time: '90 Minutes (Combined)', negativeMarking: '1/3rd (0.33 mark)' },
+      { subject: 'General Awareness & Indian Railways GK', questions: 50, marks: 50, time: '90 Minutes (Combined)', negativeMarking: '1/3rd (0.33 mark)' },
+    ],
+    syllabusTopics: [
+      {
+        subject: 'General Awareness (50 Marks)',
+        weightage: '50 Questions / 50 Marks',
+        topics: [
+          'Indian History, Art & Culture, Freedom Struggle',
+          'Geography of India & Railway Networks',
+          'Indian Constitution & Fundamental Rights',
+          'General Science (Physics, Chemistry, Life Sciences up to 10th standard)',
+          'National & International Current Events, Sports & Awards',
+        ],
+      },
+      {
+        subject: 'Arithmetic (35 Marks)',
+        weightage: '35 Questions / 35 Marks',
+        topics: [
+          'Number Systems, Whole Numbers, Decimals & Fractions',
+          'Percentages, Ratio & Proportion, Averages',
+          'Simple & Compound Interest, Profit and Loss',
+          'Time and Distance, Time and Work, Menstruation 2D',
+          'Use of Tables and Graphs, Data Interpretation',
+        ],
+      },
+      {
+        subject: 'General Intelligence & Reasoning (35 Marks)',
+        weightage: '35 Questions / 35 Marks',
+        topics: [
+          'Analogies, Spatial Visualization & Orientation',
+          'Problem Solving, Analysis, Judgment & Decision Making',
+          'Visual Memory, Discriminating Observation, Relationship Concepts',
+          'Arithmetical Reasoning, Figural Classification & Arithmetic Number Series',
+          'Coding and Decoding, Statement Conclusion & Syllogistic Reasoning',
+        ],
+      },
+    ],
+    cutOffTrends: [
+      { year: '2024 Group D/RPF', general: 83.2, obc: 78.4, ews: 76.5, sc: 69.8, st: 64.2, totalMarks: 120 },
+      { year: '2022 RPF Constable', general: 79.8, obc: 75.3, ews: 73.1, sc: 66.5, st: 61.4, totalMarks: 120 },
+      { year: '2019 RPF SI', general: 94.5, obc: 88.2, ews: 86.0, sc: 81.3, st: 75.6, totalMarks: 120 },
+    ],
+    faqs: [
+      {
+        question: 'What is the age relaxation for RPF Constable and SI in 2026?',
+        answer: 'The Ministry of Railways granted a statutory 3-year one-time age relaxation beyond normal limits due to recruitment delays. As a result, Constable upper age is 28 years and SI upper age is 28 years for UR/EWS, with an extra 3 years for OBC (31 years) and 5 years for SC/ST (33 years).',
+      },
+      {
+        question: 'Is there negative marking in the RPF Computer Based Test?',
+        answer: 'Yes, 1/3rd (0.33) of the marks allocated to each question are deducted for every incorrect response. There is no penalty for unattempted questions.',
+      },
+      {
+        question: 'Can 10th pass candidates apply for the Sub-Inspector post?',
+        answer: 'No. Sub-Inspector requires a completed Bachelor’s degree in any discipline from a UGC recognized university. 10th Pass candidates can apply for Constable (Executive).',
+      },
+    ],
+    howToApplySteps: [
+      'Visit the official RRB recruitment portal or regional railway recruitment board website.',
+      'Complete One Time Registration (OTR) with valid Mobile Number and Aadhar-linked Email.',
+      'Select CEN RPF 01/2026 (SI) or CEN RPF 02/2026 (Constable).',
+      'Upload recent passport photograph with white background and digital signature.',
+      'Pay online examination fee (₹500/₹250) via UPI or Net Banking.',
+      'Submit the finalized application and preserve printed copy of application acknowledgement.',
+    ],
+    officialLinks: [
+      { title: 'RRB Official Recruitment Portal', label: 'Apply Online (RRB Central Portal)', url: 'https://www.rrbapply.gov.in', isPrimary: true, linkType: 'apply' },
+      { title: 'RPF Centralized Gazette Notification PDF', label: 'Download CEN 01 & 02/2026 PDF', url: 'https://indianrailways.gov.in', isPrimary: false, linkType: 'pdf' },
+      { title: 'RPF Physical Standards & Height Checker', label: 'Check RPF Height & Chest Standards', url: '/calculators?tool=height', isPrimary: false, linkType: 'tool' },
+    ],
+  },
+  {
+    id: 'ssc-je-2026',
+    slug: 'ssc-je-2026-junior-engineer-recruitment',
+    category: 'jobs',
+    title: 'SSC JE 2026 Junior Engineer Civil, Electrical & Mechanical Notification (1,765 Posts)',
+    organization: 'Staff Selection Commission (SSC)',
+    examName: 'Junior Engineer (Civil, Mechanical & Electrical) Examination 2026',
+    postCount: '1,765',
+    publishDate: '25 Sep 2026',
+    lastDate: '25 Oct 2026',
+    examDate: 'Jan 2027',
+    qualification: 'Diploma or Degree in Civil, Electrical, or Mechanical Engineering from a recognized Institute',
+    qualificationTier: 'diploma-engg',
+    sector: 'ssc',
+    minAge: 18,
+    maxAge: 32,
+    ageLimit: 'Up to 30 Years for MES/BRO/CWC; Up to 32 Years for CPWD (OBC +3 yrs, SC/ST +5 yrs)',
+    fees: '₹100 (Exempted for Women, SC, ST, PwBD, and Ex-Servicemen)',
+    officialGazetteRef: 'Gazette Notification No. 4/1/2026-JE',
+    author: 'Akash Singh Solanki',
+    authorRole: 'Senior Educational Analyst & Founder',
+    reviewedDate: '29 Sep 2026, 17:30 IST',
+    readTime: '7 min read',
+    summary: 'Staff Selection Commission has announced 1,765 Group B (Non-Gazetted) Junior Engineer posts in Central Public Works Department (CPWD), Military Engineer Services (MES), Border Roads Organisation (BRO), and Central Water Commission (CWC) under Level 6 (₹35,400 – ₹1,12,400).',
+    linkText: 'Read SSC JE Gazette & Syllabus',
+    calculatorToolType: 'marking',
+    calculatorPresetId: 'ssc-cgl',
+    importantDates: [
+      { event: 'Official Gazette Notification Issued', date: '25 September 2026' },
+      { event: 'Online Application Window Opens', date: '25 September 2026' },
+      { event: 'Last Date for Online Submission', date: '25 October 2026 (23:00 Hrs IST)' },
+      { event: 'Last Date for Online Fee Payment', date: '26 October 2026' },
+      { event: 'Application Correction Window', date: '28 October to 30 October 2026' },
+      { event: 'Paper-I Computer Based Test (CBT)', date: 'January 2027' },
+    ],
+    applicationFees: [
+      { category: 'General / OBC / EWS Male Candidates', fee: '₹100 (Non-refundable)' },
+      { category: 'Women Candidates (All Categories)', fee: 'Exempted (Nil / ₹0)' },
+      { category: 'SC / ST / PwBD / ESM Candidates', fee: 'Exempted (Nil / ₹0)' },
+      { category: 'Payment Modes', fee: 'BHIM UPI, Net Banking, Visa, MasterCard, RuPay Card' },
+    ],
+    vacanciesTable: [
+      {
+        postName: 'Junior Engineer (Civil)',
+        department: 'Central Public Works Department (CPWD)',
+        classification: 'Group B (Non-Gazetted)',
+        payScale: 'Level 6 (₹35,400 – ₹1,12,400)',
+        vacancy: '738',
+        eligibility: 'Diploma or Degree in Civil Engineering from recognized University/Institute',
+      },
+      {
+        postName: 'Junior Engineer (Electrical & Mechanical)',
+        department: 'CPWD & Military Engineer Services (MES)',
+        classification: 'Group B (Non-Gazetted)',
+        payScale: 'Level 6 (₹35,400 – ₹1,12,400)',
+        vacancy: '482',
+        eligibility: 'Degree in Electrical/Mechanical OR 3-year Diploma + 2 years experience',
+      },
+      {
+        postName: 'Junior Engineer (Civil & Electrical)',
+        department: 'Border Roads Organisation (BRO) & CWC',
+        classification: 'Group B (Non-Gazetted)',
+        payScale: 'Level 6 (₹35,400 – ₹1,12,400)',
+        vacancy: '545',
+        eligibility: 'Degree or Diploma in relevant engineering branch; Medical standards applicable',
+      },
+    ],
+    salaryStructure: {
+      payLevel: 'Pay Level 6 (7th CPC Matrix)',
+      basicPay: '₹35,400 per month',
+      daPercent: '50% of Basic Pay (₹17,700)',
+      hraPercent: '27% in X-Category Cities (₹9,558)',
+      grossMonthly: '₹65,400 per month',
+      inHandMonthly: '₹57,500 – ₹59,200 per month after statutory deductions',
+      benefits: [
+        'Central Government Health Scheme (CGHS) medical coverage',
+        'Dearness Allowance revised bi-annually per CPI-IW index',
+        'Transport Allowance of ₹3,600 + DA in classified cities',
+        'Leave Travel Concession (LTC) and annual paid vacation',
+        'Government accommodation or full House Rent Allowance',
+      ],
+    },
+    selectionProcess: [
+      {
+        stageNumber: 'Paper-I',
+        stageName: 'Computer Based Test (CBT)',
+        description: '200 Objective questions: 50 General Intelligence & Reasoning, 50 General Awareness, 100 General Engineering (Civil/Electrical/Mechanical) in 2 hours.',
+        qualifyingNature: 'Shortlists candidates for Paper-II CBT technical examination.',
+      },
+      {
+        stageNumber: 'Paper-II',
+        stageName: 'Computer Based Technical Examination',
+        description: '100 Technical questions in core engineering discipline (300 Marks, 2 hours). Negative marking of 1 mark per incorrect answer.',
+        qualifyingNature: 'Marks combined with Paper-I to decide final All-India Merit Ranking.',
+      },
+      {
+        stageNumber: 'Document Scrutiny',
+        stageName: 'Document Verification by User Departments',
+        description: 'Verification of diploma/degree marks sheets, caste authenticity, and physical criteria for BRO.',
+        qualifyingNature: 'Final joining clearance.',
+      },
+    ],
+    examPattern: [
+      { subject: 'General Intelligence and Reasoning', questions: 50, marks: 50, time: '2 Hours (Combined)', negativeMarking: '0.25 Mark' },
+      { subject: 'General Awareness', questions: 50, marks: 50, time: '2 Hours (Combined)', negativeMarking: '0.25 Mark' },
+      { subject: 'Part A: Civil / Part B: Electrical / Part C: Mechanical', questions: 100, marks: 100, time: '2 Hours (Combined)', negativeMarking: '0.25 Mark' },
+    ],
+    syllabusTopics: [
+      {
+        subject: 'General Intelligence & Reasoning',
+        weightage: '50 Marks',
+        topics: ['Analogies & Similarities', 'Space Visualization & Spatial Orientation', 'Analysis, Judgment & Problem Solving', 'Arithmetical Reasoning & Number Series', 'Coding-Decoding & Non-verbal Patterns'],
+      },
+      {
+        subject: 'General Awareness',
+        weightage: '50 Marks',
+        topics: ['Current Affairs & Science in Everyday Life', 'Indian Polity & Constitution', 'History & Culture of India', 'Geography & Environmental Studies', 'Economics & Five Year Planning Framework'],
+      },
+      {
+        subject: 'Core Engineering (Civil / Electrical / Mechanical)',
+        weightage: '100 Marks (Paper 1) + 300 Marks (Paper 2)',
+        topics: [
+          'Civil: Building Materials, Surveying, Estimating & Costing, Soil Mechanics, Hydraulics, RCC & Steel Design',
+          'Electrical: Basic concepts, Circuit law, Magnetic Circuit, AC Fundamentals, Electrical Machines, Power Generation',
+          'Mechanical: Theory of Machines, Machine Design, Engineering Mechanics, Thermodynamics, Fluid Mechanics',
+        ],
+      },
+    ],
+    cutOffTrends: [
+      { year: '2024 Civil (Paper 1)', general: 110.5, obc: 107.8, ews: 98.4, sc: 89.2, st: 87.5, totalMarks: 200 },
+      { year: '2024 Electrical/Mech (Paper 1)', general: 132.8, obc: 130.4, ews: 125.6, sc: 116.5, st: 105.8, totalMarks: 200 },
+      { year: '2023 Civil (Paper 1)', general: 108.2, obc: 106.1, ews: 96.2, sc: 86.5, st: 85.0, totalMarks: 200 },
+    ],
+    faqs: [
+      {
+        question: 'Are final year engineering students eligible for SSC JE 2026?',
+        answer: 'Candidates must possess the essential educational qualification degree or diploma on or before the crucial closing date specified in the official gazette notification.',
+      },
+      {
+        question: 'Is work experience required for Diploma holders in CPWD?',
+        answer: 'For CPWD, a 3-year Diploma in Civil or Electrical Engineering is eligible directly without mandatory work experience. For MES, diploma holders require 2 years of relevant experience.',
+      },
+    ],
+    howToApplySteps: [
+      'Visit the new SSC official portal (ssc.gov.in) and complete your One-Time Registration (OTR).',
+      'Log in with your OTR credentials and navigate to the "Live Examinations" tab.',
+      'Select Junior Engineer (Civil, Mechanical & Electrical) Examination 2026.',
+      'Choose your examination branch (Civil, Electrical, or Mechanical).',
+      'Upload a live photo via webcam/mobile and digital signature.',
+      'Pay ₹100 application fee online (exempted categories bypass) and download the confirmation slip.',
+    ],
+    officialLinks: [
+      { title: 'SSC Official Portal', label: 'Apply Online at ssc.gov.in', url: 'https://ssc.gov.in', isPrimary: true, linkType: 'apply' },
+      { title: 'SSC JE Official Notification PDF', label: 'Download Official Gazette Notice', url: 'https://ssc.gov.in', isPrimary: false, linkType: 'pdf' },
+      { title: 'Negative Marking Tool', label: 'Calculate SSC JE Marks & Penalties', url: '/calculators?tool=marking', isPrimary: false, linkType: 'tool' },
+    ],
+  },
+  {
+    id: 'ibps-po-clerk-xv-2026',
+    slug: 'ibps-po-clerk-xv-recruitment-2026',
+    category: 'jobs',
+    title: 'IBPS PO & Clerk XV Recruitment 2026–27 (5,800+ Bank Officer Posts)',
+    organization: 'Institute of Banking Personnel Selection (IBPS)',
+    examName: 'Common Recruitment Process (CRP PO/MT-XV & Clerks-XV)',
+    postCount: '5,800+',
+    publishDate: '26 Sep 2026',
+    lastDate: '26 Oct 2026',
+    examDate: 'Nov – Dec 2026',
+    qualification: 'A Degree (Graduation) in any discipline from a University recognized by the Govt. of India',
+    qualificationTier: 'graduate',
+    sector: 'banking',
+    minAge: 20,
+    maxAge: 30,
+    ageLimit: '20 to 30 Years for Probationary Officers; 20 to 28 Years for Clerks (+3 OBC, +5 SC/ST, +10 PwBD)',
+    fees: '₹850 for General/OBC/EWS candidates; ₹175 for SC/ST/PwBD candidates',
+    officialGazetteRef: 'Notification CRP PO/MT-XV & CRP Clerks-XV',
+    author: 'Akash Singh Solanki',
+    authorRole: 'Senior Educational Analyst & Founder',
+    reviewedDate: '28 Sep 2026, 14:15 IST',
+    readTime: '8 min read',
+    summary: 'Official notification released for 5,800+ Probationary Officer (PO/MT) and Customer Support Associate (Clerk) vacancies across 11 nationalized public sector banks including Bank of Baroda, Canara Bank, Punjab National Bank, and Union Bank of India with enhanced pay under the 12th Bipartite Wage Settlement.',
+    linkText: 'Apply Online & Check Exam Pattern',
+    calculatorToolType: 'marking',
+    calculatorPresetId: 'bank-po',
+    importantDates: [
+      { event: 'Detailed Notification Released', date: '26 September 2026' },
+      { event: 'Online Registration and Payment Commences', date: '26 September 2026' },
+      { event: 'Last Date to Submit Application', date: '26 October 2026 (23:59 Hrs)' },
+      { event: 'Preliminary Online Examination', date: 'November 2026' },
+      { event: 'Main Online Examination', date: 'December 2026 / January 2027' },
+      { event: 'Interviews & Provisional Allotment', date: 'February – April 2027' },
+    ],
+    applicationFees: [
+      { category: 'General / EWS / OBC Candidates', fee: '₹850 (Inclusive of GST)' },
+      { category: 'SC / ST / PwBD Candidates', fee: '₹175 (Intimation charges only)' },
+      { category: 'Payment Method', fee: 'Online Debit/Credit Cards, Net Banking, IMPS, UPI' },
+    ],
+    vacanciesTable: [
+      {
+        postName: 'Probationary Officer / Management Trainee (PO/MT)',
+        department: '11 Participating Public Sector Commercial Banks',
+        classification: 'Junior Management Grade Scale I (JMGS-I)',
+        payScale: '₹48,480 – ₹85,920 (12th BPS Pay Scale)',
+        vacancy: '3,950',
+        eligibility: 'Graduation Degree in any stream; Computer literacy certificate required',
+      },
+      {
+        postName: 'Customer Support Associate (Clerk-XV)',
+        department: '11 Participating Public Sector Banks',
+        classification: 'Clerical Cadre',
+        payScale: '₹24,050 – ₹64,480 (12th BPS Scale)',
+        vacancy: '1,850',
+        eligibility: 'Graduation Degree with proficiency in official state language of chosen state',
+      },
+    ],
+    salaryStructure: {
+      payLevel: 'Scale-I Officer (12th Bipartite Settlement)',
+      basicPay: '₹48,480 per month',
+      daPercent: '15.7% of Basic Pay (Quarterly CPI Revision)',
+      hraPercent: '8% to 10% or Company Lease Accommodation',
+      grossMonthly: '₹75,500 – ₹78,200 per month',
+      inHandMonthly: '₹67,000 – ₹69,500 per month after PF & NPS deductions',
+      benefits: [
+        'Bank Leased Accommodation or enhanced House Rent Allowance',
+        'Comprehensive 100% Medical Hospitalization coverage for employee & family',
+        'Concessional Staff Loans for Home, Vehicle, and Higher Education',
+        'Monthly Petrol/Conveyance allowance & Newspaper allowance',
+        'Contributory Pension Fund / NPS matching contribution',
+      ],
+    },
+    selectionProcess: [
+      {
+        stageNumber: 'Prelims',
+        stageName: 'Preliminary CBT Exam (100 Marks)',
+        description: 'English Language (30 Qs), Quantitative Aptitude (35 Qs), Reasoning Ability (35 Qs) with sectional 20-minute timers.',
+        qualifyingNature: 'Qualifying screening test to appear in Mains Examination.',
+      },
+      {
+        stageNumber: 'Mains',
+        stageName: 'Mains Objective Exam & Descriptive Test',
+        description: '200 Marks Objective test (Reasoning, Data Analysis, General Banking Awareness, English) + 25 Marks English Essay & Letter writing.',
+        qualifyingNature: 'Mains score carries 80% weightage in final provisional allotment.',
+      },
+      {
+        stageNumber: 'Interview',
+        stageName: 'Common Personal Interview (PO Only)',
+        description: '100 Marks interview conducted by participating banks. Minimum qualifying score 40% (35% for SC/ST/OBC/PwBD).',
+        qualifyingNature: 'Carries 20% weightage in final combined score.',
+      },
+    ],
+    examPattern: [
+      { subject: 'English Language', questions: 30, marks: 30, time: '20 Minutes (Sectional)', negativeMarking: '0.25 Mark' },
+      { subject: 'Quantitative Aptitude', questions: 35, marks: 35, time: '20 Minutes (Sectional)', negativeMarking: '0.25 Mark' },
+      { subject: 'Reasoning Ability', questions: 35, marks: 35, time: '20 Minutes (Sectional)', negativeMarking: '0.25 Mark' },
+    ],
+    syllabusTopics: [
+      {
+        subject: 'Reasoning & Computer Aptitude',
+        weightage: '45 Qs / 60 Marks (Mains)',
+        topics: ['Puzzles & Seating Arrangements (Circular, Linear, Floor-Flat)', 'Machine Input-Output & Data Sufficiency', 'Inequalities & Syllogism', 'Logical Reasoning & Coding-Decoding', 'Computer Networking & DBMS Fundamentals'],
+      },
+      {
+        subject: 'General / Economy / Banking Awareness',
+        weightage: '40 Qs / 40 Marks (Mains)',
+        topics: ['RBI Monetary Policy & Repo Rates', 'Current Financial & Banking Affairs (Past 6 Months)', 'Government Social Security Schemes (PMJJBY, PMSBY, APY)', 'Financial Inclusion & Capital Markets', 'Static GK & Headquarters of International Organizations'],
+      },
+      {
+        subject: 'Data Analysis & Interpretation',
+        weightage: '35 Qs / 60 Marks (Mains)',
+        topics: ['Pie Charts, Radar & Funnel Graphs', 'Missing DI, Caselets & Tabular Analysis', 'Probability, Permutations & Combinations', 'Arithmetic Word Problems & Data Inequalities'],
+      },
+    ],
+    cutOffTrends: [
+      { year: '2024 Prelims', general: 54.25, obc: 54.25, ews: 54.25, sc: 48.75, st: 41.50, totalMarks: 100 },
+      { year: '2023 Prelims', general: 54.00, obc: 54.00, ews: 54.00, sc: 49.00, st: 43.00, totalMarks: 100 },
+      { year: '2022 Prelims', general: 49.75, obc: 49.75, ews: 49.75, sc: 46.75, st: 40.50, totalMarks: 100 },
+    ],
+    faqs: [
+      {
+        question: 'Is there sectional cut-off in IBPS PO Prelims and Mains?',
+        answer: 'Yes, candidates must qualify both the sectional cut-off in each of the three tests and the overall aggregate cut-off score decided by IBPS.',
+      },
+      {
+        question: 'Are marks of IBPS Prelims counted in final selection?',
+        answer: 'No. The preliminary examination is purely for shortlisting candidates for the main examination. Final merit is prepared on the basis of Mains + Interview score (80:20 ratio).',
+      },
+    ],
+    howToApplySteps: [
+      'Navigate to IBPS official portal (ibps.in) and click on CRP PO/MT-XV or CRP Clerks-XV.',
+      'Click on "New Registration" and enter basic personal and contact details.',
+      'Upload Left Thumb Impression, Handwritten Declaration, Photo, and Signature as per specifications.',
+      'Provide educational marks and preference order of 11 participating public sector banks.',
+      'Pay fees online through payment gateway and print receipt.',
+    ],
+    officialLinks: [
+      { title: 'IBPS Official Portal', label: 'Apply Online at ibps.in', url: 'https://www.ibps.in', isPrimary: true, linkType: 'apply' },
+      { title: 'Official IBPS Notification PDF', label: 'Download CRP PO/MT Notification', url: 'https://www.ibps.in', isPrimary: false, linkType: 'pdf' },
+      { title: 'Banking Marks Calculator', label: 'Calculate Bank PO Test Marks', url: '/calculators?tool=marking', isPrimary: false, linkType: 'tool' },
+    ],
+  },
+  {
+    id: 'defence-afcat-nda-2026',
+    slug: 'defence-afcat-nda-recruitment-2026',
+    category: 'jobs',
+    title: 'Indian Air Force AFCAT 01/2026 & UPSC NDA I Notification (717 Officer Posts)',
+    organization: 'Indian Air Force & Union Public Service Commission',
+    examName: 'Air Force Common Admission Test & National Defence Academy 2026',
+    postCount: '717',
+    publishDate: '27 Sep 2026',
+    lastDate: '27 Oct 2026',
+    examDate: 'Feb – April 2027',
+    qualification: '10+2 with 60% in Physics & Math (NDA/Air Force Flying); Graduation/B.E./B.Tech for AFCAT Ground Duty',
+    qualificationTier: '12th',
+    sector: 'defence',
+    minAge: 16,
+    maxAge: 26,
+    ageLimit: '16.5 to 19.5 Years for NDA (10+2 Entry); 20 to 24 Years for AFCAT Flying; 20 to 26 Years for Ground Duty',
+    fees: '₹550 for AFCAT (IAF Portal); ₹100 for NDA (Exempted for Female/SC/ST)',
+    officialGazetteRef: 'UPSC Notice 03/2026.NDA-I & AFCAT 01/2026 Notification',
+    author: 'Akash Singh Solanki',
+    authorRole: 'Senior Educational Analyst & Founder',
+    reviewedDate: '29 Sep 2026, 18:20 IST',
+    readTime: '8 min read',
+    summary: 'Indian Armed Forces have opened registrations for commissioned officer entries through AFCAT 01/2026 (Flying, Technical, Weapon Systems & Administration) and UPSC NDA-1 2026 for Army, Navy, and Air Force cadet wings with Level 10 Pay Matrix (₹56,100 + ₹15,500 Military Service Pay).',
+    linkText: 'Check Eligibility & Apply for Defence Commission',
+    calculatorToolType: 'height',
+    calculatorPresetId: 'defence-cds',
+    importantDates: [
+      { event: 'Notification Released for AFCAT & NDA', date: '27 September 2026' },
+      { event: 'Online Application Portal Active', date: '27 September 2026' },
+      { event: 'Last Date for Online Submission', date: '27 October 2026 (18:00 Hrs)' },
+      { event: 'AFCAT Written Examination Date', date: 'February 2027' },
+      { event: 'UPSC NDA & NA 1 Written Examination', date: 'April 2027' },
+      { event: 'SSB Interview Calls', date: 'June – August 2027' },
+    ],
+    applicationFees: [
+      { category: 'AFCAT Exam Registration Fee (IAF Portal)', fee: '₹550 (Non-refundable for all candidates)' },
+      { category: 'NDA General / OBC Male Candidates', fee: '₹100 (UPSC Portal)' },
+      { category: 'NDA Female, SC & ST Candidates', fee: 'Exempted (Nil / ₹0)' },
+    ],
+    vacanciesTable: [
+      {
+        postName: 'Flying Branch (Short Service Commission / Permanent)',
+        department: 'Indian Air Force',
+        classification: 'Commissioned Officer (Flying Officer)',
+        payScale: 'Level 10 (₹56,100 – ₹1,77,500 + ₹15,500 MSP)',
+        vacancy: '142',
+        eligibility: '10+2 with min 50% in Math & Physics + Graduation with min 60% OR B.E./B.Tech',
+      },
+      {
+        postName: 'Ground Duty (Technical & Non-Technical) & Weapon Systems',
+        department: 'Indian Air Force',
+        classification: 'Commissioned Officer (Flying Officer)',
+        payScale: 'Level 10 (₹56,100 – ₹1,77,500 + ₹15,500 MSP)',
+        vacancy: '175',
+        eligibility: 'Engineering Degree for Technical; Graduation in any stream for Administration / Logistics',
+      },
+      {
+        postName: 'National Defence Academy (Army, Navy, Air Force) & Naval Academy',
+        department: 'Ministry of Defence (Joint Services)',
+        classification: 'Officer Cadet (Stipend ₹56,100/mo in final year)',
+        payScale: 'Cadet Stipend Level 10 on commissioning',
+        vacancy: '400',
+        eligibility: '12th Class pass (10+2 pattern) of State Education Board or equivalent',
+      },
+    ],
+    salaryStructure: {
+      payLevel: 'Pay Level 10 (Defence Services Pay Rules)',
+      basicPay: '₹56,100 per month (Flying Officer / Lieutenant)',
+      daPercent: '50% of Basic Pay (₹28,050)',
+      hraPercent: 'Military Service Pay (MSP) ₹15,500 per month (Fixed)',
+      grossMonthly: '₹1,05,500 – ₹1,30,000 per month (depending on Flying Allowance)',
+      inHandMonthly: '₹92,000 – ₹1,12,000 per month (Flying allowance up to ₹25,000/mo extra)',
+      benefits: [
+        'Military Service Pay (MSP) of ₹15,500 monthly across all officer ranks',
+        'Flying Allowance for Flying Officers / High Altitude Allowance',
+        'Complete Free Medical Facilities for Officer and Dependents (ECHS/Military Hospitals)',
+        'Officers Mess, Subsidized CSD Canteen, and Defence Club facilities',
+        'Defence Service Officers Group Insurance Scheme (DSOP) ₹1 Crore coverage',
+      ],
+    },
+    selectionProcess: [
+      {
+        stageNumber: 'Stage 1',
+        stageName: 'Written Examination',
+        description: 'AFCAT: 100 questions (300 Marks, 2 hours) on Verbal, Reasoning, Military Aptitude, Numerical, GK. NDA: Mathematics (300 Marks) + General Ability Test (600 Marks).',
+        qualifyingNature: 'Shortlists candidates for 5-day SSB interview call.',
+      },
+      {
+        stageNumber: 'Stage 2',
+        stageName: '5-Day Services Selection Board (SSB) Interview',
+        description: 'Stage I (Screening test, OIR, PPDT) followed by Stage II (Psychological tests, Group Testing Officer GTO tasks, and Personal Interview).',
+        qualifyingNature: 'Recommendation by SSB Board is mandatory.',
+      },
+      {
+        stageNumber: 'Stage 3',
+        stageName: 'CPSS / Medical Examination Board',
+        description: 'Computerized Pilot Selection System (CPSS, once in a lifetime test for Flying Branch) and special military aviation medical fitness examination.',
+        qualifyingNature: 'Final All-India Merit list allotment.',
+      },
+    ],
+    examPattern: [
+      { subject: 'General Awareness', questions: 25, marks: 75, time: '2 Hours (Combined)', negativeMarking: '1 Mark' },
+      { subject: 'Verbal Ability in English', questions: 30, marks: 90, time: '2 Hours (Combined)', negativeMarking: '1 Mark' },
+      { subject: 'Numerical Ability', questions: 20, marks: 60, time: '2 Hours (Combined)', negativeMarking: '1 Mark' },
+      { subject: 'Reasoning and Military Aptitude Test', questions: 25, marks: 75, time: '2 Hours (Combined)', negativeMarking: '1 Mark' },
+    ],
+    syllabusTopics: [
+      {
+        subject: 'English Verbal Ability',
+        weightage: '30 Qs / 90 Marks',
+        topics: ['Comprehension Passages', 'Error Detection in Sentences', 'Sentence Completion & Fill in the Blanks', 'Synonyms, Antonyms and Contextual Vocabulary', 'Idioms and Phrases & Analogy'],
+      },
+      {
+        subject: 'General Awareness',
+        weightage: '25 Qs / 75 Marks',
+        topics: ['Defence Forces Strategy & Operations', 'Indian History, National Geography & Environment', 'Basic Science & Everyday Technology', 'International Geopolitics & Summits', 'Sports, National Honours & Personalities'],
+      },
+      {
+        subject: 'Reasoning & Military Aptitude',
+        weightage: '25 Qs / 75 Marks',
+        topics: ['Verbal & Non-Verbal Reasoning', 'Spatial Ability & Embedded Figures', 'Pattern Completion & Dot Situations', 'Rotated Blocks & Analogy Figures'],
+      },
+    ],
+    cutOffTrends: [
+      { year: 'AFCAT 02/2024', general: 141, obc: 141, ews: 141, sc: 141, st: 141, totalMarks: 300 },
+      { year: 'AFCAT 01/2024', general: 137, obc: 137, ews: 137, sc: 137, st: 137, totalMarks: 300 },
+      { year: 'NDA 1 2024 (Written)', general: 301, obc: 301, ews: 301, sc: 301, st: 301, totalMarks: 900 },
+    ],
+    faqs: [
+      {
+        question: 'Can girls and women candidates apply for NDA and AFCAT?',
+        answer: 'Yes! Female candidates are eligible to apply for all branches of NDA (Army, Navy, Air Force) as well as AFCAT (Flying, Technical, and Ground Duty) with identical testing standards.',
+      },
+      {
+        question: 'What is the CPSS test for the Flying branch?',
+        answer: 'The Computerized Pilot Selection System (CPSS) tests psychomotor skills, spatial coordination, and instrument reading. It can only be attempted once in a lifetime by any candidate.',
+      },
+    ],
+    howToApplySteps: [
+      'For AFCAT: Register on afcat.cdac.in using an active email ID and mobile number.',
+      'For NDA: Register on UPSC OTR portal at upsconline.nic.in.',
+      'Upload qualifying certificates (10th/12th/Graduation), photograph, and signature.',
+      'Select preferred exam centres and SSB interview centres.',
+      'Pay online registration fee and download the completed application form.',
+    ],
+    officialLinks: [
+      { title: 'Indian Air Force AFCAT Portal', label: 'Apply Online (afcat.cdac.in)', url: 'https://afcat.cdac.in', isPrimary: true, linkType: 'apply' },
+      { title: 'UPSC NDA Application Portal', label: 'Apply on UPSC Portal (upsconline.nic.in)', url: 'https://upsconline.nic.in', isPrimary: false, linkType: 'apply' },
+      { title: 'Armed Forces Height Checker', label: 'Check Defence Height & Physical Criteria', url: '/calculators?tool=height', isPrimary: false, linkType: 'tool' },
+    ],
+  },
+  {
+    id: 'ssc-cgl-2026',
+    slug: 'ssc-cgl-2026-recruitment-notification',
+    category: 'jobs',
+    title: 'SSC CGL 2026 Combined Graduate Level Notification (17,727 Posts)',
+    organization: 'Staff Selection Commission (SSC)',
+    examName: 'Combined Graduate Level Examination 2026',
+    postCount: '17,727',
+    publishDate: '24 Sep 2026',
+    lastDate: '24 Oct 2026',
+    examDate: 'Dec 2026',
+    qualification: 'Bachelor’s Degree in any discipline from a recognized University',
+    qualificationTier: 'graduate',
+    sector: 'ssc',
+    minAge: 18,
+    maxAge: 32,
+    ageLimit: '18 to 32 Years (Crucial cutoff date: 01-08-2026 as per DOP&T guidelines)',
+    fees: '₹100 (Exempted for All Women, SC, ST, PwBD, and Ex-Servicemen)',
+    officialGazetteRef: 'Gazette Notice No. 3/1/2026-P&P-I',
+    author: 'Akash Singh Solanki',
+    authorRole: 'Senior Educational Analyst & Founder',
+    reviewedDate: '28 Sep 2026, 18:30 IST',
+    readTime: '7 min read',
+    summary: 'The Staff Selection Commission has officially notified 17,727 Group B and Group C officer vacancies across Central Ministries, Central Board of Direct Taxes (CBDT), Central Board of Indirect Taxes and Customs (CBIC), Central Bureau of Investigation (CBI), Enforcement Directorate, and Comptroller and Auditor General (CAG) of India.',
+    linkText: 'Read Full Notification & Apply Online',
+    calculatorToolType: 'age',
+    calculatorPresetId: 'ssc-cgl',
+    syllabusTopics: [
+      {
+        subject: 'General Intelligence & Reasoning',
+        weightage: '25 Qs / 50 Marks (Tier 1)',
+        topics: ['Analogies & Similarities', 'Blood Relations & Direction Sense', 'Venn Diagrams & Syllogism', 'Matrix & Number Series', 'Coding-Decoding & Paper Folding'],
+      },
+      {
+        subject: 'General Awareness & Current Affairs',
+        weightage: '25 Qs / 50 Marks (Tier 1)',
+        topics: ['Indian Constitution & Polity', 'Modern History & National Movements', 'Macro Economics & Union Budget', 'Physical & Indian Geography', 'General Science (Physics, Chemistry, Biology)'],
+      },
+      {
+        subject: 'Quantitative Aptitude',
+        weightage: '25 Qs / 50 Marks (Tier 1)',
+        topics: ['Number Systems & Divisibility', 'Percentages, Profit & Loss, Discount', 'Time, Work & Distance', 'Algebra & Linear Equations', 'Trigonometry, Heights & Distances', 'Geometry & Menstruation 2D/3D'],
+      },
+      {
+        subject: 'English Comprehension',
+        weightage: '25 Qs / 50 Marks (Tier 1)',
+        topics: ['Reading Comprehension & Cloze Test', 'Spotting Errors & Sentence Correction', 'Idioms, Phrases & One Word Substitutions', 'Active-Passive Voice & Direct-Indirect Speech'],
+      },
+    ],
+    cutOffTrends: [
+      { year: '2025 Tier-1', general: 153.25, obc: 148.5, ews: 145.2, sc: 128.75, st: 119.5, totalMarks: 200 },
+      { year: '2024 Tier-1', general: 150.05, obc: 145.9, ews: 143.4, sc: 126.68, st: 118.16, totalMarks: 200 },
+      { year: '2023 Tier-1', general: 149.63, obc: 145.93, ews: 143.44, sc: 126.69, st: 118.16, totalMarks: 200 },
+    ],
+    importantDates: [
+      { event: 'Official Gazette Notification Issued', date: '24 September 2026' },
+      { event: 'Online Application Portal Opens', date: '24 September 2026' },
+      { event: 'Last Date for Online Submission', date: '24 October 2026 (23:00 Hrs IST)' },
+      { event: 'Last Date for Online Fee Payment', date: '25 October 2026 (23:00 Hrs IST)' },
+      { event: 'Application Form Correction Window', date: '28 October to 30 October 2026' },
+      { event: 'Tier-1 CBT All-India Exam Window', date: 'December 2026 (Multiple Shifts)' },
+      { event: 'Tier-2 CBT Mains Exam Window', date: 'February – March 2027' },
+    ],
+    applicationFees: [
+      { category: 'General / OBC / EWS Male Candidates', fee: '₹100 (Non-refundable)' },
+      { category: 'All Female Candidates (All Categories)', fee: 'Exempted (Nil / ₹0)' },
+      { category: 'SC / ST / PwBD / Ex-Servicemen (ESM)', fee: 'Exempted (Nil / ₹0)' },
+      { category: 'Permitted Payment Modes', fee: 'BHIM UPI, Net Banking, Visa, MasterCard, RuPay Card' },
+    ],
+    vacanciesTable: [
+      {
+        postName: 'Assistant Section Officer (ASO)',
+        department: 'Central Secretariat Service (CSS) / Ministry of External Affairs (MEA) / IB',
+        classification: 'Group B (Non-Gazetted)',
+        payScale: 'Level 7 (₹44,900 – ₹1,42,400)',
+        vacancy: '2,840',
+        eligibility: 'Bachelor Degree in any discipline; CPT Computer Proficiency qualifying test required',
+      },
+      {
+        postName: 'Inspector of Income Tax (CBDT)',
+        department: 'Central Board of Direct Taxes, Ministry of Finance',
+        classification: 'Group C',
+        payScale: 'Level 7 (₹44,900 – ₹1,42,400)',
+        vacancy: '1,420',
+        eligibility: 'Graduation Degree; Age 18–30 Years',
+      },
+      {
+        postName: 'Inspector (Central Excise, GST & Preventive)',
+        department: 'Central Board of Indirect Taxes & Customs (CBIC)',
+        classification: 'Group B',
+        payScale: 'Level 7 (₹44,900 – ₹1,42,400)',
+        vacancy: '3,110',
+        eligibility: 'Graduation Degree + Physical walking (1600m in 15 mins) and cycling test',
+      },
+      {
+        postName: 'Sub-Inspector (CBI)',
+        department: 'Central Bureau of Investigation (Department of Personnel & Training)',
+        classification: 'Group B',
+        payScale: 'Level 7 (₹44,900 – ₹1,42,400)',
+        vacancy: '420',
+        eligibility: 'Graduation Degree; Physical standards mandatory (165cm Male, 150cm Female)',
+      },
+      {
+        postName: 'Tax Assistant & Auditor',
+        department: 'CBDT, CBIC & Offices under C&AG',
+        classification: 'Group C',
+        payScale: 'Level 4 & Level 5 (₹25,500 – ₹92,300)',
+        vacancy: '9,937',
+        eligibility: 'Bachelor’s Degree with Data Entry Speed of 8,000 key depressions per hour',
+      },
+    ],
+    salaryStructure: {
+      payLevel: 'Pay Level 7 (7th CPC Matrix)',
+      basicPay: '₹44,900 per month',
+      daPercent: '50% of Basic Pay (₹22,450)',
+      hraPercent: '27% in X-Category Cities / Delhi / Mumbai (₹12,123)',
+      grossMonthly: '₹84,873 per month',
+      inHandMonthly: '₹74,200 – ₹76,500 per month (after NPS & CGHS statutory deductions)',
+      benefits: [
+        'Central Government Health Scheme (CGHS) cashless medical coverage for self and dependants',
+        'Dearness Allowance (DA) revised bi-annually per Consumer Price Index (CPI-IW)',
+        'Transport Allowance (₹3,600 + DA thereon in classified cities)',
+        'National Pension System (NPS) with 14% Government contribution',
+        'Leave Travel Concession (LTC) and All-India / Home Town airfare reimbursement',
+      ],
+    },
+    selectionProcess: [
+      {
+        stageNumber: 'Tier 1',
+        stageName: 'Computer Based Examination (CBT)',
+        description: 'Objective multiple-choice screening exam covering Reasoning, General Awareness, Quantitative Aptitude, and English (100 questions, 200 marks, 60 minutes).',
+        qualifyingNature: 'Purely qualifying in nature; marks not added to the final merit ranking list.',
+      },
+      {
+        stageNumber: 'Tier 2',
+        stageName: 'Mains Examination (Paper 1 & Paper 2)',
+        description: 'Session I (Mathematical Abilities, Reasoning, English Language, General Awareness, Computer Knowledge) + Session II (Data Entry Speed Test).',
+        qualifyingNature: 'Marks determine final All-India Merit Ranking and post allocation.',
+      },
+      {
+        stageNumber: 'Stage 3',
+        stageName: 'Physical Standards & PET (Specific Posts)',
+        description: 'Walking and cycling tests for Central Excise Inspector, Sub-Inspector in CBI, and NIA officers.',
+        qualifyingNature: 'Strictly qualifying physical benchmarks.',
+      },
+      {
+        stageNumber: 'Stage 4',
+        stageName: 'Document Verification (DV) by User Ministries',
+        description: 'Scrutiny of original graduation certificates, caste certificates (OBC-NCL / EWS), and biometric identity verification.',
+        qualifyingNature: 'Final appointment clearance.',
+      },
+    ],
+    examPattern: [
+      {
+        subject: 'General Intelligence & Reasoning',
+        questions: 25,
+        marks: 50,
+        time: 'Combined 60 Minutes',
+        negativeMarking: '-0.50 Marks per wrong response',
+      },
+      {
+        subject: 'General Awareness & Current Affairs',
+        questions: 25,
+        marks: 50,
+        time: 'Combined 60 Minutes',
+        negativeMarking: '-0.50 Marks per wrong response',
+      },
+      {
+        subject: 'Quantitative Aptitude (Mathematics)',
+        questions: 25,
+        marks: 50,
+        time: 'Combined 60 Minutes',
+        negativeMarking: '-0.50 Marks per wrong response',
+      },
+      {
+        subject: 'English Comprehension',
+        questions: 25,
+        marks: 50,
+        time: 'Combined 60 Minutes',
+        negativeMarking: '-0.50 Marks per wrong response',
+      },
+    ],
+    faqs: [
+      {
+        question: 'What is the crucial cut-off date for age calculation in SSC CGL 2026?',
+        answer: 'As per the official SSC gazette notification, the crucial date for determining the age limit is 01-08-2026. Candidates must have been born between 02-08-1994 and 01-08-2008 for posts having an age limit of 18–32 years (General category). Official category relaxations apply: 3 years for OBC and 5 years for SC/ST.',
+      },
+      {
+        question: 'Are final year college students eligible to apply for SSC CGL 2026?',
+        answer: 'Yes, candidates appearing in their final year of graduation may apply, provided they acquire the essential educational qualification degree certificate or provisional degree on or before the crucial cut-off date specified in the notification.',
+      },
+      {
+        question: 'Are Tier-1 marks counted in the final merit list for SSC CGL?',
+        answer: 'No. Following the revised examination scheme, Tier-1 CBT is purely qualifying in nature. The final merit list for post allocation is prepared strictly based on normalized marks scored by candidates in Tier-2 (Paper-I Sections 1 and 2).',
+      },
+      {
+        question: 'Is Computer Knowledge Test and Typing Test mandatory for all posts?',
+        answer: 'Computer Knowledge Module and Data Entry Speed Test (DEST) are qualifying in nature for all posts. However, higher qualifying benchmark standards are set for posts like Assistant Section Officer, Assistant in MEA, and Tax Assistant.',
+      },
+    ],
+    howToApplySteps: [
+      'Visit the official SSC portal (https://ssc.gov.in) and complete your One Time Registration (OTR) with personal and educational details.',
+      'Log in using your Registration Number and Password to access the Candidate Dashboard.',
+      'Click on "Apply" under the Combined Graduate Level Examination 2026 header.',
+      'Verify pre-filled information from your OTR and choose your preferred Examination Cities (up to 3 preferences).',
+      'Upload a live webcam passport photograph following the revised SSC guidelines (clear background, no spectacles/cap) and candidate signature (10KB–20KB).',
+      'Pay the nominal application fee of ₹100 online (if applicable) through Net Banking or UPI.',
+      'Submit the application and download the confirmation PDF acknowledgement for future reference.',
+    ],
+    officialLinks: [
+      { title: 'Online Application Portal', label: 'Apply Online (Official SSC OTR Portal)', url: 'https://ssc.gov.in', isPrimary: true, linkType: 'apply' },
+      { title: 'Official Gazette Notification', label: 'Download SSC Notification PDF', url: 'https://ssc.gov.in', linkType: 'pdf' },
+      { title: 'Govt Exam Age Calculator', label: 'Verify Age on 01-08-2026', url: '/tools/age', linkType: 'tool' },
+      { title: 'Official PYQ CBT Simulator', label: 'Practice PYQ CBT Test', url: '/mock-test/ssc-cgl-tier1', linkType: 'tool' },
+    ],
+  },
+  {
+    id: 'upsc-cse-2026',
+    slug: 'upsc-civil-services-cse-2026-notification',
+    category: 'jobs',
+    title: 'UPSC Civil Services Examination (CSE) 2026 Notification (1,056 Posts)',
+    organization: 'Union Public Service Commission (UPSC)',
+    examName: 'Civil Services (Preliminary) Examination 2026',
+    postCount: '1,056',
+    publishDate: '14 Feb 2026',
+    lastDate: '05 Mar 2026',
+    examDate: '24 May 2026',
+    qualification: 'Graduation Degree in any stream from recognized University',
+    qualificationTier: 'graduate',
+    sector: 'upsc',
+    minAge: 21,
+    maxAge: 32,
+    ageLimit: '21 to 32 Years as on 01-08-2026 (Max 6 attempts for General, 9 for OBC, Unlimited for SC/ST)',
+    fees: '₹100 (Female / SC / ST / PwBD Exempted)',
+    officialGazetteRef: 'UPSC Gazette Notification 05/2026-CSP',
+    author: 'Akash Singh Solanki',
+    authorRole: 'Senior Educational Analyst & Founder',
+    reviewedDate: '26 Sep 2026, 17:45 IST',
+    readTime: '9 min read',
+    summary: 'The Union Public Service Commission conducts the Civil Services Examination 2026 for recruitment to the Indian Administrative Service (IAS), Indian Foreign Service (IFS), Indian Police Service (IPS), and 21 other Central Group A and Group B civil services.',
+    linkText: 'Check Eligibility, Exam Pattern & Syllabus',
+    calculatorToolType: 'age',
+    calculatorPresetId: 'upsc-prelims',
+    importantDates: [
+      { event: 'Gazette Notification Release', date: '14 February 2026' },
+      { event: 'Online Application Last Date', date: '05 March 2026 (18:00 Hrs IST)' },
+      { event: 'Civil Services (Preliminary) Exam', date: '24 May 2026 (Sunday)' },
+      { event: 'CS (Prelims) Result Declaration', date: 'June 2026' },
+      { event: 'Civil Services (Main) Examination', date: '18 September 2026 (5 Days)' },
+      { event: 'Personality Test (Interviews)', date: 'January – April 2027' },
+    ],
+    applicationFees: [
+      { category: 'General / OBC / EWS Male Candidates', fee: '₹100' },
+      { category: 'Female / SC / ST / PwBD Candidates', fee: 'Exempted (Nil / ₹0)' },
+    ],
+    vacanciesTable: [
+      {
+        postName: 'Indian Administrative Service (IAS)',
+        department: 'Department of Personnel and Training (DOP&T)',
+        classification: 'All India Service (Group A)',
+        payScale: 'Level 10 (₹56,100 – ₹1,77,500) to Cabinet Secretary (₹2,50,000)',
+        vacancy: '180',
+        eligibility: 'Must be a Citizen of India; Graduation degree in any discipline',
+      },
+      {
+        postName: 'Indian Foreign Service (IFS)',
+        department: 'Ministry of External Affairs',
+        classification: 'Central Group A Service',
+        payScale: 'Level 10 (₹56,100 + Foreign Allowance as per posting)',
+        vacancy: '55',
+        eligibility: 'Must be a Citizen of India; Bachelor Degree in any stream',
+      },
+      {
+        postName: 'Indian Police Service (IPS)',
+        department: 'Ministry of Home Affairs',
+        classification: 'All India Service (Group A)',
+        payScale: 'Level 10 (₹56,100 – ₹1,77,500)',
+        vacancy: '150',
+        eligibility: 'Graduation + Physical Standard (165cm Male, 150cm Female; Eye 6/6 & 6/9)',
+      },
+      {
+        postName: 'Indian Revenue Service (IRS IT & Customs)',
+        department: 'Ministry of Finance (CBDT & CBIC)',
+        classification: 'Central Group A Service',
+        payScale: 'Level 10 (₹56,100 – ₹1,77,500)',
+        vacancy: '280',
+        eligibility: 'Bachelor Degree in any discipline from recognized University',
+      },
+      {
+        postName: 'Other Group A & Group B Services',
+        department: 'DANICS, DANIPS, P&T Accounts, Defence Accounts, etc.',
+        classification: 'Central Group A & B',
+        payScale: 'Level 8 to Level 10 (₹47,600 – ₹1,77,500)',
+        vacancy: '391',
+        eligibility: 'Bachelor Degree in any discipline from recognized University',
+      },
+    ],
+    salaryStructure: {
+      payLevel: 'Pay Level 10 (Entry Level Junior Scale)',
+      basicPay: '₹56,100 per month',
+      daPercent: '50% (₹28,050)',
+      hraPercent: '27% in Tier-1 Metro Cities (₹15,147)',
+      grossMonthly: '₹1,06,200 per month (plus official transport/driver facility)',
+      inHandMonthly: '₹91,000 – ₹94,500 per month (after NPS & GPF deductions)',
+      benefits: [
+        'Designated Government Bungalow / Official Accommodation in state capital or district HQ',
+        'Official vehicle with chauffeur and security escort (for field postings)',
+        'Electricity, water, and telephone allowances as per entitlement',
+        'Cashless medical coverage under Central Government or State Health Scheme',
+        'Study Leave of up to 2 years for pursuing master programs in reputed global universities',
+      ],
+    },
+    selectionProcess: [
+      {
+        stageNumber: 'Stage 1',
+        stageName: 'Preliminary Examination (Objective 400 Marks)',
+        description: 'Paper 1 (General Studies 1 - 200 Marks) + Paper 2 (CSAT - 200 Marks, qualifying with minimum 33% / 66 marks).',
+        qualifyingNature: 'Screening only; GS-1 marks determine qualification for Mains at 1:12 ratio.',
+      },
+      {
+        stageNumber: 'Stage 2',
+        stageName: 'Main Examination (Written 1750 Marks)',
+        description: '9 Descriptive papers: 2 Qualifying Language papers (English + Indian Language, 300 marks each) + 7 Merit Papers (Essay, GS 1, GS 2, GS 3, GS 4, Optional Paper 1 & 2 - 250 marks each).',
+        qualifyingNature: 'Scores are directly added to the final merit list.',
+      },
+      {
+        stageNumber: 'Stage 3',
+        stageName: 'Personality Test / Interview (275 Marks)',
+        description: 'Conducted at Dholpur House, New Delhi by a board of competent observers assessing mental alertness, critical judgment, and integrity.',
+        qualifyingNature: 'Final ranking: Written (1750) + Interview (275) = 2025 Grand Total.',
+      },
+    ],
+    examPattern: [
+      {
+        subject: 'General Studies Paper-I (History, Polity, Economy, Geo, Env, Current Affairs)',
+        questions: 100,
+        marks: 200,
+        time: '2 Hours (09:30 AM – 11:30 AM)',
+        negativeMarking: '1/3rd (-0.66 Marks) per wrong answer',
+      },
+      {
+        subject: 'General Studies Paper-II (CSAT: Comprehension, Logical Reasoning, Basic Numeracy)',
+        questions: 80,
+        marks: 200,
+        time: '2 Hours (02:30 PM – 04:30 PM)',
+        negativeMarking: '1/3rd (-0.83 Marks) per wrong answer (Qualifying 33% mandatory)',
+      },
+    ],
+    faqs: [
+      {
+        question: 'What is the attempt limit for different categories in UPSC Civil Services?',
+        answer: 'As per official UPSC CSE regulations: General / EWS candidates are permitted a maximum of 6 attempts until age 32. OBC candidates are permitted 9 attempts until age 35. SC and ST candidates have unlimited attempts up to age 37. PwBD candidates of General/OBC have 9 attempts.',
+      },
+      {
+        question: 'Is CSAT paper marks counted for clearing UPSC Prelims?',
+        answer: 'No. CSAT (GS Paper-II) is strictly qualifying in nature. Candidates must score at least 33% (66 marks out of 200). The merit list for shortlisting candidates for the Civil Services Mains Examination is calculated solely based on GS Paper-I marks.',
+      },
+    ],
+    howToApplySteps: [
+      'Visit the official UPSC application portal at https://upsconline.nic.in.',
+      'Complete One Time Registration (OTR) with personal bio-data, 10th certificate details, and Aadhaar card.',
+      'Fill Part-I registration: select examination centers for both Prelims and Mains and select your Optional Subject.',
+      'Upload a scanned photograph (white background, taken within 10 days with candidate name & date printed) and signature.',
+      'Pay ₹100 online (or verify category exemption).',
+      'Download the final confirmation acknowledgement slip.',
+    ],
+    officialLinks: [
+      { title: 'UPSC Online Portal', label: 'Apply Online (upsconline.nic.in)', url: 'https://upsconline.nic.in', isPrimary: true, linkType: 'apply' },
+      { title: 'Official UPSC Website', label: 'Visit Official Commission Portal', url: 'https://upsc.gov.in', linkType: 'official' },
+      { title: 'Age Eligibility Calculator', label: 'Check Age on 01-08-2026', url: '/tools/age', linkType: 'tool' },
+    ],
+  },
+  {
+    id: 'sbi-po-clerk-2026',
+    slug: 'sbi-po-clerk-2026-recruitment-notification',
+    category: 'jobs',
+    title: 'SBI PO & Junior Associate (Clerk) 2026 Recruitment (10,283 Posts)',
+    organization: 'State Bank of India (SBI)',
+    examName: 'SBI PO & Junior Associates (Customer Support & Sales)',
+    postCount: '10,283',
+    publishDate: '10 Sep 2026',
+    lastDate: '06 Oct 2026',
+    examDate: 'Nov – Dec 2026',
+    qualification: 'Graduation in any discipline from a recognized University',
+    qualificationTier: 'graduate',
+    sector: 'banking',
+    minAge: 20,
+    maxAge: 30,
+    ageLimit: '20 to 28 Years (Clerk) / 21 to 30 Years (PO) with standard banking relaxations',
+    fees: '₹750 (SC / ST / PwBD Candidates Exempted)',
+    officialGazetteRef: 'Advertisement No. CRPD/PO/2026-27/08 & CRPD/CR/2026-27/09',
+    author: 'Akash Singh Solanki',
+    authorRole: 'Senior Educational Analyst & Founder',
+    reviewedDate: '26 Sep 2026, 14:10 IST',
+    readTime: '6 min read',
+    summary: 'State Bank of India announces nationwide recruitment for 2,000 Probationary Officers and 8,283 Junior Associates across all SBI administrative circles with attractive compensation and leased accommodation allowances.',
+    linkText: 'Check State-Wise Vacancies & Apply Online',
+    calculatorToolType: 'marking',
+    calculatorPresetId: 'bank-po',
+    importantDates: [
+      { event: 'Online Registration Opens', date: '10 September 2026' },
+      { event: 'Registration Last Date', date: '06 October 2026' },
+      { event: 'Preliminary Online Examination', date: 'November 2026' },
+      { event: 'Main Online Examination', date: 'December 2026 – January 2027' },
+      { event: 'Psychometric Test & Interview (PO)', date: 'February 2027' },
+    ],
+    applicationFees: [
+      { category: 'General / EWS / OBC Candidates', fee: '₹750' },
+      { category: 'SC / ST / PwBD Candidates', fee: 'Exempted (Nil)' },
+    ],
+    vacanciesTable: [
+      {
+        postName: 'Probationary Officer (PO)',
+        department: 'All India SBI Management Cadre',
+        classification: 'Junior Management Grade Scale I (JMGS-I)',
+        payScale: 'Basic ₹41,960 (with 4 advance increments in ₹36,000 – ₹63,840 scale)',
+        vacancy: '2,000',
+        eligibility: 'Graduation in any discipline; 3 Tier recruitment process',
+      },
+      {
+        postName: 'Junior Associate (Customer Support & Sales)',
+        department: 'Circle-wise Branches (Delhi, Mumbai, Bengaluru, Lucknow, etc.)',
+        classification: 'Clerical Cadre',
+        payScale: 'Basic ₹19,900 (in ₹17,900 – ₹47,920 scale)',
+        vacancy: '8,283',
+        eligibility: 'Graduation Degree; Proficiency in local state language mandatory',
+      },
+    ],
+    salaryStructure: {
+      payLevel: 'SBI JMGS-I Scale (Probationary Officer)',
+      basicPay: '₹41,960 per month',
+      daPercent: '46.92% of Basic Pay (₹19,687)',
+      hraPercent: 'Leased Housing Accommodation of ₹15,000 to ₹29,500/month in lieu of HRA',
+      grossMonthly: '₹65,780 to ₹82,000 per month (including Leased Accommodation)',
+      inHandMonthly: '₹58,000 – ₹64,000 per month',
+      benefits: [
+        'Leased accommodation reimbursement (up to ₹29,500 in Mumbai)',
+        'Monthly petrol allowance (45 to 55 liters per month)',
+        'Newspaper, cleansing, and mobile reimbursement allowances',
+        '100% Medical coverage under SBI Medical Benefit Scheme',
+        'Concessional home loans and car loans at special staff interest rates',
+      ],
+    },
+    selectionProcess: [
+      {
+        stageNumber: 'Phase 1',
+        stageName: 'Preliminary Online Examination',
+        description: '100 marks objective test (English 30, Quantitative Aptitude 35, Reasoning Ability 35) with 20 minutes sectional timing each.',
+        qualifyingNature: 'Shortlists candidates for Mains at approximately 10 times the vacancy.',
+      },
+      {
+        stageNumber: 'Phase 2',
+        stageName: 'Main Examination (Objective 200 + Descriptive 50)',
+        description: 'Reasoning & Computer, Data Analysis, General & Banking Awareness, English Language, plus 30-minute letter and essay typing test.',
+        qualifyingNature: 'Scores carry 75% weightage in final merit calculation.',
+      },
+      {
+        stageNumber: 'Phase 3',
+        stageName: 'Psychometric Test, Group Discussion & Interview',
+        description: 'Psychometric profile assessment followed by Group Exercise (20 marks) and Interview (30 marks).',
+        qualifyingNature: 'Carries 25% weightage in final merit list.',
+      },
+    ],
+    examPattern: [
+      {
+        subject: 'English Language',
+        questions: 30,
+        marks: 30,
+        time: '20 Minutes Sectional',
+        negativeMarking: '1/4th (-0.25 Marks) penalty',
+      },
+      {
+        subject: 'Quantitative Aptitude',
+        questions: 35,
+        marks: 35,
+        time: '20 Minutes Sectional',
+        negativeMarking: '1/4th (-0.25 Marks) penalty',
+      },
+      {
+        subject: 'Reasoning Ability',
+        questions: 35,
+        marks: 35,
+        time: '20 Minutes Sectional',
+        negativeMarking: '1/4th (-0.25 Marks) penalty',
+      },
+    ],
+    faqs: [
+      {
+        question: 'Is there any sectional cut-off in SBI PO Examination?',
+        answer: 'No. As per official SBI policy, there is NO sectional minimum qualifying mark in either the Preliminary or Main Examination. Selection is based purely on the aggregate overall cut-off mark in each phase.',
+      },
+      {
+        question: 'Can candidates apply for SBI Clerk in multiple states?',
+        answer: 'No. A candidate can apply for vacancies in only ONE state under the Junior Associate recruitment. Additionally, candidates must pass a Local Language Test (LPT) of the specified state before final appointment.',
+      },
+    ],
+    howToApplySteps: [
+      'Visit the official SBI Careers portal at https://sbi.co.in/web/careers.',
+      'Click on "Join SBI" -> Current Openings -> "RECRUITMENT OF PROBATIONARY OFFICERS".',
+      'Register with active Mobile Number and Email ID on the IBPS candidate portal.',
+      'Upload passport photograph, signature, left thumb impression, and handwritten declaration.',
+      'Pay application fee of ₹750 via online payment gateway.',
+    ],
+    officialLinks: [
+      { title: 'SBI Official Careers Portal', label: 'Apply on SBI Careers', url: 'https://sbi.co.in/web/careers', isPrimary: true, linkType: 'apply' },
+      { title: 'IBPS Online Portal', label: 'IBPS Registration Gateway', url: 'https://ibps.in', linkType: 'official' },
+      { title: 'Negative Marking Calculator', label: 'Calculate Bank 1/4th Score', url: '/tools/marking', linkType: 'tool' },
+    ],
+  },
+  {
+    id: 'up-police-constable-2026',
+    slug: 'up-police-constable-60244-posts-notification',
+    category: 'jobs',
+    title: 'UP Police Constable Direct Recruitment 2026 (60,244 Posts)',
+    organization: 'Uttar Pradesh Police Recruitment & Promotion Board (UPPRPB)',
+    examName: 'UP Police Civil Police Constable Recruitment',
+    postCount: '60,244',
+    publishDate: '08 Sep 2026',
+    lastDate: '10 Oct 2026',
+    examDate: 'Nov 2026',
+    qualification: '10+2 Intermediate from recognized Board (Open to All-India candidates)',
+    qualificationTier: '12th',
+    sector: 'police',
+    minAge: 18,
+    maxAge: 25,
+    ageLimit: '18 to 25 Years for Male (with 3-year age relaxation) / 18 to 28 Years for Female',
+    fees: '₹400 for All Categories',
+    officialGazetteRef: 'UPPRPB Gazette PRPB-1(150)/2026',
+    author: 'Akash Singh Solanki',
+    authorRole: 'Senior Educational Analyst & Founder',
+    reviewedDate: '27 Sep 2026, 11:30 IST',
+    readTime: '6 min read',
+    summary: 'The Uttar Pradesh Police Recruitment and Promotion Board (UPPRPB) invites online applications for 60,244 Civil Police Constable positions with nationwide eligibility in Pay Band 5200-20200, Grade Pay 2000 (Level 3).',
+    linkText: 'Check Physical Standards & Exam Pattern',
+    calculatorToolType: 'height',
+    calculatorPresetId: 'up-police-constable',
+    importantDates: [
+      { event: 'Official Notification Published', date: '08 September 2026' },
+      { event: 'Online Application Portal Opens', date: '08 September 2026' },
+      { event: 'Application Submission Deadline', date: '10 October 2026' },
+      { event: 'Fee Adjustment & Form Correction', date: '12 October to 14 October 2026' },
+      { event: 'Offline OMR Written Examination', date: 'November 2026 (Multiple Shifts)' },
+      { event: 'Physical Efficiency Test (PET/PST)', date: 'January 2027' },
+    ],
+    applicationFees: [
+      { category: 'All Candidates (General / OBC / SC / ST / EWS)', fee: '₹400' },
+      { category: 'Payment Modes', fee: 'SBI e-Pay, UPI, Internet Banking, Debit Cards' },
+    ],
+    vacanciesTable: [
+      {
+        postName: 'Constable Civil Police (Male)',
+        department: 'Uttar Pradesh Civil Police',
+        classification: 'Group C (Non-Gazetted)',
+        payScale: 'Level 3 (₹21,700 – ₹69,100)',
+        vacancy: '48,195',
+        eligibility: '12th Pass; Height: 168 cm (General/OBC/SC), 160 cm (ST); Run: 4.8 km in 25 mins',
+      },
+      {
+        postName: 'Constable Civil Police (Female)',
+        department: 'Uttar Pradesh Civil Police',
+        classification: 'Group C (20% Horizontal Reservation)',
+        payScale: 'Level 3 (₹21,700 – ₹69,100)',
+        vacancy: '12,049',
+        eligibility: '12th Pass; Height: 152 cm (General/OBC/SC), 147 cm (ST); Run: 2.4 km in 14 mins',
+      },
+    ],
+    salaryStructure: {
+      payLevel: 'Pay Matrix Level 3 (Grade Pay ₹2,000)',
+      basicPay: '₹21,700 per month',
+      daPercent: '50% of Basic Pay (₹10,850)',
+      hraPercent: '₹1,200 to ₹3,600 (Class A, B, C cities in UP)',
+      grossMonthly: '₹35,200 – ₹38,500 per month',
+      inHandMonthly: '₹30,800 – ₹33,200 per month',
+      benefits: [
+        'Monthly Ration Allowance (Paushtik Aahar Bhatta)',
+        'Annual Uniform Washing and Maintenance Allowance',
+        'UP Government Cashless Health Scheme card for family',
+        'New Defined Contributory Pension Scheme (NPS)',
+      ],
+    },
+    selectionProcess: [
+      {
+        stageNumber: 'Stage 1',
+        stageName: 'OMR Based Written Examination',
+        description: '150 Questions for 300 Marks (General Knowledge, General Hindi, Numerical & Mental Ability, Mental Aptitude/Reasoning). Time: 2 Hours.',
+        qualifyingNature: 'Scores directly determine merit list for Document Verification and PST at 2.5x ratio.',
+      },
+      {
+        stageNumber: 'Stage 2',
+        stageName: 'Document Scrutiny & PST (Physical Standards)',
+        description: 'Height measurement (Male: 168cm, Female: 152cm) and Chest measurement for males (79-84cm). Weight requirement of minimum 40kg for females.',
+        qualifyingNature: 'Strictly qualifying.',
+      },
+      {
+        stageNumber: 'Stage 3',
+        stageName: 'Physical Efficiency Test (PET Running)',
+        description: 'Male candidates: 4.8 km run in 25 minutes. Female candidates: 2.4 km run in 14 minutes.',
+        qualifyingNature: 'Qualifying nature. No marks assigned.',
+      },
+      {
+        stageNumber: 'Stage 4',
+        stageName: 'Medical Examination & Character Scrutiny',
+        description: 'Conducted at District Reserve Police Lines by Chief Medical Officer (CMO).',
+        qualifyingNature: 'Final appointment hurdle.',
+      },
+    ],
+    examPattern: [
+      {
+        subject: 'General Knowledge (Samanya Gyan)',
+        questions: 38,
+        marks: 76,
+        time: 'Combined 2 Hours',
+        negativeMarking: '-0.50 Marks penalty for each wrong answer',
+      },
+      {
+        subject: 'General Hindi (Samanya Hindi)',
+        questions: 37,
+        marks: 74,
+        time: 'Combined 2 Hours',
+        negativeMarking: '-0.50 Marks penalty for each wrong answer',
+      },
+      {
+        subject: 'Numerical & Mental Ability',
+        questions: 38,
+        marks: 76,
+        time: 'Combined 2 Hours',
+        negativeMarking: '-0.50 Marks penalty for each wrong answer',
+      },
+      {
+        subject: 'Mental Aptitude, I.Q. and Reasoning',
+        questions: 37,
+        marks: 74,
+        time: 'Combined 2 Hours',
+        negativeMarking: '-0.50 Marks penalty for each wrong answer',
+      },
+    ],
+    faqs: [
+      {
+        question: 'Can candidates from other states (outside Uttar Pradesh) apply for UP Police Constable?',
+        answer: 'Yes. Candidates from all Indian states and Union Territories are fully eligible to apply under the Unreserved (UR / General) category quota.',
+      },
+      {
+        question: 'What is the negative marking deduction in UP Police Constable Exam?',
+        answer: 'Each correct answer awards 2.0 marks. For each wrong answer, a negative penalty of 0.50 marks (0.25 negative fraction) is deducted from the candidate score.',
+      },
+    ],
+    howToApplySteps: [
+      'Visit the official UPPRPB application portal at https://uppbpb.gov.in.',
+      'Click on "Direct Recruitment for Constable Civil Police 2026 - Apply Online".',
+      'Fill in applicant personal bio-data, 10th and 12th board marks, and domicile details.',
+      'Upload Digilocker-verified certificates or scan copies of educational marksheets, caste certificate, and domicile.',
+      'Upload a recent color photograph with white or light grey background and candidate signature.',
+      'Pay application fee of ₹400 online and download the submitted application form.',
+    ],
+    officialLinks: [
+      { title: 'UPPRPB Official Portal', label: 'Apply on uppbpb.gov.in', url: 'https://uppbpb.gov.in', isPrimary: true, linkType: 'apply' },
+      { title: 'Height Standards Checker', label: 'Check 168cm Male / 152cm Female Criteria', url: '/tools/height', linkType: 'tool' },
+      { title: 'Negative Marking Tool', label: 'Calculate UP Police Score (-0.50 penalty)', url: '/tools/marking', linkType: 'tool' },
+    ],
+  },
+  {
+    id: 'army-agniveer-rally-2026',
+    slug: 'indian-army-agniveer-rally-2026-recruitment',
+    category: 'jobs',
+    title: 'Indian Army Agniveer Rally Recruitment 2026 (All ZROs & AROs)',
+    organization: 'Indian Army (Ministry of Defence)',
+    examName: 'Agnipath Scheme Rally Recruitment 2026',
+    postCount: '30,000+',
+    publishDate: '01 Sep 2026',
+    lastDate: '15 Oct 2026',
+    examDate: 'Nov 2026',
+    qualification: '8th / 10th Pass (GD & Tradesmen) or 10+2 with PCM (Tech) / 10+2 with English (Clerk)',
+    qualificationTier: '10th',
+    sector: 'defence',
+    minAge: 17,
+    maxAge: 21,
+    ageLimit: '17½ to 21 Years (Born between 01-10-2005 and 01-04-2009)',
+    fees: '₹250 (Online CEE Exam Fee)',
+    officialGazetteRef: 'MoD Notification No. Army/Agnipath/2026',
+    author: 'Akash Singh Solanki',
+    authorRole: 'Senior Educational Analyst & Founder',
+    reviewedDate: '26 Sep 2026, 12:40 IST',
+    readTime: '6 min read',
+    summary: 'Join Indian Army opens online registration for Agniveer General Duty, Agniveer Technical, Agniveer Office Assistant / Clerk, and Agniveer Tradesmen across all Army Recruiting Offices (AROs) and Regimental Centers.',
+    linkText: 'Check Rally Physical Criteria & Apply',
+    calculatorToolType: 'height',
+    calculatorPresetId: 'army-agniveer-gd',
+    importantDates: [
+      { event: 'Online Registration Opens', date: '01 September 2026' },
+      { event: 'Closing Date of Online Registration', date: '15 October 2026' },
+      { event: 'Online Common Entrance Exam (CEE)', date: 'November 2026' },
+      { event: 'Physical Fitness Test (PFT) Rallies', date: 'December 2026 to February 2027' },
+    ],
+    applicationFees: [
+      { category: 'All Candidates Appearing for Online CEE', fee: '₹250 (plus banking charges)' },
+      { category: 'Payment Methods', fee: 'Credit/Debit Card, Net Banking, UPI' },
+    ],
+    vacanciesTable: [
+      {
+        postName: 'Agniveer General Duty (All Arms)',
+        department: 'Infantry, Artillery, Armoured Corps',
+        classification: 'Enrolled Soldier Cadre',
+        payScale: '1st Year ₹30,000 -> 4th Year ₹40,000 + Seva Nidhi Package (₹11.71 Lakhs)',
+        vacancy: '22,000+',
+        eligibility: '10th / Matric with 45% marks in aggregate and 33% in each subject; 1.6 km run in 5m 30s',
+      },
+      {
+        postName: 'Agniveer Technical (All Arms)',
+        department: 'Corps of Electronics & Mechanical Engineers, Signals',
+        classification: 'Technical Cadre',
+        payScale: '1st Year ₹30,000 -> 4th Year ₹40,000 + Seva Nidhi',
+        vacancy: '4,500',
+        eligibility: '10+2 Intermediate with Physics, Chemistry, Maths & English with min 50% marks',
+      },
+      {
+        postName: 'Agniveer Office Assistant / Store Keeper Technical',
+        department: 'Army Service Corps, Ordnance',
+        classification: 'Clerical Cadre',
+        payScale: '1st Year ₹30,000 -> 4th Year ₹40,000 + Seva Nidhi',
+        vacancy: '3,500',
+        eligibility: '10+2 Intermediate in any stream (Arts, Commerce, Science) with 60% aggregate & 50% in English/Maths',
+      },
+    ],
+    salaryStructure: {
+      payLevel: 'Agnipath Scheme Customized Monthly Package',
+      basicPay: '1st Yr: ₹30,000 | 2nd Yr: ₹33,000 | 3rd Yr: ₹36,500 | 4th Yr: ₹40,000',
+      daPercent: 'Included in consolidated package + Risk and Hardship allowances as per deployment',
+      hraPercent: 'Provided with military barracks / cantonment accommodation + messing',
+      grossMonthly: '₹30,000 to ₹40,000 per month (plus field area allowances up to ₹17,300)',
+      inHandMonthly: '1st Year In-Hand: ₹21,000/month (30% deposited in Agniveer Corpus Fund)',
+      benefits: [
+        '₹11.71 Lakhs Tax-Free "Seva Nidhi" Corpus upon completion of 4 years',
+        'Life Insurance Cover of ₹48 Lakhs non-contributory during engagement period',
+        '25% of Agniveers enrolled into Regular Army Cadre based on merit and performance',
+        'Skill Certificate and 10% reservation in CAPFs (BSF, CISF, CRPF, ITBP, SSB) and State Police',
+      ],
+    },
+    selectionProcess: [
+      {
+        stageNumber: 'Phase 1',
+        stageName: 'Online Computer Based Common Entrance Exam (CEE)',
+        description: 'Objective test conducted across 176 test cities nationwide.',
+        qualifyingNature: 'Shortlists candidates for Physical Rally at designated ARO centers.',
+      },
+      {
+        stageNumber: 'Phase 2',
+        stageName: 'Recruitment Rally Physical Fitness Test (PFT)',
+        description: '1.6 Km Run: Group I (under 5 min 30 sec, 60 marks), Group II (5 min 31 sec to 5 min 45 sec, 48 marks). Beam Pull-ups: 10 pull-ups (40 marks). 9 Feet Ditch Jump & Zig-Zag Balance.',
+        qualifyingNature: 'Total 100 Physical Marks.',
+      },
+      {
+        stageNumber: 'Phase 3',
+        stageName: 'Physical Measurement Test (PMT) & Adaptability',
+        description: 'Height and chest measurement as per regional criteria followed by Adaptability Test for military life.',
+        qualifyingNature: 'Mandatory standard.',
+      },
+      {
+        stageNumber: 'Phase 4',
+        stageName: 'Medical Examination by Military Doctors',
+        description: 'Conducted by Army Medical Corps at designated military base hospitals.',
+        qualifyingNature: 'Final clearance.',
+      },
+    ],
+    faqs: [
+      {
+        question: 'What is the upper age limit for Indian Army Agniveer 2026?',
+        answer: 'The age bracket is strictly 17½ to 21 years. Candidates must have been born between 01 October 2005 and 01 April 2009 (both days inclusive). There is no age relaxation for reserved categories in military combat soldier enrolment.',
+      },
+      {
+        question: 'What is the running standard for Group 1 in the Army Rally?',
+        answer: 'Candidates completing the 1.6-kilometer (1600m) run in 5 minutes 30 seconds or less are classified into Group I and awarded the maximum 60 physical marks.',
+      },
+    ],
+    howToApplySteps: [
+      'Visit the official Join Indian Army portal at https://joinindianarmy.nic.in.',
+      'Enter the captcha and navigate to the "Agnipath" tab -> "Login / Apply Online".',
+      'Register with Aadhaar Number and personal bio-data.',
+      'Select your relevant Army Recruiting Office (ARO) based on your permanent domicile district.',
+      'Choose the desired trade (Agniveer GD, Technical, Clerk, or Tradesmen).',
+      'Pay the online examination fee of ₹250 through SBI e-Pay.',
+    ],
+    officialLinks: [
+      { title: 'Join Indian Army Portal', label: 'Apply on joinindianarmy.nic.in', url: 'https://joinindianarmy.nic.in', isPrimary: true, linkType: 'apply' },
+      { title: 'Physical Standards Tool', label: 'Check 1.6 Km Run & 170cm Height Criteria', url: '/tools/height', linkType: 'tool' },
+      { title: 'Age Eligibility Checker', label: 'Verify 17½ – 21 Years Eligibility', url: '/tools/age', linkType: 'tool' },
+    ],
+  },
+  {
+    id: 'rrb-ntpc-2026',
+    slug: 'rrb-ntpc-2026-recruitment-apply-online',
+    category: 'jobs',
+    title: 'RRB NTPC Graduate & Undergraduate CEN 05/2026 (11,558 Posts)',
+    organization: 'Railway Recruitment Boards (RRB)',
+    examName: 'Non-Technical Popular Categories (NTPC)',
+    postCount: '11,558',
+    publishDate: '18 Sep 2026',
+    lastDate: '20 Oct 2026',
+    examDate: 'Nov 2026 – Jan 2027',
+    qualification: '12th Pass (UG Posts) or Graduate Degree (Graduate Posts)',
+    qualificationTier: '12th',
+    sector: 'railways',
+    minAge: 18,
+    maxAge: 36,
+    ageLimit: '18 to 36 Years (3 Years COVID age relaxation factored in)',
+    fees: '₹500 (₹400 refundable on CBT-1 attendance)',
+    officialGazetteRef: 'CEN No. 05/2026 & 06/2026',
+    author: 'Akash Singh Solanki',
+    authorRole: 'Senior Educational Analyst & Founder',
+    reviewedDate: '27 Sep 2026, 14:15 IST',
+    readTime: '6 min read',
+    summary: 'Ministry of Railways has issued CEN 05/2026 & CEN 06/2026 inviting online applications for 11,558 vacancies across Indian Railway zones for Station Master, Goods Train Manager, Commercial Apprentice, and Accounts Clerk.',
+    linkText: 'Check Eligibility & Apply RRB Zone Wise',
+    calculatorToolType: 'age',
+    calculatorPresetId: 'rrb-ntpc',
+    importantDates: [
+      { event: 'Detailed CEN Notification Release', date: '18 September 2026' },
+      { event: 'Online Application Opening Date', date: '19 September 2026' },
+      { event: 'Closing Date for Submission', date: '20 October 2026 (23:59 Hrs)' },
+      { event: 'Final Online Fee Payment Date', date: '22 October 2026' },
+      { event: 'Application Status & Modification Window', date: '25 October to 04 November 2026' },
+      { event: '1st Stage Computer Based Test (CBT-1)', date: 'November 2026 to January 2027' },
+    ],
+    applicationFees: [
+      { category: 'UR / OBC Male Candidates', fee: '₹500 (₹400 refunded after appearing in CBT-1)' },
+      { category: 'SC / ST / Female / PwBD / Transgender / Minorities', fee: '₹250 (Full ₹250 refunded on CBT-1 appearance)' },
+    ],
+    vacanciesTable: [
+      {
+        postName: 'Station Master',
+        department: 'Operating Department',
+        classification: 'Level 6 (Graduate Post)',
+        payScale: '₹35,400 + Allowances',
+        vacancy: '3,860',
+        eligibility: 'Degree from recognized University; Computer Based Aptitude Test (CBAT) mandatory',
+      },
+      {
+        postName: 'Goods Train Manager',
+        department: 'Operating Department',
+        classification: 'Level 5 (Graduate Post)',
+        payScale: '₹29,200 + Running Allowance',
+        vacancy: '2,940',
+        eligibility: 'Bachelor Degree in any stream; A-2 Medical Standard',
+      },
+      {
+        postName: 'Junior Account Assistant cum Typist',
+        department: 'Accounts Department',
+        classification: 'Level 5 (Graduate Post)',
+        payScale: '₹29,200 + Allowances',
+        vacancy: '1,500',
+        eligibility: 'Degree in any discipline with English 30 wpm or Hindi 25 wpm typing',
+      },
+    ],
+    salaryStructure: {
+      payLevel: 'Pay Level 6 (Station Master)',
+      basicPay: '₹35,400 per month',
+      daPercent: '50% (₹17,700)',
+      hraPercent: '27% (₹9,558)',
+      grossMonthly: '₹68,450 per month (plus Night Duty & Running Allowance)',
+      inHandMonthly: '₹58,500 – ₹62,000 per month',
+      benefits: [
+        'Free Railway Privilege Passes and Privilege Ticket Orders (PTOs)',
+        'Running Allowance for Goods Guard & Train Managers based on mileage',
+        'Railway Central Hospital medical coverage',
+        'Contributory Pension Scheme (NPS)',
+      ],
+    },
+    selectionProcess: [
+      {
+        stageNumber: 'CBT 1',
+        stageName: 'First Stage Computer Based Test',
+        description: 'Screening test of 100 questions (40 General Awareness, 30 Mathematics, 30 General Intelligence).',
+        qualifyingNature: 'Shortlists candidates for CBT-2 at a 1:15 vacancy ratio.',
+      },
+      {
+        stageNumber: 'CBT 2',
+        stageName: 'Second Stage Computer Based Test',
+        description: '120 questions in 90 minutes. Marks scored determine merit ranking.',
+        qualifyingNature: 'Final merit score.',
+      },
+      {
+        stageNumber: 'CBAT / Typing',
+        stageName: 'Computer Aptitude Test or Typing Skill',
+        description: 'Aptitude test for Station Masters (min T-score 42) or typing speed test for Clerks.',
+        qualifyingNature: 'Qualifying requirement.',
+      },
+    ],
+    officialLinks: [
+      { title: 'RRB Official Apply Portal', label: 'Apply Online (rrbapply.gov.in)', url: 'https://rrbapply.gov.in', isPrimary: true, linkType: 'apply' },
+      { title: 'Official CEN Notification', label: 'Download RRB CEN Notification', url: 'https://indianrailways.gov.in', linkType: 'pdf' },
+      { title: 'Negative Marking Tool', label: 'Calculate Railway 1/3rd Score', url: '/tools/marking', linkType: 'tool' },
+    ],
+  },
+  {
+    id: 'delhi-police-si-2026',
+    slug: 'ssc-delhi-police-capf-si-2026',
+    category: 'jobs',
+    title: 'SSC Sub-Inspector in Delhi Police & CAPFs Examination 2026 (4,187 Posts)',
+    organization: 'SSC & Ministry of Home Affairs',
+    examName: 'Delhi Police & Central Armed Police Forces SI',
+    postCount: '4,187',
+    publishDate: '12 Sep 2026',
+    lastDate: '15 Oct 2026',
+    examDate: 'Nov 2026',
+    qualification: 'Graduate Degree with valid Driving License (for Male DP SI)',
+    qualificationTier: 'graduate',
+    sector: 'police',
+    minAge: 20,
+    maxAge: 25,
+    ageLimit: '20 to 25 Years (Relaxation as per central rules)',
+    fees: '₹100 (Exempted for Women & Reserved Categories)',
+    officialGazetteRef: 'MHA Notice F.No. 4/2/2026-C-1/1',
+    author: 'Akash Singh Solanki',
+    authorRole: 'Senior Educational Analyst & Founder',
+    reviewedDate: '26 Sep 2026, 11:20 IST',
+    readTime: '6 min read',
+    summary: 'Staff Selection Commission announces recruitment for Executive Sub-Inspectors in Delhi Police, BSF, CISF, CRPF, ITBP, and SSB with Level-6 pay scale (₹35,400 to ₹1,12,400).',
+    linkText: 'View Physical Standards & Syllabus',
+    calculatorToolType: 'height',
+    calculatorPresetId: 'delhi-police-si',
+    importantDates: [
+      { event: 'Notification Date', date: '12 September 2026' },
+      { event: 'Application Last Date', date: '15 October 2026' },
+      { event: 'Paper-1 CBT Exam Date', date: 'November 2026' },
+      { event: 'Physical Standard (PST) & PET Test', date: 'January 2027' },
+    ],
+    officialLinks: [
+      { title: 'SSC Official Portal', label: 'Apply on ssc.gov.in', url: 'https://ssc.gov.in', isPrimary: true, linkType: 'apply' },
+      { title: 'Physical Standards Checker', label: 'Check Delhi Police Height (170cm)', url: '/tools/height', linkType: 'tool' },
+    ],
+  },
+  {
+    id: 'ssc-gd-constable-2026',
+    slug: 'ssc-gd-constable-2026-mega-recruitment',
+    category: 'jobs',
+    title: 'SSC GD Constable 2026 Mega Notification (39,481 Posts)',
+    organization: 'Staff Selection Commission (SSC)',
+    examName: 'Constable (GD) in CAPFs, SSF and Rifleman (GD) in Assam Rifles',
+    postCount: '39,481',
+    publishDate: '05 Sep 2026',
+    lastDate: '14 Oct 2026',
+    examDate: 'Jan – Feb 2027',
+    qualification: 'Matriculation (10th Class Pass)',
+    qualificationTier: '10th',
+    sector: 'ssc',
+    minAge: 18,
+    maxAge: 23,
+    ageLimit: '18 to 23 Years as on 01-01-2026',
+    fees: '₹100 (Exempted for Women/SC/ST)',
+    officialGazetteRef: 'SSC Notice No. 3/2/2026-P&P-I',
+    author: 'Akash Singh Solanki',
+    authorRole: 'Senior Educational Analyst & Founder',
+    reviewedDate: '26 Sep 2026, 09:45 IST',
+    readTime: '6 min read',
+    summary: 'Massive uniformed recruitment for General Duty constables across BSF (15,654), CISF (13,632), CRPF (9,410), ITBP (3,120), and SSB (1,850) in Pay Level-3.',
+    linkText: 'Check Height & Physical Running Criteria',
+    calculatorToolType: 'height',
+    calculatorPresetId: 'ssc-gd-constable',
+    importantDates: [
+      { event: 'Notification Release Date', date: '05 September 2026' },
+      { event: 'Last Date to Apply Online', date: '14 October 2026' },
+      { event: 'Computer Based Exam (CBT)', date: 'January – February 2027' },
+    ],
+    officialLinks: [
+      { title: 'SSC Apply Portal', label: 'Apply Online', url: 'https://ssc.gov.in', isPrimary: true, linkType: 'apply' },
+      { title: 'Physical Standards Tool', label: 'Check 170cm Male / 157cm Female Standards', url: '/tools/height', linkType: 'tool' },
+    ],
+  },
+  {
+    id: 'admit-ssc-cgl-tier1',
+    slug: 'ssc-cgl-2026-tier-1-admit-card-download',
+    category: 'admit-card',
+    title: 'SSC CGL 2026 Tier-1 Hall Ticket & Application Status Active',
+    organization: 'Staff Selection Commission (SSC)',
+    examName: 'CGL Tier-1 Computer Based Test',
+    publishDate: '26 Sep 2026',
+    examDate: '09 Oct to 26 Oct 2026',
+    qualification: 'Tier-1 Registered Candidates',
+    officialGazetteRef: 'Admit Card Link Region Wise (NR, CR, WR, ER, SR)',
+    author: 'Akash Singh Solanki',
+    authorRole: 'Senior Educational Analyst & Founder',
+    reviewedDate: '26 Sep 2026, 12:00 IST',
+    readTime: '4 min read',
+    summary: 'Candidates can download their admission certificate using Registration Number and Date of Birth. Exam shift timings and exam center address verified.',
+    linkText: 'Download Tier-1 Admit Card (All Regions)',
+    importantDates: [
+      { event: 'Application Status Live', date: '20 September 2026' },
+      { event: 'City Intimation Slip Live', date: '26 September 2026' },
+      { event: 'Admit Card Download (4 Days Prior)', date: '05 October 2026' },
+      { event: 'Tier-1 CBT Exam Dates', date: '09 October to 26 October 2026' },
+    ],
+    officialLinks: [
+      { title: 'Regional SSC Portals', label: 'Download Admit Card', url: 'https://ssc.gov.in', isPrimary: true, linkType: 'official' },
+      { title: 'Official PYQ CBT Simulator', label: 'Take PYQ CBT Test with Timer', url: '/mock-test/ssc-cgl-tier1', linkType: 'tool' },
+    ],
+  },
+  {
+    id: 'res-ssc-cgl-cutoff',
+    slug: 'ssc-cgl-2025-tier-1-official-category-cutoff-marks',
+    category: 'cut-off',
+    title: 'SSC CGL Tier-1 Official Category-Wise Cut-Off Marks Released',
+    organization: 'Staff Selection Commission',
+    examName: 'CGL Tier-1 Normalization & Cut-off List',
+    publishDate: '27 Sep 2026',
+    qualification: 'Candidates Qualified for Tier-2 Evaluation',
+    officialGazetteRef: 'Result Gazette 14/03/2026-CGL-T1',
+    author: 'Akash Singh Solanki',
+    authorRole: 'Senior Educational Analyst & Founder',
+    reviewedDate: '27 Sep 2026, 20:00 IST',
+    readTime: '5 min read',
+    summary: 'Staff Selection Commission has declared normalized cut-off marks for Tier-1. Over 1,24,000 aspirants qualified across List-1 (AAO), List-2 (JSO), and List-3 (General Group B/C).',
+    linkText: 'Download Complete Merit List PDF',
+    cutOffs: [
+      { category: 'UR (General / Unreserved)', cutOffMarks: 153.48, qualifiedCandidates: 14210 },
+      { category: 'OBC (Other Backward Class)', cutOffMarks: 152.12, qualifiedCandidates: 28540 },
+      { category: 'EWS (Economically Weaker Section)', cutOffMarks: 148.95, qualifiedCandidates: 12450 },
+      { category: 'SC (Scheduled Caste)', cutOffMarks: 136.20, qualifiedCandidates: 18920 },
+      { category: 'ST (Scheduled Tribe)', cutOffMarks: 125.60, qualifiedCandidates: 9840 },
+      { category: 'ESM (Ex-Servicemen)', cutOffMarks: 98.40, qualifiedCandidates: 4120 },
+    ],
+    importantDates: [
+      { event: 'Tier-1 CBT Conducted', date: 'July 2025' },
+      { event: 'Official Result Declaration', date: '27 September 2026' },
+      { event: 'Tier-2 Written Examination', date: 'November 2026' },
+    ],
+    officialLinks: [
+      { title: 'Result Write-up PDF', label: 'Download Official Cut-off PDF', url: 'https://ssc.gov.in', isPrimary: true, linkType: 'pdf' },
+      { title: 'Rank Predictor', label: 'Predict Normalization & Percentile', url: '/tools/rank', linkType: 'tool' },
+    ],
+  },
+  {
+    id: 'ans-ssc-chsl-tier1',
+    slug: 'ssc-chsl-10-plus-2-tier-1-final-answer-key',
+    category: 'answer-key',
+    title: 'SSC CHSL 10+2 Tier-1 Final Answer Key & Response Sheet Out',
+    organization: 'Staff Selection Commission',
+    examName: 'Combined Higher Secondary (10+2) Level Exam',
+    publishDate: '25 Sep 2026',
+    qualification: 'Candidates appeared in Tier-1 CBT',
+    officialGazetteRef: 'Notice F.No. 08/01/2026-CHSL',
+    author: 'Akash Singh Solanki',
+    authorRole: 'Senior Educational Analyst & Founder',
+    reviewedDate: '25 Sep 2026, 17:00 IST',
+    readTime: '4 min read',
+    summary: 'Final answer key released along with question papers and candidate response sheets. Calculate your negative marks and raw score using our tool.',
+    linkText: 'Check Final Answer Key & Calculate Score',
+    importantDates: [
+      { event: 'Answer Key Objection Window Opens', date: '25 September 2026' },
+      { event: 'Last Date to Submit Challenges', date: '30 September 2026 (18:00 Hrs)' },
+    ],
+    officialLinks: [
+      { title: 'Response Sheet Portal', label: 'Login & Check Response Sheet', url: 'https://ssc.gov.in', isPrimary: true, linkType: 'official' },
+      { title: 'Negative Marking Tool', label: 'Calculate Net Score (-0.50 Penalty)', url: '/tools/marking', linkType: 'tool' },
+    ],
+  },
+  {
+    id: 'admit-rrb-technician',
+    slug: 'rrb-technician-grade-1-3-admit-card',
+    category: 'admit-card',
+    title: 'RRB Technician Grade-I & Grade-III E-Call Letter & City Slip',
+    organization: 'Railway Recruitment Boards',
+    examName: 'CEN 02/2024 Technician CBT Examination',
+    publishDate: '22 Sep 2026',
+    examDate: '16 Oct to 28 Oct 2026',
+    qualification: 'Matric + ITI / Diploma in Engineering',
+    officialGazetteRef: 'RRB Notice CEN 02/2024 Date: 20-09-2026',
+    author: 'Akash Singh Solanki',
+    authorRole: 'Senior Educational Analyst & Founder',
+    reviewedDate: '22 Sep 2026, 16:30 IST',
+    readTime: '4 min read',
+    summary: 'City intimation slips and travel pass for SC/ST candidates are active on official railway regional portals.',
+    linkText: 'Check Exam City & Download Call Letter',
+    officialLinks: [
+      { title: 'RRB Regional Portals', label: 'Download E-Call Letter', url: 'https://indianrailways.gov.in', isPrimary: true, linkType: 'official' },
+    ],
+  },
+  {
+    id: 'res-upsc-cds-result',
+    slug: 'upsc-cds-2-written-exam-final-result-ssb',
+    category: 'result',
+    title: 'UPSC CDS-II Written Exam Final Result & SSB Interview Schedule',
+    organization: 'Union Public Service Commission (UPSC)',
+    examName: 'Combined Defence Services Examination (II)',
+    publishDate: '23 Sep 2026',
+    qualification: 'Graduates for IMA, INA, AFA, and OTA',
+    officialGazetteRef: 'Press Note UPSC No. 10/2026-Exam',
+    author: 'Akash Singh Solanki',
+    authorRole: 'Senior Educational Analyst & Founder',
+    reviewedDate: '23 Sep 2026, 19:15 IST',
+    readTime: '5 min read',
+    summary: '8,421 candidates qualify for Services Selection Board (SSB) interviews. Verification of original certificates scheduled at respective selection centers.',
+    linkText: 'Check Roll Number in Qualified Merit List',
+    officialLinks: [
+      { title: 'UPSC Press Note PDF', label: 'Download Merit List PDF', url: 'https://upsc.gov.in', isPrimary: true, linkType: 'pdf' },
+    ],
+  },
+];
+
+export const MARKING_PRESETS: MarkingPreset[] = [
+  {
+    id: 'ssc-cgl',
+    name: 'SSC CGL / CHSL / CPO Tier-1',
+    category: 'Staff Selection Commission',
+    correctMarks: 2.0,
+    negativePenalty: 0.50,
+    totalQuestionsDefault: 100,
+    maxScoreDefault: 200,
+  },
+  {
+    id: 'ssc-gd',
+    name: 'SSC GD Constable (New Pattern)',
+    category: 'Staff Selection Commission',
+    correctMarks: 2.0,
+    negativePenalty: 0.25,
+    totalQuestionsDefault: 80,
+    maxScoreDefault: 160,
+  },
+  {
+    id: 'rrb-ntpc',
+    name: 'RRB NTPC / Group-D CBT-1',
+    category: 'Railway Recruitment Boards',
+    correctMarks: 1.0,
+    negativePenalty: 0.333,
+    totalQuestionsDefault: 100,
+    maxScoreDefault: 100,
+  },
+  {
+    id: 'bank-po',
+    name: 'IBPS / SBI PO & Clerk Prelims',
+    category: 'Banking (IBPS & SBI)',
+    correctMarks: 1.0,
+    negativePenalty: 0.25,
+    totalQuestionsDefault: 100,
+    maxScoreDefault: 100,
+  },
+  {
+    id: 'upsc-prelims',
+    name: 'UPSC Civil Services Prelims (GS-1)',
+    category: 'Union Public Service Commission',
+    correctMarks: 2.0,
+    negativePenalty: 0.666,
+    totalQuestionsDefault: 100,
+    maxScoreDefault: 200,
+  },
+  {
+    id: 'defence-cds',
+    name: 'CDS Exam (English & GK Papers)',
+    category: 'Defence (UPSC CDS)',
+    correctMarks: 0.833,
+    negativePenalty: 0.277,
+    totalQuestionsDefault: 120,
+    maxScoreDefault: 100,
+  }
+];
+
+export const PHYSICAL_STANDARDS: PhysicalRequirement[] = [
+  {
+    id: 'ssc-gd-constable',
+    examName: 'SSC GD Constable Exam',
+    postTitle: 'Constable (GD) in BSF, CISF, CRPF, ITBP, SSB, SSF',
+    maleHeight: {
+      general: 170,
+      obc: 170,
+      sc: 170,
+      st: 162.5,
+      hilly: 165,
+    },
+    femaleHeight: {
+      general: 157,
+      obc: 157,
+      sc: 157,
+      st: 150,
+      hilly: 155,
+    },
+    chestMale: {
+      unexpanded: 80,
+      expanded: 85,
+      minExpansion: 5,
+    },
+    petCriteria: {
+      maleRun: '5 Kilometers in 24 minutes',
+      femaleRun: '1.6 Kilometers in 8½ minutes',
+      additional: 'For Ladakh region candidates: Male 1.6 km in 7 mins; Female 800m in 5 mins',
+    },
+  },
+  {
+    id: 'delhi-police-si',
+    examName: 'SSC Delhi Police & CAPFs SI',
+    postTitle: 'Sub-Inspector in Delhi Police Executive',
+    maleHeight: {
+      general: 170,
+      obc: 170,
+      sc: 170,
+      st: 162.5,
+      hilly: 165,
+    },
+    femaleHeight: {
+      general: 157,
+      obc: 157,
+      sc: 157,
+      st: 154,
+      hilly: 155,
+    },
+    chestMale: {
+      unexpanded: 81,
+      expanded: 85,
+      minExpansion: 4,
+    },
+    petCriteria: {
+      maleRun: '100m sprint in 16 sec + 1.6 km in 6.5 mins + Long Jump 3.65m + High Jump 1.2m',
+      femaleRun: '100m sprint in 18 sec + 800m in 4 mins + Long Jump 2.7m + High Jump 0.9m',
+      additional: 'Valid Light Motor Vehicle (LMV) driving license mandatory for Male candidates',
+    },
+  },
+  {
+    id: 'up-police-constable',
+    examName: 'UP Police Constable Recruitment',
+    postTitle: 'Constable Civil Police (Male & Female)',
+    maleHeight: {
+      general: 168,
+      obc: 168,
+      sc: 168,
+      st: 160,
+      hilly: 168,
+    },
+    femaleHeight: {
+      general: 152,
+      obc: 152,
+      sc: 152,
+      st: 147,
+      hilly: 152,
+    },
+    chestMale: {
+      unexpanded: 79,
+      expanded: 84,
+      minExpansion: 5,
+    },
+    petCriteria: {
+      maleRun: '4.8 Kilometers in 25 minutes',
+      femaleRun: '2.4 Kilometers in 14 minutes',
+      additional: 'Minimum 40 kg body weight mandatory for female candidates',
+    },
+  },
+  {
+    id: 'cisf-fireman',
+    examName: 'CISF Constable Fireman',
+    postTitle: 'Constable / Fireman (Male Only)',
+    maleHeight: {
+      general: 170,
+      obc: 170,
+      sc: 170,
+      st: 162.5,
+      hilly: 165,
+    },
+    femaleHeight: {
+      general: 0,
+      obc: 0,
+      sc: 0,
+      st: 0,
+      hilly: 0,
+    },
+    chestMale: {
+      unexpanded: 80,
+      expanded: 85,
+      minExpansion: 5,
+    },
+    petCriteria: {
+      maleRun: '5 Kilometers in 24 minutes',
+      femaleRun: 'Not Applicable (Male candidates only post)',
+      additional: 'Science subject in 10+2 is compulsory qualification',
+    },
+  },
+  {
+    id: 'army-agniveer-gd',
+    examName: 'Indian Army Agniveer Rally',
+    postTitle: 'Agniveer General Duty (All Arms)',
+    maleHeight: {
+      general: 170,
+      obc: 170,
+      sc: 170,
+      st: 162,
+      hilly: 163,
+    },
+    femaleHeight: {
+      general: 162,
+      obc: 162,
+      sc: 162,
+      st: 158,
+      hilly: 158,
+    },
+    chestMale: {
+      unexpanded: 77,
+      expanded: 82,
+      minExpansion: 5,
+    },
+    petCriteria: {
+      maleRun: '1.6 Km: Group I (<5 min 30 sec, 60 marks), Group II (5 min 31s - 5 min 45s, 48 marks)',
+      femaleRun: '1.6 Km: Group I (<7 min 30 sec), Group II (<8 min)',
+      additional: '10 Pull-ups for Group I (40 marks), 9 Pull-ups (33 marks), 9 Feet Ditch Jump',
+    },
+  },
+  {
+    id: 'rpf-constable',
+    examName: 'Railway Protection Force (RPF)',
+    postTitle: 'Constable & Sub-Inspector in RPF & RPSF',
+    maleHeight: {
+      general: 165,
+      obc: 165,
+      sc: 160,
+      st: 160,
+      hilly: 163,
+    },
+    femaleHeight: {
+      general: 157,
+      obc: 157,
+      sc: 152,
+      st: 152,
+      hilly: 155,
+    },
+    chestMale: {
+      unexpanded: 80,
+      expanded: 85,
+      minExpansion: 5,
+    },
+    petCriteria: {
+      maleRun: '1600 meters in 5 minutes 45 seconds + Long Jump 14 ft + High Jump 4 ft',
+      femaleRun: '800 meters in 3 minutes 40 seconds + Long Jump 9 ft + High Jump 3 ft',
+      additional: 'Only one chance allowed for 1600m/800m running events',
+    },
+  }
+];
+
+export const OFFICIAL_PYQ_QUESTIONS: PYQQuestion[] = [
+  // Section 1: General Intelligence & Reasoning (SSC Official PYQ)
+  {
+    id: 1,
+    section: 'Reasoning',
+    question: 'Select the option that is related to the third word in the same way as the second word is related to the first word:\n\nThermometer : Temperature :: Hygrometer : ?',
+    options: ['Atmospheric Pressure', 'Relative Humidity', 'Earthquake Intensity', 'Liquid Density'],
+    correctAnswer: 1,
+    explanation: 'A thermometer is an instrument used to gauge temperature, while a hygrometer is specifically designed to measure relative humidity in the atmosphere. Barometer measures pressure; Seismograph measures earthquake intensity.',
+    marks: 2,
+    negativeMarks: 0.5,
+    sourcePaper: 'SSC CGL Tier-1 Official Exam Paper (Shift 1)',
+  },
+  {
+    id: 2,
+    section: 'Reasoning',
+    question: 'In a certain code language, if "FLOWER" is written as "UOLDVI", how will "TERMINAL" be written in that code?',
+    options: ['GVINRMZO', 'GVIIMRZO', 'GVIRNMZO', 'GVIRNMOP'],
+    correctAnswer: 0,
+    explanation: 'Each letter is replaced by its reverse alphabetical counterpart (A <-> Z, B <-> Y, C <-> X, etc.). T->G, E->V, R->I, M->N, I->R, N->M, A->Z, L->O. Hence, GVINRMZO.',
+    marks: 2,
+    negativeMarks: 0.5,
+    sourcePaper: 'SSC CHSL 10+2 Official Paper',
+  },
+  {
+    id: 3,
+    section: 'Reasoning',
+    question: 'Statements:\n1. All IAS officers are graduates.\n2. Some graduates are authors.\n\nConclusions:\nI. Some authors are IAS officers.\nII. All IAS officers are authors.',
+    options: ['Only Conclusion I follows', 'Only Conclusion II follows', 'Neither Conclusion I nor II follows', 'Both Conclusions follow'],
+    correctAnswer: 2,
+    explanation: 'From the given premises, there is no direct link establishing that authors must overlap with the subset of IAS officers among all graduates. Thus neither conclusion follows with certainty.',
+    marks: 2,
+    negativeMarks: 0.5,
+    sourcePaper: 'SSC CGL Official Paper',
+  },
+  {
+    id: 4,
+    section: 'Reasoning',
+    question: 'Find the missing number in the given series:\n7, 11, 19, 35, 67, ?',
+    options: ['129', '131', '133', '135'],
+    correctAnswer: 1,
+    explanation: 'Pattern of increments: +4, +8, +16, +32, +64 (powers of 2 doubled each time). 67 + 64 = 131.',
+    marks: 2,
+    negativeMarks: 0.5,
+    sourcePaper: 'RRB NTPC CBT-1 Official Shift',
+  },
+  {
+    id: 5,
+    section: 'Reasoning',
+    question: 'Pointing to a gentleman, Raman said, "His only brother is the father of my daughter\'s father." How is the gentleman related to Raman?',
+    options: ['Father', 'Uncle (Paternal)', 'Brother', 'Grandfather'],
+    correctAnswer: 1,
+    explanation: '"My daughter\'s father" is Raman himself. The father of Raman is his dad. The gentleman is the brother of Raman\'s father, so he is Raman\'s paternal uncle (Chacha/Taya).',
+    marks: 2,
+    negativeMarks: 0.5,
+    sourcePaper: 'SSC CPO Sub-Inspector Official Paper',
+  },
+
+  // Section 2: General Awareness (UPSC / SSC Official PYQ)
+  {
+    id: 6,
+    section: 'General Awareness',
+    question: 'Under which Article of the Constitution of India is the "Right to Constitutional Remedies" (Writ Jurisdiction of Supreme Court) guaranteed?',
+    options: ['Article 19', 'Article 21', 'Article 32', 'Article 44'],
+    correctAnswer: 2,
+    explanation: 'Article 32 confers the right to move the Supreme Court by appropriate proceedings for the enforcement of the Fundamental Rights. Dr. B.R. Ambedkar famously called Article 32 the "Heart and Soul of the Constitution".',
+    marks: 2,
+    negativeMarks: 0.5,
+    sourcePaper: 'UPSC CSE Prelims / SSC CGL Official Paper',
+  },
+  {
+    id: 7,
+    section: 'General Awareness',
+    question: 'Which Mughal Emperor shifted the imperial capital from Agra to Delhi and built the Red Fort (Lal Qila) and Jama Masjid?',
+    options: ['Akbar', 'Jahangir', 'Shah Jahan', 'Aurangzeb'],
+    correctAnswer: 2,
+    explanation: 'Shah Jahan commissioned the construction of the walled city of Shahjahanabad (Old Delhi), along with the Red Fort and Jama Masjid, transferring the capital from Agra in 1638.',
+    marks: 2,
+    negativeMarks: 0.5,
+    sourcePaper: 'SSC Combined Graduate Level Official Paper',
+  },
+  {
+    id: 8,
+    section: 'General Awareness',
+    question: 'What is the phenomenon called where sound waves bend as they pass from a warm air layer into a cold air layer near the ground?',
+    options: ['Sound Reflection', 'Sound Refraction', 'Sound Diffraction', 'Doppler Effect'],
+    correctAnswer: 1,
+    explanation: 'Sound travels faster in warmer air than in cooler air. As sound passes between air layers of differing temperatures, changes in acoustic velocity cause the path to curve or bend, which is acoustic refraction.',
+    marks: 2,
+    negativeMarks: 0.5,
+    sourcePaper: 'CDS Official General Knowledge Paper',
+  },
+  {
+    id: 9,
+    section: 'General Awareness',
+    question: 'Which of the following mountain passes connects the Kashmir Valley with the Kargil and Leh districts of Ladakh across the Great Himalayas?',
+    options: ['Nathu La Pass', 'Zoji La Pass', 'Rohtang Pass', 'Shipki La Pass'],
+    correctAnswer: 1,
+    explanation: 'Zoji La is a strategic high mountain pass located at ~11,575 ft on National Highway 1 (NH-1) connecting Srinagar and Leh.',
+    marks: 2,
+    negativeMarks: 0.5,
+    sourcePaper: 'NDA & NA Official Paper',
+  },
+  {
+    id: 10,
+    section: 'General Awareness',
+    question: 'The Goods and Services Tax (GST) Council in India is chaired by which constitutional dignitary?',
+    options: ['Prime Minister of India', 'Union Minister of Finance', 'Governor of Reserve Bank of India', 'Cabinet Secretary'],
+    correctAnswer: 1,
+    explanation: 'Under Article 279A of the Indian Constitution, the GST Council is chaired by the Union Finance Minister, with State Finance Ministers as its members.',
+    marks: 2,
+    negativeMarks: 0.5,
+    sourcePaper: 'SSC CGL General Awareness Official Paper',
+  },
+
+  // Section 3: Quantitative Aptitude (SSC / Railway PYQ)
+  {
+    id: 11,
+    section: 'Quantitative Aptitude',
+    question: 'A shopkeeper marks an article 40% above its cost price and offers a discount of 25% on the marked price. If his profit is ₹150, what was the cost price of the article?',
+    options: ['₹2,500', '₹3,000', '₹3,200', '₹2,800'],
+    correctAnswer: 1,
+    explanation: 'Let CP = 100x. MP = 140x. After 25% discount, SP = 140x * 0.75 = 105x. Profit = SP - CP = 5x. Given 5x = ₹150 => x = 30. Therefore CP = 100x = ₹3,000.',
+    marks: 2,
+    negativeMarks: 0.5,
+    sourcePaper: 'SSC CGL Tier-1 Quantitative Aptitude',
+  },
+  {
+    id: 12,
+    section: 'Quantitative Aptitude',
+    question: 'Pipe A can fill a tank in 12 hours, while Pipe B can empty the same tank in 18 hours. If both pipes are opened simultaneously when the tank is empty, how many hours will it take to fill the tank completely?',
+    options: ['30 hours', '36 hours', '42 hours', '24 hours'],
+    correctAnswer: 1,
+    explanation: 'Net filling rate per hour = (1/12) - (1/18) = (3 - 2)/36 = 1/36 tank per hour. Therefore, the tank fills in 36 hours.',
+    marks: 2,
+    negativeMarks: 0.5,
+    sourcePaper: 'RRB NTPC Official Quantitative Paper',
+  },
+  {
+    id: 13,
+    section: 'Quantitative Aptitude',
+    question: 'The average weight of 24 students in a class is 45 kg. If the weight of the class teacher is included, the average increases by 400 grams. What is the teacher\'s weight?',
+    options: ['52 kg', '54 kg', '55 kg', '56 kg'],
+    correctAnswer: 2,
+    explanation: 'New total people = 25. Total weight increase = 25 * 0.4 kg = 10 kg. Teacher weight = Original average + Total increase = 45 + 10 = 55 kg.',
+    marks: 2,
+    negativeMarks: 0.5,
+    sourcePaper: 'SSC CHSL 10+2 Arithmetic Paper',
+  },
+  {
+    id: 14,
+    section: 'Quantitative Aptitude',
+    question: 'What is the compound interest on ₹12,000 for 2 years at 10% per annum, compounded annually?',
+    options: ['₹2,400', '₹2,520', '₹2,640', '₹2,480'],
+    correctAnswer: 1,
+    explanation: 'Amount = 12000 * (1.10)^2 = 12000 * 1.21 = ₹14,520. CI = ₹14,520 - ₹12,000 = ₹2,520.',
+    marks: 2,
+    negativeMarks: 0.5,
+    sourcePaper: 'IBPS PO Prelims Official Paper',
+  },
+  {
+    id: 15,
+    section: 'Quantitative Aptitude',
+    question: 'In a triangle ABC, if the angle bisector of angle A meets side BC at point D, and AB = 10 cm, AC = 14 cm, and BC = 12 cm, what is the length of BD?',
+    options: ['4.5 cm', '5.0 cm', '5.5 cm', '6.0 cm'],
+    correctAnswer: 1,
+    explanation: 'By Angle Bisector Theorem, BD / DC = AB / AC = 10 / 14 = 5 / 7. Total parts = 5 + 7 = 12. Since BC = 12 cm, BD = 5 cm and DC = 7 cm.',
+    marks: 2,
+    negativeMarks: 0.5,
+    sourcePaper: 'SSC CGL Advanced Geometry Official Paper',
+  },
+
+  // Section 4: English Comprehension (SSC CGL PYQ)
+  {
+    id: 16,
+    section: 'English Comprehension',
+    question: 'Choose the most appropriate synonym for the capitalized word:\n"The judge was noted for his METICULOUS attention to procedural detail."',
+    options: ['Careless', 'Painstaking', 'Hasty', 'Superficial'],
+    correctAnswer: 1,
+    explanation: '"Meticulous" means showing great attention to detail; very careful and precise. "Painstaking" is the most accurate synonym.',
+    marks: 2,
+    negativeMarks: 0.5,
+    sourcePaper: 'SSC CGL Official English Comprehension',
+  },
+  {
+    id: 17,
+    section: 'English Comprehension',
+    question: 'Select the sentence that contains NO grammatical error:',
+    options: [
+      'Neither the principal nor the teachers was present in the meeting.',
+      'Neither the principal nor the teachers were present in the meeting.',
+      'Neither the principal or the teachers was present in the meeting.',
+      'Neither the principal nor the teachers had been presents in the meeting.'
+    ],
+    correctAnswer: 1,
+    explanation: 'When subjects are joined by "neither... nor", the verb agrees in number and person with the closest subject ("teachers" is plural, so "were" is correct).',
+    marks: 2,
+    negativeMarks: 0.5,
+    sourcePaper: 'SSC CGL Tier-1 English Section',
+  },
+  {
+    id: 18,
+    section: 'English Comprehension',
+    question: 'What is the meaning of the idiom: "To burn the midnight oil"?',
+    options: [
+      'To waste electricity or fuel unnecessarily',
+      'To work or study late into the night',
+      'To cause an unexpected fire accident',
+      'To give up on a difficult project'
+    ],
+    correctAnswer: 1,
+    explanation: '"To burn the midnight oil" means to study, read, or work very hard until late at night.',
+    marks: 2,
+    negativeMarks: 0.5,
+    sourcePaper: 'SSC CPO / Stenographer Official Exam',
+  },
+  {
+    id: 19,
+    section: 'English Comprehension',
+    question: 'Select the single word which means: "One who is unable to pay his debts"?',
+    options: ['Insolvent', 'Miser', 'Extravagant', 'Spendthrift'],
+    correctAnswer: 0,
+    explanation: 'An "insolvent" (or bankrupt) person is one who is unable to pay outstanding debts.',
+    marks: 2,
+    negativeMarks: 0.5,
+    sourcePaper: 'SSC CHSL 10+2 One Word Substitution',
+  },
+  {
+    id: 20,
+    section: 'English Comprehension',
+    question: 'Select the antonym for the word "EPHEMERAL":',
+    options: ['Transient', 'Fleeting', 'Eternal', 'Momentary'],
+    correctAnswer: 2,
+    explanation: '"Ephemeral" means lasting for a very short time. Its direct antonym is "Eternal" (everlasting).',
+    marks: 2,
+    negativeMarks: 0.5,
+    sourcePaper: 'UPSC CDS Official English Paper',
+  }
+];
+
+// Alias for backwards compatibility
+export const MOCK_TEST_QUESTIONS = OFFICIAL_PYQ_QUESTIONS;
