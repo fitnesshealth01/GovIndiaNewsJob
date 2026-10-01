@@ -30,6 +30,8 @@ import {
 import { isBookmarked, toggleBookmark, calculateDeadlineCountdown } from '../utils/bookmarkStorage';
 import { CandidateDiscussion } from './CandidateDiscussion';
 import { buildJobPostingSchema, buildNewsArticleSchema, buildBreadcrumbSchema, injectSchema } from '../utils/seoSchema';
+import { getAuthorByAlertId } from '../data/authorData';
+import { AuthorDossierModal } from './AuthorDossierModal';
 
 interface ArticleViewProps {
   article: RecruitmentAlert;
@@ -45,6 +47,8 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
   const [copiedLink, setCopiedLink] = useState(false);
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
   const [isSaved, setIsSaved] = useState<boolean>(() => isBookmarked(article.id));
+  const [showAuthorModal, setShowAuthorModal] = useState(false);
+  const author = getAuthorByAlertId(article.id);
 
   React.useEffect(() => {
     const schemas = [
@@ -228,25 +232,47 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
             </div>
 
             {/* E-E-A-T Author & Editorial Review Box */}
-            <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 flex flex-wrap items-center justify-between gap-3 text-xs">
-              <div className="flex items-center gap-2.5">
-                <div className="w-9 h-9 rounded-full bg-blue-600 text-white font-bold flex items-center justify-center text-sm shadow-2xs">
-                  {article.author ? article.author.charAt(0) : 'A'}
+            <div className="p-3.5 rounded-xl bg-stone-50 border border-stone-200 flex flex-wrap items-center justify-between gap-3 text-xs">
+              <div className="flex items-center gap-3">
+                <div
+                  className={`w-10 h-10 rounded-xl ${author.avatarBg} text-white font-serif font-bold flex items-center justify-center text-sm shadow-xs border ${author.avatarBorder} shrink-0`}
+                >
+                  {author.initials}
                 </div>
                 <div>
-                  <div className="font-bold text-slate-900 flex items-center gap-1.5">
-                    <span>{article.author}</span>
-                    <span className="text-[10px] font-normal text-emerald-700 bg-emerald-100 px-1.5 py-0.2 rounded">
-                      Verified Author
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <button
+                      type="button"
+                      onClick={() => setShowAuthorModal(true)}
+                      className="font-bold text-stone-900 hover:text-blue-700 hover:underline cursor-pointer text-left"
+                    >
+                      {author.name}
+                    </button>
+                    <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+                      <ShieldCheck className="w-3 h-3 text-emerald-600" />
+                      {author.verificationBadge}
                     </span>
                   </div>
-                  <div className="text-[11px] text-slate-500">{article.authorRole}</div>
+                  <div className="text-[11px] text-stone-600 mt-0.5 flex items-center gap-1.5 flex-wrap">
+                    <span>{author.designation}</span>
+                    <span>·</span>
+                    <span className="font-mono text-stone-500">Reg: {author.registrationNumber}</span>
+                  </div>
                 </div>
               </div>
 
-              <div className="text-right text-[11px] text-slate-500">
-                <div>Reviewed: <span className="font-medium text-slate-700">{article.reviewedDate}</span></div>
-                <div>Read Time: <span className="font-medium text-slate-700">{article.readTime}</span></div>
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => setShowAuthorModal(true)}
+                  className="px-2.5 py-1 text-[11px] font-semibold text-stone-800 bg-white hover:bg-stone-100 border border-stone-300 rounded-lg transition-colors cursor-pointer whitespace-nowrap"
+                >
+                  Inspect Dossier →
+                </button>
+                <div className="hidden sm:block text-right text-[11px] text-stone-500 border-l border-stone-200 pl-3">
+                  <div>Audited: <span className="font-medium text-stone-700">{article.reviewedDate}</span></div>
+                  <div>Read Time: <span className="font-medium text-stone-700">{article.readTime}</span></div>
+                </div>
               </div>
             </div>
 
@@ -768,7 +794,66 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
             )}
           </div>
 
-          {/* Section 12: Candidate Query Cell & Community Discussion */}
+          {/* Section 12: Editorial Accountability & Author Dossier Card */}
+          <div className="bg-stone-50 border border-stone-200 rounded-2xl p-5 sm:p-6 space-y-4">
+            <div className="flex items-center justify-between border-b border-stone-200/80 pb-3">
+              <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-stone-800">
+                <ShieldCheck className="w-4 h-4 text-emerald-600" />
+                <span>Statutory Authorship & Fact-Audit Verification</span>
+              </div>
+              <span className="text-[11px] font-mono text-stone-500">Ref: {author.registrationNumber}</span>
+            </div>
+
+            <div className="flex flex-col sm:flex-row items-start gap-4">
+              <div
+                className={`w-14 h-14 sm:w-16 sm:h-16 rounded-xl ${author.avatarBg} text-white font-serif font-bold text-xl flex items-center justify-center shrink-0 border ${author.avatarBorder} shadow-xs`}
+              >
+                {author.initials}
+              </div>
+              <div className="space-y-1.5 flex-1 min-w-0 text-xs">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <h4 className="font-serif font-bold text-base text-stone-900">
+                    {author.name}
+                  </h4>
+                  <span className="text-[11px] font-medium text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+                    {author.verificationBadge}
+                  </span>
+                </div>
+                <p className="text-stone-700 leading-relaxed">
+                  {author.executiveSummary}
+                </p>
+                <div className="flex items-center gap-2 text-stone-500 text-[11px] flex-wrap">
+                  <span className="font-medium text-stone-800">{author.accreditationBadge}</span>
+                  <span>·</span>
+                  <span>Alumni: {author.education[0]?.institution}</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-stone-200/60 text-xs">
+              <span className="text-stone-500 text-[11px]">
+                Have a discrepancy or gazette amendment to report? Email: <strong className="text-stone-800">{author.contactEmail}</strong>
+              </span>
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => setShowAuthorModal(true)}
+                  className="px-3 py-1.5 font-semibold text-xs text-stone-900 bg-white hover:bg-stone-100 border border-stone-300 rounded-lg transition-colors cursor-pointer"
+                >
+                  View Full Credential Dossier
+                </button>
+                <button
+                  type="button"
+                  onClick={() => onNavigate(`/trust/authors?author=${author.id}`)}
+                  className="px-3 py-1.5 font-semibold text-xs text-blue-700 hover:text-blue-900 underline cursor-pointer"
+                >
+                  All Articles by {author.name.split(' ')[0]} →
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Section 13: Candidate Query Cell & Community Discussion */}
           <CandidateDiscussion alertId={article.id} alertTitle={article.title} />
         </article>
 
@@ -908,6 +993,14 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
           </div>
         </aside>
       </div>
+
+      {/* Author Credential Dossier Modal */}
+      <AuthorDossierModal
+        author={author}
+        isOpen={showAuthorModal}
+        onClose={() => setShowAuthorModal(false)}
+        onNavigateAlert={(alertId) => onNavigate(`/article/${alertId}`)}
+      />
     </div>
   );
 };

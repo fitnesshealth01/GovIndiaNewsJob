@@ -472,17 +472,27 @@ export default function App() {
         )}
 
         {/* ROUTE 6.7: E-E-A-T & GOOGLE ADSENSE TRUST HUB */}
-        {(currentPath === '/trust/editorial' || currentPath === '/editorial-policy') && (
+        {(currentPath.startsWith('/trust/editorial') || currentPath === '/editorial-policy') && (
           <TrustHub initialTab="editorial" onNavigate={navigate} />
         )}
-        {(currentPath === '/trust/factcheck' || currentPath === '/trust/fact-checking') && (
+        {(currentPath.startsWith('/trust/factcheck') || currentPath.startsWith('/trust/fact-checking')) && (
           <TrustHub initialTab="factcheck" onNavigate={navigate} />
         )}
-        {(currentPath === '/trust/grievance' || currentPath === '/grievance-redressal') && (
+        {(currentPath.startsWith('/trust/grievance') || currentPath === '/grievance-redressal') && (
           <TrustHub initialTab="grievance" onNavigate={navigate} />
         )}
-        {(currentPath === '/trust/authors' || currentPath.startsWith('/authors')) && (
-          <TrustHub initialTab="authors" onNavigate={navigate} />
+        {(currentPath.startsWith('/trust/authors') || currentPath.startsWith('/authors')) && (
+          <TrustHub
+            initialTab="authors"
+            selectedAuthorId={
+              currentPath.includes('author=')
+                ? currentPath.match(/[?&]author=([^&]+)/)?.[1]
+                : currentPath.startsWith('/authors/')
+                ? currentPath.replace('/authors/', '').split('?')[0]
+                : undefined
+            }
+            onNavigate={navigate}
+          />
         )}
 
         {/* ROUTE 7: DEFAULT / HOME VIEW */}

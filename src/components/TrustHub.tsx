@@ -13,14 +13,22 @@ import {
   Building,
   Scale
 } from 'lucide-react';
+import { AuthorsSection } from './AuthorsSection';
 
 interface TrustHubProps {
   initialTab?: 'editorial' | 'grievance' | 'factcheck' | 'authors';
+  selectedAuthorId?: string;
   onNavigate?: (path: string) => void;
 }
 
-export const TrustHub: React.FC<TrustHubProps> = ({ initialTab = 'editorial', onNavigate }) => {
+export const TrustHub: React.FC<TrustHubProps> = ({ initialTab = 'editorial', selectedAuthorId, onNavigate }) => {
   const [activeTab, setActiveTab] = useState<'editorial' | 'grievance' | 'factcheck' | 'authors'>(initialTab);
+
+  React.useEffect(() => {
+    if (initialTab) {
+      setActiveTab(initialTab);
+    }
+  }, [initialTab]);
 
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
@@ -240,63 +248,10 @@ export const TrustHub: React.FC<TrustHubProps> = ({ initialTab = 'editorial', on
 
       {/* Tab 4: Authors & Editorial Board */}
       {activeTab === 'authors' && (
-        <div className="bg-white rounded-xl border border-slate-200 p-6 sm:p-8 space-y-6 text-sm text-slate-700 leading-relaxed">
-          <div className="flex items-center gap-3 border-b border-slate-100 pb-4">
-            <div className="w-10 h-10 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center font-bold">
-              <UserCheck className="w-5 h-5" />
-            </div>
-            <div>
-              <h2 className="text-lg font-bold text-slate-900">Editorial Board & Subject Matter Experts</h2>
-              <p className="text-xs text-slate-500">Experience, Expertise, Authoritativeness & Trustworthiness (E-E-A-T)</p>
-            </div>
-          </div>
-
-          <div className="space-y-6">
-            <div className="flex flex-col sm:flex-row gap-5 p-5 border border-slate-200 rounded-xl bg-slate-50/50">
-              <div className="w-16 h-16 rounded-full bg-blue-700 text-white font-bold text-2xl flex items-center justify-center shrink-0 shadow-sm">
-                AS
-              </div>
-              <div className="space-y-2">
-                <div className="flex items-center gap-2 flex-wrap">
-                  <h3 className="text-base font-bold text-slate-900">Akash Singh Solanki</h3>
-                  <span className="text-[11px] bg-blue-100 text-blue-800 font-bold px-2 py-0.5 rounded">
-                    Senior Educational Analyst & Founder
-                  </span>
-                </div>
-                <p className="text-xs text-slate-600 leading-relaxed">
-                  Akash specializes in Central Civil Services examination frameworks (UPSC CSE, CDS, NDA) and Staff Selection Commission recruitments (CGL, CHSL, GD Constable). With over 8 years of experience evaluating recruitment notices, pay commission matrix calculations, and judicial service rulings, he oversees gazette compliance across the platform.
-                </p>
-                <div className="flex items-center gap-3 text-xs text-slate-500 pt-1">
-                  <span>Verified Public Policy Researcher</span>
-                  <span>·</span>
-                  <span>Contact: akashsinghsolanki66@gmail.com</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="flex flex-col sm:flex-row gap-5 p-5 border border-slate-200 rounded-xl bg-slate-50/50">
-              <div className="w-16 h-16 rounded-full bg-emerald-700 text-white font-bold text-2xl flex items-center justify-center shrink-0 shadow-sm">
-                ED
-              </div>
-              <div className="space-y-2">
-                <div className="flex items-center gap-2 flex-wrap">
-                  <h3 className="text-base font-bold text-slate-900">GovIndiaNews Central Fact-Checking Desk</h3>
-                  <span className="text-[11px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded">
-                    Statutory Review Unit
-                  </span>
-                </div>
-                <p className="text-xs text-slate-600 leading-relaxed">
-                  Our full-time research team monitors official gazettes 24/7, cross-checking every reservation roster, pay band revision, and normalized score algorithm against official government orders before publishing.
-                </p>
-                <div className="flex items-center gap-3 text-xs text-slate-500 pt-1">
-                  <span>Daily Gazette Synchronization</span>
-                  <span>·</span>
-                  <span>New Delhi Bureau</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <AuthorsSection
+          selectedAuthorId={selectedAuthorId}
+          onNavigate={onNavigate}
+        />
       )}
     </div>
   );

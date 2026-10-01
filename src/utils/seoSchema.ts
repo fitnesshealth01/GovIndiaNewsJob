@@ -1,13 +1,15 @@
 import { RecruitmentAlert } from '../data/gazetteData';
+import { getAuthorByAlertId, AuthorProfile } from '../data/authorData';
 
 /**
  * Generates Google-compliant Schema.org JSON-LD structured data
- * for JobPosting, NewsArticle, and BreadcrumbList.
+ * for JobPosting, NewsArticle, ProfilePage, and BreadcrumbList.
  */
 
 export function buildJobPostingSchema(item: RecruitmentAlert): Record<string, unknown> {
   const origin = typeof window !== 'undefined' ? window.location.origin : 'https://govindianews.org';
   const url = `${origin}/article/${item.slug}`;
+  const author = getAuthorByAlertId(item.id);
 
   // Parse salary if available
   let minValue = 21700;
@@ -67,6 +69,17 @@ export function buildJobPostingSchema(item: RecruitmentAlert): Record<string, un
       },
     },
     qualifications: item.qualification,
+    author: {
+      '@type': 'Person',
+      name: author.name,
+      jobTitle: author.designation,
+      url: `${origin}/trust/authors?author=${author.id}`,
+      alumniOf: author.education.map((e) => ({
+        '@type': 'EducationalOrganization',
+        name: e.institution,
+      })),
+      knowsAbout: author.statutoryFocusAreas,
+    },
     url,
   };
 }
@@ -74,6 +87,7 @@ export function buildJobPostingSchema(item: RecruitmentAlert): Record<string, un
 export function buildNewsArticleSchema(item: RecruitmentAlert): Record<string, unknown> {
   const origin = typeof window !== 'undefined' ? window.location.origin : 'https://govindianews.org';
   const url = `${origin}/article/${item.slug}`;
+  const author = getAuthorByAlertId(item.id);
 
   return {
     '@context': 'https://schema.org',
@@ -86,9 +100,14 @@ export function buildNewsArticleSchema(item: RecruitmentAlert): Record<string, u
     author: [
       {
         '@type': 'Person',
-        name: item.author || 'Akash Singh Solanki',
-        jobTitle: item.authorRole || 'Senior Educational Analyst & Founder',
-        url: `${origin}/authors/akash-singh-solanki`,
+        name: author.name,
+        jobTitle: author.designation,
+        url: `${origin}/trust/authors?author=${author.id}`,
+        alumniOf: author.education.map((e) => ({
+          '@type': 'EducationalOrganization',
+          name: e.institution,
+        })),
+        knowsAbout: author.statutoryFocusAreas,
       },
     ],
     publisher: {
@@ -103,6 +122,43 @@ export function buildNewsArticleSchema(item: RecruitmentAlert): Record<string, u
     mainEntityOfPage: {
       '@type': 'WebPage',
       '@id': url,
+    },
+  };
+}
+
+export function buildAuthorProfilePageSchema(author: AuthorProfile): Record<string, unknown> {
+  const origin = typeof window !== 'undefined' ? window.location.origin : 'https://govindianews.org';
+  const url = `${origin}/trust/authors?author=${author.id}`;
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'ProfilePage',
+    mainEntity: {
+      '@type': 'Person',
+      name: author.name,
+      jobTitle: author.designation,
+      description: author.executiveSummary,
+      url,
+      worksFor: {
+        '@type': 'NewsMediaOrganization',
+        name: 'GovIndiaNews',
+        url: origin,
+      },
+      alumniOf: author.education.map((edu) => ({
+        '@type': 'EducationalOrganization',
+        name: edu.institution,
+      })),
+      knowsAbout: author.statutoryFocusAreas,
+      hasCredential: [
+        {
+          '@type': 'EducationalOccupationalCredential',
+          name: author.accreditationBadge,
+          recognizedBy: {
+            '@type': 'Organization',
+            name: author.accreditationBadge,
+          },
+        },
+      ],
     },
   };
 }
