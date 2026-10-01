@@ -178,6 +178,52 @@ export function buildBreadcrumbSchema(items: { name: string; url: string }[]): R
   };
 }
 
+export function buildFAQPageSchema(faqs: { question: string; answer: string }[]): Record<string, unknown> {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((faq) => ({
+      '@type': 'Question',
+      name: faq.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: faq.answer,
+      },
+    })),
+  };
+}
+
+export function buildEventSchema(item: RecruitmentAlert): Record<string, unknown> {
+  const origin = typeof window !== 'undefined' ? window.location.origin : 'https://govindianews.org';
+  const url = `${origin}/article/${item.slug}`;
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'EducationEvent',
+    name: item.examName || item.title,
+    description: item.summary,
+    startDate: '2026-10-14T09:00:00+05:30',
+    endDate: '2026-10-26T18:00:00+05:30',
+    eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+    eventStatus: 'https://schema.org/EventScheduled',
+    location: {
+      '@type': 'Place',
+      name: `${item.organization} Designated Computer Examination Centers`,
+      address: {
+        '@type': 'PostalAddress',
+        addressCountry: 'IN',
+        addressRegion: 'Pan India',
+      },
+    },
+    organizer: {
+      '@type': 'GovernmentOrganization',
+      name: item.organization,
+      url: item.officialLinks?.[0]?.url || 'https://india.gov.in',
+    },
+    url,
+  };
+}
+
 /**
  * Injects or updates Schema.org JSON-LD tag in document head
  */

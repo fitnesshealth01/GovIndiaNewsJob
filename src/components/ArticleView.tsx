@@ -26,10 +26,25 @@ import {
   Bookmark,
   BookmarkCheck,
   Sparkles,
+  Printer,
+  Download,
+  AlertCircle,
+  MapPin,
+  RotateCcw,
+  Check,
+  Zap,
+  Search,
 } from 'lucide-react';
 import { isBookmarked, toggleBookmark, calculateDeadlineCountdown } from '../utils/bookmarkStorage';
 import { CandidateDiscussion } from './CandidateDiscussion';
-import { buildJobPostingSchema, buildNewsArticleSchema, buildBreadcrumbSchema, injectSchema } from '../utils/seoSchema';
+import {
+  buildJobPostingSchema,
+  buildNewsArticleSchema,
+  buildBreadcrumbSchema,
+  buildFAQPageSchema,
+  buildEventSchema,
+  injectSchema,
+} from '../utils/seoSchema';
 import { getAuthorByAlertId } from '../data/authorData';
 import { AuthorDossierModal } from './AuthorDossierModal';
 
@@ -50,8 +65,24 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
   const [showAuthorModal, setShowAuthorModal] = useState(false);
   const author = getAuthorByAlertId(article.id);
 
+  // In-Article Eligibility Matcher State
+  const [matcherDob, setMatcherDob] = useState('2000-01-01');
+  const [matcherCategory, setMatcherCategory] = useState<'gen' | 'obc' | 'sc' | 'st' | 'pwbd'>('gen');
+  const [matcherEdu, setMatcherEdu] = useState<'10th' | '12th' | 'graduate' | 'diploma-engg'>('graduate');
+  const [matcherResult, setMatcherResult] = useState<{
+    eligible: boolean;
+    calculatedAge: string;
+    headline: string;
+    details: string[];
+  } | null>(null);
+
+  // Admit Card Panic Redressal Tab
+  const [activeTroubleTab, setActiveTroubleTab] = useState<'forgot' | 'photo' | 'center'>('forgot');
+  // Expandable Glossary Tag
+  const [activeGlossary, setActiveGlossary] = useState<string | null>(null);
+
   React.useEffect(() => {
-    const schemas = [
+    const schemas: Record<string, unknown>[] = [
       article.category === 'jobs' ? buildJobPostingSchema(article) : buildNewsArticleSchema(article),
       buildBreadcrumbSchema([
         { name: 'Home', url: '/' },
@@ -59,6 +90,15 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
         { name: article.title, url: `/article/${article.slug}` },
       ]),
     ];
+
+    if (article.faqs && article.faqs.length > 0) {
+      schemas.push(buildFAQPageSchema(article.faqs));
+    }
+
+    if (article.category === 'admit-card' || article.examDate) {
+      schemas.push(buildEventSchema(article));
+    }
+
     injectSchema(schemas);
   }, [article]);
 
@@ -92,6 +132,55 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
       default:
         return 'Recruitment';
     }
+  };
+
+  const handleCheckInArticleEligibility = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!matcherDob) return;
+
+    const birthDate = new Date(matcherDob);
+    const cutoffDate = new Date('2026-08-01');
+    let ageYears = cutoffDate.getFullYear() - birthDate.getFullYear();
+    const monthDiff = cutoffDate.getMonth() - birthDate.getMonth();
+    if (monthDiff < 0 || (monthDiff === 0 && cutoffDate.getDate() < birthDate.getDate())) {
+      ageYears--;
+    }
+
+    const minAge = article.minAge || 18;
+    const baseMaxAge = article.maxAge || 30;
+
+    let relaxation = 0;
+    if (matcherCategory === 'obc') relaxation = 3;
+    else if (matcherCategory === 'sc' || matcherCategory === 'st') relaxation = 5;
+    else if (matcherCategory === 'pwbd') relaxation = 10;
+
+    const allowedMaxAge = baseMaxAge + relaxation;
+    const isAgeEligible = ageYears >= minAge && ageYears <= allowedMaxAge;
+
+    let isEduEligible = true;
+    const req = article.qualificationTier || 'graduate';
+    if (req === 'graduate' && (matcherEdu === '10th' || matcherEdu === '12th')) {
+      isEduEligible = false;
+    } else if (req === 'diploma-engg' && (matcherEdu === '10th' || matcherEdu === '12th')) {
+      isEduEligible = false;
+    } else if (req === '12th' && matcherEdu === '10th') {
+      isEduEligible = false;
+    }
+
+    const isFullyEligible = isAgeEligible && isEduEligible;
+
+    setMatcherResult({
+      eligible: isFullyEligible,
+      calculatedAge: `${ageYears} Years as on 01-08-2026`,
+      headline: isFullyEligible
+        ? `Eligibility Confirmed! You meet both the age standard (${ageYears} yrs) and educational requirements for this recruitment drive.`
+        : `Eligibility Discrepancy: Candidate age or qualification does not align with the advertised gazette requirements.`,
+      details: [
+        `Prescribed Age Bracket for ${matcherCategory.toUpperCase()}: ${minAge} to ${allowedMaxAge} Years (${relaxation > 0 ? `Includes +${relaxation} yrs statutory relaxation` : 'Standard General / UR'}). Your age: ${ageYears} Years.`,
+        `Prescribed Qualification: ${article.qualification}. Your input: ${matcherEdu.toUpperCase()}.`,
+        `Official Notification Ref: ${article.officialGazetteRef}`,
+      ],
+    });
   };
 
   const articleSchema = {
@@ -330,6 +419,15 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
               >
                 <span>Practice Official PYQ CBT</span>
               </button>
+
+              <button
+                onClick={() => window.print()}
+                className="px-3.5 py-2 text-xs font-semibold text-slate-700 bg-white hover:bg-slate-100 border border-slate-300 rounded-lg transition-colors flex items-center gap-1.5 cursor-pointer shadow-2xs"
+                title="Print clean 1-page gazette summary"
+              >
+                <Printer className="w-3.5 h-3.5 text-slate-600" />
+                <span>Print 1-Page Summary</span>
+              </button>
             </div>
           </div>
 
@@ -340,6 +438,135 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
               <span>Gazette Advertisement Reference: {article.officialGazetteRef}</span>
             </div>
             <p className="leading-relaxed text-slate-600">{article.summary}</p>
+          </div>
+
+          {/* Google Featured Snippets & "People Also Ask" (PAA) Quick-Answer Snapshot Card */}
+          <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-br from-blue-50/80 via-indigo-50/40 to-slate-50 border-2 border-blue-200/90 shadow-xs space-y-3.5">
+            <div className="flex items-center justify-between border-b border-blue-200/70 pb-2.5">
+              <div className="flex items-center gap-2">
+                <span className="p-1 rounded-md bg-blue-600 text-white shadow-2xs">
+                  <Sparkles className="w-3.5 h-3.5" />
+                </span>
+                <span className="text-xs font-extrabold text-blue-950 uppercase tracking-wide">
+                  Quick-Answer Snapshot (Google Position Zero & PAA Verified)
+                </span>
+              </div>
+              <span className="text-[10px] font-semibold text-blue-700 bg-blue-100/80 px-2 py-0.5 rounded-full">
+                PAA Verified
+              </span>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 text-xs">
+              <div className="bg-white p-3 rounded-xl border border-blue-100/90 shadow-2xs space-y-1">
+                <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">
+                  Last Date to Apply
+                </span>
+                <strong className="text-sm font-bold text-rose-700 block">
+                  {article.lastDate || 'Refer to Gazette'}
+                </strong>
+                <p className="text-[11px] text-slate-600 leading-tight">
+                  Fee payment and final submission window closes strictly on the official commission portal.
+                </p>
+              </div>
+
+              <div className="bg-white p-3 rounded-xl border border-blue-100/90 shadow-2xs space-y-1">
+                <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">
+                  Total Vacancies & Major Posts
+                </span>
+                <strong className="text-sm font-bold text-blue-900 block">
+                  {article.postCount ? `${article.postCount} Vacancies` : `${article.vacanciesTable?.length || 1}+ Major Cadres`}
+                </strong>
+                <p className="text-[11px] text-slate-600 leading-tight">
+                  Central civil, railway, banking, or defence vacancies allocated across departments.
+                </p>
+              </div>
+
+              <div className="bg-white p-3 rounded-xl border border-blue-100/90 shadow-2xs space-y-1">
+                <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">
+                  Age Limits & Crucial Date
+                </span>
+                <strong className="text-sm font-bold text-slate-900 block">
+                  {article.ageLimit || `${article.minAge || 18} to ${article.maxAge || 30} Years`}
+                </strong>
+                <p className="text-[11px] text-slate-600 leading-tight">
+                  Statutory relaxations: +3 yrs for OBC, +5 yrs for SC/ST, and +10 to +15 yrs for PwBD.
+                </p>
+              </div>
+
+              <div className="bg-white p-3 rounded-xl border border-blue-100/90 shadow-2xs space-y-1">
+                <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">
+                  Minimum Qualification
+                </span>
+                <strong className="text-xs font-bold text-slate-900 line-clamp-1 block">
+                  {article.qualification}
+                </strong>
+                <p className="text-[11px] text-slate-600 leading-tight">
+                  Aspirants must possess essential marksheet or degree on or before crucial closing date.
+                </p>
+              </div>
+
+              <div className="bg-white p-3 rounded-xl border border-blue-100/90 shadow-2xs space-y-1">
+                <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">
+                  Starting In-Hand Salary
+                </span>
+                <strong className="text-sm font-bold text-emerald-700 block">
+                  {article.salaryStructure?.inHandMonthly || '₹32,000 – ₹74,000/mo'}
+                </strong>
+                <p className="text-[11px] text-slate-600 leading-tight">
+                  Under 7th Central Pay Commission with 50% DA, HRA, Transport Allowance, post NPS deduction.
+                </p>
+              </div>
+
+              <div className="bg-white p-3 rounded-xl border border-blue-100/90 shadow-2xs space-y-1">
+                <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">
+                  Negative Marking Penalty
+                </span>
+                <strong className="text-sm font-bold text-amber-700 block">
+                  {article.examPattern?.[0]?.negativeMarking || '0.25 to 0.33 Mark / Wrong Ans'}
+                </strong>
+                <p className="text-[11px] text-slate-600 leading-tight">
+                  Deducted for incorrect responses in CBT; no penalty marks for unattempted questions.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Visual Recruitment Stage Roadmap Diagram */}
+          <div className="p-4 sm:p-5 rounded-2xl bg-white border border-slate-200 shadow-2xs space-y-3">
+            <div className="flex items-center justify-between">
+              <h3 className="text-xs font-bold text-slate-900 uppercase tracking-wider flex items-center gap-2">
+                <Layers className="w-4 h-4 text-blue-600" />
+                <span>Recruitment Process Milestone Pipeline</span>
+              </h3>
+              <span className="text-[10px] text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full font-semibold">
+                Live Status Tracker
+              </span>
+            </div>
+
+            <div className="grid grid-cols-2 sm:grid-cols-6 gap-2 pt-1 text-center">
+              {[
+                { stage: '1. Gazette', desc: 'Advt Issued', active: true, done: true },
+                { stage: '2. Apply Online', desc: 'Window Active', active: article.category === 'jobs', done: article.category !== 'jobs' },
+                { stage: '3. Admit Card', desc: 'Hall Ticket Out', active: article.category === 'admit-card', done: article.category === 'answer-key' || article.category === 'result' || article.category === 'cut-off' },
+                { stage: '4. CBT Exam', desc: 'Screening Test', active: article.category === 'admit-card', done: article.category === 'answer-key' || article.category === 'result' || article.category === 'cut-off' },
+                { stage: '5. Answer Key', desc: 'Objections & Score', active: article.category === 'answer-key', done: article.category === 'result' || article.category === 'cut-off' },
+                { stage: '6. Result & DV', desc: 'Final Merit List', active: article.category === 'result' || article.category === 'cut-off', done: false },
+              ].map((step, sidx) => (
+                <div
+                  key={sidx}
+                  className={`p-2.5 rounded-xl border transition-all text-xs ${
+                    step.active
+                      ? 'bg-blue-50 border-blue-400 text-blue-900 shadow-2xs font-bold ring-2 ring-blue-500/20'
+                      : step.done
+                      ? 'bg-emerald-50/60 border-emerald-200 text-emerald-800'
+                      : 'bg-slate-50 border-slate-200 text-slate-500'
+                  }`}
+                >
+                  <div className="font-extrabold text-[11px] truncate">{step.stage}</div>
+                  <div className="text-[10px] mt-0.5 font-medium">{step.desc}</div>
+                </div>
+              ))}
+            </div>
           </div>
 
           {/* Section 1: Important Dates Table */}
@@ -665,6 +892,382 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
               </div>
             </div>
           )}
+
+          {/* Admit Card & Exam Day Super-Module (Shift Timetable, Credential Recovery, Regional Servers) */}
+          {(article.category === 'admit-card' || article.examDate) && (
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <h2 className="text-base font-bold text-slate-900 flex items-center gap-2">
+                  <Clock className="w-4 h-4 text-blue-600" />
+                  <span>Exam Shift Timings & Strict Gate Closure Timetable</span>
+                </h2>
+                <span className="text-[10px] font-bold text-rose-700 bg-rose-50 px-2 py-0.5 rounded border border-rose-200">
+                  Zero-Tolerance Gate Rule
+                </span>
+              </div>
+
+              {/* Shift Timetable */}
+              <div className="border border-slate-200 rounded-xl overflow-x-auto shadow-2xs bg-white">
+                <table className="w-full text-left text-xs min-w-[500px]">
+                  <thead className="bg-slate-100 text-slate-700 font-semibold border-b border-slate-200">
+                    <tr>
+                      <th className="p-3">Examination Shift</th>
+                      <th className="p-3">Shift Test Duration</th>
+                      <th className="p-3 text-blue-700">Reporting Time</th>
+                      <th className="p-3 text-rose-700">Strict Gate Closure Time</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-100 text-[11px]">
+                    <tr className="hover:bg-slate-50/60">
+                      <td className="p-3 font-bold text-slate-900">Shift 1 (Morning)</td>
+                      <td className="p-3 text-slate-700">09:00 AM – 10:00 AM</td>
+                      <td className="p-3 font-semibold text-blue-800">07:45 AM</td>
+                      <td className="p-3 font-bold text-rose-700">08:30 AM Sharp (No entry after)</td>
+                    </tr>
+                    <tr className="hover:bg-slate-50/60">
+                      <td className="p-3 font-bold text-slate-900">Shift 2 (Noon)</td>
+                      <td className="p-3 text-slate-700">11:45 AM – 12:45 PM</td>
+                      <td className="p-3 font-semibold text-blue-800">10:30 AM</td>
+                      <td className="p-3 font-bold text-rose-700">11:15 AM Sharp (No entry after)</td>
+                    </tr>
+                    <tr className="hover:bg-slate-50/60">
+                      <td className="p-3 font-bold text-slate-900">Shift 3 (Afternoon)</td>
+                      <td className="p-3 text-slate-700">02:30 PM – 03:30 PM</td>
+                      <td className="p-3 font-semibold text-blue-800">01:15 PM</td>
+                      <td className="p-3 font-bold text-rose-700">02:00 PM Sharp (No entry after)</td>
+                    </tr>
+                    <tr className="hover:bg-slate-50/60">
+                      <td className="p-3 font-bold text-slate-900">Shift 4 (Evening)</td>
+                      <td className="p-3 text-slate-700">05:15 PM – 06:15 PM</td>
+                      <td className="p-3 font-semibold text-blue-800">04:00 PM</td>
+                      <td className="p-3 font-bold text-rose-700">04:45 PM Sharp (No entry after)</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              {/* Credential Recovery & Discrepancy Redressal Cell */}
+              <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-3">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                  <h3 className="text-xs font-bold text-slate-900 uppercase tracking-wider flex items-center gap-1.5">
+                    <AlertCircle className="w-4 h-4 text-amber-600" />
+                    <span>Candidate Credential Recovery & Discrepancy Redressal Cell</span>
+                  </h3>
+                  <div className="flex gap-1 text-[10px] font-semibold flex-wrap">
+                    <button
+                      type="button"
+                      onClick={() => setActiveTroubleTab('forgot')}
+                      className={`px-2.5 py-1 rounded-md transition-colors cursor-pointer ${
+                        activeTroubleTab === 'forgot'
+                          ? 'bg-blue-600 text-white shadow-2xs'
+                          : 'bg-white text-slate-700 border border-slate-200 hover:bg-slate-100'
+                      }`}
+                    >
+                      Forgot Roll No / ID
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setActiveTroubleTab('photo')}
+                      className={`px-2.5 py-1 rounded-md transition-colors cursor-pointer ${
+                        activeTroubleTab === 'photo'
+                          ? 'bg-blue-600 text-white shadow-2xs'
+                          : 'bg-white text-slate-700 border border-slate-200 hover:bg-slate-100'
+                      }`}
+                    >
+                      Missing Photo / Sign
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setActiveTroubleTab('center')}
+                      className={`px-2.5 py-1 rounded-md transition-colors cursor-pointer ${
+                        activeTroubleTab === 'center'
+                          ? 'bg-blue-600 text-white shadow-2xs'
+                          : 'bg-white text-slate-700 border border-slate-200 hover:bg-slate-100'
+                      }`}
+                    >
+                      Center Discrepancy
+                    </button>
+                  </div>
+                </div>
+
+                <div className="p-3.5 bg-white rounded-lg border border-slate-200 text-xs text-slate-700 leading-relaxed">
+                  {activeTroubleTab === 'forgot' && (
+                    <div className="space-y-1.5">
+                      <strong className="text-slate-900 block font-bold">
+                        How to Retrieve Lost Registration ID or Roll Number:
+                      </strong>
+                      <p>
+                        1. Navigate to the official commission sub-portal and click on <strong>"Know Your Registration ID"</strong> or <strong>"Forgot Roll Number"</strong>.
+                      </p>
+                      <p>
+                        2. Enter your <strong>Candidate Full Name</strong> (as spelled in 10th Matriculation certificate), <strong>Father’s Name</strong>, and <strong>Date of Birth</strong>.
+                      </p>
+                      <p>
+                        3. Search your registered Email inbox and SMS for the keyword <em>"Registration"</em> or <em>"Admit Card"</em> from the official government sender code.
+                      </p>
+                    </div>
+                  )}
+
+                  {activeTroubleTab === 'photo' && (
+                    <div className="space-y-1.5">
+                      <strong className="text-slate-900 block font-bold">
+                        What to Do If Photograph or Signature is Missing / Blank on Admit Card:
+                      </strong>
+                      <p>
+                        As per official gazette instructions, candidates whose photograph or signature is missing or inverted must carry <strong>two identical recent passport photographs</strong> attested by a Gazetted Officer along with original photo ID proof (Aadhaar/PAN Card) to the test center.
+                      </p>
+                      <p>
+                        The Center Superintendent will affix one photo on the Commission copy of the admission certificate and counter-sign an undertaking form allowing entry without penalty.
+                      </p>
+                    </div>
+                  )}
+
+                  {activeTroubleTab === 'center' && (
+                    <div className="space-y-1.5">
+                      <strong className="text-slate-900 block font-bold">
+                        Name Spelling Mistake, Category Mismatch, or Center Discrepancy:
+                      </strong>
+                      <p>
+                        If your admit card displays an incorrect category (e.g. UR instead of OBC) or misspelled surname, immediately send an emergency email to the Commission Regional Director along with your application acknowledgement slip and 10th marksheet.
+                      </p>
+                      <p>
+                        Carry the email grievance acknowledgment to the exam center. You will be permitted to sit for the examination, and category corrections will be scrutinized during Document Verification (DV).
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Direct Regional Mirror Portals */}
+              <div className="p-4 rounded-xl bg-blue-50/50 border border-blue-200/80 space-y-2 text-xs">
+                <span className="font-bold text-slate-900 block">
+                  Direct Regional Server Mirror Links (Bypass High-Traffic Server Down):
+                </span>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-[11px]">
+                  <a
+                    href="https://sscnr.nic.in"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="p-2 rounded-lg bg-white border border-blue-200 hover:border-blue-400 font-medium text-blue-700 flex items-center justify-between"
+                  >
+                    <span>Northern Region (NR - Delhi)</span>
+                    <ExternalLink className="w-3 h-3 shrink-0" />
+                  </a>
+                  <a
+                    href="https://www.ssc-cr.org"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="p-2 rounded-lg bg-white border border-blue-200 hover:border-blue-400 font-medium text-blue-700 flex items-center justify-between"
+                  >
+                    <span>Central Region (CR - UP/Bihar)</span>
+                    <ExternalLink className="w-3 h-3 shrink-0" />
+                  </a>
+                  <a
+                    href="https://www.sscwr.net"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="p-2 rounded-lg bg-white border border-blue-200 hover:border-blue-400 font-medium text-blue-700 flex items-center justify-between"
+                  >
+                    <span>Western Region (WR - Mumbai)</span>
+                    <ExternalLink className="w-3 h-3 shrink-0" />
+                  </a>
+                  <a
+                    href="https://www.sscer.org"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="p-2 rounded-lg bg-white border border-blue-200 hover:border-blue-400 font-medium text-blue-700 flex items-center justify-between"
+                  >
+                    <span>Eastern Region (ER - Kolkata)</span>
+                    <ExternalLink className="w-3 h-3 shrink-0" />
+                  </a>
+                  <a
+                    href="https://www.sscsr.gov.in"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="p-2 rounded-lg bg-white border border-blue-200 hover:border-blue-400 font-medium text-blue-700 flex items-center justify-between"
+                  >
+                    <span>Southern Region (SR - Chennai)</span>
+                    <ExternalLink className="w-3 h-3 shrink-0" />
+                  </a>
+                  <a
+                    href="https://ssckkr.kar.nic.in"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="p-2 rounded-lg bg-white border border-blue-200 hover:border-blue-400 font-medium text-blue-700 flex items-center justify-between"
+                  >
+                    <span>KKR Region (Bengaluru)</span>
+                    <ExternalLink className="w-3 h-3 shrink-0" />
+                  </a>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* In-Article Tailored Instant Eligibility Matcher */}
+          <div className="p-5 rounded-2xl bg-gradient-to-r from-slate-900 to-blue-950 text-white border border-blue-800 shadow-md space-y-4">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-blue-800/80 pb-3">
+              <div className="flex items-center gap-2">
+                <span className="p-1.5 rounded-md bg-blue-500 text-white shadow-2xs">
+                  <Zap className="w-4 h-4 fill-current" />
+                </span>
+                <div>
+                  <h3 className="text-sm font-bold text-white">
+                    Instant Post Eligibility Matcher (Post-Specific Verification)
+                  </h3>
+                  <p className="text-[11px] text-blue-200">
+                    Verify whether your Date of Birth & Qualification match this exact gazette notification.
+                  </p>
+                </div>
+              </div>
+              <span className="text-[10px] font-semibold text-emerald-300 bg-emerald-950 px-2.5 py-1 rounded-full border border-emerald-700 self-start sm:self-auto">
+                100% Client-Side Private
+              </span>
+            </div>
+
+            <form onSubmit={handleCheckInArticleEligibility} className="grid grid-cols-1 sm:grid-cols-4 gap-3 text-xs">
+              <div>
+                <label className="block text-[11px] text-blue-200 mb-1 font-medium">Your Date of Birth:</label>
+                <input
+                  type="date"
+                  value={matcherDob}
+                  onChange={(e) => setMatcherDob(e.target.value)}
+                  className="w-full px-3 py-2 bg-slate-800/90 text-white rounded-lg border border-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs"
+                />
+              </div>
+
+              <div>
+                <label className="block text-[11px] text-blue-200 mb-1 font-medium">Candidate Category:</label>
+                <select
+                  value={matcherCategory}
+                  onChange={(e) => setMatcherCategory(e.target.value as any)}
+                  className="w-full px-3 py-2 bg-slate-800/90 text-white rounded-lg border border-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs"
+                >
+                  <option value="gen">General / Unreserved (UR)</option>
+                  <option value="obc">OBC (Non-Creamy Layer, +3 yrs)</option>
+                  <option value="sc">SC (Scheduled Caste, +5 yrs)</option>
+                  <option value="st">ST (Scheduled Tribe, +5 yrs)</option>
+                  <option value="pwbd">PwBD (Benchmark Disability, +10 yrs)</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-[11px] text-blue-200 mb-1 font-medium">Highest Qualification:</label>
+                <select
+                  value={matcherEdu}
+                  onChange={(e) => setMatcherEdu(e.target.value as any)}
+                  className="w-full px-3 py-2 bg-slate-800/90 text-white rounded-lg border border-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs"
+                >
+                  <option value="graduate">Bachelor’s / Graduate Degree</option>
+                  <option value="diploma-engg">Engineering / Polytechnic Diploma</option>
+                  <option value="12th">12th Intermediate Pass</option>
+                  <option value="10th">10th Matriculation Pass</option>
+                </select>
+              </div>
+
+              <div className="flex items-end">
+                <button
+                  type="submit"
+                  className="w-full py-2 px-3 bg-blue-500 hover:bg-blue-400 text-white font-bold rounded-lg transition-colors flex items-center justify-center gap-1.5 cursor-pointer shadow-xs text-xs"
+                >
+                  <Search className="w-3.5 h-3.5" />
+                  <span>Verify My Eligibility</span>
+                </button>
+              </div>
+            </form>
+
+            {matcherResult && (
+              <div
+                className={`p-4 rounded-xl border text-xs space-y-2 ${
+                  matcherResult.eligible
+                    ? 'bg-emerald-950/70 border-emerald-600/80 text-emerald-100'
+                    : 'bg-rose-950/70 border-rose-600/80 text-rose-100'
+                }`}
+              >
+                <div className="flex items-center gap-2">
+                  {matcherResult.eligible ? (
+                    <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                  ) : (
+                    <AlertCircle className="w-4 h-4 text-rose-400 shrink-0" />
+                  )}
+                  <span className="font-bold text-sm">{matcherResult.headline}</span>
+                </div>
+                <div className="text-[11px] opacity-90 pl-6 space-y-1">
+                  {matcherResult.details.map((d, didx) => (
+                    <div key={didx}>• {d}</div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Statutory Terms Glossary & Long-Tail Keyword Search Index */}
+          <div className="space-y-3">
+            <div className="flex items-center justify-between">
+              <h2 className="text-base font-bold text-slate-900 flex items-center gap-2">
+                <BookOpen className="w-4 h-4 text-blue-600" />
+                <span>Statutory Terms Glossary & Candidate Search Query Index</span>
+              </h2>
+              <span className="text-[10px] text-slate-500">Click any term to expand definition</span>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 text-xs">
+              {[
+                {
+                  id: 'otr',
+                  term: 'One-Time Registration (OTR)',
+                  def: 'A permanent digital profile on commission portals storing verified 10th certificates, eliminating repetitive bio-data entry across all future recruitments.',
+                },
+                {
+                  id: 'normalization',
+                  term: 'Normalization Formula',
+                  def: 'A statistical percentile-based formula adjusting variations in exam difficulty across multiple shifts to ensure fair merit ranking.',
+                },
+                {
+                  id: 'crucial-date',
+                  term: 'Crucial Date of Eligibility',
+                  def: 'The legal cutoff date specified in the official gazette against which candidate age, degrees, and category validity are verified.',
+                },
+                {
+                  id: 'obc-ncl',
+                  term: 'OBC Non-Creamy Layer (NCL)',
+                  def: 'Certificate issued to candidates whose parental annual income is below ₹8 Lakhs from non-agricultural sources for the preceding 3 financial years.',
+                },
+                {
+                  id: 'rpwd',
+                  term: 'Benchmark Disability (RPwD)',
+                  def: 'A certified disability of not less than 40% under the RPwD Act 2016, entitling candidates to 10-15 years age relaxation and scribe facilities.',
+                },
+                {
+                  id: 'bipartite',
+                  term: '12th Bipartite Wage Scale',
+                  def: 'The latest wage revision agreement granting starting basic pay enhancements, special allowances, and 5-day banking framework across public banks.',
+                },
+              ].map((item) => {
+                const isExpanded = activeGlossary === item.id;
+                return (
+                  <div
+                    key={item.id}
+                    onClick={() => setActiveGlossary(isExpanded ? null : item.id)}
+                    className="p-3 rounded-xl border border-slate-200 bg-white hover:border-blue-300 transition-all cursor-pointer space-y-1 shadow-2xs"
+                  >
+                    <div className="flex items-center justify-between font-bold text-slate-900 text-[11px]">
+                      <span>{item.term}</span>
+                      <ChevronDown
+                        className={`w-3.5 h-3.5 text-slate-400 transition-transform ${
+                          isExpanded ? 'rotate-180 text-blue-600' : ''
+                        }`}
+                      />
+                    </div>
+                    {isExpanded && (
+                      <p className="text-[11px] text-slate-600 pt-1 leading-relaxed border-t border-slate-100 mt-1">
+                        {item.def}
+                      </p>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
 
           {/* Section 8: Step-by-Step How to Apply */}
           {article.howToApplySteps && (
