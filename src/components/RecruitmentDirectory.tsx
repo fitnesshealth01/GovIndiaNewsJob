@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { RECRUITMENT_ALERTS, RecruitmentAlert } from '../data/gazetteData';
+import { RECRUITMENT_ALERTS, RecruitmentAlert, isJobApplicationOpen } from '../data/gazetteData';
 import {
   Briefcase,
   FileCheck,
@@ -113,7 +113,9 @@ export const RecruitmentDirectory: React.FC<RecruitmentDirectoryProps> = ({
         item.examName.toLowerCase().includes(q) ||
         item.summary.toLowerCase().includes(q);
 
-      return matchesCategory && matchesQualification && matchesSector && matchesQuery;
+      const isJobActive = item.category !== 'jobs' || isJobApplicationOpen(item);
+
+      return matchesCategory && matchesQualification && matchesSector && matchesQuery && isJobActive;
     });
   }, [selectedCategory, selectedQualification, selectedSector, searchQuery]);
 

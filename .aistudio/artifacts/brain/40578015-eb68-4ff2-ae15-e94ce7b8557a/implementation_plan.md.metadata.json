@@ -1,6 +1,6 @@
 {
-  "summary":  "Implementation plan for creating an authentic, human-crafted 'Authors & Editorial Board' section within TrustHub, linking verified credentials and past publications for maximum Google E-E-A-T score, enabling author discovery across article bylines, and resolving the production server.js deployment configuration.",
-  "updatedAt":  "2026-09-30T17:04:23.712417009Z",
+  "summary":  "Implementation plan for: 1) Deploying server.js to resolve cloud build container runtime; 2) Strictly filtering out passed/expired recruitment dates across the entire site; 3) Upgrading every article with comprehensive, self-contained recruitment information, exam patterns, syllabi, fee, and eligibility tables strictly preceding the Integrated Exam Utility Widget.",
+  "updatedAt":  "2026-10-01T07:31:02.452224982Z",
   "requestFeedback":  true,
   "userFacing":  true
 }

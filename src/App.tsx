@@ -31,10 +31,9 @@ import {
   X,
   ChevronRight,
   ArrowLeft,
-  Bookmark,
   Filter,
 } from 'lucide-react';
-import { RECRUITMENT_ALERTS, RecruitmentAlert } from './data/gazetteData';
+import { RECRUITMENT_ALERTS, RecruitmentAlert, isJobApplicationOpen } from './data/gazetteData';
 
 export default function App() {
   // Initialize path from window.location
@@ -135,16 +134,17 @@ export default function App() {
     else if (currentPath === '/tools/rank') setCalculatorSubTab('rank');
   }, [currentPath]);
 
-  // Filtered search results
+  // Filtered search results (excluding passed recruitment jobs)
   const searchResults = useMemo(() => {
     if (!globalSearchTerm.trim()) return [];
     const q = globalSearchTerm.toLowerCase();
     return RECRUITMENT_ALERTS.filter(
       (item) =>
-        item.title.toLowerCase().includes(q) ||
-        item.organization.toLowerCase().includes(q) ||
-        item.examName.toLowerCase().includes(q) ||
-        item.summary.toLowerCase().includes(q)
+        (item.category !== 'jobs' || isJobApplicationOpen(item)) &&
+        (item.title.toLowerCase().includes(q) ||
+          item.organization.toLowerCase().includes(q) ||
+          item.examName.toLowerCase().includes(q) ||
+          item.summary.toLowerCase().includes(q))
     );
   }, [globalSearchTerm]);
 
@@ -160,24 +160,24 @@ export default function App() {
             </span>
             <div className="truncate text-slate-300 text-xs">
               <button
-                onClick={() => navigate('/article/upsc-civil-services-cse-2026-notification')}
+                onClick={() => navigate('/article/sbi-junior-associates-clerk-recruitment-2026')}
                 className="font-semibold text-white hover:underline cursor-pointer"
               >
-                UPSC CSE 2026 (1,056 Posts) Active
+                SBI Junior Associates (12,500+ Posts) Active
               </button>{' '}
               ·{' '}
               <button
-                onClick={() => navigate('/article/up-police-constable-60244-posts-notification')}
+                onClick={() => navigate('/article/rrb-ntpc-2026-recruitment-apply-online')}
                 className="font-semibold text-white hover:underline cursor-pointer"
               >
-                UP Police Constable (60,244 Posts)
+                RRB NTPC (11,558 Posts) Active
               </button>{' '}
               ·{' '}
               <button
                 onClick={() => navigate('/article/upsc-civil-services-mains-2026-e-admit-card-download')}
                 className="font-bold text-amber-300 hover:underline cursor-pointer"
               >
-                [NEW] UPSC CSE Mains 2026 Admit Card Out (30 Sep)
+                [NEW] UPSC CSE Mains 2026 Admit Card Out
               </button>{' '}
               ·{' '}
               <button

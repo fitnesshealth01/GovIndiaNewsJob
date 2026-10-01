@@ -774,7 +774,180 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
             </div>
           )}
 
-          {/* Section 11: Embedded Smart Calculator Widget */}
+          {/* Section 10: Age Limit & Category-Wise Statutory Age Relaxation Matrix */}
+          <div className="space-y-3">
+            <div className="flex items-center justify-between">
+              <h2 className="text-base font-bold text-slate-900 flex items-center gap-2">
+                <Clock className="w-4 h-4 text-blue-600" />
+                <span>Age Limit & Statutory Category-Wise Relaxations</span>
+              </h2>
+              <span className="sm:hidden text-[10px] text-slate-400">← Swipe table →</span>
+            </div>
+            <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs space-y-3">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-200/80 pb-3">
+                <div>
+                  <span className="text-slate-500 font-medium block">Prescribed Age Limits:</span>
+                  <strong className="text-slate-900 font-bold text-sm">
+                    {article.ageLimit || `${article.minAge || 18} to ${article.maxAge || 30} Years`}
+                  </strong>
+                </div>
+                <div className="text-left sm:text-right">
+                  <span className="text-slate-500 font-medium block">Crucial Calculation Cut-off Date:</span>
+                  <span className="font-semibold text-blue-700">As specified in official gazette advertisement</span>
+                </div>
+              </div>
+
+              <div className="border border-slate-200 rounded-lg overflow-x-auto bg-white shadow-2xs">
+                <table className="w-full text-left text-xs min-w-[500px]">
+                  <thead className="bg-slate-100 text-slate-700 font-semibold border-b border-slate-200">
+                    <tr>
+                      <th className="p-2.5">Candidate Category</th>
+                      <th className="p-2.5 text-center">Permissible Age Relaxation</th>
+                      <th className="p-2.5">Statutory Authority & Certification</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-100 text-[11px]">
+                    <tr className="hover:bg-slate-50/60">
+                      <td className="p-2.5 font-medium text-slate-800">SC / ST (Scheduled Castes / Tribes)</td>
+                      <td className="p-2.5 text-center font-bold text-blue-700">+5 Years</td>
+                      <td className="p-2.5 text-slate-600">Central Government prescribed caste certificate</td>
+                    </tr>
+                    <tr className="hover:bg-slate-50/60">
+                      <td className="p-2.5 font-medium text-slate-800">OBC (Non-Creamy Layer)</td>
+                      <td className="p-2.5 text-center font-bold text-blue-700">+3 Years</td>
+                      <td className="p-2.5 text-slate-600">OBC-NCL certificate issued within valid financial year</td>
+                    </tr>
+                    <tr className="hover:bg-slate-50/60">
+                      <td className="p-2.5 font-medium text-slate-800">PwBD (Unreserved / EWS Benchmark Disability)</td>
+                      <td className="p-2.5 text-center font-bold text-blue-700">+10 Years</td>
+                      <td className="p-2.5 text-slate-600">Minimum 40% benchmark disability under RPwD Act 2016</td>
+                    </tr>
+                    <tr className="hover:bg-slate-50/60">
+                      <td className="p-2.5 font-medium text-slate-800">PwBD + OBC (Non-Creamy Layer)</td>
+                      <td className="p-2.5 text-center font-bold text-blue-700">+13 Years</td>
+                      <td className="p-2.5 text-slate-600">Combined PwBD and valid OBC-NCL certificates</td>
+                    </tr>
+                    <tr className="hover:bg-slate-50/60">
+                      <td className="p-2.5 font-medium text-slate-800">PwBD + SC / ST</td>
+                      <td className="p-2.5 text-center font-bold text-blue-700">+15 Years</td>
+                      <td className="p-2.5 text-slate-600">Combined PwBD and SC/ST certificates</td>
+                    </tr>
+                    <tr className="hover:bg-slate-50/60">
+                      <td className="p-2.5 font-medium text-slate-800">Ex-Servicemen (ESM / Armed Forces)</td>
+                      <td className="p-2.5 text-center font-bold text-blue-700">Military Service + 3 Years</td>
+                      <td className="p-2.5 text-slate-600">Discharge Book and PPO from Defence Headquarters</td>
+                    </tr>
+                    <tr className="hover:bg-slate-50/60">
+                      <td className="p-2.5 font-medium text-slate-800">Central Government Civilian Employees (Group C)</td>
+                      <td className="p-2.5 text-center font-bold text-blue-700">Up to 40 Years (45 for SC/ST)</td>
+                      <td className="p-2.5 text-slate-600">3 Years continuous regular service & NOC from HoD</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          {/* Section 11: Mandatory Required Documents & Upload Specifications */}
+          <div className="space-y-3">
+            <h2 className="text-base font-bold text-slate-900 flex items-center gap-2">
+              <FileText className="w-4 h-4 text-blue-600" />
+              <span>Mandatory Documents & Upload Specifications Checklist</span>
+            </h2>
+            <div className="border border-slate-200 rounded-xl overflow-x-auto bg-white shadow-2xs">
+              <table className="w-full text-left text-xs min-w-[500px]">
+                <thead className="bg-slate-100 text-slate-700 font-semibold border-b border-slate-200">
+                  <tr>
+                    <th className="p-3">Required Document</th>
+                    <th className="p-3">Prescribed Format & File Size</th>
+                    <th className="p-3">Statutory Verification Standards</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-100 text-[11px]">
+                  <tr className="hover:bg-slate-50/60">
+                    <td className="p-3 font-semibold text-slate-900">Recent Passport-Size Photograph</td>
+                    <td className="p-3 font-mono text-slate-700">JPEG / JPG (20 KB – 50 KB, 3.5cm x 4.5cm)</td>
+                    <td className="p-3 text-slate-600">Clear white or light background taken within 3 months; without cap, mask or spectacles</td>
+                  </tr>
+                  <tr className="hover:bg-slate-50/60">
+                    <td className="p-3 font-semibold text-slate-900">Candidate Digital Signature</td>
+                    <td className="p-3 font-mono text-slate-700">JPEG / JPG (10 KB – 20 KB, 4.0cm x 2.0cm)</td>
+                    <td className="p-3 text-slate-600">Signed with black/blue ink on white paper; capital block letters strictly prohibited</td>
+                  </tr>
+                  <tr className="hover:bg-slate-50/60">
+                    <td className="p-3 font-semibold text-slate-900">10th / Matriculation Certificate & Marksheet</td>
+                    <td className="p-3 font-mono text-slate-700">PDF / JPEG (50 KB – 200 KB)</td>
+                    <td className="p-3 text-slate-600">Sole legal statutory proof of Candidate Full Name, Parents' Names, and Date of Birth</td>
+                  </tr>
+                  <tr className="hover:bg-slate-50/60">
+                    <td className="p-3 font-semibold text-slate-900">Essential Degree / Diploma Certificate</td>
+                    <td className="p-3 font-mono text-slate-700">PDF (50 KB – 300 KB)</td>
+                    <td className="p-3 text-slate-600">All semester mark sheets and degree certificate verifying qualification before deadline</td>
+                  </tr>
+                  <tr className="hover:bg-slate-50/60">
+                    <td className="p-3 font-semibold text-slate-900">Caste / EWS / Disability Certificate</td>
+                    <td className="p-3 font-mono text-slate-700">PDF (50 KB – 300 KB)</td>
+                    <td className="p-3 text-slate-600">Issued by Competent Revenue Authority (Tehsildar/SDM/DM) in Central Government format</td>
+                  </tr>
+                  <tr className="hover:bg-slate-50/60">
+                    <td className="p-3 font-semibold text-slate-900">Original Government Photo Identity Proof</td>
+                    <td className="p-3 font-mono text-slate-700">Original Card Compulsory at Venue</td>
+                    <td className="p-3 text-slate-600">Original Aadhaar Card with clear DOB, Voter ID, PAN Card, Passport, or Driving License</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          {/* Section 12: Step-by-Step Admit Card / Scorecard Download Protocol */}
+          <div className="space-y-3">
+            <h2 className="text-base font-bold text-slate-900 flex items-center gap-2">
+              <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+              <span>
+                {article.category === 'admit-card'
+                  ? 'Official e-Admit Card Download Protocol & Examination Day Instructions'
+                  : article.category === 'result' || article.category === 'cut-off'
+                  ? 'Official Scorecard & Merit List PDF Download Protocol'
+                  : article.category === 'answer-key'
+                  ? 'Answer Key Objection Window & Score Calculation Protocol'
+                  : 'Official Admit Card & Examination Center Entry Protocols'}
+              </span>
+            </h2>
+            <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs space-y-3">
+              <ol className="list-decimal list-inside space-y-2 text-slate-700 leading-relaxed">
+                <li>
+                  <strong>Access the Official Server:</strong> Navigate to the designated official portal ({article.officialLinks?.[0]?.url || 'commission portal'}) and locate the active admission certificate or candidate login link.
+                </li>
+                <li>
+                  <strong>Enter Verification Credentials:</strong> Input your 10-digit Registration Number (or Roll Number) and Date of Birth in (DD-MM-YYYY) format, followed by the security captcha text.
+                </li>
+                <li>
+                  <strong>Audit Personal & Center Details:</strong> Verify your Name, Assigned Test Venue, Shift Schedule, Reporting Time, and Gate Closure Timing.
+                </li>
+                <li>
+                  <strong>Print Multi-Copy Documentation:</strong> Download the PDF and take at least 2 clear printouts on clean A4 paper along with the attached self-declaration slip.
+                </li>
+              </ol>
+
+              {/* Exam Hall Code of Conduct Box */}
+              <div className="p-3.5 rounded-xl bg-amber-50 border border-amber-200 text-amber-900 space-y-1.5 mt-2">
+                <span className="font-bold block text-[11px] uppercase tracking-wide">
+                  Crucial Examination Center Guidelines & Prohibited Items:
+                </span>
+                <p className="text-[11px] leading-relaxed">
+                  <strong>Compulsory Items to Carry:</strong> Printed copy of e-Admit Card, 1 Original Government Photo ID (Aadhaar Card with complete DOB, Voter ID, or PAN Card), 2 recent passport-size photographs matching the application form, and a transparent blue/black ballpoint pen.
+                </p>
+                <p className="text-[11px] leading-relaxed">
+                  <strong>Strictly Prohibited Items:</strong> Mobile phones, smart watches, Bluetooth headphones, electronic calculators, pen drives, metallic jewelry, wallets, and bags. Exam venues do not provide custody counters.
+                </p>
+                <p className="text-[11px] leading-relaxed">
+                  <strong>Biometric Verification & Timings:</strong> Aadhaar-based biometric attendance, digital fingerprinting, and live web camera facial recognition are mandatory at the gate. Candidates must arrive at least 60 minutes before the exam start; gates strictly close 15 minutes prior to test commencement.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Section 13: Embedded Smart Calculator Widget (Rendered Strictly After All Article Content) */}
           <div className="pt-4 border-t border-slate-200 space-y-4">
             <div className="flex items-center justify-between">
               <h3 className="text-base font-bold text-slate-900">

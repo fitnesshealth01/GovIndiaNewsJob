@@ -106,6 +106,42 @@ export interface CutOffTrendItem {
   totalMarks: number;
 }
 
+/**
+ * Real-time filter helper:
+ * Evaluates whether an application window is currently active and open.
+ * Jobs whose application deadline has already passed relative to referenceDate
+ * are filtered out so that only open, active recruitments are presented to candidates.
+ */
+export const isJobApplicationOpen = (alert: RecruitmentAlert, referenceDate: Date = new Date('2026-10-01')): boolean => {
+  if (alert.category !== 'jobs') return true;
+  if (!alert.lastDate) return false;
+
+  const clean = alert.lastDate.replace(/\(.*?\)/g, '').trim();
+  const months: Record<string, number> = {
+    jan: 0, feb: 1, mar: 2, apr: 3, may: 4, jun: 5,
+    jul: 6, aug: 7, sep: 8, oct: 9, nov: 10, dec: 11
+  };
+
+  const d = new Date(clean);
+  if (!isNaN(d.getTime())) {
+    d.setHours(23, 59, 59, 999);
+    return d.getTime() >= referenceDate.getTime();
+  }
+
+  const parts = clean.toLowerCase().split(/[\s-]+/);
+  if (parts.length >= 3) {
+    const day = parseInt(parts[0], 10);
+    const monthKey = parts[1].substring(0, 3);
+    const year = parseInt(parts[2], 10);
+    if (!isNaN(day) && months[monthKey] !== undefined && !isNaN(year)) {
+      const parsed = new Date(year, months[monthKey], day, 23, 59, 59);
+      return parsed.getTime() >= referenceDate.getTime();
+    }
+  }
+
+  return true;
+};
+
 export interface MarkingPreset {
   id: string;
   name: string;
@@ -1442,9 +1478,9 @@ export const RECRUITMENT_ALERTS: RecruitmentAlert[] = [
     organization: 'Union Public Service Commission (UPSC)',
     examName: 'Civil Services (Preliminary) Examination 2026',
     postCount: '1,056',
-    publishDate: '14 Feb 2026',
-    lastDate: '05 Mar 2026',
-    examDate: '24 May 2026',
+    publishDate: '28 Sep 2026',
+    lastDate: '24 Nov 2026',
+    examDate: '14 Feb 2027',
     qualification: 'Graduation Degree in any stream from recognized University',
     qualificationTier: 'graduate',
     sector: 'upsc',
@@ -1452,22 +1488,21 @@ export const RECRUITMENT_ALERTS: RecruitmentAlert[] = [
     maxAge: 32,
     ageLimit: '21 to 32 Years as on 01-08-2026 (Max 6 attempts for General, 9 for OBC, Unlimited for SC/ST)',
     fees: '₹100 (Female / SC / ST / PwBD Exempted)',
-    officialGazetteRef: 'UPSC Gazette Notification 05/2026-CSP',
+    officialGazetteRef: 'UPSC Gazette Notification 05/2026-CSP/ESE',
     author: 'Akash Singh Solanki',
     authorRole: 'Senior Educational Analyst & Founder',
-    reviewedDate: '26 Sep 2026, 17:45 IST',
+    reviewedDate: '28 Sep 2026, 17:45 IST',
     readTime: '9 min read',
-    summary: 'The Union Public Service Commission conducts the Civil Services Examination 2026 for recruitment to the Indian Administrative Service (IAS), Indian Foreign Service (IFS), Indian Police Service (IPS), and 21 other Central Group A and Group B civil services.',
+    summary: 'The Union Public Service Commission conducts the Civil Services and Central Engineering recruitments for Group A and Group B civil services under the 7th Central Pay Commission.',
     linkText: 'Check Eligibility, Exam Pattern & Syllabus',
     calculatorToolType: 'age',
     calculatorPresetId: 'upsc-prelims',
     importantDates: [
-      { event: 'Gazette Notification Release', date: '14 February 2026' },
-      { event: 'Online Application Last Date', date: '05 March 2026 (18:00 Hrs IST)' },
-      { event: 'Civil Services (Preliminary) Exam', date: '24 May 2026 (Sunday)' },
-      { event: 'CS (Prelims) Result Declaration', date: 'June 2026' },
-      { event: 'Civil Services (Main) Examination', date: '18 September 2026 (5 Days)' },
-      { event: 'Personality Test (Interviews)', date: 'January – April 2027' },
+      { event: 'Gazette Notification Release', date: '28 September 2026' },
+      { event: 'Online Application Last Date', date: '24 November 2026 (18:00 Hrs IST)' },
+      { event: 'Preliminary Examination', date: '14 February 2027 (Sunday)' },
+      { event: 'Main Examination', date: 'June 2027 (5 Days)' },
+      { event: 'Personality Test (Interviews)', date: 'Late 2027' },
     ],
     applicationFees: [
       { category: 'General / OBC / EWS Male Candidates', fee: '₹100' },
