@@ -353,6 +353,13 @@ export const EDITORIAL_AUTHORS: AuthorProfile[] = [
     ],
     recentAuthoredAlerts: [
       {
+        id: 'rrb-group-d-2026-27',
+        title: 'RRB Group D (Level-1) 2026-27: 32,000+ Posts, 10th/ITI Eligibility & CBT Pattern',
+        category: 'Jobs',
+        date: '02 Oct 2026',
+        viewsCount: '112.5K'
+      },
+      {
         id: 'isro-scientist-engineer-sc-2026',
         title: 'ISRO Scientist / Engineer "SC" 2026 (Advt No. ICRB:02:2026): 303 Posts',
         category: 'Jobs',
