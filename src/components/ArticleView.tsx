@@ -34,6 +34,7 @@ import {
   Check,
   Zap,
   Search,
+  Sliders,
 } from 'lucide-react';
 import { isBookmarked, toggleBookmark, calculateDeadlineCountdown } from '../utils/bookmarkStorage';
 import { CandidateDiscussion } from './CandidateDiscussion';
@@ -47,6 +48,14 @@ import {
 } from '../utils/seoSchema';
 import { getAuthorByAlertId } from '../data/authorData';
 import { AuthorDossierModal } from './AuthorDossierModal';
+import { CalendarSyncButton } from './CalendarSyncButton';
+import { PhotoSignatureResizerModal } from './PhotoSignatureResizerModal';
+import { ExamDayChecklist } from './ExamDayChecklist';
+import { PostPreferenceMatrix } from './PostPreferenceMatrix';
+import { CenterTransitGuide } from './CenterTransitGuide';
+import { ShiftFeedbackBriefing } from './ShiftFeedbackBriefing';
+import { EmergencyUndertakingModal } from './EmergencyUndertakingModal';
+import { SocialAlertBanner } from './SocialAlertBanner';
 
 interface ArticleViewProps {
   article: RecruitmentAlert;
@@ -80,6 +89,9 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
   const [activeTroubleTab, setActiveTroubleTab] = useState<'forgot' | 'photo' | 'center'>('forgot');
   // Expandable Glossary Tag
   const [activeGlossary, setActiveGlossary] = useState<string | null>(null);
+  // Visitor Tools Modal States
+  const [isResizerOpen, setIsResizerOpen] = useState(false);
+  const [isUndertakingOpen, setIsUndertakingOpen] = useState(false);
 
   React.useEffect(() => {
     const schemas: Record<string, unknown>[] = [
@@ -183,64 +195,25 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
     });
   };
 
-  const articleSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'NewsArticle',
-    headline: article.title,
-    description: article.summary,
-    datePublished: article.publishDate,
-    dateModified: article.reviewedDate,
-    author: {
-      '@type': 'Person',
-      name: article.author || 'Akash Singh Solanki',
-      jobTitle: article.authorRole || 'Educational Analyst & Founder',
-    },
-    publisher: {
-      '@type': 'NewsMediaOrganization',
-      name: 'GovIndiaNews',
-      url: 'https://govindianews.in',
-    },
-  };
+  const primarySchema =
+    article.category === 'jobs'
+      ? buildJobPostingSchema(article)
+      : buildNewsArticleSchema(article);
 
-  const breadcrumbSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
-    itemListElement: [
-      {
-        '@type': 'ListItem',
-        position: 1,
-        name: 'Home',
-        item: 'https://govindianews.in/',
-      },
-      {
-        '@type': 'ListItem',
-        position: 2,
-        name: getCategoryLabel(article.category),
-        item: `https://govindianews.in/${article.category}`,
-      },
-      {
-        '@type': 'ListItem',
-        position: 3,
-        name: article.title,
-        item: `https://govindianews.in/article/${article.slug}`,
-      },
-    ],
-  };
+  const breadcrumbSchema = buildBreadcrumbSchema([
+    { name: 'Home', url: '/' },
+    { name: getCategoryLabel(article.category), url: `/?tab=${article.category}` },
+    { name: article.title, url: `/article/${article.slug}` },
+  ]);
 
   const articleFaqSchema =
     article.faqs && article.faqs.length > 0
-      ? {
-          '@context': 'https://schema.org',
-          '@type': 'FAQPage',
-          mainEntity: article.faqs.map((faq) => ({
-            '@type': 'Question',
-            name: faq.question,
-            acceptedAnswer: {
-              '@type': 'Answer',
-              text: faq.answer,
-            },
-          })),
-        }
+      ? buildFAQPageSchema(article.faqs)
+      : null;
+
+  const eventSchema =
+    article.category === 'admit-card' || article.examDate
+      ? buildEventSchema(article)
       : null;
 
   return (
@@ -248,7 +221,7 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
       {/* Schema.org Structured Data */}
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(primarySchema) }}
       />
       <script
         type="application/ld+json"
@@ -258,6 +231,12 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(articleFaqSchema) }}
+        />
+      )}
+      {eventSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(eventSchema) }}
         />
       )}
 
@@ -419,6 +398,36 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
               >
                 <span>Practice Official PYQ CBT</span>
               </button>
+
+              <CalendarSyncButton
+                title={article.title}
+                deadlineDate={article.lastDate}
+                examDate={article.examDate}
+                organization={article.organization}
+                officialLink={article.officialLinks?.[0]?.url}
+              />
+
+              <button
+                type="button"
+                onClick={() => setIsResizerOpen(true)}
+                className="px-3.5 py-2 text-xs font-semibold text-blue-700 bg-blue-50/80 hover:bg-blue-100 border border-blue-200 rounded-lg transition-colors flex items-center gap-1.5 cursor-pointer shadow-2xs"
+                title="Resize and compress photo & signature to exact commission specs"
+              >
+                <Sliders className="w-3.5 h-3.5 text-blue-600" />
+                <span>Photo/Sign Compressor</span>
+              </button>
+
+              {(article.category === 'admit-card' || article.examDate) && (
+                <button
+                  type="button"
+                  onClick={() => setIsUndertakingOpen(true)}
+                  className="px-3.5 py-2 text-xs font-semibold text-amber-900 bg-amber-50 hover:bg-amber-100 border border-amber-300 rounded-lg transition-colors flex items-center gap-1.5 cursor-pointer shadow-2xs"
+                  title="Print emergency undertaking declaration form for photo/sign discrepancy"
+                >
+                  <FileText className="w-3.5 h-3.5 text-amber-600" />
+                  <span>Undertaking Form</span>
+                </button>
+              )}
 
               <button
                 onClick={() => window.print()}
@@ -893,6 +902,11 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
             </div>
           )}
 
+          {/* Post-Preference, Career Growth & Transfer Liability Matrix */}
+          {article.category === 'jobs' && (
+            <PostPreferenceMatrix />
+          )}
+
           {/* Admit Card & Exam Day Super-Module (Shift Timetable, Credential Recovery, Regional Servers) */}
           {(article.category === 'admit-card' || article.examDate) && (
             <div className="space-y-4">
@@ -1036,6 +1050,20 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
                     </div>
                   )}
                 </div>
+
+                <div className="pt-2 flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-t border-slate-200 mt-2">
+                  <span className="text-[11px] text-slate-600 font-medium">
+                    Have a missing photo/sign or name discrepancy on your hall ticket?
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => setIsUndertakingOpen(true)}
+                    className="px-3 py-1.5 rounded-lg bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs flex items-center gap-1.5 cursor-pointer shadow-2xs self-start sm:self-auto"
+                  >
+                    <FileText className="w-3.5 h-3.5" />
+                    <span>Print Emergency Undertaking Form</span>
+                  </button>
+                </div>
               </div>
 
               {/* Direct Regional Mirror Portals */}
@@ -1100,6 +1128,15 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
                   </a>
                 </div>
               </div>
+
+              {/* Exam Day Permitted vs. Barred Items & Strict Dress Code Matrix */}
+              <ExamDayChecklist examName={article.examName} />
+
+              {/* Exam Center Locator & TCS iON Transit Navigator */}
+              <CenterTransitGuide />
+
+              {/* Live Shift Feedback, Difficulty Analysis & Good Attempts Benchmark */}
+              <ShiftFeedbackBriefing examName={article.examName} />
             </div>
           )}
 
@@ -1288,6 +1325,27 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
                     <span className="text-slate-700">{step}</span>
                   </div>
                 ))}
+
+                {/* Photo & Signature Compressor Utility Banner */}
+                <div className="p-3.5 rounded-xl bg-blue-50/80 border border-blue-200 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 text-xs">
+                  <div className="flex items-center gap-2.5">
+                    <span className="p-2 rounded-lg bg-blue-600 text-white shadow-2xs">
+                      <Sliders className="w-4 h-4" />
+                    </span>
+                    <div>
+                      <strong className="text-slate-900 block font-bold">Document Upload Compliance Tool:</strong>
+                      <span className="text-slate-600 text-[11px]">Resize your photo to 20–50 KB and signature to 10–20 KB before opening portal.</span>
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setIsResizerOpen(true)}
+                    className="px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs flex items-center gap-1.5 cursor-pointer shadow-2xs whitespace-nowrap self-start sm:self-auto"
+                  >
+                    <Sliders className="w-3.5 h-3.5" />
+                    <span>Launch Photo/Sign Resizer</span>
+                  </button>
+                </div>
               </div>
             </div>
           )}
@@ -1629,6 +1687,9 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
             </div>
           </div>
 
+          {/* WhatsApp & Telegram Instant Gazette Broadcast Alert Banner */}
+          <SocialAlertBanner category={article.category} />
+
           {/* Section 13: Candidate Query Cell & Community Discussion */}
           <CandidateDiscussion alertId={article.id} alertTitle={article.title} />
         </article>
@@ -1776,6 +1837,20 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
         isOpen={showAuthorModal}
         onClose={() => setShowAuthorModal(false)}
         onNavigateAlert={(alertId) => onNavigate(`/article/${alertId}`)}
+      />
+
+      {/* Photo & Signature Resizer & Compressor Modal */}
+      <PhotoSignatureResizerModal
+        isOpen={isResizerOpen}
+        onClose={() => setIsResizerOpen(false)}
+      />
+
+      {/* Emergency Undertaking Form Modal */}
+      <EmergencyUndertakingModal
+        isOpen={isUndertakingOpen}
+        onClose={() => setIsUndertakingOpen(false)}
+        examName={article.examName}
+        organization={article.organization}
       />
     </div>
   );
