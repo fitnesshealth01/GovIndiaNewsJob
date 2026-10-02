@@ -163,6 +163,15 @@ export function getOrganizationLocation(orgName: string = ''): {
       addressCountry: 'IN',
     };
   }
+  if (lower.includes('btsc') || lower.includes('bihar technical') || lower.includes('fisheries') || lower.includes('pashu')) {
+    return {
+      streetAddress: '19, Harding Road (Shaheed Peer Ali Khan Marg)',
+      addressLocality: 'Patna',
+      addressRegion: 'Bihar',
+      postalCode: '800001',
+      addressCountry: 'IN',
+    };
+  }
 
   // Default Central Government / Pan-India HQ
   return {

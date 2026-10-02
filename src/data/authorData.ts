@@ -99,6 +99,13 @@ export const EDITORIAL_AUTHORS: AuthorProfile[] = [
     ],
     recentAuthoredAlerts: [
       {
+        id: 'btsc-fishery-extension-officer-2026',
+        title: 'BTSC Fishery Extension Officer (Advt 28/2026): 231 Posts, Pay Level 7 & Syllabus',
+        category: 'Jobs',
+        date: '24 Sep 2026',
+        viewsCount: '47.8K'
+      },
+      {
         id: 'upsc-cse-mains-admit-card-2026',
         title: 'UPSC Civil Services (Main) Examination 2026: Official e-Admit Card Released',
         category: 'Admit Card',
