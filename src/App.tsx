@@ -116,6 +116,15 @@ export default function App() {
       title = 'Contact Editorial Desk - GovIndiaNews';
     }
     document.title = title;
+
+    // Dispatch page_view to Google Analytics (gtag.js)
+    if (typeof window !== 'undefined' && typeof (window as any).gtag === 'function') {
+      (window as any).gtag('event', 'page_view', {
+        page_path: currentPath,
+        page_title: title,
+        page_location: window.location.href,
+      });
+    }
   }, [currentPath]);
 
   // Determine active article if viewing an article page
