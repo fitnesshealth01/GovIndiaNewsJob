@@ -52,9 +52,7 @@ import { CalendarSyncButton } from './CalendarSyncButton';
 import { PhotoSignatureResizerModal } from './PhotoSignatureResizerModal';
 import { ExamDayChecklist } from './ExamDayChecklist';
 import { PostPreferenceMatrix } from './PostPreferenceMatrix';
-import { CenterTransitGuide } from './CenterTransitGuide';
 import { ShiftFeedbackBriefing } from './ShiftFeedbackBriefing';
-import { EmergencyUndertakingModal } from './EmergencyUndertakingModal';
 import { SocialAlertBanner } from './SocialAlertBanner';
 
 interface ArticleViewProps {
@@ -91,7 +89,6 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
   const [activeGlossary, setActiveGlossary] = useState<string | null>(null);
   // Visitor Tools Modal States
   const [isResizerOpen, setIsResizerOpen] = useState(false);
-  const [isUndertakingOpen, setIsUndertakingOpen] = useState(false);
 
   React.useEffect(() => {
     const schemas: Record<string, unknown>[] = [
@@ -190,7 +187,7 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
       details: [
         `Prescribed Age Bracket for ${matcherCategory.toUpperCase()}: ${minAge} to ${allowedMaxAge} Years (${relaxation > 0 ? `Includes +${relaxation} yrs statutory relaxation` : 'Standard General / UR'}). Your age: ${ageYears} Years.`,
         `Prescribed Qualification: ${article.qualification}. Your input: ${matcherEdu.toUpperCase()}.`,
-        `Official Notification Ref: ${article.officialGazetteRef}`,
+        `Source Notice: ${article.sourceNotice?.title || article.organization} (checked on ${article.sourceNotice?.checkedOn || 'recently'})`,
       ],
     });
   };
@@ -233,13 +230,34 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(articleFaqSchema) }}
         />
       )}
-      {eventSchema && (
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(eventSchema) }}
-        />
+      {/* Quarantine Status Banner */}
+      {article.status === 'unverified' && (
+        <div className="bg-amber-50 border-l-4 border-amber-500 p-4 rounded-r-xl shadow-xs text-amber-950 flex items-start gap-3">
+          <AlertCircle className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
+          <div>
+            <p className="font-bold text-sm text-amber-950">
+              Notice Re-verification in Progress
+            </p>
+            <p className="text-xs text-amber-800 mt-0.5">
+              This page is being re-verified against the official notice. All figures, schedules, eligibility requirements, and fees are subject to direct confirmation from official notifications.
+            </p>
+          </div>
+        </div>
       )}
 
+      {article.status === 'expired' && (
+        <div className="bg-slate-100 border-l-4 border-slate-500 p-4 rounded-r-xl shadow-xs text-slate-800 flex items-start gap-3">
+          <Clock className="w-5 h-5 text-slate-600 shrink-0 mt-0.5" />
+          <div>
+            <p className="font-bold text-sm text-slate-900">
+              Archived Notice / Expired Recruitment
+            </p>
+            <p className="text-xs text-slate-600 mt-0.5">
+              This recruitment drive has expired. The application window or examination schedule has passed.
+            </p>
+          </div>
+        </div>
+      )}
 
       {/* Main Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
@@ -248,9 +266,8 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
           {/* Article Header & E-E-A-T Author Lockup */}
           <div className="space-y-4 border-b border-slate-200 pb-6">
             <div className="flex flex-wrap items-center justify-between gap-2">
-              <div className="flex items-center gap-2 text-xs font-semibold text-blue-700 bg-blue-50 border border-blue-100 rounded-md px-2.5 py-1">
-                <ShieldCheck className="w-3.5 h-3.5" />
-                <span>GovIndiaNews Verified Gazette Fact-Check</span>
+              <div className="flex items-center gap-2 text-xs font-semibold text-slate-700 bg-slate-100 border border-slate-200 rounded-md px-2.5 py-1">
+                <span>Recruitment Notice Summary</span>
               </div>
 
               <div className="flex items-center gap-2">
@@ -281,25 +298,33 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
               {article.title}
             </h1>
 
-            {/* Gazette Verification Seal */}
-            <div className="flex items-center gap-2 flex-wrap text-xs bg-emerald-50 border border-emerald-200 text-emerald-900 px-3.5 py-2 rounded-xl">
-              <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" />
-              <span className="font-bold">Gazette of India Verified</span>
-              <span className="text-emerald-400">·</span>
-              <span className="text-emerald-700 font-mono text-[11px] truncate max-w-sm">
-                {article.officialGazetteRef}
+            {/* Official Source Notice Header */}
+            <div className="flex items-center gap-2 flex-wrap text-xs bg-slate-100 border border-slate-200 text-slate-800 px-3.5 py-2 rounded-xl">
+              <span className="font-semibold text-slate-700">Source:</span>
+              <a
+                href={article.sourceNotice?.url || '#'}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-700 hover:underline font-medium inline-flex items-center gap-1 truncate max-w-sm"
+              >
+                {article.sourceNotice?.title || article.organization}
+                <ExternalLink className="w-3 h-3 shrink-0" />
+              </a>
+              <span className="text-slate-400">·</span>
+              <span className="text-slate-500 text-[11px]">
+                checked {article.sourceNotice?.checkedOn || 'recently'}
               </span>
               <button
                 type="button"
                 onClick={() => onNavigate('/trust/editorial')}
-                className="ml-auto text-[11px] text-emerald-800 font-semibold hover:underline cursor-pointer flex items-center gap-1"
+                className="ml-auto text-[11px] text-slate-700 font-semibold hover:underline cursor-pointer flex items-center gap-1"
               >
                 <span>Editorial Policy</span>
                 <ChevronRight className="w-3 h-3" />
               </button>
             </div>
 
-            {/* E-E-A-T Author & Editorial Review Box */}
+            {/* Author & Editorial Lockup */}
             <div className="p-3.5 rounded-xl bg-stone-50 border border-stone-200 flex flex-wrap items-center justify-between gap-3 text-xs">
               <div className="flex items-center gap-3">
                 <div
@@ -316,15 +341,9 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
                     >
                       {author.name}
                     </button>
-                    <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
-                      <ShieldCheck className="w-3 h-3 text-emerald-600" />
-                      {author.verificationBadge}
-                    </span>
                   </div>
-                  <div className="text-[11px] text-stone-600 mt-0.5 flex items-center gap-1.5 flex-wrap">
+                  <div className="text-[11px] text-stone-600 mt-0.5">
                     <span>{author.designation}</span>
-                    <span>·</span>
-                    <span className="font-mono text-stone-500">Reg: {author.registrationNumber}</span>
                   </div>
                 </div>
               </div>
@@ -335,10 +354,12 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
                   onClick={() => setShowAuthorModal(true)}
                   className="px-2.5 py-1 text-[11px] font-semibold text-stone-800 bg-white hover:bg-stone-100 border border-stone-300 rounded-lg transition-colors cursor-pointer whitespace-nowrap"
                 >
-                  Inspect Dossier →
+                  Author Profile →
                 </button>
                 <div className="hidden sm:block text-right text-[11px] text-stone-500 border-l border-stone-200 pl-3">
-                  <div>Audited: <span className="font-medium text-stone-700">{article.reviewedDate}</span></div>
+                  {article.verifiedBy === 'human' && (
+                    <div>Audited: <span className="font-medium text-stone-700">{article.reviewedDate}</span></div>
+                  )}
                   <div>Read Time: <span className="font-medium text-stone-700">{article.readTime}</span></div>
                 </div>
               </div>
@@ -417,17 +438,6 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
                 <span>Photo/Sign Compressor</span>
               </button>
 
-              {(article.category === 'admit-card' || article.examDate) && (
-                <button
-                  type="button"
-                  onClick={() => setIsUndertakingOpen(true)}
-                  className="px-3.5 py-2 text-xs font-semibold text-amber-900 bg-amber-50 hover:bg-amber-100 border border-amber-300 rounded-lg transition-colors flex items-center gap-1.5 cursor-pointer shadow-2xs"
-                  title="Print emergency undertaking declaration form for photo/sign discrepancy"
-                >
-                  <FileText className="w-3.5 h-3.5 text-amber-600" />
-                  <span>Undertaking Form</span>
-                </button>
-              )}
 
               <button
                 onClick={() => window.print()}
@@ -440,29 +450,38 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
             </div>
           </div>
 
-          {/* Gazette Reference & Summary */}
+          {/* Source Notice & Summary */}
           <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-700 space-y-2">
-            <div className="font-bold text-slate-900 flex items-center gap-2">
-              <Building2 className="w-4 h-4 text-blue-600" />
-              <span>Gazette Advertisement Reference: {article.officialGazetteRef}</span>
+            <div className="font-semibold text-slate-900 flex items-center gap-2 flex-wrap">
+              <Building2 className="w-4 h-4 text-blue-600 shrink-0" />
+              <span>
+                Source Notice:{' '}
+                <a
+                  href={article.sourceNotice?.url || '#'}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-700 hover:underline font-medium inline-flex items-center gap-1"
+                >
+                  {article.sourceNotice?.title || article.organization}
+                  <ExternalLink className="w-3 h-3 inline" />
+                </a>
+                <span className="text-slate-500 font-normal"> (checked on {article.sourceNotice?.checkedOn || 'recently'})</span>
+              </span>
             </div>
             <p className="leading-relaxed text-slate-600">{article.summary}</p>
           </div>
 
-          {/* Google Featured Snippets & "People Also Ask" (PAA) Quick-Answer Snapshot Card */}
-          <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-br from-blue-50/80 via-indigo-50/40 to-slate-50 border-2 border-blue-200/90 shadow-xs space-y-3.5">
+          {/* Key Notification Highlights Card */}
+          <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-br from-blue-50/80 via-indigo-50/40 to-slate-50 border border-blue-200 shadow-xs space-y-3.5">
             <div className="flex items-center justify-between border-b border-blue-200/70 pb-2.5">
               <div className="flex items-center gap-2">
                 <span className="p-1 rounded-md bg-blue-600 text-white shadow-2xs">
                   <Sparkles className="w-3.5 h-3.5" />
                 </span>
                 <span className="text-xs font-extrabold text-blue-950 uppercase tracking-wide">
-                  Quick-Answer Snapshot (Google Position Zero & PAA Verified)
+                  Key Notification Highlights
                 </span>
               </div>
-              <span className="text-[10px] font-semibold text-blue-700 bg-blue-100/80 px-2 py-0.5 rounded-full">
-                PAA Verified
-              </span>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 text-xs">
@@ -1132,8 +1151,6 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
               {/* Exam Day Permitted vs. Barred Items & Strict Dress Code Matrix */}
               <ExamDayChecklist examName={article.examName} />
 
-              {/* Exam Center Locator & TCS iON Transit Navigator */}
-              <CenterTransitGuide />
 
               {/* Live Shift Feedback, Difficulty Analysis & Good Attempts Benchmark */}
               <ShiftFeedbackBriefing examName={article.examName} />
@@ -1355,7 +1372,7 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
             <div className="space-y-3">
               <h2 className="text-base font-bold text-slate-900 flex items-center gap-2">
                 <ExternalLink className="w-4 h-4 text-blue-600" />
-                <span>Verified Direct Government Portal Links</span>
+                <span>Official Government Portal Links</span>
               </h2>
               <div className="border border-slate-200 rounded-xl overflow-hidden shadow-2xs divide-y divide-slate-200">
                 {article.officialLinks.map((link, idx) => (
@@ -1705,34 +1722,13 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
               Official PYQ CBT Simulator
             </h3>
             <p className="text-xs text-slate-300 leading-relaxed">
-              Official TCS iON examination environment with live countdown timer, 5-state question palette, negative marking, and instant verified solutions.
+              Computer-based test simulator with live countdown timer, 5-state question palette, negative marking, and verified solutions.
             </p>
             <button
               onClick={() => onNavigate('/mock-test/ssc-cgl-tier1')}
               className="w-full py-2.5 text-xs font-bold text-white bg-blue-600 hover:bg-blue-500 rounded-lg transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-xs mt-2"
             >
-              <span>Launch Official PYQ Exam</span>
-              <ChevronRight className="w-3.5 h-3.5" />
-            </button>
-          </div>
-
-          {/* Google SERP & SEO Preview Card */}
-          <div className="bg-white rounded-2xl border border-slate-200 p-5 space-y-3 shadow-xs">
-            <div className="flex items-center gap-2 text-xs font-bold text-blue-700 uppercase tracking-wider">
-              <Sparkles className="w-4 h-4 text-amber-500" />
-              <span>SEO Transparency Engine</span>
-            </div>
-            <h4 className="text-sm font-bold text-slate-900 leading-snug">
-              Google Rich Snippet & Schema Inspector
-            </h4>
-            <p className="text-xs text-slate-600 leading-relaxed">
-              Inspect how this notification renders on Google Search with validated JobPosting / NewsArticle JSON-LD structured data.
-            </p>
-            <button
-              onClick={() => onNavigate('/tools/rich-snippet-preview')}
-              className="w-full py-2 text-xs font-semibold text-blue-700 bg-blue-50 hover:bg-blue-100 rounded-lg border border-blue-200 transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
-            >
-              <span>Inspect Search Snippet</span>
+              <span>Launch Practice Exam</span>
               <ChevronRight className="w-3.5 h-3.5" />
             </button>
           </div>
@@ -1843,14 +1839,6 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
       <PhotoSignatureResizerModal
         isOpen={isResizerOpen}
         onClose={() => setIsResizerOpen(false)}
-      />
-
-      {/* Emergency Undertaking Form Modal */}
-      <EmergencyUndertakingModal
-        isOpen={isUndertakingOpen}
-        onClose={() => setIsUndertakingOpen(false)}
-        examName={article.examName}
-        organization={article.organization}
       />
     </div>
   );

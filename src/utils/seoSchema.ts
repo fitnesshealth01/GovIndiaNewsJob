@@ -208,7 +208,7 @@ export function buildJobPostingSchema(item: RecruitmentAlert): Record<string, un
     '@context': 'https://schema.org',
     '@type': 'JobPosting',
     title: item.title,
-    description: `${item.summary} Official Gazette Notification: ${item.officialGazetteRef}. Minimum qualification: ${item.qualification}. Age limit: ${item.ageLimit || 'As per official rules'}.`,
+    description: `${item.summary} Source Notice: ${item.sourceNotice?.title || item.organization}. Minimum qualification: ${item.qualification}. Age limit: ${item.ageLimit || 'As per official notice'}.`,
     identifier: {
       '@type': 'PropertyValue',
       name: item.organization,
@@ -256,12 +256,7 @@ export function buildJobPostingSchema(item: RecruitmentAlert): Record<string, un
       '@type': 'Person',
       name: author.name,
       jobTitle: author.designation,
-      url: `${origin}/trust/authors?author=${author.id}`,
-      alumniOf: author.education.map((e) => ({
-        '@type': 'EducationalOrganization',
-        name: e.institution,
-      })),
-      knowsAbout: author.statutoryFocusAreas,
+      url: `${origin}/about`,
     },
     url,
   };
@@ -285,12 +280,7 @@ export function buildNewsArticleSchema(item: RecruitmentAlert): Record<string, u
         '@type': 'Person',
         name: author.name,
         jobTitle: author.designation,
-        url: `${origin}/trust/authors?author=${author.id}`,
-        alumniOf: author.education.map((e) => ({
-          '@type': 'EducationalOrganization',
-          name: e.institution,
-        })),
-        knowsAbout: author.statutoryFocusAreas,
+        url: `${origin}/about`,
       },
     ],
     publisher: {
@@ -311,7 +301,7 @@ export function buildNewsArticleSchema(item: RecruitmentAlert): Record<string, u
 
 export function buildAuthorProfilePageSchema(author: AuthorProfile): Record<string, unknown> {
   const origin = getOrigin();
-  const url = `${origin}/trust/authors?author=${author.id}`;
+  const url = `${origin}/about`;
 
   return {
     '@context': 'https://schema.org',
@@ -320,28 +310,13 @@ export function buildAuthorProfilePageSchema(author: AuthorProfile): Record<stri
       '@type': 'Person',
       name: author.name,
       jobTitle: author.designation,
-      description: author.executiveSummary,
+      description: author.biography,
       url,
       worksFor: {
         '@type': 'NewsMediaOrganization',
         name: 'GovIndiaNews',
         url: origin,
       },
-      alumniOf: author.education.map((edu) => ({
-        '@type': 'EducationalOrganization',
-        name: edu.institution,
-      })),
-      knowsAbout: author.statutoryFocusAreas,
-      hasCredential: [
-        {
-          '@type': 'EducationalOccupationalCredential',
-          name: author.accreditationBadge,
-          recognizedBy: {
-            '@type': 'Organization',
-            name: author.accreditationBadge,
-          },
-        },
-      ],
     },
   };
 }

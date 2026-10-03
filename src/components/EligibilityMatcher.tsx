@@ -123,7 +123,7 @@ export const EligibilityMatcher: React.FC<EligibilityMatcherProps> = ({ onNaviga
 
   // Evaluation algorithm
   const evaluationResults = useMemo(() => {
-    const jobAlerts = RECRUITMENT_ALERTS.filter((alert) => alert.category === 'jobs');
+    const jobAlerts = RECRUITMENT_ALERTS.filter((alert) => alert.category === 'jobs' && alert.status === 'verified');
     const userRank = educationTierRank[education];
 
     const eligibleList: { alert: RecruitmentAlert; reason: string; countdown: ReturnType<typeof calculateDeadlineCountdown> }[] = [];
@@ -413,12 +413,11 @@ export const EligibilityMatcher: React.FC<EligibilityMatcherProps> = ({ onNaviga
                   </div>
 
                   <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
-                    <span className="text-[11px] text-emerald-700 font-semibold flex items-center gap-1">
-                      <ShieldCheck className="w-3.5 h-3.5" />
-                      {alert.officialGazetteRef}
+                    <span className="text-[11px] text-slate-600 font-medium flex items-center gap-1">
+                      Source: {alert.sourceNotice?.title || alert.organization}
                     </span>
                     <span className="font-bold text-blue-700 group-hover:translate-x-0.5 transition-transform flex items-center gap-1">
-                      View Gazette & Apply <ArrowRight className="w-3.5 h-3.5" />
+                      View Details & Apply <ArrowRight className="w-3.5 h-3.5" />
                     </span>
                   </div>
                 </div>

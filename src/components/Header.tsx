@@ -432,7 +432,7 @@ export const Header: React.FC<HeaderProps> = ({
                     <Sparkles className="w-3 h-3 text-blue-400" />
                     Official PYQ Series
                   </span>
-                  <span className="text-[10px] text-slate-400">TCS iON Simulation</span>
+                  <span className="text-[10px] text-slate-400">CBT Practice Engine</span>
                 </div>
                 <h4 className="text-sm font-extrabold text-white">
                   Official Previous Year Questions (PYQ) CBT Simulator

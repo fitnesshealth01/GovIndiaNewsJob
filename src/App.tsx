@@ -12,7 +12,6 @@ import { ArticleView } from './components/ArticleView';
 import { LegalPages } from './components/LegalPages';
 import { FAQHub } from './components/FAQHub';
 import { EligibilityMatcher } from './components/EligibilityMatcher';
-import { GoogleSnippetPreview } from './components/GoogleSnippetPreview';
 import { TrustHub } from './components/TrustHub';
 import { SavedNotificationsModal } from './components/SavedNotificationsModal';
 import { getBookmarks } from './utils/bookmarkStorage';
@@ -33,7 +32,8 @@ import {
   ArrowLeft,
   Filter,
 } from 'lucide-react';
-import { RECRUITMENT_ALERTS, RecruitmentAlert, isJobApplicationOpen } from './data/gazetteData';
+import { RECRUITMENT_ALERTS, RecruitmentAlert } from './data/gazetteData';
+import { isAlertActiveAndVerified, isAlertExpired } from './utils/alertStatus';
 
 export default function App() {
   // Initialize path from window.location
@@ -114,6 +114,8 @@ export default function App() {
       title = 'Terms of Service - GovIndiaNews';
     } else if (currentPath === '/contact') {
       title = 'Contact Editorial Desk - GovIndiaNews';
+    } else if (currentPath === '/archive') {
+      title = 'Archived Recruitment Notices - GovIndiaNews';
     }
     document.title = title;
 
@@ -134,6 +136,26 @@ export default function App() {
     return RECRUITMENT_ALERTS.find((a) => a.slug === slug) || null;
   }, [currentPath]);
 
+  // Set robots noindex for unverified or expired articles and archive page
+  useEffect(() => {
+    if (typeof document === 'undefined') return;
+    let robotsMeta = document.querySelector('meta[name="robots"]');
+    if (!robotsMeta) {
+      robotsMeta = document.createElement('meta');
+      robotsMeta.setAttribute('name', 'robots');
+      document.head.appendChild(robotsMeta);
+    }
+
+    const isUnverifiedArticle = currentArticle && currentArticle.status !== 'verified';
+    const isArchivePage = currentPath === '/archive';
+
+    if (isUnverifiedArticle || isArchivePage) {
+      robotsMeta.setAttribute('content', 'noindex, follow');
+    } else {
+      robotsMeta.setAttribute('content', 'index, follow');
+    }
+  }, [currentArticle, currentPath]);
+
   // Synchronize calculator sub-tab if URL is /tools/:tool
   useEffect(() => {
     if (currentPath === '/tools/eligibility' || currentPath === '/matcher') setCalculatorSubTab('eligibility');
@@ -143,13 +165,18 @@ export default function App() {
     else if (currentPath === '/tools/rank') setCalculatorSubTab('rank');
   }, [currentPath]);
 
-  // Filtered search results (excluding passed recruitment jobs)
+  // Verified active alerts for dynamic updates
+  const verifiedActiveAlerts = useMemo(() => {
+    return RECRUITMENT_ALERTS.filter((item) => isAlertActiveAndVerified(item));
+  }, []);
+
+  // Filtered search results (strictly verified, active recruitment notices)
   const searchResults = useMemo(() => {
     if (!globalSearchTerm.trim()) return [];
     const q = globalSearchTerm.toLowerCase();
     return RECRUITMENT_ALERTS.filter(
       (item) =>
-        (item.category !== 'jobs' || isJobApplicationOpen(item)) &&
+        isAlertActiveAndVerified(item) &&
         (item.title.toLowerCase().includes(q) ||
           item.organization.toLowerCase().includes(q) ||
           item.examName.toLowerCase().includes(q) ||
@@ -159,92 +186,32 @@ export default function App() {
 
   return (
     <div className="min-h-screen flex flex-col bg-slate-50 text-slate-900 selection:bg-blue-100 selection:text-blue-900 max-w-full overflow-x-hidden">
-      {/* Breaking Marquee Bar */}
-      <div className="bg-slate-900 text-white text-xs py-2 px-4 border-b border-slate-800">
-        <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
-          <div className="flex items-center gap-2 overflow-hidden">
-            <span className="flex items-center gap-1 font-bold text-blue-400 uppercase tracking-wider shrink-0 text-[10px] bg-blue-950 px-2 py-0.5 rounded border border-blue-800">
-              <Bell className="w-3 h-3 text-blue-400 animate-pulse" />
-              GovIndiaNews:
-            </span>
-            <div className="truncate text-slate-300 text-xs">
-              <button
-                onClick={() => navigate('/article/sbi-junior-associates-clerk-recruitment-2026')}
-                className="font-semibold text-white hover:underline cursor-pointer"
-              >
-                SBI Junior Associates (12,500+ Posts) Active
-              </button>{' '}
-              ·{' '}
-              <button
-                onClick={() => navigate('/article/rrb-ntpc-2026-recruitment-apply-online')}
-                className="font-semibold text-white hover:underline cursor-pointer"
-              >
-                RRB NTPC (11,558 Posts) Active
-              </button>{' '}
-              ·{' '}
-              <button
-                onClick={() => navigate('/article/upsc-civil-services-mains-2026-e-admit-card-download')}
-                className="font-bold text-amber-300 hover:underline cursor-pointer"
-              >
-                [NEW] UPSC CSE Mains 2026 Admit Card Out
-              </button>{' '}
-              ·{' '}
-              <button
-                onClick={() => navigate('/article/ssc-cgl-2026-tier-1-admit-card-all-regions-download')}
-                className="font-bold text-amber-300 hover:underline cursor-pointer"
-              >
-                [NEW] SSC CGL Tier-1 Hall Ticket All Regions (30 Sep)
-              </button>{' '}
-              ·{' '}
-              <button
-                onClick={() => navigate('/article/rrb-alp-cbt-1-city-intimation-admit-card-cen-01-2026')}
-                className="font-bold text-amber-300 hover:underline cursor-pointer"
-              >
-                [NEW] RRB ALP CBT-1 City Slip Active (30 Sep)
-              </button>{' '}
-              ·{' '}
-              <button
-                onClick={() => navigate('/article/sbi-junior-associates-clerk-recruitment-2026')}
-                className="font-semibold text-white hover:underline cursor-pointer"
-              >
-                SBI Clerk 2026 (12,500+ Posts - Apply by 18 Nov)
-              </button>{' '}
-              ·{' '}
-              <button
-                onClick={() => navigate('/article/isro-scientist-engineer-sc-recruitment-2026')}
-                className="font-semibold text-white hover:underline cursor-pointer"
-              >
-                ISRO Scientist SC (303 Posts - Apply by 04 Nov)
-              </button>{' '}
-              ·{' '}
-              <button
-                onClick={() => navigate('/article/rbi-grade-b-officers-recruitment-2026')}
-                className="font-semibold text-white hover:underline cursor-pointer"
-              >
-                RBI Grade B (94 Posts - Apply by 25 Oct)
-              </button>{' '}
-              ·{' '}
-              <button
-                onClick={() => navigate('/article/drdo-rac-scientist-b-recruitment-2026-gate')}
-                className="font-semibold text-white hover:underline cursor-pointer"
-              >
-                DRDO Scientist B (248 Posts - Apply by 15 Dec)
-              </button>{' '}
-              ·{' '}
-              <button
-                onClick={() => navigate('/article/rpf-si-constable-recruitment-2026')}
-                className="font-semibold text-white hover:underline cursor-pointer"
-              >
-                RPF SI & Constable (4,660 Posts)
-              </button>
+      {/* Breaking Marquee Bar: only displayed if there are verified, active alerts */}
+      {verifiedActiveAlerts.length > 0 && (
+        <div className="bg-slate-900 text-white text-xs py-2 px-4 border-b border-slate-800">
+          <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
+            <div className="flex items-center gap-2 overflow-hidden">
+              <span className="flex items-center gap-1 font-bold text-blue-400 uppercase tracking-wider shrink-0 text-[10px] bg-blue-950 px-2 py-0.5 rounded border border-blue-800">
+                <Bell className="w-3 h-3 text-blue-400 animate-pulse" />
+                Updates:
+              </span>
+              <div className="truncate text-slate-300 text-xs flex items-center gap-3">
+                {verifiedActiveAlerts.map((alert, idx) => (
+                  <React.Fragment key={alert.id}>
+                    {idx > 0 && <span className="text-slate-600">·</span>}
+                    <button
+                      onClick={() => navigate(`/article/${alert.slug}`)}
+                      className="font-semibold text-white hover:underline cursor-pointer truncate max-w-xs"
+                    >
+                      {alert.title}
+                    </button>
+                  </React.Fragment>
+                ))}
+              </div>
             </div>
           </div>
-          <div className="hidden md:flex items-center gap-2 shrink-0 text-[11px] text-slate-400">
-            <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
-            <span>100% Free · Client-Side Privacy</span>
-          </div>
         </div>
-      </div>
+      )}
 
       {/* Top Header Navigation */}
       <Header
@@ -454,6 +421,21 @@ export default function App() {
           </div>
         )}
 
+        {/* ROUTE 4.5: ARCHIVED NOTICES (/archive) */}
+        {currentPath === '/archive' && (
+          <div className="space-y-6">
+            <div className="border-b border-slate-200 pb-3">
+              <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">
+                Archived Recruitment Notices & Expired Drives
+              </h1>
+              <p className="text-xs text-slate-500 mt-1">
+                Historical records of past government recruitment drives whose application deadlines or examination schedules have concluded.
+              </p>
+            </div>
+            <RecruitmentDirectory initialCategory="archive" onNavigate={navigate} />
+          </div>
+        )}
+
         {/* ROUTE 5: CENTRAL FAQ KNOWLEDGE HUB */}
         {currentPath === '/faqs' && <FAQHub onNavigate={navigate} />}
 
@@ -473,12 +455,6 @@ export default function App() {
           </div>
         )}
 
-        {/* ROUTE 6.6: GOOGLE SNIPPET PREVIEW & SCHEMA INSPECTOR */}
-        {(currentPath === '/tools/rich-snippet-preview' || currentPath === '/tools/seo') && (
-          <div className="space-y-6">
-            <GoogleSnippetPreview onNavigate={navigate} />
-          </div>
-        )}
 
         {/* ROUTE 6.7: E-E-A-T & GOOGLE ADSENSE TRUST HUB */}
         {(currentPath.startsWith('/trust/editorial') || currentPath === '/editorial-policy') && (
@@ -520,7 +496,7 @@ export default function App() {
                 </h1>
 
                 <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
-                  Verified central gazette notifications, precise age relaxation calculation on cutoff dates, negative marking penalty scorecards, and live TCS iON examination simulations.
+                  Verified government recruitment notifications, precise age relaxation calculation on cutoff dates, negative marking penalty scorecards, and computer-based mock exam practice.
                 </p>
 
                 {/* Quick Search in Hero */}
@@ -792,7 +768,7 @@ export default function App() {
                   Transparent, Authentic & Student-First Information
                 </h3>
                 <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                  Founded by <strong className="text-white">Akash Singh Solanki</strong>, BSc Physics & COPA ITI certified developer. GovIndiaNews was created to eradicate recruitment misinformation and fake notifications. All formulas and notices are cross-verified directly against official government gazettes.
+                  Founded by <strong className="text-white">Akash Singh Solanki</strong>, Founder & Editor. GovIndiaNews was created to provide students with honest, verified recruitment updates and accurate calculators cross-referenced directly against official government notifications.
                 </p>
                 <div className="pt-2 flex flex-wrap items-center gap-6 text-xs text-slate-300">
                   <span className="flex items-center gap-1.5">
