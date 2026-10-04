@@ -140,7 +140,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                   onClick={() => onNavigate('/trust/editorial')}
                   className="hover:text-emerald-400 font-semibold transition-colors cursor-pointer text-left"
                 >
-                  Editorial Integrity & Standards
+                  Editorial Integrity & Gazette Policy
                 </button>
               </li>
               <li>
@@ -148,7 +148,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                   onClick={() => onNavigate('/trust/grievance')}
                   className="hover:text-emerald-400 font-semibold transition-colors cursor-pointer text-left"
                 >
-                  Contact & Feedback Desk
+                  Statutory Grievance Officer (IT Rules)
                 </button>
               </li>
               <li>
@@ -156,7 +156,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                   onClick={() => onNavigate('/trust/authors')}
                   className="hover:text-white transition-colors cursor-pointer text-left"
                 >
-                  Founder & Editor Profile
+                  Editorial Board & Authors (E-E-A-T)
                 </button>
               </li>
               <li>

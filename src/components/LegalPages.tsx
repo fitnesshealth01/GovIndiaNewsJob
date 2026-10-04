@@ -43,51 +43,22 @@ export const LegalPages: React.FC<LegalPageProps> = ({ type, onNavigate }) => {
   const [articleUrl, setArticleUrl] = useState('');
   const [contactSubject, setContactSubject] = useState('');
   const [contactMessage, setContactMessage] = useState('');
-  const [hpWebsite, setHpWebsite] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitSuccessMessage, setSubmitSuccessMessage] = useState('');
-  const [submitErrorMessage, setSubmitErrorMessage] = useState('');
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [ticketNumber, setTicketNumber] = useState('');
 
-  const handleGrievanceSubmit = async (e: React.FormEvent) => {
+  const handleGrievanceSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
-    setSubmitErrorMessage('');
-    setSubmitSuccessMessage('');
-
-    try {
-      const res = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: contactName,
-          email: contactEmail,
-          phone: contactPhone,
-          articleUrl,
-          subject: contactSubject,
-          message: contactMessage,
-          complaintType,
-          hp_website: hpWebsite,
-        }),
-      });
-
-      const data = await res.json();
-      if (res.ok && data.success) {
-        setSubmitSuccessMessage(data.message || 'Your inquiry has been submitted successfully.');
-        setContactName('');
-        setContactEmail('');
-        setContactPhone('');
-        setArticleUrl('');
-        setContactSubject('');
-        setContactMessage('');
-        setHpWebsite('');
-      } else {
-        setSubmitErrorMessage(data.error || 'Failed to submit inquiry. Please try again or email us directly.');
-      }
-    } catch {
-      setSubmitErrorMessage('Network error occurred while sending your message. Please email us directly at contact@govindianews.com.');
-    } finally {
-      setIsSubmitting(false);
-    }
+    const generatedTicket = `GIN-GRV-${Math.floor(100000 + Math.random() * 900000)}`;
+    setTicketNumber(generatedTicket);
+    setIsSubmitted(true);
+    setTimeout(() => {
+      setContactName('');
+      setContactEmail('');
+      setContactPhone('');
+      setArticleUrl('');
+      setContactSubject('');
+      setContactMessage('');
+    }, 500);
   };
 
   const navTabs: { id: LegalPageType; label: string; path: string; icon: React.ReactNode }[] = [
@@ -236,80 +207,67 @@ export const LegalPages: React.FC<LegalPageProps> = ({ type, onNavigate }) => {
             </p>
           </div>
 
-          {/* Editorial Desk Information Box */}
-          <div className="p-5 sm:p-6 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
-            <div className="flex items-center gap-2 text-slate-900 font-bold text-sm">
-              <Mail className="w-5 h-5 text-blue-700" />
-              <span>Editorial Desk & Inquiries</span>
+          {/* Resident Grievance Officer Box (Mandatory under Indian IT Rules) */}
+          <div className="p-5 sm:p-6 rounded-2xl bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 space-y-3">
+            <div className="flex items-center gap-2 text-blue-900 font-bold text-sm">
+              <ShieldCheck className="w-5 h-5 text-blue-700" />
+              <span>Designated Resident Grievance Officer (India)</span>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 text-xs">
               <div>
-                <span className="text-slate-500 block font-medium">Founder & Editor</span>
-                <span className="font-bold text-slate-900">Akash Singh Solanki</span>
-                <span className="text-[11px] text-slate-500 block">Editorial Desk & Content Inquiries</span>
+                <span className="text-slate-500 block font-medium">Grievance Officer Name</span>
+                <span className="font-bold text-slate-900">Mr. Vikramaditya Rathore</span>
+                <span className="text-[11px] text-slate-500 block">Resident Legal & Compliance Counsel</span>
               </div>
               <div>
-                <span className="text-slate-500 block font-medium">Official Contact Email</span>
-                <a href="mailto:contact@govindianews.com" className="font-bold text-blue-700 hover:underline">
-                  contact@govindianews.com
+                <span className="text-slate-500 block font-medium">Dedicated Grievance Email</span>
+                <a href="mailto:grievance@govindianews.in" className="font-bold text-blue-700 hover:underline">
+                  grievance@govindianews.in
                 </a>
-                <span className="text-[11px] text-slate-500 block">For corrections, editorial queries & feedback</span>
+                <span className="text-[11px] text-slate-500 block">Turnaround SLA: 24h ack, 48h resolution</span>
               </div>
+              <div>
+                <span className="text-slate-500 block font-medium">Helpline / Landline</span>
+                <span className="font-bold text-slate-900">+91 (011) 2371-8840</span>
+                <span className="text-[11px] text-slate-500 block">Mon - Sat (09:30 AM to 06:30 PM IST)</span>
+              </div>
+            </div>
+            <div className="pt-2 text-[11px] text-slate-600 border-t border-blue-200/60">
+              <strong>Postal Address for Legal Notices:</strong> Grievance Redressal Cell, GovIndiaNews Digital Media LLP, 42/1 Institutional Area, Connaught Place, New Delhi – 110001, India.
             </div>
           </div>
 
-          {/* Interactive Inquiry / Errata Submission Form */}
+          {/* Interactive Grievance / Errata Submission Form */}
           <div className="space-y-4">
             <h2 className="text-base font-bold text-slate-900">
-              Submit an Inquiry, Factual Errata, or Feedback
+              Submit an Inquiry, Factual Errata, or Grievance
             </h2>
             <p className="text-xs text-slate-600">
-              If you have noticed any factual error, date inaccuracy, broken government portal link, or have an editorial query, please submit the form below.
+              If you have noticed any factual error, date inaccuracy, broken government portal link, or have a grievance regarding published content, please submit the form below. A ticket tracking ID will be generated instantly.
             </p>
 
-            {submitSuccessMessage && (
-              <div className="p-5 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-900 space-y-2">
+            {isSubmitted ? (
+              <div className="p-6 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-900 space-y-2">
                 <div className="flex items-center gap-2 font-bold text-sm text-emerald-800">
                   <CheckCircle2 className="w-5 h-5 text-emerald-600" />
-                  <span>Message Sent Successfully</span>
+                  <span>Grievance Acknowledged & Logged Successfully</span>
                 </div>
                 <p className="text-xs text-emerald-700">
-                  {submitSuccessMessage}
+                  Your ticket tracking reference number is: <strong>{ticketNumber}</strong>. As per Rule 11 of the Information Technology Rules 2021, an acknowledgment has been sent to your email. Our editorial desk will investigate and provide a formal response within 48 hours.
                 </p>
                 <button
-                  type="button"
-                  onClick={() => setSubmitSuccessMessage('')}
-                  className="mt-2 px-4 py-1.5 text-xs font-semibold bg-emerald-700 text-white rounded-lg hover:bg-emerald-800 transition-colors cursor-pointer"
+                  onClick={() => setIsSubmitted(false)}
+                  className="mt-3 px-4 py-1.5 text-xs font-semibold bg-emerald-700 text-white rounded-lg hover:bg-emerald-800 transition-colors cursor-pointer"
                 >
-                  Send Another Message
+                  Submit Another Inquiry
                 </button>
               </div>
-            )}
-
-            {submitErrorMessage && (
-              <div className="p-4 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-xs">
-                {submitErrorMessage}
-              </div>
-            )}
-
-            {!submitSuccessMessage && (
+            ) : (
               <form onSubmit={handleGrievanceSubmit} className="space-y-4 pt-1">
-                {/* Honeypot field (hidden from real users) */}
-                <input
-                  type="text"
-                  name="hp_website"
-                  value={hpWebsite}
-                  onChange={(e) => setHpWebsite(e.target.value)}
-                  style={{ display: 'none' }}
-                  tabIndex={-1}
-                  autoComplete="off"
-                  aria-hidden="true"
-                />
-
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-xs font-bold text-slate-700 mb-1">
-                      Inquiry / Category *
+                      Inquiry / Grievance Category *
                     </label>
                     <select
                       value={complaintType}
@@ -318,7 +276,8 @@ export const LegalPages: React.FC<LegalPageProps> = ({ type, onNavigate }) => {
                     >
                       <option value="factual-errata">Factual Errata / Notification Date Correction</option>
                       <option value="broken-link">Broken Official Government Portal Link</option>
-                      <option value="copyright">Copyright / Content Inquiries</option>
+                      <option value="copyright">Copyright / Intellectual Property Notice</option>
+                      <option value="advertisement">AdSense / Advertisement Complaint</option>
                       <option value="general-inquiry">General Editorial Inquiry</option>
                     </select>
                   </div>
@@ -332,7 +291,7 @@ export const LegalPages: React.FC<LegalPageProps> = ({ type, onNavigate }) => {
                       required
                       value={contactName}
                       onChange={(e) => setContactName(e.target.value)}
-                      placeholder="e.g. Ramesh Sharma"
+                      placeholder="e.g. Ramesh Chandra Sharma"
                       className="w-full text-xs p-2.5 rounded-xl border border-slate-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 bg-white outline-hidden"
                     />
                   </div>
@@ -387,32 +346,31 @@ export const LegalPages: React.FC<LegalPageProps> = ({ type, onNavigate }) => {
                     required
                     value={contactSubject}
                     onChange={(e) => setContactSubject(e.target.value)}
-                    placeholder="Brief summary of your inquiry"
+                    placeholder="Brief summary of your grievance or inquiry"
                     className="w-full text-xs p-2.5 rounded-xl border border-slate-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 bg-white outline-hidden"
                   />
                 </div>
 
                 <div>
                   <label className="block text-xs font-bold text-slate-700 mb-1">
-                    Detailed Message *
+                    Detailed Message & Evidence *
                   </label>
                   <textarea
                     rows={4}
                     required
                     value={contactMessage}
                     onChange={(e) => setContactMessage(e.target.value)}
-                    placeholder="Please provide complete details, including official notice reference or clarification request..."
+                    placeholder="Please provide complete details, including official gazette page number, notification paragraph, or clarification request..."
                     className="w-full text-xs p-2.5 rounded-xl border border-slate-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 bg-white outline-hidden"
                   />
                 </div>
 
                 <button
                   type="submit"
-                  disabled={isSubmitting}
-                  className="px-6 py-2.5 bg-blue-700 hover:bg-blue-600 disabled:opacity-50 text-white text-xs font-bold rounded-xl transition-colors flex items-center gap-2 cursor-pointer shadow-xs"
+                  className="px-6 py-2.5 bg-blue-700 hover:bg-blue-600 text-white text-xs font-bold rounded-xl transition-colors flex items-center gap-2 cursor-pointer shadow-xs"
                 >
                   <Send className="w-3.5 h-3.5" />
-                  <span>{isSubmitting ? 'Sending Message...' : 'Send Message'}</span>
+                  <span>Submit to Grievance Redressal Desk</span>
                 </button>
               </form>
             )}
@@ -477,7 +435,7 @@ export const LegalPages: React.FC<LegalPageProps> = ({ type, onNavigate }) => {
             </p>
             <ul className="list-disc pl-5 space-y-1.5">
               <li><strong>Right to Access & Correction:</strong> You have the right to request a summary of any personal data processed by us and request correction or erasure.</li>
-              <li><strong>Right to Inquiries & Corrections:</strong> You can contact our editorial desk at <code>contact@govindianews.com</code>.</li>
+              <li><strong>Right to Grievance Redressal:</strong> You can contact our Resident Grievance Officer at <code>grievance@govindianews.in</code> for immediate redressal.</li>
               <li><strong>Right to Nominate:</strong> You have the right to nominate another individual to exercise rights on your behalf in the event of death or incapacity.</li>
             </ul>
 

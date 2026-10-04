@@ -421,7 +421,7 @@ export const MockTestEngine: React.FC<MockTestEngineProps> = ({ onClose }) => {
               Roll: 2026-SSC-0914 · Candidate: Aspirant
             </div>
             <div className="text-[11px] text-slate-400">
-              Computer-Based Practice Test (Standard Exam Environment)
+              Official PYQ Computer Based Test (TCS iON Examination Environment)
             </div>
           </div>
         </div>
@@ -601,7 +601,7 @@ export const MockTestEngine: React.FC<MockTestEngineProps> = ({ onClose }) => {
           <div>
             <div className="flex items-center justify-between mb-3">
               <h4 className="text-xs font-bold uppercase tracking-wider text-slate-700">
-                Question Palette
+                Question Palette (TCS iON Style)
               </h4>
               <button
                 type="button"

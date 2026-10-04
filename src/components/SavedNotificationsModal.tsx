@@ -108,32 +108,30 @@ export const SavedNotificationsModal: React.FC<SavedNotificationsModalProps> = (
                 </p>
               </div>
 
-              {/* Suggestions (only verified) */}
-              {RECRUITMENT_ALERTS.filter((a) => a.status === 'verified').length > 0 && (
-                <div className="pt-4 border-t border-slate-100 text-left space-y-2">
-                  <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block text-center">
-                    Recommended to Pin
-                  </span>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                    {RECRUITMENT_ALERTS.filter((a) => a.status === 'verified').slice(0, 4).map((alert) => (
-                      <button
-                        key={alert.id}
-                        type="button"
-                        onClick={() => handleAddSuggested(alert.id)}
-                        className="p-2.5 rounded-xl border border-slate-200 hover:border-blue-400 hover:bg-blue-50/50 text-left transition-all flex items-center justify-between group"
-                      >
-                        <div className="truncate mr-2">
-                          <span className="text-xs font-bold text-slate-900 block truncate">{alert.title}</span>
-                          <span className="text-[10px] text-slate-500">{alert.organization}</span>
-                        </div>
-                        <span className="text-xs font-bold text-blue-700 shrink-0 group-hover:scale-105 transition-transform">
-                          + Pin
-                        </span>
-                      </button>
-                    ))}
-                  </div>
+              {/* Suggestions */}
+              <div className="pt-4 border-t border-slate-100 text-left space-y-2">
+                <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block text-center">
+                  Recommended to Pin Today
+                </span>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  {RECRUITMENT_ALERTS.slice(0, 4).map((alert) => (
+                    <button
+                      key={alert.id}
+                      type="button"
+                      onClick={() => handleAddSuggested(alert.id)}
+                      className="p-2.5 rounded-xl border border-slate-200 hover:border-blue-400 hover:bg-blue-50/50 text-left transition-all flex items-center justify-between group"
+                    >
+                      <div className="truncate mr-2">
+                        <span className="text-xs font-bold text-slate-900 block truncate">{alert.title}</span>
+                        <span className="text-[10px] text-slate-500">{alert.organization}</span>
+                      </div>
+                      <span className="text-xs font-bold text-blue-700 shrink-0 group-hover:scale-105 transition-transform">
+                        + Pin
+                      </span>
+                    </button>
+                  ))}
                 </div>
-              )}
+              </div>
             </div>
           ) : (
             savedAlerts.map((alert) => {

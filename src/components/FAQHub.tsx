@@ -63,7 +63,7 @@ const FAQ_DATABASE: FAQEntry[] = [
     category: 'marking',
     categoryLabel: 'Marking & Scores',
     question: 'How does multi-shift score normalization work in CBT exams?',
-    answer: 'Multi-shift exams utilize the Mean-Standard Deviation or Equi-Percentile Normalization method adopted by recruiting agencies and testing bodies. If a candidate appears in a statistically tougher shift where the average score is low, their raw score receives positive normalization bonus points to balance inter-shift difficulty variations.',
+    answer: 'Multi-shift exams utilize the Mean-Standard Deviation or Equi-Percentile Normalization method adopted by TCS iON and recruiting agencies. If a candidate appears in a statistically tougher shift where the average score is low, their raw score receives positive normalization bonus points to balance inter-shift difficulty variations.',
     officialRef: 'SSC Normalization Notice No. 1-1/2018-P&P-I & RRB CEN Normalization Formula',
   },
 
