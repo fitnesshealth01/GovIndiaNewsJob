@@ -12,9 +12,20 @@ import { ArticleView } from './components/ArticleView';
 import { LegalPages } from './components/LegalPages';
 import { FAQHub } from './components/FAQHub';
 import { EligibilityMatcher } from './components/EligibilityMatcher';
-import { GoogleSnippetPreview } from './components/GoogleSnippetPreview';
 import { TrustHub } from './components/TrustHub';
 import { SavedNotificationsModal } from './components/SavedNotificationsModal';
+import { LiveUpdatesHub } from './components/LiveUpdatesHub';
+import { ExamHubView } from './components/ExamHubView';
+import { VacancyTrackerView } from './components/VacancyTrackerView';
+import { GuideView } from './components/GuideView';
+import { SalaryCalculatorPage } from './components/tools/SalaryCalculatorPage';
+import { PhotoSignatureCheckerPage } from './components/tools/PhotoSignatureCheckerPage';
+import { CategoryRelaxationPage } from './components/tools/CategoryRelaxationPage';
+import { AgeCalculatorPage } from './components/tools/AgeCalculatorPage';
+import { NegativeMarkingPage } from './components/tools/NegativeMarkingPage';
+import { HeightEligibilityPage } from './components/tools/HeightEligibilityPage';
+import { RankPredictorPage } from './components/tools/RankPredictorPage';
+import { EligibilityMatcherPage } from './components/tools/EligibilityMatcherPage';
 import { getBookmarks } from './utils/bookmarkStorage';
 import {
   Calendar,
@@ -33,7 +44,8 @@ import {
   ArrowLeft,
   Filter,
 } from 'lucide-react';
-import { RECRUITMENT_ALERTS, RecruitmentAlert, isJobApplicationOpen } from './data/gazetteData';
+import { RECRUITMENT_ALERTS, RecruitmentAlert } from './data/gazetteData';
+import { isAlertActive, isAlertActiveAndVerified, isAlertExpired } from './utils/alertStatus';
 
 export default function App() {
   // Initialize path from window.location
@@ -92,9 +104,23 @@ export default function App() {
       }
     } else if (currentPath.startsWith('/mock-test')) {
       title = 'Online Exam Mock Test Simulator - GovIndiaNews';
+    } else if (currentPath === '/tools/salary') {
+      title = '7th Pay Commission In-Hand Salary Calculator - GovIndiaNews';
+    } else if (currentPath === '/tools/photo-checker') {
+      title = 'Official Exam Photo & Signature Compliance Checker - GovIndiaNews';
+    } else if (currentPath === '/tools/relaxation') {
+      title = 'Government Job Fee & Category Age Relaxation Calculator - GovIndiaNews';
+    } else if (currentPath === '/tools/age') {
+      title = 'Government Job Age Cutoff Calculator - GovIndiaNews';
+    } else if (currentPath === '/tools/marking') {
+      title = 'Negative Marking Penalty Score Calculator - GovIndiaNews';
+    } else if (currentPath === '/tools/height') {
+      title = 'Physical Height & Chest Standard Eligibility Checker - GovIndiaNews';
+    } else if (currentPath === '/tools/rank') {
+      title = 'Exam Rank & Score Normalization Predictor - GovIndiaNews';
     } else if (currentPath === '/tools/eligibility' || currentPath === '/matcher') {
       title = 'Instant Govt Job Eligibility Matcher - GovIndiaNews';
-    } else if (currentPath === '/tools' || currentPath.startsWith('/tools/')) {
+    } else if (currentPath === '/tools') {
       title = 'Govt Exam Smart Calculators Suite - GovIndiaNews';
     } else if (currentPath === '/jobs') {
       title = 'Latest Govt Jobs 2026 Notifications - GovIndiaNews';
@@ -114,6 +140,8 @@ export default function App() {
       title = 'Terms of Service - GovIndiaNews';
     } else if (currentPath === '/contact') {
       title = 'Contact Editorial Desk - GovIndiaNews';
+    } else if (currentPath === '/archive') {
+      title = 'Archived Recruitment Notices - GovIndiaNews';
     }
     document.title = title;
 
@@ -131,8 +159,35 @@ export default function App() {
   const currentArticle = useMemo(() => {
     if (!currentPath.startsWith('/article/')) return null;
     const slug = currentPath.replace('/article/', '');
-    return RECRUITMENT_ALERTS.find((a) => a.slug === slug) || null;
+    return (
+      RECRUITMENT_ALERTS.find(
+        (a) =>
+          a.slug === slug ||
+          (slug === 'army-1600-meter-running-time-agniveer-pft-standards' &&
+            a.slug === 'army-1600-meter-running-standards-agniveer-guide')
+      ) || null
+    );
   }, [currentPath]);
+
+  // Set robots noindex for unverified or expired articles and archive page
+  useEffect(() => {
+    if (typeof document === 'undefined') return;
+    let robotsMeta = document.querySelector('meta[name="robots"]');
+    if (!robotsMeta) {
+      robotsMeta = document.createElement('meta');
+      robotsMeta.setAttribute('name', 'robots');
+      document.head.appendChild(robotsMeta);
+    }
+
+    const isUnverifiedArticle = currentArticle && currentArticle.status !== 'verified';
+    const isArchivePage = currentPath === '/archive';
+
+    if (isUnverifiedArticle || isArchivePage) {
+      robotsMeta.setAttribute('content', 'noindex, follow');
+    } else {
+      robotsMeta.setAttribute('content', 'index, follow');
+    }
+  }, [currentArticle, currentPath]);
 
   // Synchronize calculator sub-tab if URL is /tools/:tool
   useEffect(() => {
@@ -143,13 +198,18 @@ export default function App() {
     else if (currentPath === '/tools/rank') setCalculatorSubTab('rank');
   }, [currentPath]);
 
-  // Filtered search results (excluding passed recruitment jobs)
+  // Verified active alerts for dynamic updates
+  const verifiedActiveAlerts = useMemo(() => {
+    return RECRUITMENT_ALERTS.filter((item) => isAlertActiveAndVerified(item));
+  }, []);
+
+  // Filtered search results (active recruitment notices across verified and in-review)
   const searchResults = useMemo(() => {
     if (!globalSearchTerm.trim()) return [];
     const q = globalSearchTerm.toLowerCase();
     return RECRUITMENT_ALERTS.filter(
       (item) =>
-        (item.category !== 'jobs' || isJobApplicationOpen(item)) &&
+        isAlertActive(item) &&
         (item.title.toLowerCase().includes(q) ||
           item.organization.toLowerCase().includes(q) ||
           item.examName.toLowerCase().includes(q) ||
@@ -159,92 +219,32 @@ export default function App() {
 
   return (
     <div className="min-h-screen flex flex-col bg-slate-50 text-slate-900 selection:bg-blue-100 selection:text-blue-900 max-w-full overflow-x-hidden">
-      {/* Breaking Marquee Bar */}
-      <div className="bg-slate-900 text-white text-xs py-2 px-4 border-b border-slate-800">
-        <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
-          <div className="flex items-center gap-2 overflow-hidden">
-            <span className="flex items-center gap-1 font-bold text-blue-400 uppercase tracking-wider shrink-0 text-[10px] bg-blue-950 px-2 py-0.5 rounded border border-blue-800">
-              <Bell className="w-3 h-3 text-blue-400 animate-pulse" />
-              GovIndiaNews:
-            </span>
-            <div className="truncate text-slate-300 text-xs">
-              <button
-                onClick={() => navigate('/article/sbi-junior-associates-clerk-recruitment-2026')}
-                className="font-semibold text-white hover:underline cursor-pointer"
-              >
-                SBI Junior Associates (12,500+ Posts) Active
-              </button>{' '}
-              ·{' '}
-              <button
-                onClick={() => navigate('/article/rrb-ntpc-2026-recruitment-apply-online')}
-                className="font-semibold text-white hover:underline cursor-pointer"
-              >
-                RRB NTPC (11,558 Posts) Active
-              </button>{' '}
-              ·{' '}
-              <button
-                onClick={() => navigate('/article/upsc-civil-services-mains-2026-e-admit-card-download')}
-                className="font-bold text-amber-300 hover:underline cursor-pointer"
-              >
-                [NEW] UPSC CSE Mains 2026 Admit Card Out
-              </button>{' '}
-              ·{' '}
-              <button
-                onClick={() => navigate('/article/ssc-cgl-2026-tier-1-admit-card-all-regions-download')}
-                className="font-bold text-amber-300 hover:underline cursor-pointer"
-              >
-                [NEW] SSC CGL Tier-1 Hall Ticket All Regions (30 Sep)
-              </button>{' '}
-              ·{' '}
-              <button
-                onClick={() => navigate('/article/rrb-alp-cbt-1-city-intimation-admit-card-cen-01-2026')}
-                className="font-bold text-amber-300 hover:underline cursor-pointer"
-              >
-                [NEW] RRB ALP CBT-1 City Slip Active (30 Sep)
-              </button>{' '}
-              ·{' '}
-              <button
-                onClick={() => navigate('/article/sbi-junior-associates-clerk-recruitment-2026')}
-                className="font-semibold text-white hover:underline cursor-pointer"
-              >
-                SBI Clerk 2026 (12,500+ Posts - Apply by 18 Nov)
-              </button>{' '}
-              ·{' '}
-              <button
-                onClick={() => navigate('/article/isro-scientist-engineer-sc-recruitment-2026')}
-                className="font-semibold text-white hover:underline cursor-pointer"
-              >
-                ISRO Scientist SC (303 Posts - Apply by 04 Nov)
-              </button>{' '}
-              ·{' '}
-              <button
-                onClick={() => navigate('/article/rbi-grade-b-officers-recruitment-2026')}
-                className="font-semibold text-white hover:underline cursor-pointer"
-              >
-                RBI Grade B (94 Posts - Apply by 25 Oct)
-              </button>{' '}
-              ·{' '}
-              <button
-                onClick={() => navigate('/article/drdo-rac-scientist-b-recruitment-2026-gate')}
-                className="font-semibold text-white hover:underline cursor-pointer"
-              >
-                DRDO Scientist B (248 Posts - Apply by 15 Dec)
-              </button>{' '}
-              ·{' '}
-              <button
-                onClick={() => navigate('/article/rpf-si-constable-recruitment-2026')}
-                className="font-semibold text-white hover:underline cursor-pointer"
-              >
-                RPF SI & Constable (4,660 Posts)
-              </button>
+      {/* Breaking Marquee Bar: only displayed if there are verified, active alerts */}
+      {verifiedActiveAlerts.length > 0 && (
+        <div className="bg-slate-900 text-white text-xs py-2 px-4 border-b border-slate-800">
+          <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
+            <div className="flex items-center gap-2 overflow-hidden">
+              <span className="flex items-center gap-1 font-bold text-blue-400 uppercase tracking-wider shrink-0 text-[10px] bg-blue-950 px-2 py-0.5 rounded border border-blue-800">
+                <Bell className="w-3 h-3 text-blue-400 animate-pulse" />
+                Updates:
+              </span>
+              <div className="truncate text-slate-300 text-xs flex items-center gap-3">
+                {verifiedActiveAlerts.map((alert, idx) => (
+                  <React.Fragment key={alert.id}>
+                    {idx > 0 && <span className="text-slate-600">·</span>}
+                    <button
+                      onClick={() => navigate(`/article/${alert.slug}`)}
+                      className="font-semibold text-white hover:underline cursor-pointer truncate max-w-xs"
+                    >
+                      {alert.title}
+                    </button>
+                  </React.Fragment>
+                ))}
+              </div>
             </div>
           </div>
-          <div className="hidden md:flex items-center gap-2 shrink-0 text-[11px] text-slate-400">
-            <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
-            <span>100% Free · Client-Side Privacy</span>
-          </div>
         </div>
-      </div>
+      )}
 
       {/* Top Header Navigation */}
       <Header
@@ -314,86 +314,66 @@ export default function App() {
           </div>
         )}
 
-        {/* ROUTE 3: SMART TOOLS HUB (/tools, /tools/:tool) */}
-        {(currentPath === '/tools' || currentPath.startsWith('/tools/')) && (
+        {/* ROUTE 3: DEDICATED STANDALONE TOOL PAGES */}
+        {currentPath === '/tools/salary' && <SalaryCalculatorPage onNavigate={navigate} />}
+        {currentPath === '/tools/photo-checker' && <PhotoSignatureCheckerPage onNavigate={navigate} />}
+        {currentPath === '/tools/relaxation' && <CategoryRelaxationPage onNavigate={navigate} />}
+        {currentPath === '/tools/age' && <AgeCalculatorPage onNavigate={navigate} />}
+        {currentPath === '/tools/marking' && <NegativeMarkingPage onNavigate={navigate} />}
+        {currentPath === '/tools/height' && <HeightEligibilityPage onNavigate={navigate} />}
+        {currentPath === '/tools/rank' && <RankPredictorPage onNavigate={navigate} />}
+        {(currentPath === '/tools/eligibility' || currentPath === '/matcher') && <EligibilityMatcherPage onNavigate={navigate} />}
+
+        {/* Tools Hub (/tools) */}
+        {currentPath === '/tools' && (
           <div className="space-y-6">
             <div className="border-b border-slate-200 pb-4">
               <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">
-                Government Exam Smart Calculators Suite
+                Government Exam Smart Calculators & Candidate Utilities
               </h1>
               <p className="text-xs text-slate-500 mt-1">
-                Select any exam calculator below to compute age eligibility, score penalties, physical standards, or rank estimates.
+                Verified mathematical calculators, document format checkers, and eligibility evaluators for Central and State recruitment examinations.
               </p>
-
-              {/* Calculator Navigation Sub-Tabs */}
-              <div className="mt-4 flex items-center gap-2 overflow-x-auto pb-1">
-                <button
-                  onClick={() => navigate('/tools/eligibility')}
-                  className={`px-4 py-2 rounded-lg text-xs font-semibold transition-all cursor-pointer whitespace-nowrap flex items-center gap-2 ${
-                    calculatorSubTab === 'eligibility'
-                      ? 'bg-emerald-600 text-white shadow-xs'
-                      : 'bg-white text-slate-700 hover:bg-slate-100 border border-slate-200'
-                  }`}
-                >
-                  <Sparkles className="w-3.5 h-3.5" />
-                  <span>Instant Eligibility Matcher</span>
-                </button>
-
-                <button
-                  onClick={() => navigate('/tools/age')}
-                  className={`px-4 py-2 rounded-lg text-xs font-semibold transition-all cursor-pointer whitespace-nowrap flex items-center gap-2 ${
-                    calculatorSubTab === 'age'
-                      ? 'bg-blue-600 text-white shadow-xs'
-                      : 'bg-white text-slate-700 hover:bg-slate-100 border border-slate-200'
-                  }`}
-                >
-                  <Calendar className="w-3.5 h-3.5" />
-                  <span>Age Calculator (Cut-off Date)</span>
-                </button>
-
-                <button
-                  onClick={() => navigate('/tools/marking')}
-                  className={`px-4 py-2 rounded-lg text-xs font-semibold transition-all cursor-pointer whitespace-nowrap flex items-center gap-2 ${
-                    calculatorSubTab === 'marking'
-                      ? 'bg-blue-600 text-white shadow-xs'
-                      : 'bg-white text-slate-700 hover:bg-slate-100 border border-slate-200'
-                  }`}
-                >
-                  <Calculator className="w-3.5 h-3.5" />
-                  <span>Negative Marking & Score</span>
-                </button>
-
-                <button
-                  onClick={() => navigate('/tools/height')}
-                  className={`px-4 py-2 rounded-lg text-xs font-semibold transition-all cursor-pointer whitespace-nowrap flex items-center gap-2 ${
-                    calculatorSubTab === 'height'
-                      ? 'bg-blue-600 text-white shadow-xs'
-                      : 'bg-white text-slate-700 hover:bg-slate-100 border border-slate-200'
-                  }`}
-                >
-                  <Ruler className="w-3.5 h-3.5" />
-                  <span>Physical Height Checker (PST)</span>
-                </button>
-
-                <button
-                  onClick={() => navigate('/tools/rank')}
-                  className={`px-4 py-2 rounded-lg text-xs font-semibold transition-all cursor-pointer whitespace-nowrap flex items-center gap-2 ${
-                    calculatorSubTab === 'rank'
-                      ? 'bg-blue-600 text-white shadow-xs'
-                      : 'bg-white text-slate-700 hover:bg-slate-100 border border-slate-200'
-                  }`}
-                >
-                  <TrendingUp className="w-3.5 h-3.5" />
-                  <span>Rank & Normalization</span>
-                </button>
-              </div>
             </div>
 
-            {calculatorSubTab === 'eligibility' && <EligibilityMatcher onNavigate={navigate} />}
-            {calculatorSubTab === 'age' && <AgeCalculator />}
-            {calculatorSubTab === 'marking' && <NegativeMarkingCalculator />}
-            {calculatorSubTab === 'height' && <HeightEligibilityChecker />}
-            {calculatorSubTab === 'rank' && <RankPredictor />}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {[
+                { title: '7th CPC In-Hand Salary Calculator', desc: 'Compute monthly gross, 10% NPS deduction, and net take-home pay across Levels 1 to 18 and Class X/Y/Z cities.', path: '/tools/salary', icon: Calculator, badge: 'Popular' },
+                { title: 'Photo & Signature Compliance Checker', desc: 'Validate and compress image dimensions (KB limits, aspect ratios) for SSC, UPSC, IBPS, and RRB portals.', path: '/tools/photo-checker', icon: Sparkles, badge: 'Client-Side' },
+                { title: 'Fee & Category Relaxation Calculator', desc: 'Determine exact upper age concessions and fee exemptions for OBC, SC, ST, PwBD, and ESM under DoPT rules.', path: '/tools/relaxation', icon: ShieldCheck, badge: 'Statutory' },
+                { title: 'Crucial Cut-Off Age Calculator', desc: 'Calculate exact completed years, months, and days against the official gazette notification cutoff date.', path: '/tools/age', icon: Calendar, badge: 'Essential' },
+                { title: 'Negative Marking Penalty Simulator', desc: 'Simulate net examination scores and penalty deductions under 1/3, 1/4, and 0.50 negative marking.', path: '/tools/marking', icon: Calculator, badge: 'Scoring' },
+                { title: 'Physical Height & Chest (PST) Checker', desc: 'Check minimum physical standards for Delhi Police SI, SSC GD Constable, and CAPF recruitment.', path: '/tools/height', icon: Ruler, badge: 'Uniformed' },
+                { title: 'Percentile Rank & Normalization', desc: 'Approximate statistical percentile rank based on shift difficulty and raw score distributions.', path: '/tools/rank', icon: TrendingUp, badge: 'Estimate' },
+                { title: 'Instant Eligibility Matcher', desc: 'Multi-criteria filter matching your DOB, qualification, and social category against active recruitment drives.', path: '/tools/eligibility', icon: Sparkles, badge: 'Discovery' },
+              ].map((tool, idx) => {
+                const IconComponent = tool.icon;
+                return (
+                  <div
+                    key={idx}
+                    onClick={() => navigate(tool.path)}
+                    className="p-5 bg-white rounded-2xl border border-slate-200 hover:border-blue-400 hover:shadow-sm transition-all cursor-pointer space-y-2.5 flex flex-col justify-between"
+                  >
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between">
+                        <span className="p-2 rounded-xl bg-blue-50 text-blue-700">
+                          <IconComponent className="w-5 h-5" />
+                        </span>
+                        <span className="text-[10px] font-bold uppercase tracking-wider text-blue-700 bg-blue-50 px-2 py-0.5 rounded">
+                          {tool.badge}
+                        </span>
+                      </div>
+                      <h3 className="font-bold text-sm text-slate-900 leading-snug">{tool.title}</h3>
+                      <p className="text-xs text-slate-600 leading-relaxed">{tool.desc}</p>
+                    </div>
+                    <div className="pt-2 text-xs font-semibold text-blue-700 flex items-center gap-1">
+                      <span>Launch Calculator</span>
+                      <ChevronRight className="w-3.5 h-3.5" />
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
           </div>
         )}
 
@@ -413,45 +393,71 @@ export default function App() {
         )}
 
         {(currentPath === '/admit-card' || currentPath === '/admit-cards') && (
-          <div className="space-y-6">
-            <div className="border-b border-slate-200 pb-3">
-              <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">
-                Admit Cards & Exam City Intimation Slips
-              </h1>
-              <p className="text-xs text-slate-500 mt-1">
-                Direct download links and examination center city slips for upcoming Tier-1, Tier-2, and CBT tests.
-              </p>
-            </div>
-            <RecruitmentDirectory initialCategory="admit-card" onNavigate={navigate} />
-          </div>
+          <LiveUpdatesHub
+            category="admit-card"
+            alerts={RECRUITMENT_ALERTS.filter((a) => isAlertActive(a))}
+            onNavigate={navigate}
+          />
         )}
 
-        {(currentPath === '/cut-off' || currentPath === '/cut-offs' || currentPath === '/results' || currentPath === '/result') && (
-          <div className="space-y-6">
-            <div className="border-b border-slate-200 pb-3">
-              <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">
-                Official Category Cut-Off Marks & Merit Lists
-              </h1>
-              <p className="text-xs text-slate-500 mt-1">
-                Authentic normalized cut-off scores across UR, OBC, EWS, SC, and ST categories verified against government result gazettes.
-              </p>
-            </div>
-            <RecruitmentDirectory initialCategory="cut-off" onNavigate={navigate} />
-          </div>
+        {(currentPath === '/cut-off' || currentPath === '/cut-offs') && (
+          <LiveUpdatesHub
+            category="cut-off"
+            alerts={RECRUITMENT_ALERTS.filter((a) => isAlertActive(a))}
+            onNavigate={navigate}
+          />
+        )}
+
+        {(currentPath === '/results' || currentPath === '/result') && (
+          <LiveUpdatesHub
+            category="result"
+            alerts={RECRUITMENT_ALERTS.filter((a) => isAlertActive(a))}
+            onNavigate={navigate}
+          />
         )}
 
         {(currentPath === '/answer-key' || currentPath === '/answer-keys') && (
+          <LiveUpdatesHub
+            category="answer-key"
+            alerts={RECRUITMENT_ALERTS.filter((a) => isAlertActive(a))}
+            onNavigate={navigate}
+          />
+        )}
+
+        {/* ROUTE 4.5: ARCHIVED NOTICES (/archive) */}
+        {currentPath === '/archive' && (
           <div className="space-y-6">
             <div className="border-b border-slate-200 pb-3">
               <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">
-                Answer Keys & Candidate Response Sheets
+                Archived Recruitment Notices & Expired Drives
               </h1>
               <p className="text-xs text-slate-500 mt-1">
-                Provisional and final answer keys with question challenge submission windows.
+                Historical records of past government recruitment drives whose application deadlines or examination schedules have concluded.
               </p>
             </div>
-            <RecruitmentDirectory initialCategory="answer-key" onNavigate={navigate} />
+            <RecruitmentDirectory initialCategory="archive" onNavigate={navigate} />
           </div>
+        )}
+
+        {/* ROUTE 4.6: EXAM HUBS (/exams, /exams/:slug) */}
+        {(currentPath === '/exams' || currentPath.startsWith('/exams/')) && (
+          <ExamHubView
+            slug={currentPath.startsWith('/exams/') ? currentPath.replace('/exams/', '').split('?')[0] : undefined}
+            onNavigate={navigate}
+          />
+        )}
+
+        {/* ROUTE 4.7: MULTI-YEAR VACANCY DATA TRACKER (/data/vacancies, /vacancies) */}
+        {(currentPath === '/data/vacancies' || currentPath === '/vacancies') && (
+          <VacancyTrackerView onNavigate={navigate} />
+        )}
+
+        {/* ROUTE 4.8: EDITORIAL APPLICATION GUIDES (/guides, /guides/:slug) */}
+        {(currentPath === '/guides' || currentPath.startsWith('/guides/')) && (
+          <GuideView
+            slug={currentPath.startsWith('/guides/') ? currentPath.replace('/guides/', '').split('?')[0] : undefined}
+            onNavigate={navigate}
+          />
         )}
 
         {/* ROUTE 5: CENTRAL FAQ KNOWLEDGE HUB */}
@@ -466,19 +472,6 @@ export default function App() {
         {currentPath === '/fact-checking' && <LegalPages type="fact-checking" onNavigate={navigate} />}
         {currentPath === '/corrections' && <LegalPages type="corrections" onNavigate={navigate} />}
 
-        {/* ROUTE 6.5: ELIGIBILITY MATCHER */}
-        {(currentPath === '/tools/eligibility' || currentPath === '/matcher') && (
-          <div className="space-y-6">
-            <EligibilityMatcher onNavigate={navigate} />
-          </div>
-        )}
-
-        {/* ROUTE 6.6: GOOGLE SNIPPET PREVIEW & SCHEMA INSPECTOR */}
-        {(currentPath === '/tools/rich-snippet-preview' || currentPath === '/tools/seo') && (
-          <div className="space-y-6">
-            <GoogleSnippetPreview onNavigate={navigate} />
-          </div>
-        )}
 
         {/* ROUTE 6.7: E-E-A-T & GOOGLE ADSENSE TRUST HUB */}
         {(currentPath.startsWith('/trust/editorial') || currentPath === '/editorial-policy') && (
@@ -520,7 +513,7 @@ export default function App() {
                 </h1>
 
                 <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
-                  Verified central gazette notifications, precise age relaxation calculation on cutoff dates, negative marking penalty scorecards, and live TCS iON examination simulations.
+                  Verified government recruitment notifications, precise age relaxation calculation on cutoff dates, negative marking penalty scorecards, and computer-based mock exam practice.
                 </p>
 
                 {/* Quick Search in Hero */}
@@ -792,7 +785,7 @@ export default function App() {
                   Transparent, Authentic & Student-First Information
                 </h3>
                 <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                  Founded by <strong className="text-white">Akash Singh Solanki</strong>, BSc Physics & COPA ITI certified developer. GovIndiaNews was created to eradicate recruitment misinformation and fake notifications. All formulas and notices are cross-verified directly against official government gazettes.
+                  Founded by <strong className="text-white">Akash Singh Solanki</strong>, Founder & Editor. GovIndiaNews was created to provide students with honest, verified recruitment updates and accurate calculators cross-referenced directly against official government notifications.
                 </p>
                 <div className="pt-2 flex flex-wrap items-center gap-6 text-xs text-slate-300">
                   <span className="flex items-center gap-1.5">
@@ -885,6 +878,15 @@ export default function App() {
                         <span className="font-semibold text-blue-700">{item.organization}</span>
                         <span aria-hidden="true">·</span>
                         <span>{item.publishDate}</span>
+                        {item.status === 'verified' ? (
+                          <span className="text-[10px] font-bold px-1.5 py-0.2 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
+                            Verified
+                          </span>
+                        ) : (
+                          <span className="text-[10px] font-semibold px-1.5 py-0.2 rounded-full bg-amber-50 text-amber-800 border border-amber-200">
+                            Under Verification
+                          </span>
+                        )}
                       </div>
                       <h4 className="text-xs font-bold text-slate-900 leading-snug">{item.title}</h4>
                       <p className="text-[11px] text-slate-600 line-clamp-1 mt-1">{item.summary}</p>

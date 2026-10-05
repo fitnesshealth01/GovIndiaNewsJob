@@ -47,6 +47,30 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
               </li>
               <li>
                 <button
+                  onClick={() => onNavigate('/tools/salary')}
+                  className="hover:text-white transition-colors cursor-pointer text-left"
+                >
+                  7th CPC In-Hand Salary Calculator
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => onNavigate('/tools/photo-checker')}
+                  className="hover:text-white transition-colors cursor-pointer text-left"
+                >
+                  Photo & Signature Format Checker
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => onNavigate('/tools/relaxation')}
+                  className="hover:text-white transition-colors cursor-pointer text-left"
+                >
+                  Fee & Category Relaxation Calculator
+                </button>
+              </li>
+              <li>
+                <button
                   onClick={() => onNavigate('/tools/age')}
                   className="hover:text-white transition-colors cursor-pointer text-left"
                 >
@@ -79,19 +103,19 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
               </li>
               <li>
                 <button
-                  onClick={() => onNavigate('/tools/rich-snippet-preview')}
-                  className="hover:text-amber-400 font-semibold transition-colors cursor-pointer text-left"
+                  onClick={() => onNavigate('/tools/eligibility')}
+                  className="hover:text-white transition-colors cursor-pointer text-left"
                 >
-                  Google Snippet & Schema Inspector
+                  Instant Eligibility Matcher
                 </button>
               </li>
             </ul>
           </div>
 
-          {/* Col 3: Recruitment Sections with dedicated URLs */}
+          {/* Col 3: Recruitment Sections & Editorial Hubs */}
           <div>
             <h4 className="text-xs font-semibold text-white uppercase tracking-wider mb-3">
-              Recruitment Alerts
+              Recruitment & Resources
             </h4>
             <ul className="space-y-2 text-xs text-slate-400">
               <li>
@@ -100,6 +124,30 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                   className="hover:text-white transition-colors cursor-pointer text-left"
                 >
                   Latest Govt Jobs 2026
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => onNavigate('/exams')}
+                  className="hover:text-white transition-colors cursor-pointer text-left"
+                >
+                  15 Exam Blueprints & Syllabi
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => onNavigate('/data/vacancies')}
+                  className="hover:text-white transition-colors cursor-pointer text-left"
+                >
+                  Multi-Year Vacancy Tracker (2020–2026)
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => onNavigate('/guides')}
+                  className="hover:text-white transition-colors cursor-pointer text-left"
+                >
+                  Application & Certificate Guides
                 </button>
               </li>
               <li>
@@ -123,7 +171,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                   onClick={() => onNavigate('/mock-test/ssc-cgl-tier1')}
                   className="hover:text-white transition-colors cursor-pointer text-left"
                 >
-                  Official PYQ CBT Simulator
+                  CBT-Style Practice Test
                 </button>
               </li>
             </ul>
@@ -140,7 +188,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                   onClick={() => onNavigate('/trust/editorial')}
                   className="hover:text-emerald-400 font-semibold transition-colors cursor-pointer text-left"
                 >
-                  Editorial Integrity & Gazette Policy
+                  Editorial Integrity & Standards
                 </button>
               </li>
               <li>
@@ -148,7 +196,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                   onClick={() => onNavigate('/trust/grievance')}
                   className="hover:text-emerald-400 font-semibold transition-colors cursor-pointer text-left"
                 >
-                  Statutory Grievance Officer (IT Rules)
+                  Contact & Feedback Desk
                 </button>
               </li>
               <li>
@@ -156,7 +204,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                   onClick={() => onNavigate('/trust/authors')}
                   className="hover:text-white transition-colors cursor-pointer text-left"
                 >
-                  Editorial Board & Authors (E-E-A-T)
+                  Founder & Editor Profile
                 </button>
               </li>
               <li>

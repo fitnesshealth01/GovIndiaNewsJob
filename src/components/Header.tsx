@@ -17,6 +17,7 @@ import {
   BookOpen,
   Bookmark,
   ShieldCheck,
+  TrendingUp,
 } from 'lucide-react';
 
 interface HeaderProps {
@@ -221,27 +222,51 @@ export const Header: React.FC<HeaderProps> = ({
                   className="absolute left-0 mt-1 w-72 bg-white border border-slate-200 rounded-xl shadow-lg p-2 text-xs z-50 animate-in fade-in slide-in-from-top-1"
                 >
                   <button
-                    onClick={() => handleNavClick('/tools/eligibility')}
+                    onClick={() => handleNavClick('/tools/salary')}
+                    className="w-full p-2.5 rounded-lg hover:bg-slate-50 text-left flex items-start gap-2.5 transition-colors cursor-pointer"
+                  >
+                    <div className="w-7 h-7 rounded-md bg-blue-100 text-blue-700 font-bold flex items-center justify-center shrink-0">
+                      7th
+                    </div>
+                    <div>
+                      <span className="font-bold text-slate-900 block">7th CPC Salary Calculator</span>
+                      <span className="text-[11px] text-slate-500">Pay Levels 1-18, HRA & NPS Deductions</span>
+                    </div>
+                  </button>
+                  <button
+                    onClick={() => handleNavClick('/tools/photo-checker')}
+                    className="w-full p-2.5 rounded-lg hover:bg-slate-50 text-left flex items-start gap-2.5 transition-colors cursor-pointer"
+                  >
+                    <div className="w-7 h-7 rounded-md bg-indigo-100 text-indigo-700 font-bold flex items-center justify-center shrink-0">
+                      IMG
+                    </div>
+                    <div>
+                      <span className="font-bold text-slate-900 block">Photo & Signature Checker</span>
+                      <span className="text-[11px] text-slate-500">SSC, UPSC, IBPS Official Dimensions</span>
+                    </div>
+                  </button>
+                  <button
+                    onClick={() => handleNavClick('/tools/relaxation')}
                     className="w-full p-2.5 rounded-lg hover:bg-slate-50 text-left flex items-start gap-2.5 transition-colors cursor-pointer"
                   >
                     <div className="w-7 h-7 rounded-md bg-emerald-100 text-emerald-800 font-bold flex items-center justify-center shrink-0">
-                      FIT
+                      REL
                     </div>
                     <div>
-                      <span className="font-bold text-slate-900 block">Eligibility Matcher</span>
-                      <span className="text-[11px] text-slate-500">Check Age, Category & Degrees</span>
+                      <span className="font-bold text-slate-900 block">Category & Fee Relaxation</span>
+                      <span className="text-[11px] text-slate-500">DoPT Rules for OBC, SC, ST, PwBD</span>
                     </div>
                   </button>
                   <button
                     onClick={() => handleNavClick('/tools/age')}
                     className="w-full p-2.5 rounded-lg hover:bg-slate-50 text-left flex items-start gap-2.5 transition-colors cursor-pointer"
                   >
-                    <div className="w-7 h-7 rounded-md bg-blue-100 text-blue-700 font-bold flex items-center justify-center shrink-0">
+                    <div className="w-7 h-7 rounded-md bg-cyan-100 text-cyan-800 font-bold flex items-center justify-center shrink-0">
                       Age
                     </div>
                     <div>
                       <span className="font-bold text-slate-900 block">Age Cut-off Calculator</span>
-                      <span className="text-[11px] text-slate-500">DOP&T Rules & Category Relaxations</span>
+                      <span className="text-[11px] text-slate-500">Crucial Date Exact Calculation</span>
                     </div>
                   </button>
                   <button
@@ -260,7 +285,7 @@ export const Header: React.FC<HeaderProps> = ({
                     onClick={() => handleNavClick('/tools/height')}
                     className="w-full p-2.5 rounded-lg hover:bg-slate-50 text-left flex items-start gap-2.5 transition-colors cursor-pointer"
                   >
-                    <div className="w-7 h-7 rounded-md bg-emerald-100 text-emerald-700 font-bold flex items-center justify-center shrink-0">
+                    <div className="w-7 h-7 rounded-md bg-amber-100 text-amber-800 font-bold flex items-center justify-center shrink-0">
                       PST
                     </div>
                     <div>
@@ -277,24 +302,57 @@ export const Header: React.FC<HeaderProps> = ({
                     </div>
                     <div>
                       <span className="font-bold text-slate-900 block">Rank & Normalization</span>
-                      <span className="text-[11px] text-slate-500">Shift Difficulty & Percentile Curve</span>
+                      <span className="text-[11px] text-slate-500">Statistical Percentile Estimates</span>
                     </div>
                   </button>
                   <button
-                    onClick={() => handleNavClick('/tools/rich-snippet-preview')}
-                    className="w-full p-2.5 rounded-lg hover:bg-blue-50/50 text-left flex items-start gap-2.5 transition-colors cursor-pointer border-t border-slate-100 mt-1 pt-2"
+                    onClick={() => handleNavClick('/tools/eligibility')}
+                    className="w-full p-2.5 rounded-lg hover:bg-slate-50 text-left flex items-start gap-2.5 transition-colors cursor-pointer border-t border-slate-100 mt-1 pt-2"
                   >
-                    <div className="w-7 h-7 rounded-md bg-amber-100 text-amber-800 font-bold flex items-center justify-center shrink-0">
-                      SEO
+                    <div className="w-7 h-7 rounded-md bg-blue-100 text-blue-800 font-bold flex items-center justify-center shrink-0">
+                      FIT
                     </div>
                     <div>
-                      <span className="font-bold text-slate-900 block">Google Snippet Preview</span>
-                      <span className="text-[11px] text-slate-500">Inspect Schema.org & SERP Card</span>
+                      <span className="font-bold text-slate-900 block">Instant Eligibility Matcher</span>
+                      <span className="text-[11px] text-slate-500">Multi-criteria Notification Finder</span>
                     </div>
                   </button>
                 </div>
               )}
             </div>
+
+            {/* Exam Hubs */}
+            <button
+              onClick={() => handleNavClick('/exams')}
+              className={`px-3 py-2 rounded-lg transition-colors flex items-center gap-1.5 cursor-pointer ${
+                currentPath.startsWith('/exams') ? 'text-blue-700 bg-blue-50' : 'hover:bg-slate-100'
+              }`}
+            >
+              <BookOpen className="w-3.5 h-3.5 text-blue-600" />
+              <span>Exam Hubs</span>
+            </button>
+
+            {/* Vacancy Data Tracker */}
+            <button
+              onClick={() => handleNavClick('/data/vacancies')}
+              className={`px-3 py-2 rounded-lg transition-colors flex items-center gap-1.5 cursor-pointer ${
+                currentPath.startsWith('/data/vacancies') || currentPath === '/vacancies' ? 'text-blue-700 bg-blue-50' : 'hover:bg-slate-100'
+              }`}
+            >
+              <TrendingUp className="w-3.5 h-3.5 text-blue-600" />
+              <span>Vacancies</span>
+            </button>
+
+            {/* Application Guides */}
+            <button
+              onClick={() => handleNavClick('/guides')}
+              className={`px-3 py-2 rounded-lg transition-colors flex items-center gap-1.5 cursor-pointer ${
+                currentPath.startsWith('/guides') ? 'text-blue-700 bg-blue-50' : 'hover:bg-slate-100'
+              }`}
+            >
+              <FileText className="w-3.5 h-3.5 text-blue-600" />
+              <span>Guides</span>
+            </button>
 
             {/* Candidate FAQs Link */}
             <button
@@ -425,27 +483,27 @@ export const Header: React.FC<HeaderProps> = ({
                 </button>
               )}
 
-              {/* Prominent Featured Card: Official PYQ CBT Simulator */}
+              {/* Prominent Featured Card: CBT-Style Practice Test */}
               <div className="p-4 rounded-2xl bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 text-white shadow-md space-y-2.5 border border-slate-800">
                 <div className="flex items-center justify-between">
                   <span className="text-[10px] font-bold uppercase tracking-wider text-blue-400 bg-blue-950 px-2 py-0.5 rounded border border-blue-800 flex items-center gap-1">
                     <Sparkles className="w-3 h-3 text-blue-400" />
-                    Official PYQ Series
+                    Practice Question Series
                   </span>
-                  <span className="text-[10px] text-slate-400">TCS iON Simulation</span>
+                  <span className="text-[10px] text-slate-400">CBT Practice Engine</span>
                 </div>
                 <h4 className="text-sm font-extrabold text-white">
-                  Official Previous Year Questions (PYQ) CBT Simulator
+                  CBT-Style Practice Test Simulator
                 </h4>
                 <p className="text-xs text-slate-300 leading-relaxed">
-                  Practice authentic previous year exam papers with genuine countdown timer, 5-state palette, negative marking penalty, and verified solutions.
+                  Practice CBT exam pattern questions with countdown timer, 5-state palette, negative marking penalty, and detailed solutions.
                 </p>
                 <button
                   onClick={() => handleNavClick('/mock-test/ssc-cgl-tier1')}
                   className="w-full py-2.5 px-4 bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold rounded-xl transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-xs mt-1"
                 >
                   <BookOpen className="w-3.5 h-3.5" />
-                  <span>Launch Official PYQ CBT Exam</span>
+                  <span>Launch CBT Practice Test</span>
                   <ChevronRight className="w-4 h-4" />
                 </button>
               </div>

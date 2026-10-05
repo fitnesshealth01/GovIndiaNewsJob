@@ -2,6 +2,7 @@ import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import fs from 'fs';
+import nodemailer from 'nodemailer';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -11,6 +12,22 @@ const port = parseInt(process.env.PORT || '3000', 10);
 const distPath = path.join(__dirname, 'dist');
 const publicPath = path.join(__dirname, 'public');
 const indexPath = path.join(distPath, 'index.html');
+
+// Parse JSON and URL-encoded bodies for API requests
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// Production HTTP Security Headers
+app.use((req, res, next) => {
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('X-Frame-Options', 'SAMEORIGIN');
+  res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+  res.setHeader(
+    'Content-Security-Policy',
+    "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://pagead2.googlesyndication.com https://www.googletagservices.com https://adservice.google.com https://www.google-analytics.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https:; connect-src 'self' https://pagead2.googlesyndication.com https://www.google-analytics.com https://region1.google-analytics.com; frame-src 'self' https://googleads.g.doubleclick.net https://tpc.googlesyndication.com;"
+  );
+  next();
+});
 
 // Lightweight health check endpoint for Cloud Run container probes
 app.get('/health', (req, res) => {
@@ -76,8 +93,130 @@ app.get('/robots.txt', (req, res) => {
   }
 });
 
-// Serve static assets from dist
-app.use(express.static(distPath));
+// In-memory rate limiting map for contact endpoint: IP -> timestamps[]
+const contactRateLimits = new Map();
+
+// POST /api/contact - Truthful contact & feedback form endpoint
+app.post('/api/contact', async (req, res) => {
+  try {
+    const { name, email, subject, message, complaintType, phone, articleUrl, hp_website } = req.body;
+
+    // 1. Honeypot check (anti-bot)
+    if (hp_website) {
+      // Silently reject bot submissions
+      return res.status(400).json({ success: false, error: 'Submission rejected' });
+    }
+
+    // 2. Validate mandatory fields
+    if (!name || typeof name !== 'string' || !name.trim()) {
+      return res.status(400).json({ success: false, error: 'Full Name is required.' });
+    }
+    if (!email || typeof email !== 'string' || !email.trim()) {
+      return res.status(400).json({ success: false, error: 'Email address is required.' });
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email.trim())) {
+      return res.status(400).json({ success: false, error: 'Please enter a valid email address.' });
+    }
+    if (!subject || typeof subject !== 'string' || !subject.trim()) {
+      return res.status(400).json({ success: false, error: 'Subject is required.' });
+    }
+    if (!message || typeof message !== 'string' || !message.trim()) {
+      return res.status(400).json({ success: false, error: 'Message content is required.' });
+    }
+
+    // 3. Rate limiting (max 5 requests per 15 minutes per IP)
+    const ip = req.ip || req.headers['x-forwarded-for'] || req.socket.remoteAddress || 'unknown';
+    const now = Date.now();
+    const windowMs = 15 * 60 * 1000;
+    const maxRequests = 5;
+
+    const timestamps = (contactRateLimits.get(ip) || []).filter((t) => now - t < windowMs);
+    if (timestamps.length >= maxRequests) {
+      return res.status(429).json({
+        success: false,
+        error: 'Too many submissions from your connection. Please wait 15 minutes before sending another message.',
+      });
+    }
+    timestamps.push(now);
+    contactRateLimits.set(ip, timestamps);
+
+    // 4. SMTP configuration from environment variables
+    const smtpHost = process.env.SMTP_HOST;
+    const smtpPort = parseInt(process.env.SMTP_PORT || '587', 10);
+    const smtpUser = process.env.SMTP_USER;
+    const smtpPass = process.env.SMTP_PASS;
+    const contactTo = process.env.CONTACT_TO || 'akashsinghsolanki66@gmail.com';
+
+    if (smtpHost && smtpUser && smtpPass) {
+      const transporter = nodemailer.createTransport({
+        host: smtpHost,
+        port: smtpPort,
+        secure: smtpPort === 465,
+        auth: {
+          user: smtpUser,
+          pass: smtpPass,
+        },
+      });
+
+      await transporter.sendMail({
+        from: `"GovIndiaNews Form" <${smtpUser}>`,
+        to: contactTo,
+        replyTo: email.trim(),
+        subject: `[GovIndiaNews] [${complaintType || 'General'}] ${subject.trim()}`,
+        text: `From: ${name.trim()} <${email.trim()}>\nPhone: ${phone || 'N/A'}\nArticle/Exam: ${articleUrl || 'N/A'}\nCategory: ${complaintType || 'General'}\n\nMessage:\n${message.trim()}`,
+      });
+
+      return res.status(200).json({
+        success: true,
+        message: 'Your message has been sent to our editorial desk. We will review your inquiry.',
+      });
+    } else {
+      // Truthful acknowledgment when SMTP credentials have not been configured
+      console.log(`[GovIndiaNews Contact Form] Received submission:
+  Name: ${name}
+  Email: ${email}
+  Category: ${complaintType || 'General'}
+  Subject: ${subject}
+  Article: ${articleUrl || 'N/A'}`);
+
+      return res.status(200).json({
+        success: true,
+        message: 'Your message has been received by our editorial desk. (Note: Live SMTP delivery will activate once SMTP credentials are set in the server environment).',
+      });
+    }
+  } catch (err) {
+    console.error('Contact endpoint error:', err);
+    return res.status(500).json({
+      success: false,
+      error: 'An unexpected error occurred while processing your message. Please email us directly at contact@govindianews.com.',
+    });
+  }
+});
+
+// Serve pre-rendered HTML files if available for clean SEO routes
+app.use((req, res, next) => {
+  if (req.method !== 'GET') return next();
+  const cleanPath = req.path.replace(/^\/|\/$/g, '');
+  const candidatePrerender = cleanPath
+    ? path.join(distPath, cleanPath, 'index.html')
+    : path.join(distPath, 'index.html');
+  if (fs.existsSync(candidatePrerender)) {
+    res.setHeader('Content-Type', 'text/html; charset=utf-8');
+    return res.sendFile(candidatePrerender);
+  }
+  next();
+});
+
+// Serve static assets from dist with caching
+app.use(express.static(distPath, {
+  maxAge: '1h',
+  setHeaders: (res, filePath) => {
+    if (filePath.endsWith('.html')) {
+      res.setHeader('Cache-Control', 'no-cache');
+    }
+  },
+}));
 
 // Express 5 compatible SPA fallback middleware
 app.use((req, res) => {
@@ -99,6 +238,6 @@ app.use((req, res) => {
   }
 });
 
-app.listen(port, '0.0.0.0', () => {
-  console.log(`GovIndiaNews production server listening on http://0.0.0.0:${port}`);
+app.listen(port, () => {
+  console.log(`GovIndiaNews production server listening on port ${port}`);
 });

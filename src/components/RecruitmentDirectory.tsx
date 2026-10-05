@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react';
-import { RECRUITMENT_ALERTS, RecruitmentAlert, isJobApplicationOpen } from '../data/gazetteData';
+import { RECRUITMENT_ALERTS, RecruitmentAlert } from '../data/gazetteData';
+import { isAlertActive, isAlertExpired } from '../utils/alertStatus';
 import {
   Briefcase,
   FileCheck,
@@ -15,6 +16,8 @@ import {
   Bookmark,
   BookmarkCheck,
   Filter,
+  CheckCircle2,
+  AlertCircle,
 } from 'lucide-react';
 import { isBookmarked, toggleBookmark, calculateDeadlineCountdown } from '../utils/bookmarkStorage';
 
@@ -63,11 +66,12 @@ export const RecruitmentDirectory: React.FC<RecruitmentDirectoryProps> = ({
 
   const categories = [
     { id: 'all', label: 'All Updates', icon: Briefcase },
-    { id: 'jobs', label: 'Latest Jobs 2026', icon: Briefcase },
+    { id: 'jobs', label: 'Latest Jobs', icon: Briefcase },
     { id: 'admit-card', label: 'Admit Cards', icon: FileCheck },
     { id: 'answer-key', label: 'Answer Keys', icon: KeyRound },
     { id: 'cut-off', label: 'Cut-Off Marks', icon: GraduationCap },
     { id: 'result', label: 'Results & Merit', icon: GraduationCap },
+    { id: 'archive', label: 'Archive (Expired)', icon: Clock },
   ];
 
   const qualificationOptions = [
@@ -90,8 +94,19 @@ export const RecruitmentDirectory: React.FC<RecruitmentDirectoryProps> = ({
 
   const filteredAlerts = useMemo(() => {
     return RECRUITMENT_ALERTS.filter((item) => {
-      const matchesCategory =
-        selectedCategory === 'all' ? true : item.category === selectedCategory;
+      // Archive handling
+      if (selectedCategory === 'archive') {
+        const isExpired = item.status === 'expired' || isAlertExpired(item);
+        if (!isExpired) return false;
+      } else {
+        // Active discovery: show all active (non-expired) recruitments
+        const isExpired = item.status === 'expired' || isAlertExpired(item);
+        if (isExpired) return false;
+
+        const matchesCategory =
+          selectedCategory === 'all' ? true : item.category === selectedCategory;
+        if (!matchesCategory) return false;
+      }
 
       const matchesQualification =
         selectedQualification === 'all'
@@ -113,9 +128,7 @@ export const RecruitmentDirectory: React.FC<RecruitmentDirectoryProps> = ({
         item.examName.toLowerCase().includes(q) ||
         item.summary.toLowerCase().includes(q);
 
-      const isJobActive = item.category !== 'jobs' || isJobApplicationOpen(item);
-
-      return matchesCategory && matchesQualification && matchesSector && matchesQuery && isJobActive;
+      return matchesQualification && matchesSector && matchesQuery;
     });
   }, [selectedCategory, selectedQualification, selectedSector, searchQuery]);
 
@@ -242,6 +255,20 @@ export const RecruitmentDirectory: React.FC<RecruitmentDirectoryProps> = ({
                       }`}>
                         {item.category === 'admit-card' ? 'Admit Card' : item.category === 'jobs' ? 'Recruitment' : item.category}
                       </span>
+                      {item.status === 'verified' ? (
+                        <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
+                          <CheckCircle2 className="w-3 h-3 text-emerald-600" />
+                          Verified
+                        </span>
+                      ) : (
+                        <span
+                          className="inline-flex items-center gap-1 text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-50 text-amber-800 border border-amber-200"
+                          title="This recruitment alert is being re-verified against the official commission gazette notice"
+                        >
+                          <AlertCircle className="w-3 h-3 text-amber-600" />
+                          Under Verification
+                        </span>
+                      )}
                       <span className="font-semibold text-slate-800">{item.organization}</span>
                       <span aria-hidden="true" className="text-slate-300">·</span>
                       <span>{item.publishDate}</span>
@@ -348,23 +375,37 @@ export const RecruitmentDirectory: React.FC<RecruitmentDirectoryProps> = ({
           })}
         </div>
       ) : (
-        <div className="bg-white rounded-xl border border-slate-200 p-12 text-center">
+        <div className="bg-white rounded-xl border border-slate-200 p-12 text-center space-y-2">
           <Briefcase className="w-10 h-10 text-slate-400 mx-auto mb-3" />
-          <h4 className="text-sm font-semibold text-slate-900">No recruitment alerts found</h4>
-          <p className="text-xs text-slate-500 mt-1">
-            Try adjusting your qualification, sector, or search query above.
+          <h4 className="text-base font-bold text-slate-900">
+            {selectedCategory === 'archive' ? 'No Archived Notices Found' : 'No Matching Recruitment Notices'}
+          </h4>
+          <p className="text-xs text-slate-600 max-w-md mx-auto leading-relaxed">
+            {selectedCategory === 'archive'
+              ? 'Expired notifications will appear here once recruitment drives conclude.'
+              : 'No active recruitment notices match your current filters. Try selecting a different sector, qualification, or resetting your search query.'}
           </p>
-          <button
-            onClick={() => {
-              setSelectedCategory('all');
-              setSelectedQualification('all');
-              setSelectedSector('all');
-              setSearchQuery('');
-            }}
-            className="mt-4 px-4 py-1.5 text-xs font-semibold text-blue-600 hover:bg-blue-50 rounded-lg transition-colors cursor-pointer"
-          >
-            Reset All Filters
-          </button>
+          <div className="pt-2">
+            <button
+              onClick={() => {
+                setSelectedCategory('archive');
+              }}
+              className="px-4 py-1.5 text-xs font-semibold text-blue-600 hover:bg-blue-50 rounded-lg transition-colors cursor-pointer border border-blue-200 mr-2"
+            >
+              View Archived Notices
+            </button>
+            <button
+              onClick={() => {
+                setSelectedCategory('all');
+                setSelectedQualification('all');
+                setSelectedSector('all');
+                setSearchQuery('');
+              }}
+              className="px-4 py-1.5 text-xs font-semibold text-slate-600 hover:bg-slate-100 rounded-lg transition-colors cursor-pointer border border-slate-200"
+            >
+              Reset Filters
+            </button>
+          </div>
         </div>
       )}
     </div>

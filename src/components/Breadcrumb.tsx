@@ -82,7 +82,7 @@ export const Breadcrumb: React.FC<BreadcrumbProps> = ({
   } else if (currentPath === '/tools') {
     items.push({ label: 'Exam Calculators', isCurrent: true });
   } else if (currentPath.startsWith('/mock-test') || currentPath === '/mock-tests') {
-    items.push({ label: 'Official PYQ CBT Simulator', isCurrent: true });
+    items.push({ label: 'CBT-Style Practice Test', isCurrent: true });
   } else if (currentPath === '/jobs') {
     items.push({ label: 'Latest Govt Jobs 2026', isCurrent: true });
   } else if (currentPath === '/admit-card') {

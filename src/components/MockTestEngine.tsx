@@ -207,13 +207,13 @@ export const MockTestEngine: React.FC<MockTestEngineProps> = ({ onClose }) => {
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
               <span className="text-xs uppercase tracking-wider text-blue-400 font-semibold">
-                Official Examination Scorecard
+                CBT-Style Practice Test Scorecard
               </span>
               <h2 className="text-2xl font-bold mt-1 text-white">
-                Official Previous Year Questions (PYQ) CBT Test Series
+                CBT-Style Practice Test
               </h2>
               <p className="text-xs text-slate-400 mt-1">
-                Completed on {new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })} · Time Spent: {testResults.timeSpentFormatted} · Authentic SSC/Railway Papers
+                Completed on {new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })} · Time Spent: {testResults.timeSpentFormatted} · Practice Test Series
               </p>
             </div>
 
@@ -279,7 +279,7 @@ export const MockTestEngine: React.FC<MockTestEngineProps> = ({ onClose }) => {
                 Question Paper & Solution Key Review
               </h3>
               <p className="text-xs text-slate-500">
-                Detailed step-by-step explanations verified from official SSC gazettes.
+                Detailed step-by-step practice explanations.
               </p>
             </div>
 
@@ -407,7 +407,7 @@ export const MockTestEngine: React.FC<MockTestEngineProps> = ({ onClose }) => {
     );
   }
 
-  // Active Test Exam Screen (TCS iON Pattern)
+  // Active Test Exam Screen (Standard Exam Pattern)
   return (
     <div className="bg-white rounded-xl border border-slate-200 shadow-md overflow-hidden">
       {/* Test Exam Top Bar */}
@@ -421,7 +421,7 @@ export const MockTestEngine: React.FC<MockTestEngineProps> = ({ onClose }) => {
               Roll: 2026-SSC-0914 · Candidate: Aspirant
             </div>
             <div className="text-[11px] text-slate-400">
-              Official PYQ Computer Based Test (TCS iON Examination Environment)
+              Computer-Based Practice Test (Standard Exam Environment)
             </div>
           </div>
         </div>
@@ -483,7 +483,7 @@ export const MockTestEngine: React.FC<MockTestEngineProps> = ({ onClose }) => {
             {/* Question Header */}
             <div className="flex items-center justify-between pb-3 border-b border-slate-200 mb-4">
               <div className="flex items-center gap-2 text-xs font-bold text-slate-800">
-                <span className="text-blue-700">Question {currentQuestion.id} of {questions.length}</span>
+                <span className="text-blue-700">Practice Question {currentQuestion.id} of {questions.length}</span>
                 <span aria-hidden="true" className="text-slate-300">·</span>
                 <span className="text-slate-500 font-normal">{currentQuestion.section}</span>
               </div>
@@ -492,11 +492,11 @@ export const MockTestEngine: React.FC<MockTestEngineProps> = ({ onClose }) => {
               </div>
             </div>
 
-            {/* Official Source Paper Badge */}
+            {/* Source Note Badge */}
             {currentQuestion.sourcePaper && (
               <div className="mb-3 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-blue-50 border border-blue-200 text-[11px] font-semibold text-blue-800">
                 <FileText className="w-3.5 h-3.5 text-blue-600" />
-                <span>Verified Source: {currentQuestion.sourcePaper}</span>
+                <span>Source Note: {currentQuestion.sourcePaper}</span>
               </div>
             )}
 
@@ -601,7 +601,7 @@ export const MockTestEngine: React.FC<MockTestEngineProps> = ({ onClose }) => {
           <div>
             <div className="flex items-center justify-between mb-3">
               <h4 className="text-xs font-bold uppercase tracking-wider text-slate-700">
-                Question Palette (TCS iON Style)
+                Question Palette
               </h4>
               <button
                 type="button"
@@ -612,7 +612,7 @@ export const MockTestEngine: React.FC<MockTestEngineProps> = ({ onClose }) => {
               </button>
             </div>
 
-            {/* Official Legend */}
+            {/* Status Legend */}
             <div className="grid grid-cols-2 gap-2 text-[11px] text-slate-600 mb-5 p-3 rounded-lg bg-white border border-slate-200">
               <div className="flex items-center gap-1.5">
                 <span className="w-5 h-5 rounded-md bg-emerald-600 text-white font-bold text-[10px] flex items-center justify-center shrink-0">
