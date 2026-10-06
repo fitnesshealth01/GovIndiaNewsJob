@@ -1,6 +1,6 @@
 {
-  "summary":  "Implementation plan for the authoritative, SEO-optimized article 'Army 1600 Meter Running Standards & Agniveer Physical Fitness Guide'. Outlines physical fitness timing charts, Group I vs Group II standards data table, stamina workout tips, age eligibility criteria, contextual CTA button to '/tools/height', and E-E-A-T search engine optimization.",
-  "updatedAt":  "2026-10-05T08:48:22.276844141Z",
+  "summary":  "Implementation plan for: 1) Dedicated Blog section for evergreen articles with category filtering and no expiration badges, 2) Interactive Physical Fitness Test Countdown feature with timeline-specific motivational and training tips, 3) Complete resolution of all HTML leaks across the website (removing in-body script tags, CSS reset, and escaping prerender strings), and 4) Fact-checking and verifying all 14 remaining unverified articles against official government portals to eliminate all Under Verification badges.",
+  "updatedAt":  "2026-10-06T11:06:16.408583393Z",
   "requestFeedback":  true,
   "userFacing":  true
 }

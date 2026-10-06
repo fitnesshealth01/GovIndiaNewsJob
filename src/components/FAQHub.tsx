@@ -172,14 +172,21 @@ export const FAQHub: React.FC<FAQHubProps> = ({ onNavigate }) => {
     };
   }, []);
 
+  React.useEffect(() => {
+    if (typeof document === 'undefined') return;
+    const scriptId = 'govindianews-faqhub-jsonld';
+    let script = document.getElementById(scriptId) as HTMLScriptElement | null;
+    if (!script) {
+      script = document.createElement('script');
+      script.id = scriptId;
+      script.type = 'application/ld+json';
+      document.head.appendChild(script);
+    }
+    script.textContent = JSON.stringify(faqSchema);
+  }, [faqSchema]);
+
   return (
     <div className="space-y-8 max-w-4xl mx-auto">
-      {/* Schema.org FAQPage structured data */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
-      />
-
       {/* Header Banner */}
       <div className="bg-white rounded-2xl border border-slate-200 p-6 sm:p-8 shadow-xs space-y-4">
         <div className="inline-flex items-center gap-2 text-xs font-semibold text-blue-700 bg-blue-50 border border-blue-100 rounded-md px-2.5 py-1">

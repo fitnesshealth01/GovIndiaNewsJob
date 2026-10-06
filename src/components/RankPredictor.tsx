@@ -95,7 +95,7 @@ export const RankPredictor: React.FC = () => {
     if (diff < -5) {
       qualifyingStatus = {
         text: 'Below Safe Benchmark / Low Probability',
-        probability: '< 25%',
+        probability: 'Under 25%',
         color: 'text-rose-700',
         bg: 'bg-rose-50 border-rose-200',
       };

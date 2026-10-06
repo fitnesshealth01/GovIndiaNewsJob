@@ -45,13 +45,21 @@ export const RankPredictorPage: React.FC<RankPredictorPageProps> = ({ onNavigate
     })),
   };
 
+  React.useEffect(() => {
+    if (typeof document === 'undefined') return;
+    const scriptId = 'govindianews-rank-jsonld';
+    let script = document.getElementById(scriptId) as HTMLScriptElement | null;
+    if (!script) {
+      script = document.createElement('script');
+      script.id = scriptId;
+      script.type = 'application/ld+json';
+      document.head.appendChild(script);
+    }
+    script.textContent = JSON.stringify(faqSchema);
+  }, []);
+
   return (
     <div className="space-y-8 max-w-5xl mx-auto">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
-      />
-
       <div className="bg-white rounded-2xl border border-stone-200 p-6 sm:p-8 space-y-3 shadow-xs">
         <div className="flex flex-wrap items-center justify-between gap-2 text-xs">
           <span className="text-blue-700 bg-blue-50 border border-blue-200 px-3 py-1 rounded-md font-semibold">

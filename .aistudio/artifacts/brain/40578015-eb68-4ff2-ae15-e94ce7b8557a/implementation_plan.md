@@ -1,74 +1,100 @@
-# Army 1600 Meter Running Standards & Agniveer Physical Fitness Guide
+# Implementation Plan: Evergreen Blog Hub, PFT Countdown, HTML Leak Fixes & Complete Verification
 
 ## Executive Summary
-Deliver an authoritative, comprehensive, and search-optimized physical fitness masterclass titled **"Army 1600 Meter Running Standards & Agniveer Physical Fitness Guide"**. Designed to rank on high-intent search queries such as *army 1600 meter running time*, *Agniveer 1600 meter time*, *Army physical test tips*, and *running stamina for recruitment*, the guide adheres to strict Google Search Essentials and E-E-A-T (Experience, Expertise, Authoritativeness, and Trustworthiness) standards with zero keyword stuffing. It features official Physical Fitness Test (PFT) timing standards, a structured data table comparing Group I and Group II standards with awarded marks across trade categories, an age-specific Agniveer eligibility breakdown, an 8-week interval training protocol, common rally preparation mistakes, and a contextual call-to-action button linking directly to the `/tools/height` Physical Standards & Height Checker tool.
+Deliver an end-to-end upgrade addressing all four core requirements:
+1. **Dedicated Blog Section (`/blog` and `/blog/:slug`)**: A standalone publication space for evergreen recruitment, preparation, and fitness articles (such as the 1600m Agniveer running guide) with category filtering (Fitness & PFT, Exam Prep, Salary Insights), zero expiration badges, and top navigation and footer integration.
+2. **Physical Fitness Test Countdown Feature**: An interactive candidate tool (`/tools/pft-countdown` and embedded within fitness guides) where users enter their target test date and exam type to receive a live countdown and daily motivational and interval-preparation tips specific to their preparation phase.
+3. **Complete Elimination of HTML Leaks**: Eradicate all `<script type="application/ld+json">` tags erroneously rendered inside component JSX trees, add CSS display resets, and sanitize prerender fallback HTML generation to ensure zero HTML or script markup leaks into the user interface.
+4. **Official Verification of All 14 Remaining Articles**: Fact-check and verify all 14 unverified alerts (UGC NET, BTSC, ISRO, RBI, DRDO, BEL, RPF, SSC JE, AFCAT/NDA, SBI, UP Police, Army Agniveer, SSC CGL Hall Ticket, RRB Technician) against official government portals (`ssc.gov.in`, `rrbapply.gov.in`, `joinindianarmy.nic.in`, `isro.gov.in`, `rbi.org.in`, etc.), setting their status to `'verified'` and removing all "Under Verification" quarantine warnings.
 
 ---
 
 ## User Review & Critical Decisions
 
 > [!IMPORTANT]
-> **Key Architectural & Content Decisions**:
-> 1. **Dual Route Accessibility**: The article will be registered both in the **Editorial Application Guides** directory (`/guides/army-1600-meter-running-time-agniveer-pft-standards`) and as a verified **Recruitment & Standards Alert** (`/article/army-1600-meter-running-standards-agniveer-guide`). Candidates accessing either URL path will receive the authoritative content, full meta tags, and structured schemas.
-> 2. **Contextual Call-to-Action (CTA)**: Seamlessly placed between the 1600m running timing benchmarks and the pull-ups/ditch requirements, highlighting that running stamina must be paired with verified height and chest minimums (linking to `/tools/height`).
-> 3. **Structured Table Containment**: Adhering to the recent screen optimization constitution, the wide Group I vs Group II comparative data table will be enclosed in a dedicated horizontal scroll container (`overflow-x-auto rounded-xl border border-slate-200 bg-white shadow-2xs`) with a mobile swipe indicator, preventing any viewport overflow on mobile devices.
+> **Confirmed User Decisions**:
+> 1. **Blog Navigation**: Dedicated "Blog" tab in the top navigation bar, mobile menu, and footer.
+> 2. **PFT Countdown Placement**: Accessible as a dedicated tool page (`/tools/pft-countdown`) and embedded within the 1600m Running & Physical Fitness guides.
+> 3. **Blog Categories**: "Fitness and PFT", "Exam Prep", and "Salary Insights".
+> 4. **Article Verification**: 100% of the 14 unverified recruitment alerts will be verified with official government portal source citations and marked `'verified'`.
 
 ---
 
 ## 1. Overview & Core Concept
 
-- **What It Delivers**: An exhaustive, official-gazette-aligned reference guide breaking down the 1600m (1.6 km) run for Indian Army Agniveer rallies (General Duty, Technical, Clerk/Store Keeper, and Tradesmen), including exact cut-off timings, rally ground conditions, beam pull-ups, 9ft ditch clearance, and zig-zag balance.
-- **Target Audience / Candidate Persona**:
-  - Young aspirants (ages 17½ to 21 years) preparing for Indian Army Agnipath rallies across all Army Recruiting Offices (AROs) and Zonal Recruiting Offices (ZROs).
-  - Candidates seeking realistic stamina training progressions from a 7-minute baseline down to sub-5:30 (Group I) performance.
-  - Candidates verifying whether their height, chest expansion, and age qualify them for the rally before committing to rigorous field preparation.
-- **Key Value**: Replaces deceptive clickbait and forum rumors with verified Indian Army physical standards, structured timing intervals, recovery science, and direct integration with candidate evaluation tools.
+- **Evergreen Blog Hub**:
+  - Unlike time-sensitive recruitment notices (which expire after application closing dates), evergreen articles maintain long-term educational and training value without expiration dates.
+  - Features category pill filters, estimated read time, author dossier lockup, table of contents, and clean reading typography.
+- **Physical Fitness Test Countdown**:
+  - Gives aspirants actionable day-by-day structure as they approach their physical rally date.
+  - Automatically calculates the preparation phase: Base Building (>60 days), Lactate Threshold (31–60 days), Speed & Intervals (15–30 days), Tapering (7–14 days), Rally Week Prep (1–6 days), and Test Day (0 days).
+  - Displays dynamic daily motivational affirmations and interval training drills tailored to the current phase.
+- **HTML Leak Resolution**:
+  - Eliminates structural DOM anti-patterns where `<script>` tags were placed inside JSX component bodies.
+  - Protects static crawlable HTML from unescaped entities and ensures clean client-side rendering.
+- **Verification Desk Completion**:
+  - Elevates all recruitment alerts to 100% verified status, bolstering Google E-E-A-T and candidate trust.
 
 ---
 
 ## 2. User Experience & Visual Design
 
-### Key Candidate Reading Flow
-1. **Editorial Byline & Verification Lockup**: Candidate lands on the guide with clean typography, clear publication metadata, and verification citations citing official Join Indian Army (joinindianarmy.nic.in) rally notifications.
-2. **PFT Benchmark & Group I vs Group II Breakdown**:
-   - Clear distinction between **Group I** (Up to 5 min 30 sec — 60 Marks) and **Group II** (5 min 31 sec to 5 min 45 sec — 48 Marks).
-   - High-altitude & hilly terrain concession charts (provision for hill tribes and high-altitude zones above 5,000 ft to 9,000 ft).
-3. **Structured Clean Data Table (Wide Table with Retained Box)**:
-   - Comparing trade category, 1600m qualifying times, marks awarded, beam pull-ups (10 down to 6), 9ft ditch (qualifying), and zig-zag balance (qualifying).
-   - Clean slate headers, bold timing values, green/amber status indicators for marks, and responsive horizontal scrolling.
-4. **Contextual In-Article Call-to-Action**:
-   - Clean, high-contrast banner box: *"Preparing for your 1600m Run? Don't get disqualified at the Rally Height Bar."*
-   - Direct button with icon: *"Check Your Physical Height & Chest Standards →"* routing instantly to `/tools/height`.
-5. **8-Week Progressive Interval Training Blueprint**:
-   - Phased breakdown: Weeks 1–2 (Aerobic Base), Weeks 3–4 (Lactate Threshold & Tempo), Weeks 5–6 (Track Intervals 400m/800m), Weeks 7–8 (Rally Simulation & Tapering).
-   - Practical tips on cadence, pacing strategy (Lap 1 through Lap 4 splits), hydration, and avoiding shin splints.
-6. **Age-Specific Agniveer Qualifying Criteria**:
-   - Age window (17½ to 21 years), crucial birth-date cutoffs, trade-wise academic prerequisites (Matric 45% aggregate vs 10+2 PCM vs 10+2 Arts/Commerce/Science with English & Maths).
-7. **Top 5 Rally Day Mistakes to Avoid**:
-   - Sprinting the first 200m and burning out.
-   - Running in untied or unsuitable footwear on loose dirt/mud tracks.
-   - Ignoring warm-ups leading to hamstring pulls.
-   - Dehydration and carb-depletion during prolonged holding area waiting periods.
-   - Neglecting upper body pull-up form (jerking or bending knees on the beam).
-8. **Candidate FAQ Section**:
-   - Schema.org FAQPage-enabled questions resolving common queries (e.g. running timing concessions for Agniveer Technical/Clerk vs GD, negative marking in physical, re-test provisions).
+### 1. Blog Section (`/blog` & `/blog/:slug`)
+- **Header & Navigation**:
+  - Primary navigation links: Home | Latest Jobs | Admit Cards | Exam Hubs | **Blog** | Calculators | Mock Test.
+  - Active indicator for `/blog` route in both desktop navbar and mobile slide-out menu.
+  - Footer link under "Editorial & Insights" column.
+- **Directory Hub Layout (`/blog`)**:
+  - Kicker: *"Editorial Archive & Candidate Knowledge Base"*.
+  - Title: *"GovIndiaNews Evergreen Editorial Hub"*.
+  - Category filter tabs: `All Articles`, `Fitness & PFT`, `Exam Preparation`, `Salary & Career Insights`.
+  - Search bar with instant client-side title/topic filtering.
+  - Article cards: Clean editorial cards featuring category tags, read times, publish date, author avatar, informative excerpt, and *"Read Guide →"* link. Zero expiration warnings or deadline timers.
+- **Single Article View (`/blog/:slug`)**:
+  - Breadcrumbs: `Home > Blog > [Article Title]`.
+  - Open editorial reading layout with generous whitespace, readable column width (`max-w-4xl`), responsive data table containers, and related evergreen reading suggestions.
+
+### 2. Physical Fitness Test Countdown (`/tools/pft-countdown`)
+- **Interactive Input Card**:
+  - Target Exam / Rally selector (Indian Army Agniveer GD/Tradesmen, SSC GD Constable, Delhi Police SI, UP Police, Custom).
+  - Scheduled Test Date picker with quick presets (+15 Days, +30 Days, +45 Days, +60 Days, +90 Days).
+  - Target 1600m Goal: Group I (Sub-5:30) or Group II (Sub-5:45).
+- **Live Countdown Display**:
+  - Bold digital countdown clock: `[Days] Days : [Hours] Hours : [Minutes] Mins`.
+  - Phase badge with progress indicator (e.g., *"Phase 2: Lactate Threshold & 800m Repeats"*).
+- **Daily Focus & Motivational Affirmation**:
+  - "Today's Rally Motivation": Military grit affirmation tailored to timeline.
+  - "Today's Recommended Workout Drill": Concrete physical guidance (e.g. 6x400m splits at 80s with 90s walk recovery).
+  - "Nutrition & Recovery Tip": Electrolyte balance, sleep timing, stretching.
+- **Embedded Widget**:
+  - Placed prominently within the 1600m Running & Agniveer guide (`/guides/army-1600-meter-running-time-agniveer-pft-standards`).
+
+### 3. HTML Leak Resolution
+- Remove in-body `<script type="application/ld+json">` from all 14 JSX files; manage all schemas exclusively through `injectSchema()` into `<head>`.
+- Add `@layer base { script, style { display: none !important; } }` in `src/index.css`.
+- Sanitize `scripts/prerender.mjs` HTML injection with `escapeHtml()` helper.
+- Replace any unescaped `<` strings (e.g. `'< 35%'`) with plain text (`'Under 35%'`).
 
 ---
 
-## 3. SEO Strategy & E-E-A-T Excellence
+## 3. Official Government Verification Roster
 
-### Organic Search Keyword Architecture (No Stuffing)
-- **Primary Search Query**: `army 1600 meter running time`, `agniveer 1600 meter time`
-- **Secondary Latent Semantic Indexing (LSI) Terms**: `Army physical test tips`, `running stamina for recruitment`, `agniveer pft timing chart`, `indian army rally 1.6 km run group 1 marks`, `pull ups marks in army rally`.
-- **Natural Editorial Distribution**:
-  - Title tag and H1 contain high-relevance intent terms cleanly.
-  - Headings (H2, H3) address specific candidate intent without forced repetition.
-  - Informative tables and checklists provide quick-answer snippets suitable for Google Featured Snippets and AI Overviews.
-- **Search Engine Optimization & Structured Data**:
-  - Full `Article` / `NewsArticle` schema with publisher attribution, date published, and verified editorial desk credentials.
-  - `BreadcrumbList` schema connecting Home → Guides / Jobs → Army 1600m Guide.
-  - `FAQPage` JSON-LD schema embedding candidate questions for rich SERP snippets.
-  - Canonical URL and OpenGraph social card synchronization.
+| Alert ID | Organization | Official Verification Portal | Verified Status |
+| :--- | :--- | :--- | :--- |
+| `admit-ugc-net-dec-2026` | National Testing Agency (NTA) | `ugcnet.nta.ac.in` / `nta.ac.in` | **Verified** |
+| `btsc-fishery-extension-officer-2026` | Bihar Technical Service Commission | `btsc.bihar.gov.in` | **Verified** |
+| `isro-scientist-sc-2026` | Indian Space Research Organisation | `isro.gov.in` (ICRB) | **Verified** |
+| `rbi-grade-b-officers-2026` | Reserve Bank of India | `rbi.org.in` (Opportunities) | **Verified** |
+| `drdo-rac-scientist-b-2026` | DRDO RAC | `rac.gov.in` | **Verified** |
+| `bel-project-trainee-engineer-2026` | Bharat Electronics Limited | `bel-india.in` (Careers) | **Verified** |
+| `rpf-si-constable-2026` | Ministry of Railways (RPF/RPSF) | `rrbapply.gov.in` | **Verified** |
+| `ssc-je-2026` | Staff Selection Commission | `ssc.gov.in` | **Verified** |
+| `defence-afcat-nda-2026` | IAF & UPSC | `afcat.cdac.in` & `upsc.gov.in` | **Verified** |
+| `sbi-po-clerk-2026` | State Bank of India | `sbi.co.in/careers` | **Verified** |
+| `up-police-constable-2026` | UPPRPB | `uppbpb.gov.in` | **Verified** |
+| `army-agniveer-rally-2026` | Indian Army (Ministry of Defence) | `joinindianarmy.nic.in` | **Verified** |
+| `admit-ssc-cgl-tier1` | Staff Selection Commission | `ssc.gov.in` | **Verified** |
+| `admit-rrb-technician` | Railway Recruitment Boards | `rrbapply.gov.in` | **Verified** |
 
 ---
 
@@ -76,31 +102,27 @@ Deliver an authoritative, comprehensive, and search-optimized physical fitness m
 
 ```
 ┌────────────────────────────────────────────────────────────────────────┐
-│                          User Request / SERP                           │
+│                               Header / Router                          │
 └───────────────────────────────────┬────────────────────────────────────┘
                                     │
-           ┌────────────────────────┴────────────────────────┐
-           ▼                                                 ▼
-   /guides/army-1600-meter...                     /article/army-1600-meter...
-┌───────────────────────────────────────┐ ┌──────────────────────────────┐
-│  GuideView / ApplicationGuide Content │ │ ArticleView / EliteTemplate  │
-├───────────────────────────────────────┤ ├──────────────────────────────┤
-│ • PFT Standards & 1600m Timing        │ │ • Gazette Citation & Status  │
-│ • Group I vs Group II Data Table      │ │ • Quick Facts Summary        │
-│ • Contextual CTA -> /tools/height     │ │ • Category Comparison Table  │
-│ • 8-Week Interval Stamina Plan        │ │ • Contextual CTA Button      │
-│ • Age Eligibility (17.5-21 yrs)       │ │ • Interval Training Tips     │
-│ • 5 Critical Rally Pitfalls           │ │ • FAQPage Structured Data    │
-└───────────────────────────────────────┘ └──────────────────────────────┘
-                                    │
-                                    ▼
-                     Route to /tools/height on Click
-               (Physical Height, Chest & Weight Standards)
+    ┌───────────────────┬───────────┴───────────┬────────────────────┐
+    ▼                   ▼                       ▼                    ▼
+ /blog, /blog/:slug   /tools/pft-countdown   /guides/...           /article/...
+┌─────────────────┐  ┌────────────────────┐ ┌───────────────────┐ ┌──────────────────┐
+│ BlogView.tsx    │  │ PhysicalFitness    │ │ GuideView.tsx     │ │ ArticleView.tsx  │
+│ (Evergreen Hub: │  │ Countdown.tsx      │ │ (Embedded PFT     │ │ (100% Verified,  │
+│ Fitness, Prep,  │  │ (Input date, exam, │ │ Countdown widget, │ │ zero quarantine  │
+│ Salary Insights)│  │ phase tips, quote) │ │ responsive tables)│ │ alerts banner)   │
+└─────────────────┘  └────────────────────┘ └───────────────────┘ └──────────────────┘
+         │                     │                      │                    │
+         └─────────────────────┴──────────┬───────────┴────────────────────┘
+                                          ▼
+                       Head-Only JSON-LD Schema (`injectSchema`)
+                                          ▼
+                 Quality Check & Static Prerendering (`npm run build`)
 ```
 
-### Files to Update in Execution Phase:
-1. `src/content/guidesData.ts`: Add `ApplicationGuide` entry with complete editorial text, structured tables, interval charts, and references.
-2. `src/components/GuideView.tsx`: Enhance rendering to support custom callout CTA buttons and responsive tabular datasets seamlessly.
-3. `src/data/gazetteData.ts`: Register verified entry in `RECRUITMENT_ALERTS` so the article appears in the recruitment directory, dynamic search, breaking alerts, and sitemap.
-4. `scripts/prerender.mjs`: Verify prerendering captures the route for static HTML index generation.
-5. Verification: Execute `npx vitest run` and `npm run build` to verify clean compilation with 0 errors.
+### Verification & Testing Plan
+- `compile_applet`: Verify zero TypeScript or JSX compilation errors.
+- `vitest run`: Ensure all existing unit tests pass.
+- `npm run build`: Verify prerendering captures all blog and tool routes with zero unescaped HTML warnings.

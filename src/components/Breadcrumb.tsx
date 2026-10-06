@@ -19,11 +19,6 @@ export const Breadcrumb: React.FC<BreadcrumbProps> = ({
   onNavigate,
   customTitle,
 }) => {
-  // Never show on the root home page
-  if (currentPath === '/' || currentPath === '') {
-    return null;
-  }
-
   // Derive breadcrumb hierarchy
   const items: BreadcrumbItem[] = [{ label: 'Home', path: '/' }];
 
@@ -54,9 +49,13 @@ export const Breadcrumb: React.FC<BreadcrumbProps> = ({
     items.push({ label: 'Exam Calculators', path: '/tools' });
     const sub = currentPath.replace('/tools/', '');
     const toolTitles: Record<string, string> = {
+      salary: '7th CPC Salary Calculator',
+      'photo-checker': 'Photo & Signature Format Checker',
+      relaxation: 'Category & Fee Relaxation Calculator',
       age: 'Age Cut-off Calculator',
       marking: 'Negative Marking Penalty Calculator',
       height: 'Physical Height & Standards Checker',
+      'pft-countdown': 'Physical Fitness Test (PFT) Countdown',
       rank: 'Rank & Normalization Predictor',
       eligibility: 'Instant Eligibility Matcher',
       'rich-snippet-preview': 'Google Rich Snippet & Schema Inspector',
@@ -66,6 +65,22 @@ export const Breadcrumb: React.FC<BreadcrumbProps> = ({
       label: toolTitles[sub] || 'Calculator Utility',
       isCurrent: true,
     });
+  } else if (currentPath.startsWith('/blog/')) {
+    items.push({ label: 'Evergreen Blog', path: '/blog' });
+    items.push({
+      label: customTitle || 'Blog Article',
+      isCurrent: true,
+    });
+  } else if (currentPath === '/blog') {
+    items.push({ label: 'Evergreen Blog', isCurrent: true });
+  } else if (currentPath.startsWith('/guides/')) {
+    items.push({ label: 'Application Guides', path: '/guides' });
+    items.push({
+      label: customTitle || 'Application Guide',
+      isCurrent: true,
+    });
+  } else if (currentPath === '/guides') {
+    items.push({ label: 'Application Guides', isCurrent: true });
   } else if (currentPath.startsWith('/trust/')) {
     items.push({ label: 'Trust & Ethics', path: '/trust/editorial' });
     const sub = currentPath.replace('/trust/', '');
@@ -133,14 +148,31 @@ export const Breadcrumb: React.FC<BreadcrumbProps> = ({
     })),
   };
 
+  React.useEffect(() => {
+    if (typeof document === 'undefined') return;
+    if (currentPath === '/' || currentPath === '') {
+      const existing = document.getElementById('govindianews-breadcrumb-jsonld');
+      if (existing) existing.remove();
+      return;
+    }
+    const scriptId = 'govindianews-breadcrumb-jsonld';
+    let script = document.getElementById(scriptId) as HTMLScriptElement | null;
+    if (!script) {
+      script = document.createElement('script');
+      script.id = scriptId;
+      script.type = 'application/ld+json';
+      document.head.appendChild(script);
+    }
+    script.textContent = JSON.stringify(breadcrumbSchema);
+  }, [breadcrumbSchema, currentPath]);
+
+  // Never render visual breadcrumbs on the root home page
+  if (currentPath === '/' || currentPath === '') {
+    return null;
+  }
+
   return (
     <>
-      {/* Schema.org BreadcrumbList JSON-LD for Search Engines & Discover */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
-      />
-
       {/* Visual Compact Breadcrumb Trail */}
       <div className="bg-slate-50/80 border-b border-slate-200/80 py-2.5 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">

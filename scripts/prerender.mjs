@@ -19,6 +19,7 @@ const baseHtml = fs.readFileSync(indexHtmlPath, 'utf8');
 const { EXAM_HUBS } = await import('../src/content/examHubsData.ts');
 const { APPLICATION_GUIDES } = await import('../src/content/guidesData.ts');
 const { RECRUITMENT_ALERTS } = await import('../src/data/gazetteData.ts');
+const { BLOG_POSTS } = await import('../src/content/blogData.ts');
 
 const DOMAIN = 'https://govindianews.com';
 
@@ -120,6 +121,14 @@ const ROUTES = [
     bodyText: 'Cross-references candidate physical measurements against notified physical standards for uniform services under Ministry of Home Affairs guidelines.'
   },
   {
+    path: '/tools/pft-countdown',
+    title: 'Physical Fitness Test (PFT) & 1600m Running Countdown — GovIndiaNews',
+    description: 'Target test date countdown with timeline-specific daily workouts, interval training drills, and mental grit affirmations for Army Agniveer and Police rallies.',
+    canonical: `${DOMAIN}/tools/pft-countdown`,
+    contentHeading: 'Physical Fitness Test & 1600m Running Countdown',
+    bodyText: 'Enter your scheduled physical test date to calculate your remaining training timeline across 5 structured phases with daily motivational affirmations and interval drills.'
+  },
+  {
     path: '/tools/rank',
     title: 'Percentile Rank & Normalization Predictor — Shift Score Estimate',
     description: 'Statistical percentile rank and normalized score estimator based on candidate raw marks and shift difficulty distribution assumptions.',
@@ -158,6 +167,14 @@ const ROUTES = [
     canonical: `${DOMAIN}/guides`,
     contentHeading: 'Government Recruitment Application Guides',
     bodyText: 'Masterclass advisories authored by the editorial team explaining reservation policy nuances, DoPT circulars, certificate formats, and practical steps to avoid application rejections.'
+  },
+  {
+    path: '/blog',
+    title: 'Evergreen Editorial Hub & Candidate Knowledge Base — GovIndiaNews',
+    description: 'Permanent recruitment masterclasses, physical fitness guides, 7th CPC salary breakdowns, and exam preparation strategies with zero expiration dates.',
+    canonical: `${DOMAIN}/blog`,
+    contentHeading: 'GovIndiaNews Evergreen Editorial Hub & Preparation Blog',
+    bodyText: 'Permanent recruitment knowledge base featuring physical fitness benchmarks, 7th CPC pay scale analyses, and multi-tier exam scoring blueprints.'
   },
   {
     path: '/faqs',
@@ -273,6 +290,18 @@ for (const alert of RECRUITMENT_ALERTS) {
   });
 }
 
+// Add all evergreen blog posts to ROUTES
+for (const post of BLOG_POSTS) {
+  ROUTES.push({
+    path: `/blog/${post.slug}`,
+    title: `${post.title} — GovIndiaNews`,
+    description: post.summary.slice(0, 160),
+    canonical: `${DOMAIN}/blog/${post.slug}`,
+    contentHeading: post.title,
+    bodyText: post.sections.map(s => `${s.heading}\n${s.content}`).join('\n\n')
+  });
+}
+
 console.log(`Starting pre-rendering for ${ROUTES.length} static routes...`);
 
 for (const route of ROUTES) {
@@ -295,16 +324,28 @@ for (const route of ROUTES) {
   }
 
   // Inject prerendered crawlable content inside #root for crawlers without JavaScript
+  const escapeHtml = (str) =>
+    String(str || '')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
+
+  const escapedHeading = escapeHtml(route.contentHeading);
+  const escapedBody = escapeHtml(route.bodyText).replace(/\n/g, '<br/>');
+
   const fallbackHtml = `
     <header style="max-width:960px;margin:2rem auto;padding:1rem;font-family:sans-serif;">
-      <h1 style="font-size:1.75rem;font-weight:bold;color:#0f172a;">${route.contentHeading}</h1>
-      <p style="color:#475569;font-size:0.95rem;line-height:1.6;margin-top:0.75rem;">${route.bodyText.replace(/\n/g, '<br/>')}</p>
+      <h1 style="font-size:1.75rem;font-weight:bold;color:#0f172a;">${escapedHeading}</h1>
+      <p style="color:#475569;font-size:0.95rem;line-height:1.6;margin-top:0.75rem;">${escapedBody}</p>
       <nav style="margin-top:1.5rem;font-size:0.85rem;">
         <a href="/" style="color:#2563eb;margin-right:1rem;">Home</a>
         <a href="/jobs" style="color:#2563eb;margin-right:1rem;">Jobs</a>
         <a href="/exams" style="color:#2563eb;margin-right:1rem;">Exam Hubs</a>
         <a href="/data/vacancies" style="color:#2563eb;margin-right:1rem;">Vacancies</a>
         <a href="/guides" style="color:#2563eb;margin-right:1rem;">Guides</a>
+        <a href="/blog" style="color:#2563eb;margin-right:1rem;">Blog</a>
         <a href="/tools" style="color:#2563eb;margin-right:1rem;">Calculators</a>
         <a href="/about" style="color:#2563eb;">About</a>
       </nav>

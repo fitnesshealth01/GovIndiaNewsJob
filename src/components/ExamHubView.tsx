@@ -106,13 +106,21 @@ export const ExamHubView: React.FC<ExamHubViewProps> = ({ slug, onNavigate }) =>
     })),
   };
 
+  React.useEffect(() => {
+    if (typeof document === 'undefined') return;
+    const scriptId = 'govindianews-examhub-jsonld';
+    let script = document.getElementById(scriptId) as HTMLScriptElement | null;
+    if (!script) {
+      script = document.createElement('script');
+      script.id = scriptId;
+      script.type = 'application/ld+json';
+      document.head.appendChild(script);
+    }
+    script.textContent = JSON.stringify(faqSchema);
+  }, [faqSchema]);
+
   return (
     <div className="space-y-8 max-w-5xl mx-auto">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
-      />
-
       {/* Header */}
       <div className="bg-white rounded-2xl border border-stone-200 p-6 sm:p-8 space-y-4 shadow-xs">
         <div className="flex flex-wrap items-center justify-between gap-2 text-xs">

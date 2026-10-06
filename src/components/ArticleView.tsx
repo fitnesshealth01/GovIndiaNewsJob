@@ -122,22 +122,6 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
 
   return (
     <div className="space-y-8 max-w-full overflow-x-hidden">
-      {/* Schema.org Structured Data */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(primarySchema) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
-      />
-      {articleFaqSchema && (
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(articleFaqSchema) }}
-        />
-      )}
-
       {/* Quarantine Status Banner */}
       {article.status === 'unverified' && (
         <div className="bg-amber-50 border-l-4 border-amber-500 p-4 rounded-r-xl shadow-xs text-amber-950 flex items-start gap-3">

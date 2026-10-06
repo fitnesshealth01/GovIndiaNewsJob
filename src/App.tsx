@@ -26,6 +26,9 @@ import { NegativeMarkingPage } from './components/tools/NegativeMarkingPage';
 import { HeightEligibilityPage } from './components/tools/HeightEligibilityPage';
 import { RankPredictorPage } from './components/tools/RankPredictorPage';
 import { EligibilityMatcherPage } from './components/tools/EligibilityMatcherPage';
+import { PhysicalFitnessCountdownPage } from './components/tools/PhysicalFitnessCountdownPage';
+import { BlogView } from './components/BlogView';
+import { BLOG_POSTS } from './content/blogData';
 import { getBookmarks } from './utils/bookmarkStorage';
 import {
   Calendar,
@@ -43,6 +46,7 @@ import {
   ChevronRight,
   ArrowLeft,
   Filter,
+  Timer,
 } from 'lucide-react';
 import { RECRUITMENT_ALERTS, RecruitmentAlert } from './data/gazetteData';
 import { isAlertActive, isAlertActiveAndVerified, isAlertExpired } from './utils/alertStatus';
@@ -116,12 +120,24 @@ export default function App() {
       title = 'Negative Marking Penalty Score Calculator - GovIndiaNews';
     } else if (currentPath === '/tools/height') {
       title = 'Physical Height & Chest Standard Eligibility Checker - GovIndiaNews';
+    } else if (currentPath === '/tools/pft-countdown') {
+      title = 'Physical Fitness Test (PFT) & 1600m Running Countdown - GovIndiaNews';
     } else if (currentPath === '/tools/rank') {
       title = 'Exam Rank & Score Normalization Predictor - GovIndiaNews';
     } else if (currentPath === '/tools/eligibility' || currentPath === '/matcher') {
       title = 'Instant Govt Job Eligibility Matcher - GovIndiaNews';
     } else if (currentPath === '/tools') {
       title = 'Govt Exam Smart Calculators Suite - GovIndiaNews';
+    } else if (currentPath === '/blog') {
+      title = 'GovIndiaNews Evergreen Editorial Hub & Preparation Blog';
+    } else if (currentPath.startsWith('/blog/')) {
+      const slug = currentPath.replace('/blog/', '').split('?')[0];
+      const blogPost = BLOG_POSTS.find((p) => p.slug === slug);
+      if (blogPost) {
+        title = `${blogPost.title} - GovIndiaNews`;
+      } else {
+        title = 'Government Exam Preparation Blog - GovIndiaNews';
+      }
     } else if (currentPath === '/jobs') {
       title = 'Latest Govt Jobs 2026 Notifications - GovIndiaNews';
     } else if (currentPath === '/admit-cards') {
@@ -321,6 +337,7 @@ export default function App() {
         {currentPath === '/tools/age' && <AgeCalculatorPage onNavigate={navigate} />}
         {currentPath === '/tools/marking' && <NegativeMarkingPage onNavigate={navigate} />}
         {currentPath === '/tools/height' && <HeightEligibilityPage onNavigate={navigate} />}
+        {currentPath === '/tools/pft-countdown' && <PhysicalFitnessCountdownPage onNavigate={navigate} />}
         {currentPath === '/tools/rank' && <RankPredictorPage onNavigate={navigate} />}
         {(currentPath === '/tools/eligibility' || currentPath === '/matcher') && <EligibilityMatcherPage onNavigate={navigate} />}
 
@@ -339,6 +356,7 @@ export default function App() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {[
                 { title: '7th CPC In-Hand Salary Calculator', desc: 'Compute monthly gross, 10% NPS deduction, and net take-home pay across Levels 1 to 18 and Class X/Y/Z cities.', path: '/tools/salary', icon: Calculator, badge: 'Popular' },
+                { title: 'Physical Fitness Test (PFT) Countdown', desc: 'Target exam date countdown with daily training drills, 1600m interval splits, and mental grit affirmations.', path: '/tools/pft-countdown', icon: Timer, badge: 'Fitness' },
                 { title: 'Photo & Signature Compliance Checker', desc: 'Validate and compress image dimensions (KB limits, aspect ratios) for SSC, UPSC, IBPS, and RRB portals.', path: '/tools/photo-checker', icon: Sparkles, badge: 'Client-Side' },
                 { title: 'Fee & Category Relaxation Calculator', desc: 'Determine exact upper age concessions and fee exemptions for OBC, SC, ST, PwBD, and ESM under DoPT rules.', path: '/tools/relaxation', icon: ShieldCheck, badge: 'Statutory' },
                 { title: 'Crucial Cut-Off Age Calculator', desc: 'Calculate exact completed years, months, and days against the official gazette notification cutoff date.', path: '/tools/age', icon: Calendar, badge: 'Essential' },
@@ -456,6 +474,14 @@ export default function App() {
         {(currentPath === '/guides' || currentPath.startsWith('/guides/')) && (
           <GuideView
             slug={currentPath.startsWith('/guides/') ? currentPath.replace('/guides/', '').split('?')[0] : undefined}
+            onNavigate={navigate}
+          />
+        )}
+
+        {/* ROUTE 4.9: EVERGREEN EDITORIAL BLOG (/blog, /blog/:slug) */}
+        {(currentPath === '/blog' || currentPath.startsWith('/blog/')) && (
+          <BlogView
+            slug={currentPath.startsWith('/blog/') ? currentPath.replace('/blog/', '').split('?')[0] : undefined}
             onNavigate={navigate}
           />
         )}

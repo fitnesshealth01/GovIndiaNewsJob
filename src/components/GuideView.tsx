@@ -19,6 +19,7 @@ import {
   buildBreadcrumbSchema,
   injectSchema,
 } from '../utils/seoSchema';
+import { PhysicalFitnessCountdown } from './tools/PhysicalFitnessCountdown';
 
 interface GuideViewProps {
   slug?: string;
@@ -204,6 +205,11 @@ export const GuideView: React.FC<GuideViewProps> = ({ slug, onNavigate }) => {
           </div>
         </div>
       </div>
+
+      {/* Embedded Physical Fitness Test Countdown Widget (for fitness guides) */}
+      {(guide.category.includes('Physical Fitness') || guide.slug.includes('running')) && (
+        <PhysicalFitnessCountdown onNavigate={onNavigate} embedded={true} />
+      )}
 
       {/* Guide Sections */}
       <div className="space-y-6">
