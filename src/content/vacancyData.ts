@@ -17,6 +17,12 @@ export interface VacancyRecord {
 }
 
 export const VACANCY_HISTORY: VacancyRecord[] = [
+  // NICL AO (Scale-I)
+  { id: 'nicl-ao-2026', examName: 'NICL AO', conductingBody: 'National Insurance Company Limited', year: 2026, vacancies: 321, sourceTitle: 'NICL AO Recruitment 2026 Official Notification', sourceUrl: 'https://nationalinsurance.nic.co.in/en/recruitment', notes: '200 Generalists and 121 Specialists across Finance, Legal, IT, Auto, Doctors, Actuarial & Hindi' },
+  { id: 'nicl-ao-2025', examName: 'NICL AO', conductingBody: 'National Insurance Company Limited', year: 2025, vacancies: 266, sourceTitle: 'NICL AO 2024-25 Final Allotment Notice', sourceUrl: 'https://nationalinsurance.nic.co.in/en/recruitment', notes: 'Generalist & Specialist Administrative Officers' },
+  { id: 'nicl-ao-2024', examName: 'NICL AO', conductingBody: 'National Insurance Company Limited', year: 2024, vacancies: 274, sourceTitle: 'NICL AO 2024 Official Employment Notification', sourceUrl: 'https://nationalinsurance.nic.co.in/en/recruitment', notes: 'Administrative Officers Scale-I pan-India' },
+  { id: 'nicl-ao-2017', examName: 'NICL AO', conductingBody: 'National Insurance Company Limited', year: 2017, vacancies: 205, sourceTitle: 'NICL AO 2017 Recruitment Report', sourceUrl: 'https://nationalinsurance.nic.co.in/en/recruitment', notes: 'Generalist Scale-I Officers' },
+
   // SSC CGL
   { id: 'cgl-2026', examName: 'SSC CGL', conductingBody: 'Staff Selection Commission', year: 2026, vacancies: 14582, sourceTitle: 'SSC CGL 2026 Official Gazette Notification', sourceUrl: 'https://ssc.gov.in', notes: 'Tentative vacancies across Group B and C cadres' },
   { id: 'cgl-2025', examName: 'SSC CGL', conductingBody: 'Staff Selection Commission', year: 2025, vacancies: 17727, sourceTitle: 'SSC Annual Report 2024-25', sourceUrl: 'https://ssc.gov.in', notes: 'Final allocated vacancies post-departmental requisition' },

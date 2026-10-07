@@ -47,6 +47,107 @@ export interface ExamHub {
 
 export const EXAM_HUBS: ExamHub[] = [
   {
+    slug: 'nicl-ao',
+    title: 'NICL Administrative Officer (AO Scale-I) Examination Comprehensive Blueprint (2026)',
+    examName: 'NICL AO (Scale-I) Generalists & Specialists',
+    conductingBody: 'National Insurance Company Limited (NICL)',
+    officialUrl: 'https://nationalinsurance.nic.co.in/en/recruitment',
+    lastReviewed: '07 October 2026',
+    overview: `National Insurance Company Limited (NICL) is one of India's leading public sector general insurance undertakings under the Department of Financial Services (DFS), Ministry of Finance. The NICL Administrative Officer (AO Scale-I) examination is conducted for recruiting officers across Generalist cadres (Underwriting, Claims, Operations) and Specialist cadres (Finance, Legal, Information Technology, Automobile Engineering, Doctors, Actuarial, and Rajbhasha). Selected Scale-I Officers enjoy executive status equivalent to Class-I Central Public Sector executives with a revised basic pay of ₹50,925, comprehensive medical cover, leased accommodation in metropolitan cities, and pension under NPS.`,
+    eligibility: {
+      ageLimit: '21 to 30 Years as on 01 October 2026 (Born between 02-10-1996 and 01-10-2005). Statutory category relaxations: OBC-NCL +3 years (up to 33), SC/ST +5 years (up to 35), PwBD +10 to +15 years, Confirmed PSU Insurance Employees +8 years.',
+      educationalQualification: 'Generalists: Bachelor’s / Master’s Degree in any discipline from a recognized University with minimum 60% marks in aggregate (55% for SC/ST/PwBD). Specialists: Professional Degree in relevant discipline (CA/ICWA/LLB/BE-BTech/MBBS) with minimum 60% marks.',
+      nationality: 'Citizen of India, subject of Nepal, Bhutan, or Tibetan refugee settled before 01-01-1962.',
+      attempts: 'No restriction on the number of attempts within the prescribed age limit.',
+    },
+    selectionStages: [
+      {
+        stage: 'Phase-I',
+        name: 'Preliminary Examination (Online CBT)',
+        mode: 'Online Objective Multiple Choice (100 Marks, 60 Mins)',
+        details: 'Screening test comprising 100 questions (English: 30, Reasoning: 35, Quantitative Aptitude: 35) with 20 minutes fixed sectional timing each. Qualifying in nature with 1/4th negative marking. Approximately 15 times the number of vacancies shortlisted for Phase-II.',
+      },
+      {
+        stage: 'Phase-II',
+        name: 'Main Examination & Descriptive Test',
+        mode: 'Online Objective CBT (250 Marks, 180 Mins) + Descriptive Test (30 Marks, 30 Mins)',
+        details: 'Comprehensive objective exam across Reasoning, English, General/Financial Awareness, Computer Knowledge, Quant (and Professional Knowledge for Specialists). Followed immediately by online keyboard-typed English Descriptive test (Essay, Précis, Comprehension). Holds 80% weightage in final selection.',
+      },
+      {
+        stage: 'Phase-III',
+        name: 'Personal Interview',
+        mode: 'In-Person Interview before NICL Selection Board',
+        details: 'Conducted at designated regional capitals for candidates qualifying Phase-II cutoffs. Final merit generated combining Phase-II Mains (80%) and Interview (20%).',
+      },
+    ],
+    syllabusAndPattern: {
+      overview: 'Phase-I is a 60-minute 100-mark speed test with 20-minute sectional timers. Phase-II is a 250-mark objective test followed by 30-mark English descriptive writing.',
+      patternTable: [
+        { section: 'Phase-I: English Language', questions: 30, marks: 30, duration: '20 Mins', negativeMarking: '0.25 marks' },
+        { section: 'Phase-I: Reasoning Ability', questions: 35, marks: 35, duration: '20 Mins', negativeMarking: '0.25 marks' },
+        { section: 'Phase-I: Quantitative Aptitude', questions: 35, marks: 35, duration: '20 Mins', negativeMarking: '0.25 marks' },
+        { section: 'Phase-II: Reasoning Ability', questions: 50, marks: 50, duration: '35 Mins', negativeMarking: '0.25 marks' },
+        { section: 'Phase-II: English Language', questions: 50, marks: 50, duration: '30 Mins', negativeMarking: '0.25 marks' },
+        { section: 'Phase-II: General & Financial Awareness', questions: 50, marks: 50, duration: '20 Mins', negativeMarking: '0.25 marks' },
+        { section: 'Phase-II: Computer Knowledge', questions: 50, marks: 50, duration: '25 Mins', negativeMarking: '0.25 marks' },
+        { section: 'Phase-II: Quantitative Aptitude', questions: 50, marks: 50, duration: '35 Mins', negativeMarking: '0.25 marks' },
+        { section: 'Phase-II: English Descriptive Test', questions: 3, marks: 30, duration: '30 Mins', negativeMarking: 'Qualifying & Evaluated' },
+      ],
+      syllabusHighlights: [
+        'Reasoning Ability: Multi-variable Puzzles, Linear & Circular Seating, Syllogism (Only a few), Inequalities, Input-Output, Logical Assumptions.',
+        'Quantitative Aptitude: High-level Data Interpretation (Caselets, Radar, Tables), Arithmetic (Profit & Loss, Compound Interest, Time & Work, Speed Distance), Quadratic Equations.',
+        'English Language: Complex Reading Comprehension, Cloze passages, Sentence Correction, Vocabulary, and Keyboard-typed Essay and Précis writing.',
+        'General Awareness & Insurance: Indian Insurance Sector history (NICL, GIC Re, IRDAI), Principles of Insurance (Indemnity, Subrogation), Financial & Banking awareness, Current affairs of last 6 months.',
+        'Computer Knowledge: Hardware, OS, Computer Networks, Protocols, DBMS, Cybersecurity, MS Office keyboard shortcuts.',
+      ],
+    },
+    payAndCareerGrowth: {
+      payLevel: 'Scale-I Officer (Public Sector General Insurance)',
+      startingBasic: '₹50,925 (Scale ₹50,925 – ₹96,765)',
+      inHandRange: '₹76,500 to ₹85,500 per month (Gross ₹85,450 to ₹92,000 + Leased Accommodation)',
+      hierarchy: [
+        'Entry Level: Administrative Officer (AO Scale-I, Basic ₹50,925)',
+        'First Promotion (3-5 Yrs): Assistant Manager (Scale-II)',
+        'Second Promotion (7-9 Yrs): Deputy Manager (Scale-III)',
+        'Middle Management: Manager (Scale-IV) / Chief Manager (Scale-V)',
+        'Executive Management: Deputy General Manager (Scale-VI) / General Manager (Scale-VII)',
+        'Board Level: Chairman-cum-Managing Director (CMD, Selected by FSIB)',
+      ],
+      pensionAndPerks: 'National Pension System (NPS) with 14% Employer Share, Leased Company Accommodation (up to ₹30,000–₹45,000/mo), 100% Group Mediclaim for Officer & Family, LTC/LTA, Concessional Car & Housing loans, Subsidized meal coupons, Briefcase and Newspaper allowance.',
+    },
+    preparationStrategy: [
+      'Master Sectional Speed: With 20-minute sectional limits in Prelims, practice 10-15 full-length sectional mocks weekly to secure cutoffs in English, Reasoning, and Quant.',
+      'Daily Financial & Insurance Reading: Dedicate 45 minutes daily to IRDAI guidelines, insurance principles, and economic current affairs from reputable publications.',
+      'Descriptive Keyboard Typing Practice: Practice typing 250-word formal essays and 120-word précis directly on a computer keyboard under a strict 30-minute timer.',
+      'Target Quantitative DI & Arithmetic: High weightage is assigned to multi-statement Data Interpretation and mixed arithmetic; master percentage-to-fraction conversions.',
+      'Solve Previous Year Papers: Review previous year cutoffs (Prelims UR 79.50, Mains UR 141.00) to understand topic weightage and negative marking risk management.',
+    ],
+    commonMistakes: [
+      'Neglecting Sectional Cutoffs: Scoring high overall but failing by 0.5 marks in English or Quantitative Aptitude sectional cutoff leads to automatic elimination.',
+      'Leaving Descriptive Practice for Post-Prelims: With only 5 weeks between Prelims and Mains, candidates must start keyboard typing and précis writing from Day 1.',
+      'Guesswork Penalty Overload: 0.25 negative marks quickly compound; avoid uncalculated guesses in speed sections.',
+      'Ignoring Computer Knowledge: The 50-mark computer section in Mains offers rapid scoring potential but requires systematic study of networking and protocols.',
+    ],
+    faqs: [
+      {
+        question: 'What is the role of an Administrative Officer (AO) in NICL?',
+        answer: 'An Administrative Officer in NICL manages policy underwriting, insurance claims assessment, branch operations, surveyor coordination, client relationship management, and regulatory compliance under IRDAI guidelines.',
+      },
+      {
+        question: 'Is NICL a Central Government company?',
+        answer: 'Yes. National Insurance Company Limited is a premier 100% Government of India Public Sector General Insurance Undertaking under the Department of Financial Services (DFS), Ministry of Finance.',
+      },
+      {
+        question: 'What is the service bond period for NICL AO?',
+        answer: 'Selected candidates must execute an undertaking to serve the Company for a minimum of 4 years (including the 1-year probation period).',
+      },
+      {
+        question: 'What is the official recruitment website for NICL AO 2026?',
+        answer: 'The official portal is https://nationalinsurance.nic.co.in/en/recruitment and the online registration is hosted via the IBPS gateway at https://ibpsonline.ibps.in/.',
+      },
+    ],
+  },
+  {
     slug: 'ssc-cgl',
     title: 'SSC CGL Examination Comprehensive Blueprint (2026)',
     examName: 'Combined Graduate Level (CGL)',

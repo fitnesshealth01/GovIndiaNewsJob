@@ -14,6 +14,8 @@ import {
   ChevronDown,
   Layers,
   Award,
+  BookOpen,
+  TrendingUp,
 } from 'lucide-react';
 import { RecruitmentAlert } from '../data/gazetteData';
 
@@ -334,6 +336,89 @@ export const EliteJobTemplate: React.FC<EliteJobTemplateProps> = ({ article, onN
             </div>
           </div>
           <p className="text-[11px] text-slate-400 sm:hidden">← Swipe horizontally to view full table data →</p>
+        </section>
+      )}
+
+      {/* 5C. PREVIOUS YEAR CUT-OFF MARKS BENCHMARK */}
+      {article.cutOffTrends && article.cutOffTrends.length > 0 && (
+        <section className="space-y-3 border-t border-slate-200 pt-4">
+          <div className="flex items-center gap-2">
+            <TrendingUp className="w-4 h-4 text-blue-700" />
+            <h3 className="text-base font-bold text-slate-900">
+              Official Previous Year Cut-Off Marks Benchmark
+            </h3>
+          </div>
+          <p className="text-xs text-slate-600">
+            Historical normalized qualifying marks across examination tiers to gauge competition standards and target scores.
+          </p>
+          <div className="rounded-xl border border-slate-200 overflow-hidden bg-white shadow-2xs">
+            <div className="overflow-x-auto">
+              <table className="w-full text-left divide-y divide-slate-200 text-xs min-w-[540px]">
+                <thead className="bg-slate-50 text-slate-700 font-bold uppercase tracking-wider text-[11px]">
+                  <tr>
+                    <th className="p-3">Examination Stage / Cycle</th>
+                    <th className="p-3 text-center">General (UR)</th>
+                    <th className="p-3 text-center">OBC-NCL</th>
+                    <th className="p-3 text-center">EWS</th>
+                    <th className="p-3 text-center">SC</th>
+                    <th className="p-3 text-center">ST</th>
+                    <th className="p-3 text-right">Max Marks</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-200 bg-white">
+                  {article.cutOffTrends.map((cut, idx) => (
+                    <tr key={idx} className="hover:bg-slate-50/80 font-mono">
+                      <td className="p-3 font-semibold text-slate-900 font-sans">{cut.year}</td>
+                      <td className="p-3 text-center font-bold text-blue-800">{cut.general.toFixed(2)}</td>
+                      <td className="p-3 text-center text-slate-800">{cut.obc.toFixed(2)}</td>
+                      <td className="p-3 text-center text-slate-800">{cut.ews.toFixed(2)}</td>
+                      <td className="p-3 text-center text-slate-800">{cut.sc.toFixed(2)}</td>
+                      <td className="p-3 text-center text-slate-800">{cut.st.toFixed(2)}</td>
+                      <td className="p-3 text-right text-slate-600 font-sans">{cut.totalMarks}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <p className="text-[11px] text-slate-400 sm:hidden">← Swipe horizontally to view full table data →</p>
+        </section>
+      )}
+
+      {/* 5D. EXAMINATION SYLLABUS BREAKDOWN */}
+      {article.syllabusTopics && article.syllabusTopics.length > 0 && (
+        <section className="space-y-3 border-t border-slate-200 pt-4">
+          <div className="flex items-center gap-2">
+            <BookOpen className="w-4 h-4 text-blue-700" />
+            <h3 className="text-base font-bold text-slate-900">
+              Official Examination Syllabus & Section-Wise Topics
+            </h3>
+          </div>
+          <p className="text-xs text-slate-600">
+            Curated subject topics based on official recruitment notifications and past pattern distribution.
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {article.syllabusTopics.map((topic, idx) => (
+              <div key={idx} className="p-4 bg-slate-50/70 rounded-xl border border-slate-200 space-y-2">
+                <div className="flex items-center justify-between border-b border-slate-200 pb-2">
+                  <h4 className="text-xs font-bold text-slate-900">{topic.subject}</h4>
+                  {topic.weightage && (
+                    <span className="text-[10px] font-semibold text-blue-700 bg-blue-50 px-2 py-0.5 rounded border border-blue-200">
+                      {topic.weightage}
+                    </span>
+                  )}
+                </div>
+                <ul className="space-y-1.5 text-xs text-slate-700">
+                  {topic.topics.map((item, tIdx) => (
+                    <li key={tIdx} className="flex items-start gap-2">
+                      <span className="text-blue-600 font-bold">•</span>
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
         </section>
       )}
 

@@ -10,6 +10,7 @@ interface ExamPreset {
 }
 
 const EXAM_PRESETS: ExamPreset[] = [
+  { id: 'nicl-ao', name: 'NICL AO 2026 (Scale-I)', minAge: 21, maxAge: 30, crucialDateDefault: '2026-10-01' },
   { id: 'ssc-cgl', name: 'SSC CGL 2026 (Group B & C)', minAge: 18, maxAge: 32, crucialDateDefault: '2026-08-01' },
   { id: 'ssc-gd', name: 'SSC GD Constable 2026', minAge: 18, maxAge: 23, crucialDateDefault: '2026-01-01' },
   { id: 'delhi-police', name: 'Delhi Police Sub-Inspector', minAge: 20, maxAge: 25, crucialDateDefault: '2026-08-01' },

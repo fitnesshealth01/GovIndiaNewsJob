@@ -144,6 +144,7 @@ export interface PopularPostSalary {
 }
 
 export const POPULAR_POSTS_BENCHMARK: PopularPostSalary[] = [
+  { post: 'NICL Administrative Officer (Scale-I)', department: 'National Insurance Company Limited', payLevel: 8, classXInHand: 85499, classYInHand: 80100, classZInHand: 74700 },
   { post: 'IAS / IPS (Junior Time Scale)', department: 'All India Services', payLevel: 10, classXInHand: 94749, classYInHand: 88569, classZInHand: 82389 },
   { post: 'Assistant Section Officer (CSS/MEA)', department: 'Central Secretariat / MEA', payLevel: 7, classXInHand: 76547, classYInHand: 71608, classZInHand: 66669 },
   { post: 'Inspector of Income Tax / GST', department: 'CBDT / CBIC', payLevel: 7, classXInHand: 76547, classYInHand: 71608, classZInHand: 66669 },

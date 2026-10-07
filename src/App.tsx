@@ -26,9 +26,6 @@ import { NegativeMarkingPage } from './components/tools/NegativeMarkingPage';
 import { HeightEligibilityPage } from './components/tools/HeightEligibilityPage';
 import { RankPredictorPage } from './components/tools/RankPredictorPage';
 import { EligibilityMatcherPage } from './components/tools/EligibilityMatcherPage';
-import { PhysicalFitnessCountdownPage } from './components/tools/PhysicalFitnessCountdownPage';
-import { BlogView } from './components/BlogView';
-import { BLOG_POSTS } from './content/blogData';
 import { getBookmarks } from './utils/bookmarkStorage';
 import {
   Calendar,
@@ -46,7 +43,7 @@ import {
   ChevronRight,
   ArrowLeft,
   Filter,
-  Timer,
+  ExternalLink,
 } from 'lucide-react';
 import { RECRUITMENT_ALERTS, RecruitmentAlert } from './data/gazetteData';
 import { isAlertActive, isAlertActiveAndVerified, isAlertExpired } from './utils/alertStatus';
@@ -120,24 +117,12 @@ export default function App() {
       title = 'Negative Marking Penalty Score Calculator - GovIndiaNews';
     } else if (currentPath === '/tools/height') {
       title = 'Physical Height & Chest Standard Eligibility Checker - GovIndiaNews';
-    } else if (currentPath === '/tools/pft-countdown') {
-      title = 'Physical Fitness Test (PFT) & 1600m Running Countdown - GovIndiaNews';
     } else if (currentPath === '/tools/rank') {
       title = 'Exam Rank & Score Normalization Predictor - GovIndiaNews';
     } else if (currentPath === '/tools/eligibility' || currentPath === '/matcher') {
       title = 'Instant Govt Job Eligibility Matcher - GovIndiaNews';
     } else if (currentPath === '/tools') {
       title = 'Govt Exam Smart Calculators Suite - GovIndiaNews';
-    } else if (currentPath === '/blog') {
-      title = 'GovIndiaNews Evergreen Editorial Hub & Preparation Blog';
-    } else if (currentPath.startsWith('/blog/')) {
-      const slug = currentPath.replace('/blog/', '').split('?')[0];
-      const blogPost = BLOG_POSTS.find((p) => p.slug === slug);
-      if (blogPost) {
-        title = `${blogPost.title} - GovIndiaNews`;
-      } else {
-        title = 'Government Exam Preparation Blog - GovIndiaNews';
-      }
     } else if (currentPath === '/jobs') {
       title = 'Latest Govt Jobs 2026 Notifications - GovIndiaNews';
     } else if (currentPath === '/admit-cards') {
@@ -337,7 +322,6 @@ export default function App() {
         {currentPath === '/tools/age' && <AgeCalculatorPage onNavigate={navigate} />}
         {currentPath === '/tools/marking' && <NegativeMarkingPage onNavigate={navigate} />}
         {currentPath === '/tools/height' && <HeightEligibilityPage onNavigate={navigate} />}
-        {currentPath === '/tools/pft-countdown' && <PhysicalFitnessCountdownPage onNavigate={navigate} />}
         {currentPath === '/tools/rank' && <RankPredictorPage onNavigate={navigate} />}
         {(currentPath === '/tools/eligibility' || currentPath === '/matcher') && <EligibilityMatcherPage onNavigate={navigate} />}
 
@@ -356,7 +340,6 @@ export default function App() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {[
                 { title: '7th CPC In-Hand Salary Calculator', desc: 'Compute monthly gross, 10% NPS deduction, and net take-home pay across Levels 1 to 18 and Class X/Y/Z cities.', path: '/tools/salary', icon: Calculator, badge: 'Popular' },
-                { title: 'Physical Fitness Test (PFT) Countdown', desc: 'Target exam date countdown with daily training drills, 1600m interval splits, and mental grit affirmations.', path: '/tools/pft-countdown', icon: Timer, badge: 'Fitness' },
                 { title: 'Photo & Signature Compliance Checker', desc: 'Validate and compress image dimensions (KB limits, aspect ratios) for SSC, UPSC, IBPS, and RRB portals.', path: '/tools/photo-checker', icon: Sparkles, badge: 'Client-Side' },
                 { title: 'Fee & Category Relaxation Calculator', desc: 'Determine exact upper age concessions and fee exemptions for OBC, SC, ST, PwBD, and ESM under DoPT rules.', path: '/tools/relaxation', icon: ShieldCheck, badge: 'Statutory' },
                 { title: 'Crucial Cut-Off Age Calculator', desc: 'Calculate exact completed years, months, and days against the official gazette notification cutoff date.', path: '/tools/age', icon: Calendar, badge: 'Essential' },
@@ -478,14 +461,6 @@ export default function App() {
           />
         )}
 
-        {/* ROUTE 4.9: EVERGREEN EDITORIAL BLOG (/blog, /blog/:slug) */}
-        {(currentPath === '/blog' || currentPath.startsWith('/blog/')) && (
-          <BlogView
-            slug={currentPath.startsWith('/blog/') ? currentPath.replace('/blog/', '').split('?')[0] : undefined}
-            onNavigate={navigate}
-          />
-        )}
-
         {/* ROUTE 5: CENTRAL FAQ KNOWLEDGE HUB */}
         {currentPath === '/faqs' && <FAQHub onNavigate={navigate} />}
 
@@ -571,7 +546,93 @@ export default function App() {
               </div>
             </section>
 
-            {/* Quick Tools Access Cards */}
+            {/* GOOGLE TRENDING SPOTLIGHT: NICL AO 2026 */}
+            <section className="bg-gradient-to-r from-blue-900 via-indigo-900 to-slate-900 text-white rounded-2xl p-6 sm:p-8 border border-blue-700/60 shadow-lg relative overflow-hidden">
+              <div className="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl pointer-events-none" />
+              <div className="relative z-10 space-y-5">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <div className="inline-flex items-center gap-2 bg-rose-600/90 text-white text-[11px] font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow-xs animate-pulse">
+                    <TrendingUp className="w-3.5 h-3.5" />
+                    <span>Active Google Trend: "nicl ao recruitment 2026" (5K+ Searches)</span>
+                  </div>
+                  <span className="text-xs text-blue-200 font-medium">
+                    Published: 07 Oct 2026 · Official Central PSU Notice
+                  </span>
+                </div>
+
+                <div className="space-y-2">
+                  <h2 className="text-xl sm:text-3xl font-extrabold text-white tracking-tight">
+                    NICL AO Notification 2026 Out for 321 Vacancies: Check Eligibility, Exam Pattern & Apply Online
+                  </h2>
+                  <p className="text-xs sm:text-sm text-blue-100 max-w-4xl leading-relaxed">
+                    National Insurance Company Limited (NICL) has officially activated the recruitment for 321 Administrative Officer (Scale-I) posts across Generalist (200 posts) and Specialist cadres (121 posts: Finance, Legal, IT, Automobile, Doctors, Actuarial & Hindi). Scale-I Officers receive starting basic pay of ₹50,925 with gross monthly earnings of ₹85,450 to ₹92,000 plus leased accommodation.
+                  </p>
+                </div>
+
+                {/* Key Facts Pills Grid */}
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
+                  <div className="bg-white/10 backdrop-blur-xs rounded-xl p-3 border border-white/10">
+                    <div className="text-blue-300 font-medium">Total Vacancies</div>
+                    <div className="text-base sm:text-lg font-bold text-white mt-0.5">321 Posts</div>
+                    <div className="text-[10px] text-blue-200">200 Gen + 121 Specialist</div>
+                  </div>
+                  <div className="bg-white/10 backdrop-blur-xs rounded-xl p-3 border border-white/10">
+                    <div className="text-blue-300 font-medium">Application Window</div>
+                    <div className="text-base sm:text-lg font-bold text-white mt-0.5">08 – 28 Oct 2026</div>
+                    <div className="text-[10px] text-emerald-300">Registration Portal Active</div>
+                  </div>
+                  <div className="bg-white/10 backdrop-blur-xs rounded-xl p-3 border border-white/10">
+                    <div className="text-blue-300 font-medium">Prelims CBT Date</div>
+                    <div className="text-base sm:text-lg font-bold text-white mt-0.5">17 Nov 2026</div>
+                    <div className="text-[10px] text-blue-200">Mains: 22 Dec 2026</div>
+                  </div>
+                  <div className="bg-white/10 backdrop-blur-xs rounded-xl p-3 border border-white/10">
+                    <div className="text-blue-300 font-medium">Scale-I Pay Scale</div>
+                    <div className="text-base sm:text-lg font-bold text-white mt-0.5">₹85,000+ Gross</div>
+                    <div className="text-[10px] text-blue-200">Basic ₹50,925 + Leased Qtrs</div>
+                  </div>
+                </div>
+
+                {/* CTAs */}
+                <div className="flex flex-wrap items-center gap-3 pt-2">
+                  <button
+                    onClick={() => navigate('/article/nicl-ao-recruitment-2026-notification')}
+                    className="px-5 py-2.5 bg-blue-500 hover:bg-blue-400 text-white text-xs font-bold rounded-xl transition-all shadow-md flex items-center gap-2 cursor-pointer"
+                  >
+                    <span>Read High-Quality Article & All Details</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </button>
+
+                  <a
+                    href="https://ibpsonline.ibps.in/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold rounded-xl transition-all shadow-sm flex items-center gap-1.5 cursor-pointer"
+                  >
+                    <span>Apply Online (IBPS Portal)</span>
+                    <ExternalLink className="w-3.5 h-3.5" />
+                  </a>
+
+                  <a
+                    href="https://nationalinsurance.nic.co.in/en/recruitment"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-4 py-2.5 bg-white/15 hover:bg-white/25 text-white text-xs font-semibold rounded-xl border border-white/20 transition-all flex items-center gap-1.5 cursor-pointer"
+                  >
+                    <span>Official NICL Website</span>
+                    <ExternalLink className="w-3.5 h-3.5" />
+                  </a>
+
+                  <button
+                    onClick={() => navigate('/tools/age')}
+                    className="px-4 py-2.5 bg-white/10 hover:bg-white/20 text-blue-200 hover:text-white text-xs font-semibold rounded-xl border border-white/15 transition-all flex items-center gap-1.5 cursor-pointer"
+                  >
+                    <span>Check Age Eligibility (21-30)</span>
+                    <ChevronRight className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              </div>
+            </section>
             <section>
               <div className="flex items-center justify-between mb-4">
                 <div>
