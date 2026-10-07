@@ -18,6 +18,7 @@ import { LiveUpdatesHub } from './components/LiveUpdatesHub';
 import { ExamHubView } from './components/ExamHubView';
 import { VacancyTrackerView } from './components/VacancyTrackerView';
 import { GuideView } from './components/GuideView';
+import { AuthorProfilePage } from './components/AuthorProfilePage';
 import { SalaryCalculatorPage } from './components/tools/SalaryCalculatorPage';
 import { PhotoSignatureCheckerPage } from './components/tools/PhotoSignatureCheckerPage';
 import { CategoryRelaxationPage } from './components/tools/CategoryRelaxationPage';
@@ -44,9 +45,10 @@ import {
   ArrowLeft,
   Filter,
   ExternalLink,
+  Pause,
 } from 'lucide-react';
 import { RECRUITMENT_ALERTS, RecruitmentAlert } from './data/gazetteData';
-import { isAlertActive, isAlertActiveAndVerified, isAlertExpired } from './utils/alertStatus';
+import { isAlertActive, isAlertActiveAndVerified, isAlertExpired, parsePublishDateToTimestamp } from './utils/alertStatus';
 
 export default function App() {
   // Initialize path from window.location
@@ -62,6 +64,7 @@ export default function App() {
   const [savedAlertIds, setSavedAlertIds] = useState<string[]>(() => getBookmarks());
   const [globalSearchTerm, setGlobalSearchTerm] = useState<string>('');
   const [calculatorSubTab, setCalculatorSubTab] = useState<'eligibility' | 'age' | 'marking' | 'height' | 'rank'>('age');
+  const [isTickerPaused, setIsTickerPaused] = useState<boolean>(false);
 
   // Sync bookmarks changes
   useEffect(() => {
@@ -143,6 +146,8 @@ export default function App() {
       title = 'Contact Editorial Desk - GovIndiaNews';
     } else if (currentPath === '/archive') {
       title = 'Archived Recruitment Notices - GovIndiaNews';
+    } else if (currentPath.startsWith('/author') || currentPath.startsWith('/authors')) {
+      title = 'Akash Singh Solanki - Founder & Editor | GovIndiaNews';
     }
     document.title = title;
 
@@ -204,6 +209,36 @@ export default function App() {
     return RECRUITMENT_ALERTS.filter((item) => isAlertActiveAndVerified(item));
   }, []);
 
+  // Moving Ticker: Latest 3 Job articles and Latest 3 Admit Card articles (sorted latest to oldest)
+  const latestTickerAlerts = useMemo(() => {
+    // 3 Latest Job articles
+    const jobArticles = RECRUITMENT_ALERTS
+      .filter((item) => item.category === 'jobs')
+      .sort((a, b) => {
+        const timeB = parsePublishDateToTimestamp(b.publishDate);
+        const timeA = parsePublishDateToTimestamp(a.publishDate);
+        return timeB - timeA;
+      })
+      .slice(0, 3);
+
+    // 3 Latest Admit Card articles
+    const admitCardArticles = RECRUITMENT_ALERTS
+      .filter((item) => item.category === 'admit-card')
+      .sort((a, b) => {
+        const timeB = parsePublishDateToTimestamp(b.publishDate);
+        const timeA = parsePublishDateToTimestamp(a.publishDate);
+        return timeB - timeA;
+      })
+      .slice(0, 3);
+
+    // Combine latest 3 jobs + latest 3 admit cards, sorted latest to oldest
+    return [...jobArticles, ...admitCardArticles].sort((a, b) => {
+      const timeB = parsePublishDateToTimestamp(b.publishDate);
+      const timeA = parsePublishDateToTimestamp(a.publishDate);
+      return timeB - timeA;
+    });
+  }, []);
+
   // Filtered search results (active recruitment notices across verified and in-review)
   const searchResults = useMemo(() => {
     if (!globalSearchTerm.trim()) return [];
@@ -220,28 +255,105 @@ export default function App() {
 
   return (
     <div className="min-h-screen flex flex-col bg-slate-50 text-slate-900 selection:bg-blue-100 selection:text-blue-900 max-w-full overflow-x-hidden">
-      {/* Breaking Marquee Bar: only displayed if there are verified, active alerts */}
-      {verifiedActiveAlerts.length > 0 && (
-        <div className="bg-slate-900 text-white text-xs py-2 px-4 border-b border-slate-800">
-          <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
-            <div className="flex items-center gap-2 overflow-hidden">
-              <span className="flex items-center gap-1 font-bold text-blue-400 uppercase tracking-wider shrink-0 text-[10px] bg-blue-950 px-2 py-0.5 rounded border border-blue-800">
-                <Bell className="w-3 h-3 text-blue-400 animate-pulse" />
-                Updates:
+      {/* Moving Update Ticker above Header: Continuous animated marquee with latest 3 Job and Admit Card articles */}
+      {latestTickerAlerts.length > 0 && (
+        <div
+          className={`bg-slate-900 text-white text-xs py-2 px-3 sm:px-4 border-b border-slate-800 ticker-container relative overflow-hidden select-none ${
+            isTickerPaused ? 'is-paused' : ''
+          }`}
+          role="region"
+          aria-label="Moving Ticker: Latest Job and Admit Card Notices"
+        >
+          <div className="max-w-7xl mx-auto flex items-center justify-between gap-3 relative">
+            {/* Left badge indicator */}
+            <div className="flex items-center gap-2 shrink-0 z-20 bg-slate-900 pr-2">
+              <span className="flex items-center gap-1.5 font-bold uppercase tracking-wider text-[10px] bg-gradient-to-r from-blue-950 to-indigo-950 text-blue-300 px-2.5 py-1 rounded-md border border-blue-700/60 shadow-xs">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                </span>
+                <Bell className="w-3 h-3 text-blue-400 shrink-0" />
+                <span className="whitespace-nowrap font-black">LIVE TICKER:</span>
               </span>
-              <div className="truncate text-slate-300 text-xs flex items-center gap-3">
-                {verifiedActiveAlerts.map((alert, idx) => (
-                  <React.Fragment key={alert.id}>
-                    {idx > 0 && <span className="text-slate-600">·</span>}
+            </div>
+
+            {/* Marquee viewport with subtle edge fades */}
+            <div className="relative flex-1 overflow-hidden min-w-0">
+              <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-6 bg-gradient-to-r from-slate-900 to-transparent z-10" />
+              <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-6 bg-gradient-to-l from-slate-900 to-transparent z-10" />
+
+              {/* Infinite moving track: duplicated items for seamless loop */}
+              <div className="ticker-track-moving py-0.5">
+                {[...latestTickerAlerts, ...latestTickerAlerts].map((alert, idx) => (
+                  <div
+                    key={`${alert.id}-${idx}`}
+                    className="flex items-center gap-3 shrink-0 mx-3 group"
+                  >
                     <button
+                      type="button"
                       onClick={() => navigate(`/article/${alert.slug}`)}
-                      className="font-semibold text-white hover:underline cursor-pointer truncate max-w-xs"
+                      title={`${alert.category === 'admit-card' ? 'Admit Card' : 'Job'}: ${alert.title}`}
+                      className="font-medium text-slate-200 hover:text-white flex items-center gap-2 cursor-pointer transition-colors text-left group-hover:text-blue-300"
                     >
-                      {alert.title}
+                      {/* Category Badge */}
+                      <span
+                        className={`text-[9px] uppercase px-1.5 py-0.5 rounded font-extrabold tracking-wider shrink-0 border ${
+                          alert.category === 'admit-card'
+                            ? 'bg-amber-950 text-amber-300 border-amber-600/70'
+                            : 'bg-emerald-950 text-emerald-300 border-emerald-600/70'
+                        }`}
+                      >
+                        {alert.category === 'admit-card' ? 'ADMIT CARD' : 'JOB'}
+                      </span>
+
+                      {/* Date Badge */}
+                      <span className="text-[10px] bg-slate-800 text-slate-300 px-1.5 py-0.5 rounded border border-slate-700 font-semibold shrink-0">
+                        {alert.publishDate || 'Latest'}
+                      </span>
+
+                      {/* Title */}
+                      <span className="max-w-[280px] sm:max-w-md md:max-w-lg lg:max-w-xl truncate text-xs font-semibold text-slate-200 group-hover:text-blue-200 group-hover:underline">
+                        {alert.title}
+                      </span>
                     </button>
-                  </React.Fragment>
+
+                    {/* Separator icon */}
+                    <span className="text-slate-600 font-black select-none text-xs">◆</span>
+                  </div>
                 ))}
               </div>
+            </div>
+
+            {/* Right Controls: Pause/Play toggle & View All */}
+            <div className="flex items-center gap-2 shrink-0 z-20 bg-slate-900 pl-2">
+              <button
+                type="button"
+                onClick={() => setIsTickerPaused((prev) => !prev)}
+                title={isTickerPaused ? 'Resume moving ticker' : 'Pause moving ticker'}
+                className="p-1 px-1.5 rounded text-slate-400 hover:text-white hover:bg-slate-800 transition-colors cursor-pointer flex items-center gap-1 text-[11px]"
+                aria-label={isTickerPaused ? 'Resume ticker' : 'Pause ticker'}
+              >
+                {isTickerPaused ? (
+                  <>
+                    <Play className="w-3 h-3 text-emerald-400 fill-emerald-400" />
+                    <span className="hidden md:inline text-[10px] text-emerald-400 font-medium">Resume</span>
+                  </>
+                ) : (
+                  <>
+                    <Pause className="w-3 h-3 text-slate-400" />
+                    <span className="hidden md:inline text-[10px] text-slate-400 font-medium">Pause</span>
+                  </>
+                )}
+              </button>
+
+              <button
+                type="button"
+                onClick={() => navigate('/latest-notifications')}
+                className="hidden sm:inline-flex items-center gap-1 text-[11px] text-blue-400 hover:text-blue-300 font-medium shrink-0 cursor-pointer"
+              >
+                <span>View All</span>
+                <ChevronRight className="w-3 h-3" />
+              </button>
             </div>
           </div>
         </div>
@@ -484,15 +596,27 @@ export default function App() {
         {(currentPath.startsWith('/trust/grievance') || currentPath === '/grievance-redressal') && (
           <TrustHub initialTab="grievance" onNavigate={navigate} />
         )}
-        {(currentPath.startsWith('/trust/authors') || currentPath.startsWith('/authors')) && (
+        {currentPath.startsWith('/trust/authors') && (
           <TrustHub
             initialTab="authors"
             selectedAuthorId={
               currentPath.includes('author=')
                 ? currentPath.match(/[?&]author=([^&]+)/)?.[1]
-                : currentPath.startsWith('/authors/')
-                ? currentPath.replace('/authors/', '').split('?')[0]
                 : undefined
+            }
+            onNavigate={navigate}
+          />
+        )}
+
+        {/* ROUTE 6.8: DEDICATED SEPARATE AUTHOR PROFILE PAGE WITH ALL ARTICLES */}
+        {(currentPath.startsWith('/author') || currentPath.startsWith('/authors')) && !currentPath.startsWith('/trust') && (
+          <AuthorProfilePage
+            authorId={
+              currentPath.startsWith('/author/')
+                ? currentPath.replace('/author/', '').split('?')[0] || 'akash-singh-solanki'
+                : currentPath.startsWith('/authors/')
+                ? currentPath.replace('/authors/', '').split('?')[0] || 'akash-singh-solanki'
+                : 'akash-singh-solanki'
             }
             onNavigate={navigate}
           />
@@ -546,17 +670,17 @@ export default function App() {
               </div>
             </section>
 
-            {/* GOOGLE TRENDING SPOTLIGHT: NICL AO 2026 */}
+            {/* FEATURED CENTRAL PSU NOTIFICATION: NICL AO 2026 */}
             <section className="bg-gradient-to-r from-blue-900 via-indigo-900 to-slate-900 text-white rounded-2xl p-6 sm:p-8 border border-blue-700/60 shadow-lg relative overflow-hidden">
               <div className="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl pointer-events-none" />
               <div className="relative z-10 space-y-5">
                 <div className="flex flex-wrap items-center justify-between gap-2">
-                  <div className="inline-flex items-center gap-2 bg-rose-600/90 text-white text-[11px] font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow-xs animate-pulse">
-                    <TrendingUp className="w-3.5 h-3.5" />
-                    <span>Active Google Trend: "nicl ao recruitment 2026" (5K+ Searches)</span>
+                  <div className="inline-flex items-center gap-2 bg-blue-800/80 text-white text-[11px] font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow-xs">
+                    <Bell className="w-3.5 h-3.5 text-blue-300" />
+                    <span>Latest Central Public Sector Recruitment Alert</span>
                   </div>
                   <span className="text-xs text-blue-200 font-medium">
-                    Published: 07 Oct 2026 · Official Central PSU Notice
+                    National Insurance Company Limited · Scale-I Officers
                   </span>
                 </div>
 
@@ -599,7 +723,7 @@ export default function App() {
                     onClick={() => navigate('/article/nicl-ao-recruitment-2026-notification')}
                     className="px-5 py-2.5 bg-blue-500 hover:bg-blue-400 text-white text-xs font-bold rounded-xl transition-all shadow-md flex items-center gap-2 cursor-pointer"
                   >
-                    <span>Read High-Quality Article & All Details</span>
+                    <span>Read Complete Notification Details</span>
                     <ArrowRight className="w-4 h-4" />
                   </button>
 

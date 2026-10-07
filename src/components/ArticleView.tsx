@@ -122,6 +122,22 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
 
   return (
     <div className="space-y-8 max-w-full overflow-x-hidden">
+      {/* Schema.org Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(primarySchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      {articleFaqSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(articleFaqSchema) }}
+        />
+      )}
+
       {/* Quarantine Status Banner */}
       {article.status === 'unverified' && (
         <div className="bg-amber-50 border-l-4 border-amber-500 p-4 rounded-r-xl shadow-xs text-amber-950 flex items-start gap-3">
@@ -228,7 +244,7 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
                 <div className="flex items-center gap-2 flex-wrap">
                   <button
                     type="button"
-                    onClick={() => setShowAuthorModal(true)}
+                    onClick={() => onNavigate(`/author/${author.id}`)}
                     className="font-bold text-slate-900 hover:text-blue-700 hover:underline cursor-pointer text-left"
                   >
                     {author.name}
@@ -245,10 +261,10 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
                 <span className="text-slate-300">·</span>
                 <button
                   type="button"
-                  onClick={() => setShowAuthorModal(true)}
+                  onClick={() => onNavigate(`/author/${author.id}`)}
                   className="text-blue-700 hover:underline font-semibold cursor-pointer"
                 >
-                  Profile →
+                  Author Profile →
                 </button>
               </div>
             </div>
@@ -373,9 +389,15 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
 
             <div className="flex flex-col sm:flex-row items-start gap-4">
               <div
-                className={`w-12 h-12 rounded-xl ${author.avatarBg} text-white font-serif font-bold text-lg flex items-center justify-center shrink-0 border ${author.avatarBorder} shadow-xs`}
+                className={`w-12 h-12 rounded-xl ${author.avatarBg} text-white font-serif font-bold text-lg flex items-center justify-center shrink-0 border ${author.avatarBorder} shadow-xs relative`}
               >
                 {author.initials}
+                <div
+                  className="absolute -bottom-1 -right-1 bg-amber-500 text-slate-950 p-0.5 rounded-full text-[9px] shadow-2xs"
+                  title="Indian Army Veteran (Former Soldier)"
+                >
+                  🎖️
+                </div>
               </div>
               <div className="space-y-1.5 flex-1 min-w-0 text-xs">
                 <div className="flex items-center gap-2 flex-wrap">
@@ -383,10 +405,41 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
                     {author.name}
                   </h4>
                   <span className="text-[11px] text-slate-500">({author.designation})</span>
+                  {author.serviceBackground && (
+                    <span className="px-2 py-0.5 bg-amber-50 text-amber-900 border border-amber-200 rounded text-[10px] font-bold">
+                      🎖️ {author.serviceBackground}
+                    </span>
+                  )}
                 </div>
-                <p className="font-sans text-slate-600 leading-relaxed text-xs">
+                {/* 2-3 lines about author highlighting Army Service Experience as Soldier */}
+                <p className="font-sans text-slate-700 leading-relaxed text-xs">
                   {author.biography}
                 </p>
+                {/* Real Author Social & Professional Links */}
+                <div className="flex items-center gap-3 pt-1 text-[11px]">
+                  {author.links?.linkedin && (
+                    <a
+                      href={author.links.linkedin}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-700 hover:text-blue-900 hover:underline inline-flex items-center gap-1 font-semibold"
+                    >
+                      <span>LinkedIn Profile</span>
+                      <ExternalLink className="w-2.5 h-2.5" />
+                    </a>
+                  )}
+                  {author.links?.twitter && (
+                    <a
+                      href={author.links.twitter}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-slate-600 hover:text-slate-900 hover:underline inline-flex items-center gap-1 font-semibold"
+                    >
+                      <span>Twitter / X</span>
+                      <ExternalLink className="w-2.5 h-2.5" />
+                    </a>
+                  )}
+                </div>
               </div>
             </div>
 
@@ -397,15 +450,16 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
               <div className="flex items-center gap-2">
                 <button
                   type="button"
-                  onClick={() => setShowAuthorModal(true)}
-                  className="px-3 py-1.5 font-semibold text-xs text-slate-800 bg-white hover:bg-slate-100 border border-slate-300 rounded-lg transition-colors cursor-pointer"
+                  onClick={() => onNavigate(`/author/${author.id}`)}
+                  className="px-3.5 py-1.5 font-bold text-xs text-blue-700 bg-blue-50 hover:bg-blue-100 border border-blue-200 rounded-lg transition-colors cursor-pointer flex items-center gap-1.5"
                 >
-                  Author Profile
+                  <span>Author Profile</span>
+                  <ChevronRight className="w-3 h-3" />
                 </button>
                 <button
                   type="button"
                   onClick={() => onNavigate('/about')}
-                  className="px-3 py-1.5 font-semibold text-xs text-blue-700 hover:text-blue-900 underline cursor-pointer"
+                  className="px-3 py-1.5 font-semibold text-xs text-slate-600 hover:text-slate-900 underline cursor-pointer"
                 >
                   About GovIndiaNews →
                 </button>

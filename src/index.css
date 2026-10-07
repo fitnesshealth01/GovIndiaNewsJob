@@ -1,10 +1,5 @@
 @import "tailwindcss";
 
-/* Hide non-visual tags unconditionally */
-script, style, template {
-  display: none !important;
-}
-
 @layer base {
   body {
     font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -16,8 +11,35 @@ script, style, template {
   code, kbd, samp, pre {
     font-family: 'JetBrains Mono', monospace;
   }
+}
 
-  script, style, template {
-    display: none !important;
+/* Moving Update Ticker (Continuous Smooth Loop) */
+@keyframes tickerMarquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
   }
 }
+
+.ticker-track-moving {
+  display: flex;
+  width: max-content;
+  align-items: center;
+  will-change: transform;
+  animation: tickerMarquee 45s linear infinite;
+}
+
+.ticker-track-moving:hover,
+.ticker-container:hover .ticker-track-moving,
+.ticker-container.is-paused .ticker-track-moving {
+  animation-play-state: paused !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ticker-track-moving {
+    animation: none;
+  }
+}
+

@@ -28,6 +28,32 @@ export function parseDateString(dateStr?: string): Date | null {
 }
 
 /**
+ * Parses publish dates like "07 Oct 2026", "30 Sep 2026", "2026-10-07" into numeric timestamp
+ * for reliable latest-to-oldest sorting.
+ */
+export function parsePublishDateToTimestamp(dateStr?: string): number {
+  if (!dateStr) return 0;
+  const clean = dateStr.replace(/\(.*?\)/g, '').trim();
+  const parsed = Date.parse(clean);
+  if (!isNaN(parsed)) return parsed;
+
+  const months: Record<string, number> = {
+    jan: 0, feb: 1, mar: 2, apr: 3, may: 4, jun: 5,
+    jul: 6, aug: 7, sep: 8, oct: 9, nov: 10, dec: 11,
+  };
+  const parts = clean.toLowerCase().split(/[\s-]+/);
+  if (parts.length >= 3) {
+    const day = parseInt(parts[0], 10);
+    const month = months[parts[1].slice(0, 3)] ?? 0;
+    const year = parseInt(parts[2], 10);
+    if (!isNaN(day) && !isNaN(year)) {
+      return new Date(year, month, day).getTime();
+    }
+  }
+  return 0;
+}
+
+/**
  * Auto-expiry check: an article whose lastDate or examDate has passed
  * relative to the current local date becomes expired.
  */
@@ -42,7 +68,7 @@ export function isAlertExpired(alert: RecruitmentAlert, referenceDate: Date = ne
   }
 
   if (alert.category === 'admit-card' && alert.examDate) {
-    const dates = alert.examDate.split(/to|-|&/);
+    const dates = alert.examDate.split(/to|-/);
     const endStr = dates[dates.length - 1]?.trim();
     const endD = parseDateString(endStr);
     if (endD && endD.getTime() < referenceDate.getTime()) {

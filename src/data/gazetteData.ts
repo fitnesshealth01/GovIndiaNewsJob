@@ -243,7 +243,7 @@ export interface PYQQuestion {
 }
 
 export const RECRUITMENT_ALERTS: RecruitmentAlert[] = [
-  // GOOGLE TRENDING / LATEST GOVT JOB NOTIFICATION - 07 OCTOBER 2026
+  // LATEST RECRUITMENT NOTIFICATION - 07 OCTOBER 2026
   {
     id: 'nicl-ao-recruitment-2026',
     slug: 'nicl-ao-recruitment-2026-notification',

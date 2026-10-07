@@ -95,14 +95,6 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
               </li>
               <li>
                 <button
-                  onClick={() => onNavigate('/tools/pft-countdown')}
-                  className="hover:text-emerald-400 font-semibold transition-colors cursor-pointer text-left"
-                >
-                  Physical Fitness (PFT) Countdown
-                </button>
-              </li>
-              <li>
-                <button
                   onClick={() => onNavigate('/tools/rank')}
                   className="hover:text-white transition-colors cursor-pointer text-left"
                 >
@@ -126,14 +118,6 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
               Recruitment & Resources
             </h4>
             <ul className="space-y-2 text-xs text-slate-400">
-              <li>
-                <button
-                  onClick={() => onNavigate('/blog')}
-                  className="hover:text-emerald-400 font-semibold transition-colors cursor-pointer text-left"
-                >
-                  Evergreen Editorial Blog & PFT Guides
-                </button>
-              </li>
               <li>
                 <button
                   onClick={() => onNavigate('/jobs')}
@@ -217,7 +201,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
               </li>
               <li>
                 <button
-                  onClick={() => onNavigate('/trust/authors')}
+                  onClick={() => onNavigate('/author/akash-singh-solanki')}
                   className="hover:text-white transition-colors cursor-pointer text-left"
                 >
                   Founder & Editor Profile

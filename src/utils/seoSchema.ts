@@ -301,7 +301,7 @@ export function buildNewsArticleSchema(item: RecruitmentAlert): Record<string, u
 
 export function buildAuthorProfilePageSchema(author: AuthorProfile): Record<string, unknown> {
   const origin = getOrigin();
-  const url = `${origin}/about`;
+  const url = `${origin}/author/${author.id}`;
 
   return {
     '@context': 'https://schema.org',
@@ -317,6 +317,12 @@ export function buildAuthorProfilePageSchema(author: AuthorProfile): Record<stri
         name: 'GovIndiaNews',
         url: origin,
       },
+      knowsAbout: [
+        'Central & State Government Recruitment Gazettes',
+        'Indian Army & Defence Recruitment Standards',
+        '7th Pay Commission Pay Matrix & Allowances',
+        'Public Sector Enterprise Recruitment & Eligibility Verification',
+      ],
     },
   };
 }

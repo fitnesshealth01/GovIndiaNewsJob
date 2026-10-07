@@ -294,18 +294,6 @@ export const Header: React.FC<HeaderProps> = ({
                     </div>
                   </button>
                   <button
-                    onClick={() => handleNavClick('/tools/pft-countdown')}
-                    className="w-full p-2.5 rounded-lg hover:bg-slate-50 text-left flex items-start gap-2.5 transition-colors cursor-pointer"
-                  >
-                    <div className="w-7 h-7 rounded-md bg-rose-100 text-rose-800 font-bold flex items-center justify-center shrink-0">
-                      PFT
-                    </div>
-                    <div>
-                      <span className="font-bold text-slate-900 block">PFT & Running Countdown</span>
-                      <span className="text-[11px] text-slate-500">1600m Timing, Daily Drills & Motivation</span>
-                    </div>
-                  </button>
-                  <button
                     onClick={() => handleNavClick('/tools/rank')}
                     className="w-full p-2.5 rounded-lg hover:bg-slate-50 text-left flex items-start gap-2.5 transition-colors cursor-pointer"
                   >
@@ -364,17 +352,6 @@ export const Header: React.FC<HeaderProps> = ({
             >
               <FileText className="w-3.5 h-3.5 text-blue-600" />
               <span>Guides</span>
-            </button>
-
-            {/* Evergreen Blog */}
-            <button
-              onClick={() => handleNavClick('/blog')}
-              className={`px-3 py-2 rounded-lg transition-colors flex items-center gap-1.5 cursor-pointer ${
-                currentPath.startsWith('/blog') ? 'text-blue-700 bg-blue-50 font-bold' : 'hover:bg-slate-100'
-              }`}
-            >
-              <BookOpen className="w-3.5 h-3.5 text-blue-600" />
-              <span>Blog</span>
             </button>
 
             {/* Candidate FAQs Link */}
@@ -593,19 +570,6 @@ export const Header: React.FC<HeaderProps> = ({
                   </button>
 
                   <button
-                    onClick={() => handleNavClick('/tools/pft-countdown')}
-                    className="p-3 rounded-xl border border-rose-200 bg-rose-50/40 hover:border-rose-400 text-left transition-all cursor-pointer flex items-center gap-2.5"
-                  >
-                    <div className="w-8 h-8 rounded-lg bg-rose-600 text-white font-bold text-xs flex items-center justify-center shrink-0">
-                      PFT
-                    </div>
-                    <div>
-                      <span className="font-bold text-xs text-slate-900 block">PFT Countdown</span>
-                      <span className="text-[10px] text-slate-500">1600m Running & Drills</span>
-                    </div>
-                  </button>
-
-                  <button
                     onClick={() => handleNavClick('/tools/rank')}
                     className="p-3 rounded-xl border border-slate-200 hover:border-blue-400 hover:bg-blue-50/40 text-left transition-all cursor-pointer flex items-center gap-2.5"
                   >
@@ -683,58 +647,6 @@ export const Header: React.FC<HeaderProps> = ({
                 </div>
               </div>
 
-              {/* Section 2.5: Evergreen Blog & Career Guides */}
-              <div className="space-y-2">
-                <h4 className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
-                  Editorial & Career Guides
-                </h4>
-                <div className="space-y-1 text-xs">
-                  <button
-                    onClick={() => handleNavClick('/blog')}
-                    className="w-full p-2.5 rounded-lg bg-blue-50/70 hover:bg-blue-100 text-left flex items-center justify-between text-blue-900 border border-blue-200 transition-colors cursor-pointer"
-                  >
-                    <div className="flex items-center gap-2.5">
-                      <BookOpen className="w-4 h-4 text-blue-700" />
-                      <span className="font-bold">GovIndiaNews Evergreen Blog</span>
-                    </div>
-                    <ChevronRight className="w-3.5 h-3.5 text-blue-600" />
-                  </button>
-
-                  <button
-                    onClick={() => handleNavClick('/guides')}
-                    className="w-full p-2.5 rounded-lg hover:bg-slate-100 text-left flex items-center justify-between text-slate-800 transition-colors cursor-pointer"
-                  >
-                    <div className="flex items-center gap-2.5">
-                      <FileText className="w-4 h-4 text-blue-600" />
-                      <span className="font-semibold">Application & Certificate Guides</span>
-                    </div>
-                    <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
-                  </button>
-
-                  <button
-                    onClick={() => handleNavClick('/exams')}
-                    className="w-full p-2.5 rounded-lg hover:bg-slate-100 text-left flex items-center justify-between text-slate-800 transition-colors cursor-pointer"
-                  >
-                    <div className="flex items-center gap-2.5">
-                      <BookOpen className="w-4 h-4 text-indigo-600" />
-                      <span className="font-semibold">15 Exam Reference Hubs</span>
-                    </div>
-                    <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
-                  </button>
-
-                  <button
-                    onClick={() => handleNavClick('/data/vacancies')}
-                    className="w-full p-2.5 rounded-lg hover:bg-slate-100 text-left flex items-center justify-between text-slate-800 transition-colors cursor-pointer"
-                  >
-                    <div className="flex items-center gap-2.5">
-                      <TrendingUp className="w-4 h-4 text-emerald-600" />
-                      <span className="font-semibold">Multi-Year Vacancy Tracker</span>
-                    </div>
-                    <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
-                  </button>
-                </div>
-              </div>
-
               {/* Section 3: Candidate FAQs Hub & Direct Portals */}
               <div className="space-y-2">
                 <h4 className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
@@ -787,6 +699,12 @@ export const Header: React.FC<HeaderProps> = ({
               {/* Section 4: Legal & Editorial Desk */}
               <div className="pt-4 border-t border-slate-200 text-xs text-slate-500 space-y-2">
                 <div className="flex flex-wrap gap-x-4 gap-y-1">
+                  <button
+                    onClick={() => handleNavClick('/author/akash-singh-solanki')}
+                    className="hover:text-blue-600 transition-colors cursor-pointer font-semibold text-slate-700"
+                  >
+                    Author Profile
+                  </button>
                   <button
                     onClick={() => handleNavClick('/about')}
                     className="hover:text-blue-600 transition-colors cursor-pointer"

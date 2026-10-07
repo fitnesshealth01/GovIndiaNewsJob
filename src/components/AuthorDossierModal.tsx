@@ -74,27 +74,42 @@ export const AuthorDossierModal: React.FC<AuthorDossierModalProps> = ({
         {/* Body */}
         <div className="p-6 space-y-4 text-xs text-stone-700">
           <div>
-            <span className="font-semibold text-stone-900 block mb-1">Beat / Focus:</span>
+            <span className="font-semibold text-stone-900 block mb-1">Background & Beat:</span>
+            <div className="flex flex-wrap items-center gap-2 mb-1">
+              {author.serviceBackground && (
+                <span className="px-2 py-0.5 bg-amber-50 text-amber-900 border border-amber-200 rounded text-[10px] font-bold">
+                  🎖️ {author.serviceBackground}
+                </span>
+              )}
+            </div>
             <p className="text-stone-600">{author.beat}</p>
           </div>
 
           <div className="bg-stone-50 p-4 rounded-xl border border-stone-200">
             <span className="font-semibold text-stone-900 block mb-1">Biography:</span>
-            <p className="font-mono text-stone-600">{author.biography}</p>
+            <p className="font-sans text-stone-700 leading-relaxed">{author.biography}</p>
           </div>
 
-          <div className="flex items-center justify-between pt-2 border-t border-stone-100">
+          <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-stone-100">
             <div className="flex items-center gap-2">
               <Mail className="w-4 h-4 text-stone-500" />
               <span className="font-medium text-stone-800">{author.contactEmail}</span>
             </div>
-            <button
-              onClick={handleCopyEmail}
-              className="px-3 py-1.5 bg-stone-100 hover:bg-stone-200 text-stone-800 font-semibold rounded-lg flex items-center gap-1.5 transition-colors cursor-pointer"
-            >
-              {copiedEmail ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
-              <span>{copiedEmail ? 'Copied' : 'Copy Email'}</span>
-            </button>
+            <div className="flex items-center gap-2">
+              <a
+                href={`/author/${author.id}`}
+                className="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg transition-colors cursor-pointer text-xs"
+              >
+                Author Page & Articles →
+              </a>
+              <button
+                onClick={handleCopyEmail}
+                className="px-3 py-1.5 bg-stone-100 hover:bg-stone-200 text-stone-800 font-semibold rounded-lg flex items-center gap-1.5 transition-colors cursor-pointer"
+              >
+                {copiedEmail ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
+                <span>{copiedEmail ? 'Copied' : 'Copy'}</span>
+              </button>
+            </div>
           </div>
         </div>
       </div>
