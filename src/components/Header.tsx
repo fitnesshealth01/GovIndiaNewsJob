@@ -193,6 +193,17 @@ export const Header: React.FC<HeaderProps> = ({
                     </div>
                   </NavLink>
                   <NavLink
+                    href="/nta-exams"
+                    onNavigate={handleNavClick}
+                    className="w-full p-2.5 rounded-lg hover:bg-slate-50 text-left flex items-start gap-2.5 transition-colors cursor-pointer"
+                  >
+                    <GraduationCap className="w-4 h-4 text-purple-600 mt-0.5" />
+                    <div>
+                      <span className="font-bold text-slate-900 block">NTA Exams</span>
+                      <span className="text-[11px] text-slate-500">UGC NET, CSIR NET, CUET</span>
+                    </div>
+                  </NavLink>
+                  <NavLink
                     href="/board-exams"
                     onNavigate={handleNavClick}
                     className="w-full p-2.5 rounded-lg hover:bg-slate-50 text-left flex items-start gap-2.5 transition-colors cursor-pointer"
@@ -651,6 +662,18 @@ export const Header: React.FC<HeaderProps> = ({
                     <div className="flex items-center gap-2.5">
                       <Briefcase className="w-4 h-4 text-blue-600" />
                       <span className="font-semibold">All Government Jobs 2026</span>
+                    </div>
+                    <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
+                  </NavLink>
+
+                  <NavLink
+                    href="/nta-exams"
+                    onNavigate={handleNavClick}
+                    className="w-full p-2.5 rounded-lg hover:bg-slate-100 text-left flex items-center justify-between text-slate-800 transition-colors cursor-pointer"
+                  >
+                    <div className="flex items-center gap-2.5">
+                      <GraduationCap className="w-4 h-4 text-purple-600" />
+                      <span className="font-semibold">NTA Exams (UGC NET, CSIR NET, CUET)</span>
                     </div>
                     <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
                   </NavLink>

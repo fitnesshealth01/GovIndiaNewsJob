@@ -112,6 +112,9 @@ export default function App() {
         title = item.seoTitle || `${item.title} - GovIndiaNews`;
         metaDesc = item.metaDescription || item.summary.slice(0, 155);
       }
+    } else if (currentPath === '/nta-exams') {
+      title = 'NTA Exams 2026–27 Notifications, Application Forms & Dates - GovIndiaNews';
+      metaDesc = 'Official updates on National Testing Agency (NTA) exams: UGC NET, CSIR NET, CUET, NEET, and JEE Main notifications, eligibility, and dates.';
     } else if (currentPath === '/board-exams') {
       title = 'Board Exams 2026–27 Notifications & Registration Forms - GovIndiaNews';
       metaDesc = 'Official updates on CBSE, ICSE, and State Board examinations, private candidate registration, date sheets, and result announcements.';
@@ -520,7 +523,21 @@ export default function App() {
           </div>
         )}
 
-        {/* ROUTE 4: DIRECTORY VIEWS (/board-exams, /jobs, /admit-cards, /results, /answer-keys) */}
+        {/* ROUTE 4: DIRECTORY VIEWS (/nta-exams, /board-exams, /jobs, /admit-cards, /results, /answer-keys) */}
+        {currentPath === '/nta-exams' && (
+          <div className="space-y-6">
+            <div className="border-b border-slate-200 pb-3">
+              <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">
+                NTA Exams 2026–27 Notifications &amp; Application Forms
+              </h1>
+              <p className="text-xs text-slate-500 mt-1">
+                National Testing Agency (NTA) official notices, UGC NET, CSIR NET, CUET, NEET, and JEE Main notifications, eligibility criteria, and examination dates.
+              </p>
+            </div>
+            <RecruitmentDirectory initialCategory="nta-exams" onNavigate={navigate} />
+          </div>
+        )}
+
         {currentPath === '/board-exams' && (
           <div className="space-y-6">
             <div className="border-b border-slate-200 pb-3">

@@ -68,6 +68,7 @@ export const RecruitmentDirectory: React.FC<RecruitmentDirectoryProps> = ({
   const categories = [
     { id: 'all', label: 'All Updates', icon: Briefcase },
     { id: 'jobs', label: 'Latest Jobs', icon: Briefcase },
+    { id: 'nta-exams', label: 'NTA Exams', icon: GraduationCap },
     { id: 'board-exams', label: 'Board Exams', icon: GraduationCap },
     { id: 'admit-card', label: 'Admit Cards', icon: FileCheck },
     { id: 'answer-key', label: 'Answer Keys', icon: KeyRound },

@@ -384,6 +384,22 @@ function renderAlertList(title, description, alerts, categoryName) {
   `;
 }
 
+// 1.4 /nta-exams ROUTE
+const ntaExamAlerts = activeAlerts.filter((a) => a.category === 'nta-exams');
+ROUTES.push({
+  path: '/nta-exams',
+  title: 'NTA Exams 2026–27 Notifications & Application Forms — GovIndiaNews',
+  description: 'Official National Testing Agency (NTA) notifications, UGC NET, CSIR NET, CUET, eligibility criteria, application fee slabs, and exam schedules.',
+  canonical: `${DOMAIN}/nta-exams`,
+  publishDate: ntaExamAlerts[0]?.publishDate || '09 Oct 2026',
+  render: () => renderAlertList(
+    'NTA Examinations 2026–27 Notifications & Applications',
+    'National Testing Agency (NTA) official notifications, UGC NET December 2026 application form, Joint CSIR-UGC NET, eligibility rules, and computer-based test schedules.',
+    ntaExamAlerts.length > 0 ? ntaExamAlerts : activeAlerts.slice(0, 8),
+    'NTA Exams'
+  )
+});
+
 // 1.5 /board-exams ROUTE
 const boardExamAlerts = activeAlerts.filter((a) => a.category === 'board-exams');
 ROUTES.push({
@@ -1466,6 +1482,191 @@ function renderBoardExamArticleContent(alert) {
   `;
 }
 
+function renderNtaExamArticleContent(alert) {
+  const keyTakeaways = alert.keyTakeaways || [];
+  const importantDates = alert.importantDates || [];
+  const applicationFees = alert.applicationFees || [];
+  const categoryChoiceOptions = alert.categoryChoiceOptions || [];
+  const howToApply = alert.howToApplySteps || [];
+  const documents = alert.documentsNeeded || [];
+  const mistakes = alert.commonRejectionMistakes || [];
+
+  return `
+    <div style="background:#eff6ff;border-left:4px solid #2563eb;padding:1.25rem;border-radius:0 8px 8px 0;margin-bottom:2rem;font-size:0.95rem;color:#1e293b;">
+      <strong style="color:#1e40af;display:block;margin-bottom:0.25rem;text-transform:uppercase;font-size:0.75rem;letter-spacing:0.05em;">In short:</strong>
+      ${escapeHtml(alert.summary)} Separately, applications for the Joint CSIR-UGC NET are open until <strong>5 November 2026</strong>, and this cycle brings a major change: DBT-BET has been merged into the Life Sciences paper. Apply at <a href="https://ugcnet.nta.nic.in" target="_blank" rel="noopener noreferrer" style="color:#2563eb;font-weight:700;">ugcnet.nta.nic.in</a>.
+    </div>
+
+    <!-- Key Takeaways -->
+    ${keyTakeaways.length > 0 ? `
+      <section style="background:#ffffff;border:1px solid #e2e8f0;border-radius:12px;padding:1.5rem;margin-bottom:2rem;">
+        <h2 style="font-size:1.25rem;font-weight:700;color:#0f172a;margin:0 0 1rem 0;">Key Takeaways</h2>
+        <ul style="margin:0;padding-left:1.5rem;color:#334155;font-size:0.9rem;line-height:1.7;">
+          ${keyTakeaways.map(t => `<li style="margin-bottom:0.4rem;">${escapeHtml(t.replace(/\*\*/g, ''))}</li>`).join('')}
+        </ul>
+      </section>
+    ` : ''}
+
+    <!-- Important Dates -->
+    ${importantDates.length > 0 ? `
+      <section style="background:#ffffff;border:1px solid #e2e8f0;border-radius:12px;padding:1.5rem;margin-bottom:2rem;">
+        <h2 style="font-size:1.25rem;font-weight:700;color:#0f172a;margin:0 0 1rem 0;">UGC NET December 2026: Important Dates</h2>
+        <div style="overflow-x:auto;">
+          <table style="width:100%;border-collapse:collapse;font-size:0.85rem;text-align:left;">
+            <thead>
+              <tr style="background:#f1f5f9;color:#0f172a;border-bottom:2px solid #cbd5e1;">
+                <th style="padding:0.6rem 0.75rem;">Event</th>
+                <th style="padding:0.6rem 0.75rem;">Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${importantDates.map(d => `
+                <tr style="border-bottom:1px solid #e2e8f0;">
+                  <td style="padding:0.6rem 0.75rem;font-weight:600;color:#0f172a;">${escapeHtml(d.event)}</td>
+                  <td style="padding:0.6rem 0.75rem;color:#475569;">${escapeHtml(d.date)}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      </section>
+    ` : ''}
+
+    <!-- Application Fee Table -->
+    ${applicationFees.length > 0 ? `
+      <section style="background:#ffffff;border:1px solid #e2e8f0;border-radius:12px;padding:1.5rem;margin-bottom:2rem;">
+        <h2 style="font-size:1.25rem;font-weight:700;color:#0f172a;margin:0 0 1rem 0;">Application Fee (Non-refundable, Online Only)</h2>
+        <div style="overflow-x:auto;">
+          <table style="width:100%;border-collapse:collapse;font-size:0.85rem;text-align:left;">
+            <thead>
+              <tr style="background:#f1f5f9;color:#0f172a;border-bottom:2px solid #cbd5e1;">
+                <th style="padding:0.6rem 0.75rem;">Category</th>
+                <th style="padding:0.6rem 0.75rem;text-align:right;">Fee</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${applicationFees.map(f => `
+                <tr style="border-bottom:1px solid #e2e8f0;">
+                  <td style="padding:0.6rem 0.75rem;font-weight:600;color:#0f172a;">${escapeHtml(f.category)}</td>
+                  <td style="padding:0.6rem 0.75rem;text-align:right;color:#0f172a;font-weight:700;">${escapeHtml(f.fee)}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      </section>
+    ` : ''}
+
+    <!-- Eligibility -->
+    <section style="background:#ffffff;border:1px solid #e2e8f0;border-radius:12px;padding:1.5rem;margin-bottom:2rem;">
+      <h2 style="font-size:1.25rem;font-weight:700;color:#0f172a;margin:0 0 1rem 0;">Eligibility for UGC NET December 2026</h2>
+      <div style="margin-bottom:1.5rem;">
+        <h3 style="font-size:1.05rem;font-weight:700;color:#1e40af;margin:0 0 0.5rem 0;">Educational Qualification</h3>
+        <ul style="margin:0;padding-left:1.5rem;color:#475569;font-size:0.9rem;line-height:1.6;">
+          <li style="margin-bottom:0.4rem;">General/Unreserved/General-EWS: at least <strong>55%</strong> in a Master's degree or equivalent.</li>
+          <li style="margin-bottom:0.4rem;">OBC-NCL, SC, ST, PwD/PwBD and Third Gender: at least <strong>50%</strong>.</li>
+          <li style="margin-bottom:0.4rem;">Final-year Master's students and those awaiting results can also apply, subject to the bulletin's conditions.</li>
+          <li style="margin-bottom:0.4rem;">Four-year bachelor's degree holders with at least <strong>75%</strong> (70% for reserved categories) are eligible for JRF and PhD admission.</li>
+        </ul>
+      </div>
+
+      <div>
+        <h3 style="font-size:1.05rem;font-weight:700;color:#1e40af;margin:0 0 0.5rem 0;">Age Limit</h3>
+        <ul style="margin:0;padding-left:1.5rem;color:#475569;font-size:0.9rem;line-height:1.6;">
+          <li style="margin-bottom:0.4rem;"><strong>JRF:</strong> maximum 30 years as on 1 December 2026.</li>
+          <li style="margin-bottom:0.4rem;"><strong>Relaxation of up to 5 years:</strong> OBC-NCL, SC, ST, PwD, Third Gender and women candidates.</li>
+          <li style="margin-bottom:0.4rem;"><strong>Assistant Professor / PhD admission:</strong> no upper age limit.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Category Choices -->
+    ${categoryChoiceOptions.length > 0 ? `
+      <section style="background:#ffffff;border:1px solid #e2e8f0;border-radius:12px;padding:1.5rem;margin-bottom:2rem;">
+        <h2 style="font-size:1.25rem;font-weight:700;color:#0f172a;margin:0 0 0.5rem 0;">JRF, Assistant Professor or PhD only: Which Should You Choose?</h2>
+        <p style="font-size:0.9rem;color:#475569;line-height:1.6;margin:0 0 1rem 0;">You pick one category while applying, and it decides what your score can be used for.</p>
+        <ol style="margin:0;padding-left:1.5rem;color:#475569;font-size:0.9rem;line-height:1.6;">
+          ${categoryChoiceOptions.map(c => `
+            <li style="margin-bottom:0.5rem;"><strong>${escapeHtml(c.title)}:</strong> ${escapeHtml(c.description)}</li>
+          `).join('')}
+        </ol>
+        <p style="font-size:0.85rem;color:#92400e;background:#fffbeb;border:1px solid #fde68a;padding:0.75rem;border-radius:8px;margin:1rem 0 0;">Choose carefully, because the wrong category can limit what your result is valid for.</p>
+      </section>
+    ` : ''}
+
+    <!-- Exam Pattern -->
+    <section style="background:#ffffff;border:1px solid #e2e8f0;border-radius:12px;padding:1.5rem;margin-bottom:2rem;">
+      <h2 style="font-size:1.25rem;font-weight:700;color:#0f172a;margin:0 0 0.75rem 0;">Exam Pattern at a Glance</h2>
+      <ul style="margin:0;padding-left:1.5rem;color:#475569;font-size:0.9rem;line-height:1.6;">
+        <li>Computer-Based Test (CBT) in English and Hindi</li>
+        <li><strong>87 subjects</strong></li>
+        <li>Two papers, 180 minutes in total</li>
+        <li>Held twice a year (June and December)</li>
+      </ul>
+    </section>
+
+    <!-- How to Apply -->
+    <section style="background:#ffffff;border:1px solid #e2e8f0;border-radius:12px;padding:1.5rem;margin-bottom:2rem;">
+      <h2 style="font-size:1.25rem;font-weight:700;color:#0f172a;margin:0 0 1rem 0;">How to Apply, Step by Step</h2>
+      <ol style="margin:0;padding-left:1.5rem;color:#475569;font-size:0.9rem;line-height:1.7;">
+        ${howToApply.map(step => `<li style="margin-bottom:0.5rem;">${escapeHtml(step.replace(/\*\*/g, ''))}</li>`).join('')}
+      </ol>
+    </section>
+
+    <!-- Documents to keep ready -->
+    <section style="background:#ffffff;border:1px solid #e2e8f0;border-radius:12px;padding:1.5rem;margin-bottom:2rem;">
+      <h2 style="font-size:1.25rem;font-weight:700;color:#0f172a;margin:0 0 1rem 0;">Keep Ready Before You Start</h2>
+      <ul style="margin:0;padding-left:1.5rem;color:#475569;font-size:0.9rem;line-height:1.7;">
+        ${documents.map(doc => `<li style="margin-bottom:0.4rem;">${escapeHtml(doc)}</li>`).join('')}
+      </ul>
+    </section>
+
+    <!-- DBT-BET Merger -->
+    <section style="background:#fffbeb;border:1px solid #fde68a;border-radius:12px;padding:1.5rem;margin-bottom:2rem;">
+      <h2 style="font-size:1.25rem;font-weight:700;color:#92400e;margin:0 0 0.75rem 0;">Big Change This Cycle: DBT-BET Merged with CSIR-UGC NET Life Sciences</h2>
+      <p style="font-size:0.9rem;color:#78350f;line-height:1.6;margin:0;">
+        ${escapeHtml(alert.dbtBetMergerNotes || "NTA has announced that the Department of Biotechnology's Biotechnology Eligibility Test (DBT-BET) will be merged with the Joint CSIR-UGC NET Life Sciences exam from the December 2026 cycle. A new discipline, Life Sciences and Biotechnology (LS & BT), joins the paper list. If you are a biotechnology aspirant, prepare according to the new LS & BT syllabus and register for CSIR-UGC NET by 5 November 2026.")}
+      </p>
+    </section>
+
+    <!-- FAQs -->
+    ${alert.faqs && alert.faqs.length > 0 ? `
+      <section style="background:#ffffff;border:1px solid #e2e8f0;border-radius:12px;padding:1.5rem;margin-bottom:2rem;">
+        <h2 style="font-size:1.25rem;font-weight:700;color:#0f172a;margin:0 0 1rem 0;">Frequently Asked Questions</h2>
+        <div style="display:flex;flex-direction:column;gap:1rem;">
+          ${alert.faqs.map(f => `
+            <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:1rem;">
+              <h3 style="font-size:0.95rem;font-weight:700;color:#0f172a;margin:0 0 0.5rem 0;">${escapeHtml(f.question)}</h3>
+              <p style="font-size:0.85rem;color:#475569;margin:0;line-height:1.6;">${escapeHtml(f.answer)}</p>
+            </div>
+          `).join('')}
+        </div>
+      </section>
+    ` : ''}
+
+    <!-- Official Links -->
+    <section style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:12px;padding:1.5rem;margin-bottom:2rem;font-size:0.85rem;">
+      <h2 style="font-size:1.15rem;font-weight:700;color:#1e3a8a;margin:0 0 0.5rem 0;">Official Links</h2>
+      <p style="color:#1e40af;margin:0 0 1rem 0;">
+        UGC NET Application Portal: <a href="https://ugcnet.nta.nic.in" target="_blank" rel="noopener noreferrer" style="color:#2563eb;font-weight:700;">ugcnet.nta.nic.in</a><br/>
+        Joint CSIR-UGC NET Portal: <a href="https://csirnet.nta.ac.in" target="_blank" rel="noopener noreferrer" style="color:#2563eb;font-weight:700;">csirnet.nta.ac.in</a>
+      </p>
+      <div style="display:flex;flex-wrap:wrap;gap:0.75rem;">
+        <a href="https://ugcnet.nta.nic.in" target="_blank" rel="noopener noreferrer" style="background:#2563eb;color:#ffffff;padding:0.5rem 1rem;border-radius:6px;font-weight:700;text-decoration:none;">
+          Open UGC NET Application Portal &nearr;
+        </a>
+        <a href="https://csirnet.nta.ac.in" target="_blank" rel="noopener noreferrer" style="background:#ffffff;color:#1e40af;padding:0.5rem 1rem;border-radius:6px;font-weight:600;text-decoration:none;border:1px solid #bfdbfe;">
+          Open Joint CSIR-UGC NET Portal &nearr;
+        </a>
+      </div>
+    </section>
+
+    <section style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:1rem;font-size:0.8rem;color:#64748b;font-style:italic;">
+      ${escapeHtml(alert.editorialDisclaimer || 'GovIndiaNews is an independent publication and is not affiliated with NTA, UGC or any government body. Details were compiled from NTA notices and may change. Always confirm on ugcnet.nta.nic.in.')}
+    </section>
+  `;
+}
+
 // 17. ALL RECRUITMENT ALERTS INDIVIDUAL ROUTES (/article/:slug)
 for (const alert of RECRUITMENT_ALERTS) {
   ROUTES.push({
@@ -1477,11 +1678,14 @@ for (const alert of RECRUITMENT_ALERTS) {
     alertData: alert,
     render: () => {
       const isBoardExam = alert.category === 'board-exams';
+      const isNtaExam = alert.category === 'nta-exams';
+      const categoryPath = isNtaExam ? '/nta-exams' : isBoardExam ? '/board-exams' : alert.category === 'admit-card' ? '/admit-card' : '/jobs';
+      const categoryLabel = isNtaExam ? 'NTA Exams' : isBoardExam ? 'Board Exams' : alert.category === 'admit-card' ? 'Admit Card' : 'Jobs';
       return `
         ${renderSiteHeader()}
         <main style="max-width:1080px;margin:2rem auto;padding:0 1.5rem;font-family:system-ui,-apple-system,sans-serif;color:#1e293b;line-height:1.6;">
           <nav aria-label="Breadcrumb" style="font-size:0.8rem;color:#64748b;margin-bottom:1rem;">
-            <a href="/" style="color:#2563eb;text-decoration:none;">Home</a> &gt; <a href="${isBoardExam ? '/board-exams' : alert.category === 'admit-card' ? '/admit-card' : '/jobs'}" style="color:#2563eb;text-decoration:none;">${isBoardExam ? 'Board Exams' : alert.category === 'admit-card' ? 'Admit Card' : 'Jobs'}</a> &gt; <span>${escapeHtml(alert.organization)}</span>
+            <a href="/" style="color:#2563eb;text-decoration:none;">Home</a> &gt; <a href="${categoryPath}" style="color:#2563eb;text-decoration:none;">${categoryLabel}</a> &gt; <span>${escapeHtml(alert.organization)}</span>
           </nav>
           <header style="margin-bottom:2rem;border-bottom:1px solid #e2e8f0;padding-bottom:1.5rem;">
             <div style="display:flex;flex-wrap:wrap;align-items:center;gap:0.75rem;margin-bottom:0.75rem;font-size:0.75rem;">
@@ -1498,7 +1702,7 @@ for (const alert of RECRUITMENT_ALERTS) {
           </header>
 
           <article>
-            ${isBoardExam ? renderBoardExamArticleContent(alert) : `
+            ${isBoardExam ? renderBoardExamArticleContent(alert) : isNtaExam ? renderNtaExamArticleContent(alert) : `
             <!-- Key Facts Summary Grid -->
             <section style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:1.5rem;margin-bottom:2rem;">
               <h2 style="font-size:1.25rem;font-weight:700;color:#0f172a;margin:0 0 1rem 0;">Notification Highlights</h2>

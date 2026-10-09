@@ -34,6 +34,7 @@ import { SocialAlertBanner } from './SocialAlertBanner';
 import { EliteJobTemplate } from './EliteJobTemplate';
 import { EliteAdmitCardTemplate } from './EliteAdmitCardTemplate';
 import { EliteBoardExamTemplate } from './EliteBoardExamTemplate';
+import { EliteNtaExamTemplate } from './EliteNtaExamTemplate';
 import { NavLink } from './NavLink';
 
 interface ArticleViewProps {
@@ -91,6 +92,8 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
 
   const getCategoryLabel = (cat: string) => {
     switch (cat) {
+      case 'nta-exams':
+        return 'NTA Exams';
       case 'board-exams':
         return 'Board Exams';
       case 'jobs':
@@ -110,6 +113,8 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
 
   const getCategoryPath = (cat: string) => {
     switch (cat) {
+      case 'nta-exams':
+        return '/nta-exams';
       case 'board-exams':
         return '/board-exams';
       case 'jobs':
@@ -352,6 +357,8 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
             <EliteAdmitCardTemplate article={article} onNavigate={onNavigate} />
           ) : article.category === 'board-exams' ? (
             <EliteBoardExamTemplate article={article} onNavigate={onNavigate} />
+          ) : article.category === 'nta-exams' ? (
+            <EliteNtaExamTemplate article={article} onNavigate={onNavigate} />
           ) : (
             <EliteJobTemplate article={article} onNavigate={onNavigate} />
           )}

@@ -45,7 +45,7 @@ export interface SourceNotice {
 export interface RecruitmentAlert {
   id: string;
   slug: string;
-  category: 'jobs' | 'admit-card' | 'result' | 'answer-key' | 'cut-off' | 'board-exams';
+  category: 'jobs' | 'admit-card' | 'result' | 'answer-key' | 'cut-off' | 'board-exams' | 'nta-exams';
   title: string;
   organization: string;
   examName: string;
@@ -116,6 +116,9 @@ export interface RecruitmentAlert {
   class10TwoExamSystemNotes?: string;
   notEligibleAdvisory?: string;
   editorialDisclaimer?: string;
+  keyTakeaways?: string[];
+  dbtBetMergerNotes?: string;
+  categoryChoiceOptions?: { title: string; description: string }[];
 }
 
 export interface SalaryArithmetic {
@@ -256,6 +259,155 @@ export interface PYQQuestion {
 }
 
 export const RECRUITMENT_ALERTS: RecruitmentAlert[] = [
+  // LATEST NTA EXAM NOTIFICATION - 09 OCTOBER 2026
+  {
+    id: 'ugc-net-december-2026-application-form',
+    slug: 'ugc-net-december-2026-application-form-last-date-fee-eligibility',
+    category: 'nta-exams',
+    title: 'UGC NET December 2026 Application Form Out: Last Date, Fee, Eligibility, Exam Date and How to Apply',
+    seoTitle: 'UGC NET December 2026 Form Out: Last Date Oct 28, Fee, Eligibility',
+    metaDescription: 'UGC NET December 2026 application form is live. Check last date (Oct 28), fee, eligibility, JRF age limit, exam date, new CSIR-UGC NET change and how to apply.',
+    primaryKeyword: 'UGC NET December 2026 application form',
+    secondaryKeywords: [
+      'UGC NET December 2026 last date',
+      'UGC NET 2026 fee',
+      'UGC NET eligibility 2026',
+      'UGC NET JRF age limit 2026',
+      'CSIR UGC NET December 2026',
+      'DBT-BET merger',
+    ],
+    organization: 'National Testing Agency (NTA)',
+    examName: 'University Grants Commission National Eligibility Test (UGC NET December 2026)',
+    postCount: '87 Subjects (JRF, Assistant Professor & PhD Admission)',
+    publishDate: '09 Oct 2026',
+    lastDate: '28 Oct 2026 (11:50 PM) / Late fee until 31 Oct 2026',
+    examDate: '14 to 19 December 2026 (Buffer dates: 20 & 21 Dec 2026)',
+    qualification: "Master's Degree with min 55% marks (50% for OBC/SC/ST/PwD/Third Gender) or 4-Year Bachelor's Degree with 75%",
+    qualificationTier: 'graduate',
+    sector: 'other',
+    fees: '₹1,150 (General), ₹600 (EWS/OBC-NCL), ₹325 (SC/ST/PwD/Third Gender)',
+    sourceNotice: {
+      title: 'National Testing Agency (NTA) Official Public Notice — UGC NET December 2026 Session',
+      url: 'https://ugcnet.nta.nic.in',
+      checkedOn: '09 Oct 2026',
+    },
+    verifiedBy: 'Akash Singh Solanki (Founder & Editor)',
+    status: 'verified',
+    author: 'Akash Singh Solanki',
+    reviewedDate: '09 Oct 2026, 10:45 IST',
+    readTime: '6 min read',
+    summary: 'The National Testing Agency (NTA) has opened the UGC NET December 2026 application form. Apply at ugcnet.nta.nic.in by 28 October 2026 (11:50 PM). The exam will be held from 14 to 19 December 2026 across 87 subjects in CBT mode.',
+    linkText: 'Apply at ugcnet.nta.nic.in Official Portal',
+    keyTakeaways: [
+      'UGC NET December 2026 form: **8 October to 28 October 2026**',
+      'Late fee window: **29 to 31 October 2026**, with an extra ₹500',
+      'Correction window: **2 to 4 November 2026**',
+      'Exam dates: **14 to 19 December 2026**, computer-based test (CBT)',
+      'Fee: **₹1,150 (General), ₹600 (EWS/OBC-NCL), ₹325 (SC/ST/PwD/Third Gender)**',
+      'JRF age limit: **30 years as on 1 December 2026**, with relaxation of up to 5 years',
+      'No upper age limit for Assistant Professor or PhD admission',
+    ],
+    importantDates: [
+      { event: 'Notification and form release', date: '8 October 2026' },
+      { event: 'Last date to apply and pay fee', date: '28 October 2026 (11:50 PM)' },
+      { event: 'Application with late fee (₹500 extra)', date: '29 to 31 October 2026' },
+      { event: 'Application correction window', date: '2 to 4 November 2026' },
+      { event: 'Examination dates (CBT mode)', date: '14 to 19 December 2026' },
+      { event: 'Buffer exam dates', date: '20 and 21 December 2026' },
+      { event: 'Joint CSIR-UGC NET application deadline', date: '5 November 2026' },
+      { event: 'City intimation and admit card', date: 'To be announced on ugcnet.nta.nic.in' },
+    ],
+    applicationFees: [
+      { category: 'General / Unreserved', fee: '₹1,150' },
+      { category: 'General-EWS / OBC-NCL', fee: '₹600' },
+      { category: 'SC / ST / PwD / Third Gender', fee: '₹325' },
+      { category: 'Late Fee Surcharge (29–31 October 2026)', fee: '₹500 extra' },
+    ],
+    categoryChoiceOptions: [
+      {
+        title: 'JRF + Assistant Professor + PhD admission',
+        description: 'The funded research route. It also qualifies you for university/college teaching roles. Has an upper age limit of 30 years (with applicable category relaxations).',
+      },
+      {
+        title: 'Assistant Professor + PhD admission',
+        description: 'For teaching-focused candidates without age limit restrictions or research fellowship requirements. No upper age limit.',
+      },
+      {
+        title: 'PhD admission only',
+        description: 'For candidates who strictly seek eligibility for doctoral programme admissions in Indian universities and higher educational institutions without fellowship or teaching eligibility.',
+      },
+    ],
+    howToApplySteps: [
+      'Open **ugcnet.nta.nic.in** (official NTA website).',
+      'Click the December 2026 application link and register. Registration runs through the Meri Pehchaan single sign-on using your verified mobile number and email.',
+      'Fill in personal, academic, postgraduate mark details and subject preferences exactly as on your qualifying marksheets.',
+      'Choose your category carefully (JRF + Assistant Professor, Assistant Professor only, or PhD only) and select 4 preferred exam cities.',
+      'Upload your scanned photograph, signature, and category or PwD certificates in the prescribed format and dimensions.',
+      'Pay the non-refundable examination fee online via debit card, credit card, net banking or UPI.',
+      'Submit the application and **download and print the confirmation page** for future reference.',
+    ],
+    documentsNeeded: [
+      "Master's degree (or final-year qualifying) marks sheets and roll details",
+      'Scanned passport-size photograph and specimen signature in prescribed format',
+      'Valid Category Certificate (OBC-NCL, EWS, SC/ST) or PwD Certificate if applicable',
+      'Active mobile number and valid email ID for Meri Pehchaan verification',
+      'Net banking / UPI / Debit card / Credit card for online application fee',
+    ],
+    commonRejectionMistakes: [
+      'Selecting the wrong eligibility category (e.g. PhD only instead of JRF + Assistant Professor).',
+      'Mismatched name, father name or date of birth compared to official matriculation and degree certificates.',
+      'Uploading blurry or non-compliant passport photos and signatures.',
+      'Waiting until the final hours of 28 October when the NTA payment gateway experiences peak traffic.',
+      'Not downloading and saving the final Confirmation Page after successful payment.',
+    ],
+    dbtBetMergerNotes: "NTA has announced that the Department of Biotechnology's Biotechnology Eligibility Test (DBT-BET) has been merged with the Joint CSIR-UGC NET Life Sciences exam from the December 2026 cycle. A new discipline, Life Sciences and Biotechnology (LS & BT), joins the paper list. If you are a biotechnology aspirant, prepare according to the new LS & BT syllabus and register for CSIR-UGC NET by 5 November 2026.",
+    editorialDisclaimer: 'GovIndiaNews is an independent news publication and is not affiliated with NTA, UGC, or any government testing agency. Official notifications, dates, and application forms are verified directly from ugcnet.nta.nic.in. Candidates are advised to cross-verify all details on the official NTA portal.',
+    officialLinks: [
+      {
+        title: 'UGC NET Official Application Portal',
+        label: 'ugcnet.nta.nic.in',
+        url: 'https://ugcnet.nta.nic.in',
+        isPrimary: true,
+        linkType: 'apply',
+      },
+      {
+        title: 'Joint CSIR-UGC NET Portal',
+        label: 'csirnet.nta.ac.in',
+        url: 'https://csirnet.nta.ac.in',
+        linkType: 'official',
+      },
+    ],
+    faqs: [
+      {
+        question: 'When is the last date to apply for UGC NET December 2026?',
+        answer: 'The last date to apply and pay the normal examination fee is 28 October 2026 (11:50 PM). An extended late fee window is open from 29 to 31 October with a ₹500 penalty.',
+      },
+      {
+        question: 'What are the examination dates for UGC NET December 2026?',
+        answer: 'The exam is scheduled from 14 to 19 December 2026 as a Computer-Based Test (CBT), with buffer dates on 20 and 21 December 2026.',
+      },
+      {
+        question: 'What is the application fee for UGC NET December 2026?',
+        answer: 'The fee is ₹1,150 for General/Unreserved, ₹600 for General-EWS/OBC-NCL, and ₹325 for SC/ST/PwD/Third Gender candidates.',
+      },
+      {
+        question: 'What is the upper age limit for UGC NET JRF in December 2026?',
+        answer: 'The maximum age for Junior Research Fellowship (JRF) is 30 years as on 1 December 2026. A relaxation of up to 5 years is provided to OBC-NCL, SC, ST, PwD, Third Gender, and women candidates.',
+      },
+      {
+        question: 'Is there an age limit for Assistant Professor or PhD admission?',
+        answer: 'No. There is no upper age limit for applying for Assistant Professor or PhD admission only.',
+      },
+      {
+        question: 'Can final-year Master students apply for UGC NET?',
+        answer: 'Yes. Candidates in their final year of a Master’s degree or awaiting final results are eligible to apply, subject to fulfilling the minimum percentage criteria within two years.',
+      },
+      {
+        question: 'What is the big change regarding DBT-BET this cycle?',
+        answer: 'DBT-BET has been merged into the Joint CSIR-UGC NET Life Sciences paper under the discipline Life Sciences and Biotechnology (LS & BT). Applications for Joint CSIR-UGC NET are open until 5 November 2026.',
+      },
+    ],
+  },
   // LATEST BOARD EXAM NOTIFICATION - 08 OCTOBER 2026
   {
     id: 'cbse-private-candidate-form-2027',
