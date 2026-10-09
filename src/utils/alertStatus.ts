@@ -1,4 +1,4 @@
-import { RecruitmentAlert } from '../data/gazetteData';
+import type { RecruitmentAlert } from '../data/gazetteData.ts';
 
 /**
  * Parses dates like "23 Oct 2026", "30 November 2026", "2026-10-23", etc.
@@ -57,7 +57,7 @@ export function parsePublishDateToTimestamp(dateStr?: string): number {
  * Auto-expiry check: an article whose lastDate or examDate has passed
  * relative to the current local date becomes expired.
  */
-export function isAlertExpired(alert: RecruitmentAlert, referenceDate: Date = new Date('2026-10-03')): boolean {
+export function isAlertExpired(alert: RecruitmentAlert, referenceDate: Date = new Date()): boolean {
   if (alert.status === 'expired') return true;
 
   if (alert.lastDate) {
@@ -84,7 +84,7 @@ export function isAlertExpired(alert: RecruitmentAlert, referenceDate: Date = ne
  * - 'expired' if the deadline/exam date has passed
  * - otherwise the set status ('verified' or 'unverified')
  */
-export function getEffectiveStatus(alert: RecruitmentAlert, referenceDate: Date = new Date('2026-10-03')): 'verified' | 'unverified' | 'expired' {
+export function getEffectiveStatus(alert: RecruitmentAlert, referenceDate: Date = new Date()): 'verified' | 'unverified' | 'expired' {
   if (isAlertExpired(alert, referenceDate)) {
     return 'expired';
   }
@@ -96,14 +96,14 @@ export function getEffectiveStatus(alert: RecruitmentAlert, referenceDate: Date 
  * Both 'verified' and 'unverified' active alerts can be discovered in listings,
  * with honest status pills indicating whether verification is complete or in progress.
  */
-export function isAlertActive(alert: RecruitmentAlert, referenceDate: Date = new Date('2026-10-03')): boolean {
+export function isAlertActive(alert: RecruitmentAlert, referenceDate: Date = new Date()): boolean {
   return !isAlertExpired(alert, referenceDate);
 }
 
 /**
  * Predicate for alerts that are confirmed verified and non-expired.
  */
-export function isAlertActiveAndVerified(alert: RecruitmentAlert, referenceDate: Date = new Date('2026-10-03')): boolean {
+export function isAlertActiveAndVerified(alert: RecruitmentAlert, referenceDate: Date = new Date()): boolean {
   return alert.status === 'verified' && !isAlertExpired(alert, referenceDate);
 }
 

@@ -27,7 +27,7 @@ export interface GuideSection {
 export interface BlogPost {
   slug: string;
   title: string;
-  category: 'fitness' | 'exam-prep' | 'salary-insights';
+  category: 'fitness' | 'exam-prep' | 'salary-insights' | 'government-schemes' | 'career-guide';
   categoryLabel: string;
   readingTime: string;
   publishDate: string;
@@ -376,5 +376,129 @@ Under the 7th Central Pay Commission (CPC) framework accepted by the Government 
       }
     ],
     relatedSlugs: ['document-preparation-checklist', 'central-government-7th-cpc-salary-rules']
+  },
+  {
+    slug: 'top-central-government-schemes-for-job-seekers-pmkvy-naps-employment',
+    title: 'Top Central Government Schemes for Job Seekers: PMKVY 4.0, NAPS & Rozgar Mela',
+    category: 'government-schemes',
+    categoryLabel: 'Govt Schemes',
+    readingTime: '11 min read',
+    publishDate: '06 October 2026',
+    author: 'Akash Singh Solanki, Founder and Editor',
+    summary: 'A definitive evergreen guide to Government of India employment generation and skill development schemes: National Apprenticeship Promotion Scheme (NAPS), Pradhan Mantri Kaushal Vikas Yojana (PMKVY 4.0), National Career Service (NCS) portal verification, and Mission Karmayogi.',
+    tags: ['PMKVY 4.0', 'NAPS Apprenticeship', 'National Career Service', 'Rozgar Mela', 'Government Schemes', 'Skill India'],
+    sections: [
+      {
+        heading: '1. Introduction: Bridging Formal Degrees and Industry Employability',
+        content: `While millions of Indian youths invest years preparing for conventional competitive examinations (SSC, UPSC, RRB), the Union Government has deployed multiple statutory employment promotion and paid apprenticeship frameworks under the Ministry of Skill Development and Entrepreneurship (MSDE) and Ministry of Labour and Employment.
+
+These schemes provide guaranteed monthly stipends, national skill qualifications framework (NSQF) certification, and direct pathways into public sector undertakings (PSUs) and organized private industry. Understanding these initiatives helps aspirants hedge career risks, secure secondary income streams, and build verified practical experience while continuing civil exam preparation.`
+      },
+      {
+        heading: '2. National Apprenticeship Promotion Scheme (NAPS-2)',
+        content: `Administered under the Apprentices Act 1961, NAPS-2 incentivizes employers to engage youth across technical, engineering, and non-technical domains:
+• Direct Benefit Transfer (DBT) Stipend: The Central Government directly deposits 25% of prescribed stipend amount (up to ₹1,500 per month) into the apprentice’s Aadhaar-seeded bank account, with the employer covering the remaining balance.
+• Duration: Standard apprenticeship contracts run for 6 months to 36 months depending on the designated trade.
+• Certificate of Proficiency: Issued by the National Council for Vocational Education and Training (NCVET), serving as mandatory eligibility credit for technical railway and defence recruitment drives (e.g. RRB ALP and Ordnance trades).`
+      },
+      {
+        heading: '3. Pradhan Mantri Kaushal Vikas Yojana (PMKVY 4.0)',
+        content: `PMKVY 4.0 shifts focus toward Industry 4.0 technologies, green economy skills, artificial intelligence, and drone operations:
+- Free Training & Assessment: 100% sponsored by the Government of India with zero candidate fees.
+- Skill Certificate: Nationally recognized NSQF Level 3 to Level 6 credentials with digital QR verification.
+- Post-Placement Support: Direct access to regional job melas, district employment exchanges, and overseas mobility programs via NSDC International.`,
+        table: {
+          title: 'Comparison of Central Government Employment & Training Schemes',
+          caption: 'Compiled from Ministry of Skill Development & Ministry of Labour official gazette circulars.',
+          headers: ['Scheme Name', 'Nodal Ministry', 'Target Age & Qualification', 'Financial Support / Stipend', 'Primary Candidate Benefit'],
+          rows: [
+            ['NAPS-2 (Apprenticeship)', 'MSDE', '14+ Years; 8th / 10th / ITI / Degree', '₹6,000 – ₹12,000 monthly stipend', 'Mandatory practical credit for Railway/Defence jobs'],
+            ['PMKVY 4.0 (Skill India)', 'MSDE', '15–45 Years; Any education', 'Free training + ₹500 travel allowance', 'Certified industry accreditation & direct placement'],
+            ['National Career Service (NCS)', 'Ministry of Labour', '18–60 Years; All educational tiers', 'Free access & job matching portal', 'Direct access to Central Rozgar Melas & model centers'],
+            ['PM Vishwakarma Scheme', 'MSME', '18+ Years; Traditional artisans & trades', '₹500/day stipend + ₹15,000 toolkit grant', 'Collateral-free credit at 5% interest + collateral guarantee']
+          ]
+        }
+      },
+      {
+        heading: '4. How to Register on the National Career Service (NCS) Portal Safely',
+        content: `The National Career Service portal (ncs.gov.in) connects over 3 crore job seekers with verified employers, government job openings, and vocational training counseling.
+1. Registration with Universal Job ID: Sign up using your Aadhaar or PAN card to generate a unique NCS ID.
+2. Skill Mapping & Assessment: Complete free cognitive and domain skill tests to boost profile visibility.
+3. Beware of Fraud: Government schemes under NCS and Rozgar Mela NEVER charge registration fees, interview booking fees, or laptop distribution deposits. Always cross-verify recruitment notices against official gazettes.`
+      }
+    ],
+    checklistItems: [
+      'Link your Aadhaar card with your active mobile number and bank account (NPCI DBT mapper).',
+      'Register on ncs.gov.in and download your official National Career Service candidate card.',
+      'Check whether your ITI or diploma trade qualifies for NAPS apprenticeship quota in Railway recruitments.',
+      'Never transfer money to third parties claiming to offer guaranteed appointments under government schemes.'
+    ],
+    faqs: [
+      {
+        question: 'Does NAPS apprenticeship count as government employment?',
+        answer: 'No. Apprenticeship is on-the-job training, not a permanent civil appointment. However, completing an apprenticeship under Railway establishments grants vertical preference and reservation (up to 20%) in RRB Group D appointments.'
+      },
+      {
+        question: 'Are PMKVY certification courses completely free for students?',
+        answer: 'Yes. Training, assessment, and certification fees under PMKVY are 100% borne by the Government of India through National Skill Development Corporation (NSDC) training partners.'
+      }
+    ],
+    relatedSlugs: ['agniveer-benefits-career-pathways-post-service', 'central-government-7th-cpc-salary-rules']
+  },
+  {
+    slug: 'agniveer-benefits-career-pathways-post-service',
+    title: 'Agniveer Seva Nidhi Package, CAPF Reservation & Post-Service Career Guide',
+    category: 'career-guide',
+    categoryLabel: 'Career Guide',
+    readingTime: '10 min read',
+    publishDate: '05 October 2026',
+    author: 'Akash Singh Solanki, Founder and Editor',
+    summary: 'A detailed analysis of financial benefits, Seva Nidhi package tax exemptions, 10% horizontal reservation in CAPFs & Assam Rifles, state police preferences, and higher education degree equivalencies for demobilized Agniveers.',
+    tags: ['Agnipath Scheme', 'Seva Nidhi Package', 'CAPF Reservation', 'Assam Rifles', 'Army Career Guide', 'Ex-Servicemen Quota'],
+    sections: [
+      {
+        heading: '1. The 4-Year Agniveer Service Architecture',
+        content: `Under the Agnipath Scheme implemented across the Indian Army, Indian Navy, and Indian Air Force, individuals aged 17½ to 21 years serve as Agniveers for an initial period of four years. Upon completion of four years, up to 25% of the enrolled batch is absorbed into the regular cadre of the Armed Forces as permanent personnel based on objective merit, military performance, and operational requirements.
+
+For the remaining 75% who transition back to civilian life, the Central Government and various state administrations have established substantial financial, educational, and public sector employment safeguards.`
+      },
+      {
+        heading: '2. The Seva Nidhi Financial Package & Tax Benefits',
+        content: `During their 4-year tenure, 30% of an Agniveer’s monthly customized salary is contributed to the Agniveer Corpus Fund, with an identical matching contribution made by the Government of India.
+• Year 1: ₹30,000 monthly salary (₹21,000 in-hand + ₹9,000 corpus contribution).
+• Year 2: ₹33,000 monthly salary (₹23,100 in-hand + ₹9,900 corpus contribution).
+• Year 3: ₹36,500 monthly salary (₹25,550 in-hand + ₹10,950 corpus contribution).
+• Year 4: ₹40,000 monthly salary (₹28,000 in-hand + ₹12,000 corpus contribution).
+
+Upon completion of 4 years, demobilized Agniveers receive approximately ₹11.71 Lakh (comprising accumulated corpus plus compound interest). Under the Finance Act, the entire Seva Nidhi package is completely exempt from Income Tax.`
+      },
+      {
+        heading: '3. Statutory Reservation in CAPFs, Police & Defence PSUs',
+        content: `To ensure guaranteed career continuity, several central and state agencies have formalized statutory reservation quotas for demobilized Agniveers:
+1. 10% Horizontal Reservation in Central Armed Police Forces (CAPFs): Border Security Force (BSF), Central Reserve Police Force (CRPF), CISF, ITBP, and SSB reserve 10% of constable vacancies for Agniveers.
+2. Physical Efficiency Test (PET) Exemption: Demobilized Agniveers are completely exempted from physical efficiency tests (running, long jump, high jump) during CAPF recruitment rallies, recognizing their prior military fitness.
+3. Upper Age Relaxation: First batch receives a 5-year upper age relaxation; subsequent batches receive a 3-year relaxation beyond the standard cutoff.
+4. 10% Reservation in Defence PSUs: Applied across HAL, BEL, BEML, and Mazagon Dock Shipbuilders for technical technician and security cadres.
+5. State Police Preferential Quota: States including Uttar Pradesh, Haryana, Madhya Pradesh, Uttarakhand, and Odisha grant direct bonus marks and reservation in state police sub-inspector and constable selections.`
+      }
+    ],
+    checklistItems: [
+      'Ensure proper documentation of the Agniveer Skill Certificate issued upon demobilization.',
+      'Claim the IGNOU 3-year customized bachelor’s degree credits based on in-service military training.',
+      'Apply under the dedicated CAPF Agniveer quota without undergoing repeated PET running rounds.',
+      'Utilize the tax-free ₹11.71 Lakh Seva Nidhi corpus for entrepreneurial loans under MUDRA / Stand-Up India.'
+    ],
+    faqs: [
+      {
+        question: 'Is the Seva Nidhi lump sum subject to income tax deductions?',
+        answer: 'No. The Government of India has granted 100% income tax exemption on the entire Seva Nidhi package, including accumulated interest and matching central contributions.'
+      },
+      {
+        question: 'Do Agniveers have to run the 5 km PET race again when applying for CAPF Constable?',
+        answer: 'No. Under Ministry of Home Affairs standing orders, demobilized Agniveers are completely exempted from the Physical Efficiency Test (PET) in CAPF and Assam Rifles recruitment.'
+      }
+    ],
+    relatedSlugs: ['army-1600-meter-running-time-agniveer-pft-standards', 'top-central-government-schemes-for-job-seekers-pmkvy-naps-employment']
   }
 ];
+

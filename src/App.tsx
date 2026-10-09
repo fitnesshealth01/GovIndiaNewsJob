@@ -18,6 +18,8 @@ import { LiveUpdatesHub } from './components/LiveUpdatesHub';
 import { ExamHubView } from './components/ExamHubView';
 import { VacancyTrackerView } from './components/VacancyTrackerView';
 import { GuideView } from './components/GuideView';
+import { BlogView } from './components/BlogView';
+import { BLOG_POSTS } from './content/blogData';
 import { AuthorProfilePage } from './components/AuthorProfilePage';
 import { SalaryCalculatorPage } from './components/tools/SalaryCalculatorPage';
 import { PhotoSignatureCheckerPage } from './components/tools/PhotoSignatureCheckerPage';
@@ -46,9 +48,11 @@ import {
   Filter,
   ExternalLink,
   Pause,
+  BookOpen,
 } from 'lucide-react';
 import { RECRUITMENT_ALERTS, RecruitmentAlert } from './data/gazetteData';
 import { isAlertActive, isAlertActiveAndVerified, isAlertExpired, parsePublishDateToTimestamp } from './utils/alertStatus';
+import { NavLink } from './components/NavLink';
 
 export default function App() {
   // Initialize path from window.location
@@ -100,12 +104,17 @@ export default function App() {
   // Sync document title dynamically
   useEffect(() => {
     let title = 'GovIndiaNews - Government Jobs, Exam Utilities & Mock Tests';
+    let metaDesc = 'India\'s verified government recruitment alerts, smart calculators, and CBT examination practice platform.';
     if (currentPath.startsWith('/article/')) {
       const slug = currentPath.replace('/article/', '');
       const item = RECRUITMENT_ALERTS.find((a) => a.slug === slug);
       if (item) {
-        title = `${item.title} - GovIndiaNews`;
+        title = item.seoTitle || `${item.title} - GovIndiaNews`;
+        metaDesc = item.metaDescription || item.summary.slice(0, 155);
       }
+    } else if (currentPath === '/board-exams') {
+      title = 'Board Exams 2026–27 Notifications & Registration Forms - GovIndiaNews';
+      metaDesc = 'Official updates on CBSE, ICSE, and State Board examinations, private candidate registration, date sheets, and result announcements.';
     } else if (currentPath.startsWith('/mock-test')) {
       title = 'Online Exam Mock Test Simulator - GovIndiaNews';
     } else if (currentPath === '/tools/salary') {
@@ -146,10 +155,31 @@ export default function App() {
       title = 'Contact Editorial Desk - GovIndiaNews';
     } else if (currentPath === '/archive') {
       title = 'Archived Recruitment Notices - GovIndiaNews';
+    } else if (currentPath === '/blog') {
+      title = 'Government Jobs & Scheme Knowledge Base (Evergreen Editorial Guides) - GovIndiaNews';
+    } else if (currentPath === '/army-running-time') {
+      title = 'Indian Army 1600m Running Time, Standards & PFT Guide - GovIndiaNews';
+    } else if (currentPath.startsWith('/blog/')) {
+      const slug = currentPath.replace('/blog/', '').split('?')[0];
+      const blog = BLOG_POSTS.find((b) => b.slug === slug);
+      if (blog) {
+        title = `${blog.title} - GovIndiaNews`;
+      } else {
+        title = 'Knowledge Base & Career Guide - GovIndiaNews';
+      }
     } else if (currentPath.startsWith('/author') || currentPath.startsWith('/authors')) {
       title = 'Akash Singh Solanki - Founder & Editor | GovIndiaNews';
     }
     document.title = title;
+    if (typeof document !== 'undefined') {
+      let descTag = document.querySelector('meta[name="description"]');
+      if (!descTag) {
+        descTag = document.createElement('meta');
+        descTag.setAttribute('name', 'description');
+        document.head.appendChild(descTag);
+      }
+      descTag.setAttribute('content', metaDesc);
+    }
 
     // Dispatch page_view to Google Analytics (gtag.js)
     if (typeof window !== 'undefined' && typeof (window as any).gtag === 'function') {
@@ -289,9 +319,9 @@ export default function App() {
                     key={`${alert.id}-${idx}`}
                     className="flex items-center gap-3 shrink-0 mx-3 group"
                   >
-                    <button
-                      type="button"
-                      onClick={() => navigate(`/article/${alert.slug}`)}
+                    <NavLink
+                      href={`/article/${alert.slug}`}
+                      onNavigate={navigate}
                       title={`${alert.category === 'admit-card' ? 'Admit Card' : 'Job'}: ${alert.title}`}
                       className="font-medium text-slate-200 hover:text-white flex items-center gap-2 cursor-pointer transition-colors text-left group-hover:text-blue-300"
                     >
@@ -315,7 +345,7 @@ export default function App() {
                       <span className="max-w-[280px] sm:max-w-md md:max-w-lg lg:max-w-xl truncate text-xs font-semibold text-slate-200 group-hover:text-blue-200 group-hover:underline">
                         {alert.title}
                       </span>
-                    </button>
+                    </NavLink>
 
                     {/* Separator icon */}
                     <span className="text-slate-600 font-black select-none text-xs">◆</span>
@@ -346,14 +376,14 @@ export default function App() {
                 )}
               </button>
 
-              <button
-                type="button"
-                onClick={() => navigate('/latest-notifications')}
+              <NavLink
+                href="/jobs"
+                onNavigate={navigate}
                 className="hidden sm:inline-flex items-center gap-1 text-[11px] text-blue-400 hover:text-blue-300 font-medium shrink-0 cursor-pointer"
               >
                 <span>View All</span>
                 <ChevronRight className="w-3 h-3" />
-              </button>
+              </NavLink>
             </div>
           </div>
         </div>
@@ -490,7 +520,21 @@ export default function App() {
           </div>
         )}
 
-        {/* ROUTE 4: DIRECTORY VIEWS (/jobs, /admit-cards, /results, /answer-keys) */}
+        {/* ROUTE 4: DIRECTORY VIEWS (/board-exams, /jobs, /admit-cards, /results, /answer-keys) */}
+        {currentPath === '/board-exams' && (
+          <div className="space-y-6">
+            <div className="border-b border-slate-200 pb-3">
+              <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">
+                Board Exams 2026–27 Notifications &amp; Registration Forms
+              </h1>
+              <p className="text-xs text-slate-500 mt-1">
+                Central Board of Secondary Education (CBSE), ICSE, and State Board official notices, private candidate LOC submissions, eligibility, fees, and exam dates.
+              </p>
+            </div>
+            <RecruitmentDirectory initialCategory="board-exams" onNavigate={navigate} />
+          </div>
+        )}
+
         {currentPath === '/jobs' && (
           <div className="space-y-6">
             <div className="border-b border-slate-200 pb-3">
@@ -569,6 +613,20 @@ export default function App() {
         {(currentPath === '/guides' || currentPath.startsWith('/guides/')) && (
           <GuideView
             slug={currentPath.startsWith('/guides/') ? currentPath.replace('/guides/', '').split('?')[0] : undefined}
+            onNavigate={navigate}
+          />
+        )}
+
+        {/* ROUTE 4.9: EVERGREEN EDITORIAL BLOG & KNOWLEDGE BASE (/blog, /blog/:slug, /army-running-time) */}
+        {(currentPath === '/blog' || currentPath.startsWith('/blog/') || currentPath === '/army-running-time') && (
+          <BlogView
+            slug={
+              currentPath === '/army-running-time'
+                ? 'army-1600-meter-running-time-agniveer-pft-standards'
+                : currentPath.startsWith('/blog/')
+                ? currentPath.replace('/blog/', '').split('?')[0]
+                : undefined
+            }
             onNavigate={navigate}
           />
         )}
@@ -659,13 +717,14 @@ export default function App() {
                     />
                   </div>
 
-                  <button
-                    onClick={() => navigate('/mock-test/ssc-cgl-tier1')}
+                  <NavLink
+                    href="/mock-test/ssc-cgl-tier1"
+                    onNavigate={navigate}
                     className="px-5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold rounded-xl transition-all shadow-sm flex items-center justify-center gap-2 cursor-pointer shrink-0"
                   >
                     <Play className="w-3.5 h-3.5 fill-current" />
                     <span>Launch PYQ Test</span>
-                  </button>
+                  </NavLink>
                 </div>
               </div>
             </section>
@@ -719,13 +778,14 @@ export default function App() {
 
                 {/* CTAs */}
                 <div className="flex flex-wrap items-center gap-3 pt-2">
-                  <button
-                    onClick={() => navigate('/article/nicl-ao-recruitment-2026-notification')}
+                  <NavLink
+                    href="/article/nicl-ao-recruitment-2026-notification"
+                    onNavigate={navigate}
                     className="px-5 py-2.5 bg-blue-500 hover:bg-blue-400 text-white text-xs font-bold rounded-xl transition-all shadow-md flex items-center gap-2 cursor-pointer"
                   >
                     <span>Read Complete Notification Details</span>
                     <ArrowRight className="w-4 h-4" />
-                  </button>
+                  </NavLink>
 
                   <a
                     href="https://ibpsonline.ibps.in/"
@@ -747,13 +807,14 @@ export default function App() {
                     <ExternalLink className="w-3.5 h-3.5" />
                   </a>
 
-                  <button
-                    onClick={() => navigate('/tools/age')}
+                  <NavLink
+                    href="/tools/age"
+                    onNavigate={navigate}
                     className="px-4 py-2.5 bg-white/10 hover:bg-white/20 text-blue-200 hover:text-white text-xs font-semibold rounded-xl border border-white/15 transition-all flex items-center gap-1.5 cursor-pointer"
                   >
                     <span>Check Age Eligibility (21-30)</span>
                     <ChevronRight className="w-3.5 h-3.5" />
-                  </button>
+                  </NavLink>
                 </div>
               </div>
             </section>
@@ -767,19 +828,21 @@ export default function App() {
                     Accurate, in-browser tools built directly from central recruitment gazettes.
                   </p>
                 </div>
-                <button
-                  onClick={() => navigate('/tools')}
+                <NavLink
+                  href="/tools"
+                  onNavigate={navigate}
                   className="text-xs font-bold text-blue-600 hover:text-blue-800 flex items-center gap-1 cursor-pointer"
                 >
                   <span>View All 5 Tools</span>
                   <ArrowRight className="w-3.5 h-3.5" />
-                </button>
+                </NavLink>
               </div>
 
               {/* Highlighted Banner for Instant Eligibility Matcher */}
-              <div
-                onClick={() => navigate('/tools/eligibility')}
-                className="mb-5 p-5 sm:p-6 rounded-2xl bg-gradient-to-r from-emerald-950 via-slate-900 to-blue-950 text-white border border-emerald-600/40 shadow-sm hover:border-emerald-400 hover:shadow-md transition-all cursor-pointer flex flex-col sm:flex-row sm:items-center justify-between gap-4 group"
+              <NavLink
+                href="/tools/eligibility"
+                onNavigate={navigate}
+                className="mb-5 p-5 sm:p-6 rounded-2xl bg-gradient-to-r from-emerald-950 via-slate-900 to-blue-950 text-white border border-emerald-600/40 shadow-sm hover:border-emerald-400 hover:shadow-md transition-all cursor-pointer flex flex-col sm:flex-row sm:items-center justify-between gap-4 group block"
               >
                 <div className="flex items-start sm:items-center gap-4">
                   <div className="w-12 h-12 rounded-2xl bg-emerald-500/20 text-emerald-300 border border-emerald-400/30 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
@@ -799,20 +862,20 @@ export default function App() {
                   </div>
                 </div>
 
-                <button
-                  type="button"
+                <div
                   className="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold rounded-xl transition-all shadow-xs flex items-center gap-1.5 shrink-0 self-start sm:self-auto group-hover:translate-x-0.5"
                 >
                   <span>Check My Eligibility</span>
                   <ArrowRight className="w-4 h-4" />
-                </button>
-              </div>
+                </div>
+              </NavLink>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 {/* Tool 1 */}
-                <div
-                  onClick={() => navigate('/tools/age')}
-                  className="bg-white p-5 rounded-xl border border-slate-200 hover:border-blue-400 hover:shadow-xs transition-all cursor-pointer group flex flex-col justify-between"
+                <NavLink
+                  href="/tools/age"
+                  onNavigate={navigate}
+                  className="bg-white p-5 rounded-xl border border-slate-200 hover:border-blue-400 hover:shadow-xs transition-all cursor-pointer group flex flex-col justify-between block"
                 >
                   <div>
                     <div className="w-10 h-10 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center mb-3 group-hover:scale-105 transition-transform">
@@ -829,12 +892,13 @@ export default function App() {
                     <span>Calculate Age</span>
                     <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                   </div>
-                </div>
+                </NavLink>
 
                 {/* Tool 2 */}
-                <div
-                  onClick={() => navigate('/tools/marking')}
-                  className="bg-white p-5 rounded-xl border border-slate-200 hover:border-blue-400 hover:shadow-xs transition-all cursor-pointer group flex flex-col justify-between"
+                <NavLink
+                  href="/tools/marking"
+                  onNavigate={navigate}
+                  className="bg-white p-5 rounded-xl border border-slate-200 hover:border-blue-400 hover:shadow-xs transition-all cursor-pointer group flex flex-col justify-between block"
                 >
                   <div>
                     <div className="w-10 h-10 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center mb-3 group-hover:scale-105 transition-transform">
@@ -851,12 +915,13 @@ export default function App() {
                     <span>Calculate Score</span>
                     <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                   </div>
-                </div>
+                </NavLink>
 
                 {/* Tool 3 */}
-                <div
-                  onClick={() => navigate('/tools/height')}
-                  className="bg-white p-5 rounded-xl border border-slate-200 hover:border-blue-400 hover:shadow-xs transition-all cursor-pointer group flex flex-col justify-between"
+                <NavLink
+                  href="/tools/height"
+                  onNavigate={navigate}
+                  className="bg-white p-5 rounded-xl border border-slate-200 hover:border-blue-400 hover:shadow-xs transition-all cursor-pointer group flex flex-col justify-between block"
                 >
                   <div>
                     <div className="w-10 h-10 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center mb-3 group-hover:scale-105 transition-transform">
@@ -873,12 +938,13 @@ export default function App() {
                     <span>Check Height Standard</span>
                     <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                   </div>
-                </div>
+                </NavLink>
 
                 {/* Tool 4 */}
-                <div
-                  onClick={() => navigate('/tools/rank')}
-                  className="bg-white p-5 rounded-xl border border-slate-200 hover:border-blue-400 hover:shadow-xs transition-all cursor-pointer group flex flex-col justify-between"
+                <NavLink
+                  href="/tools/rank"
+                  onNavigate={navigate}
+                  className="bg-white p-5 rounded-xl border border-slate-200 hover:border-blue-400 hover:shadow-xs transition-all cursor-pointer group flex flex-col justify-between block"
                 >
                   <div>
                     <div className="w-10 h-10 rounded-lg bg-purple-50 text-purple-600 flex items-center justify-center mb-3 group-hover:scale-105 transition-transform">
@@ -895,7 +961,7 @@ export default function App() {
                     <span>Predict Rank</span>
                     <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                   </div>
-                </div>
+                </NavLink>
               </div>
             </section>
 
@@ -973,16 +1039,92 @@ export default function App() {
                     Click any notice below to read the comprehensive article with tables, deadlines, and direct apply links.
                   </p>
                 </div>
-                <button
-                  onClick={() => navigate('/jobs')}
+                <NavLink
+                  href="/jobs"
+                  onNavigate={navigate}
                   className="text-xs font-bold text-blue-600 hover:text-blue-800 flex items-center gap-1 cursor-pointer"
                 >
                   <span>View All Jobs</span>
                   <ArrowRight className="w-3.5 h-3.5" />
-                </button>
+                </NavLink>
               </div>
 
               <RecruitmentDirectory initialCategory="all" onNavigate={navigate} />
+            </section>
+
+            {/* Evergreen Knowledge Base & Government Schemes Section */}
+            <section className="space-y-4">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-200 pb-3">
+                <div>
+                  <div className="flex items-center gap-2">
+                    <span className="p-1 rounded-md bg-blue-50 text-blue-700">
+                      <BookOpen className="w-4 h-4" />
+                    </span>
+                    <h2 className="text-lg font-bold text-slate-900 tracking-tight">
+                      Evergreen Knowledge Base & Schemes
+                    </h2>
+                    <span className="hidden sm:inline-block px-2 py-0.5 rounded text-[10px] font-extrabold uppercase bg-emerald-50 text-emerald-800 border border-emerald-200">
+                      Long-Term Reference
+                    </span>
+                  </div>
+                  <p className="text-xs text-slate-500 mt-1">
+                    Indispensable reference guides on physical rally standards, skill development schemes (PMKVY 4.0 / NAPS), and career pathways.
+                  </p>
+                </div>
+                <NavLink
+                  href="/blog"
+                  onNavigate={navigate}
+                  className="text-xs font-bold text-blue-700 hover:text-blue-900 flex items-center gap-1.5 cursor-pointer self-start sm:self-auto shrink-0 bg-blue-50 hover:bg-blue-100 px-3 py-1.5 rounded-lg border border-blue-200 transition-colors"
+                >
+                  <span>View All Articles & Schemes</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </NavLink>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {BLOG_POSTS.slice(0, 3).map((post) => (
+                  <NavLink
+                    key={post.slug}
+                    href={`/blog/${post.slug}`}
+                    onNavigate={navigate}
+                    className="p-5 bg-white rounded-2xl border border-slate-200 hover:border-blue-400 hover:shadow-sm transition-all cursor-pointer flex flex-col justify-between group block"
+                  >
+                    <div className="space-y-2.5">
+                      <div className="flex items-center justify-between gap-2">
+                        <span
+                          className={`text-[10px] uppercase font-bold px-2 py-0.5 rounded ${
+                            post.category === 'fitness'
+                              ? 'bg-emerald-50 text-emerald-800 border border-emerald-200'
+                              : post.category === 'government-schemes'
+                              ? 'bg-purple-50 text-purple-800 border border-purple-200'
+                              : post.category === 'career-guide'
+                              ? 'bg-blue-50 text-blue-800 border border-blue-200'
+                              : 'bg-amber-50 text-amber-800 border border-amber-200'
+                          }`}
+                        >
+                          {post.categoryLabel}
+                        </span>
+                        <span className="text-[11px] text-slate-400 font-medium">
+                          {post.readingTime}
+                        </span>
+                      </div>
+
+                      <h3 className="font-bold text-sm text-slate-900 group-hover:text-blue-700 transition-colors leading-snug line-clamp-2">
+                        {post.title}
+                      </h3>
+
+                      <p className="text-xs text-slate-600 line-clamp-3 leading-relaxed">
+                        {post.summary}
+                      </p>
+                    </div>
+
+                    <div className="pt-3 mt-3 border-t border-slate-100 flex items-center justify-between text-xs font-semibold text-blue-700">
+                      <span className="group-hover:underline">Read Full Article</span>
+                      <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                    </div>
+                  </NavLink>
+                ))}
+              </div>
             </section>
 
             {/* GovIndiaNews Trust & Transparency Section */}
@@ -1077,13 +1219,14 @@ export default function App() {
                     {searchResults.length} Results Found
                   </div>
                   {searchResults.map((item) => (
-                    <div
+                    <NavLink
                       key={item.id}
-                      onClick={() => {
+                      href={`/article/${item.slug}`}
+                      onNavigate={(path) => {
                         setIsSearchModalOpen(false);
-                        navigate(`/article/${item.slug}`);
+                        navigate(path);
                       }}
-                      className="p-3 rounded-lg border border-slate-200 hover:border-blue-400 hover:bg-blue-50/30 transition-all cursor-pointer"
+                      className="p-3 rounded-lg border border-slate-200 hover:border-blue-400 hover:bg-blue-50/30 transition-all cursor-pointer block"
                     >
                       <div className="flex items-center gap-2 text-[11px] text-slate-500 mb-1">
                         <span className="font-semibold text-blue-700">{item.organization}</span>
@@ -1101,7 +1244,7 @@ export default function App() {
                       </div>
                       <h4 className="text-xs font-bold text-slate-900 leading-snug">{item.title}</h4>
                       <p className="text-[11px] text-slate-600 line-clamp-1 mt-1">{item.summary}</p>
-                    </div>
+                    </NavLink>
                   ))}
                 </div>
               ) : (

@@ -33,6 +33,8 @@ import { PhotoSignatureResizerModal } from './PhotoSignatureResizerModal';
 import { SocialAlertBanner } from './SocialAlertBanner';
 import { EliteJobTemplate } from './EliteJobTemplate';
 import { EliteAdmitCardTemplate } from './EliteAdmitCardTemplate';
+import { EliteBoardExamTemplate } from './EliteBoardExamTemplate';
+import { NavLink } from './NavLink';
 
 interface ArticleViewProps {
   article: RecruitmentAlert;
@@ -56,7 +58,7 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
       article.category === 'jobs' ? buildJobPostingSchema(article) : buildNewsArticleSchema(article),
       buildBreadcrumbSchema([
         { name: 'Home', url: '/' },
-        { name: getCategoryLabel(article.category), url: `/?tab=${article.category}` },
+        { name: getCategoryLabel(article.category), url: getCategoryPath(article.category) },
         { name: article.title, url: `/article/${article.slug}` },
       ]),
     ];
@@ -89,6 +91,8 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
 
   const getCategoryLabel = (cat: string) => {
     switch (cat) {
+      case 'board-exams':
+        return 'Board Exams';
       case 'jobs':
         return 'Latest Jobs';
       case 'admit-card':
@@ -104,6 +108,25 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
     }
   };
 
+  const getCategoryPath = (cat: string) => {
+    switch (cat) {
+      case 'board-exams':
+        return '/board-exams';
+      case 'jobs':
+        return '/jobs';
+      case 'admit-card':
+        return '/admit-card';
+      case 'answer-key':
+        return '/answer-key';
+      case 'cut-off':
+        return '/cut-off';
+      case 'result':
+        return '/results';
+      default:
+        return `/?tab=${cat}`;
+    }
+  };
+
   const primarySchema =
     article.category === 'jobs'
       ? buildJobPostingSchema(article)
@@ -111,7 +134,7 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
 
   const breadcrumbSchema = buildBreadcrumbSchema([
     { name: 'Home', url: '/' },
-    { name: getCategoryLabel(article.category), url: `/?tab=${article.category}` },
+    { name: getCategoryLabel(article.category), url: getCategoryPath(article.category) },
     { name: article.title, url: `/article/${article.slug}` },
   ]);
 
@@ -223,14 +246,7 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
               <span className="text-slate-500 text-[11px]">
                 checked {article.sourceNotice?.checkedOn || article.publishDate || 'recently'}
               </span>
-              <button
-                type="button"
-                onClick={() => onNavigate('/trust/editorial')}
-                className="ml-auto text-[11px] text-slate-600 hover:text-slate-900 font-semibold hover:underline cursor-pointer flex items-center gap-1"
-              >
-                <span>Editorial Policy</span>
-                <ChevronRight className="w-3 h-3" />
-              </button>
+              <NavLink href="/trust/editorial" onNavigate={onNavigate} className="ml-auto text-[11px] text-slate-600 hover:text-slate-900 font-semibold hover:underline cursor-pointer flex items-center gap-1"><span>Editorial Policy</span><ChevronRight className="w-3 h-3" /></NavLink>
             </div>
 
             {/* Author Editorial Byline */}
@@ -242,13 +258,7 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
                   {author.initials}
                 </div>
                 <div className="flex items-center gap-2 flex-wrap">
-                  <button
-                    type="button"
-                    onClick={() => onNavigate(`/author/${author.id}`)}
-                    className="font-bold text-slate-900 hover:text-blue-700 hover:underline cursor-pointer text-left"
-                  >
-                    {author.name}
-                  </button>
+                  <NavLink href={`/author/${author.id}`} onNavigate={onNavigate} className="font-bold text-slate-900 hover:text-blue-700 hover:underline cursor-pointer text-left">{author.name}</NavLink>
                   <span className="text-slate-300">·</span>
                   <span className="text-[11px] text-slate-500">{author.designation}</span>
                 </div>
@@ -259,13 +269,7 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
                 <span className="text-slate-300">·</span>
                 <span>{article.readTime}</span>
                 <span className="text-slate-300">·</span>
-                <button
-                  type="button"
-                  onClick={() => onNavigate(`/author/${author.id}`)}
-                  className="text-blue-700 hover:underline font-semibold cursor-pointer"
-                >
-                  Author Profile →
-                </button>
+                <NavLink href={`/author/${author.id}`} onNavigate={onNavigate} className="text-blue-700 hover:underline font-semibold cursor-pointer">Author Profile →</NavLink>
               </div>
             </div>
 
@@ -308,23 +312,10 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
               </a>
 
               {article.calculatorToolType && (
-                <button
-                  type="button"
-                  onClick={() => onNavigate(`/tools/${article.calculatorToolType}`)}
-                  className="px-4 py-2 text-xs font-semibold text-blue-700 bg-blue-50 hover:bg-blue-100 border border-blue-200 rounded-lg transition-colors flex items-center gap-1.5 cursor-pointer"
-                >
-                  <span>Check Eligibility Calculator</span>
-                  <ChevronRight className="w-3.5 h-3.5" />
-                </button>
+                <NavLink href={`/tools/${article.calculatorToolType}`} onNavigate={onNavigate} className="px-4 py-2 text-xs font-semibold text-blue-700 bg-blue-50 hover:bg-blue-100 border border-blue-200 rounded-lg transition-colors flex items-center gap-1.5 cursor-pointer"><span>Check Eligibility Calculator</span><ChevronRight className="w-3.5 h-3.5" /></NavLink>
               )}
 
-              <button
-                type="button"
-                onClick={() => onNavigate('/mock-test/ssc-cgl-tier1')}
-                className="px-4 py-2 text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 border border-slate-200 rounded-lg transition-colors flex items-center gap-1.5 cursor-pointer"
-              >
-                <span>CBT-Style Practice Test</span>
-              </button>
+              <NavLink href="/mock-test/ssc-cgl-tier1" onNavigate={onNavigate} className="px-4 py-2 text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 border border-slate-200 rounded-lg transition-colors flex items-center gap-1.5 cursor-pointer"><span>CBT-Style Practice Test</span></NavLink>
 
               <CalendarSyncButton
                 title={article.title}
@@ -359,6 +350,8 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
           {/* MAIN ARTICLE BODY: Rendered via Elite Templates */}
           {article.category === 'admit-card' ? (
             <EliteAdmitCardTemplate article={article} onNavigate={onNavigate} />
+          ) : article.category === 'board-exams' ? (
+            <EliteBoardExamTemplate article={article} onNavigate={onNavigate} />
           ) : (
             <EliteJobTemplate article={article} onNavigate={onNavigate} />
           )}
@@ -369,13 +362,7 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
               <AlertCircle className="w-4 h-4 text-amber-600 shrink-0" />
               <span>Found an error or outdated figure in this notification?</span>
             </div>
-            <button
-              type="button"
-              onClick={() => onNavigate('/corrections')}
-              className="text-blue-700 hover:underline font-semibold cursor-pointer text-xs"
-            >
-              Submit a Correction →
-            </button>
+            <NavLink href="/corrections" onNavigate={onNavigate} className="text-blue-700 hover:underline font-semibold cursor-pointer text-xs">Submit a Correction →</NavLink>
           </div>
 
           {/* Editorial Accountability Section */}
@@ -448,21 +435,8 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
                 Editorial Contact: <strong className="text-slate-800">{author.contactEmail}</strong>
               </span>
               <div className="flex items-center gap-2">
-                <button
-                  type="button"
-                  onClick={() => onNavigate(`/author/${author.id}`)}
-                  className="px-3.5 py-1.5 font-bold text-xs text-blue-700 bg-blue-50 hover:bg-blue-100 border border-blue-200 rounded-lg transition-colors cursor-pointer flex items-center gap-1.5"
-                >
-                  <span>Author Profile</span>
-                  <ChevronRight className="w-3 h-3" />
-                </button>
-                <button
-                  type="button"
-                  onClick={() => onNavigate('/about')}
-                  className="px-3 py-1.5 font-semibold text-xs text-slate-600 hover:text-slate-900 underline cursor-pointer"
-                >
-                  About GovIndiaNews →
-                </button>
+                <NavLink href={`/author/${author.id}`} onNavigate={onNavigate} className="px-3.5 py-1.5 font-bold text-xs text-blue-700 bg-blue-50 hover:bg-blue-100 border border-blue-200 rounded-lg transition-colors cursor-pointer flex items-center gap-1.5"><span>Author Profile</span><ChevronRight className="w-3 h-3" /></NavLink>
+                <NavLink href="/about" onNavigate={onNavigate} className="px-3 py-1.5 font-semibold text-xs text-slate-600 hover:text-slate-900 underline cursor-pointer">About GovIndiaNews →</NavLink>
               </div>
             </div>
           </div>
@@ -487,14 +461,14 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
             <p className="text-xs text-slate-300 leading-relaxed">
               Computer-based test practice with live countdown timer, 5-state question palette, negative marking, and verified answer keys.
             </p>
-            <button
-              type="button"
-              onClick={() => onNavigate('/mock-test/ssc-cgl-tier1')}
+            <NavLink
+              href="/mock-test/ssc-cgl-tier1"
+              onNavigate={onNavigate}
               className="w-full py-2.5 text-xs font-bold text-white bg-blue-600 hover:bg-blue-500 rounded-lg transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-xs mt-2"
             >
               <span>Launch Practice Test</span>
               <ChevronRight className="w-3.5 h-3.5" />
-            </button>
+            </NavLink>
           </div>
 
           {/* Quick Tools Box */}
@@ -503,62 +477,62 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
               Smart Exam Tools
             </h4>
             <div className="space-y-2 text-xs">
-              <button
-                type="button"
-                onClick={() => onNavigate('/tools/salary')}
+              <NavLink
+                href="/tools/salary"
+                onNavigate={onNavigate}
                 className="w-full p-2.5 rounded-lg border border-slate-200 hover:border-blue-400 hover:bg-blue-50/30 text-left transition-colors cursor-pointer flex items-center justify-between"
               >
                 <span className="font-semibold text-slate-800">7th CPC In-Hand Salary Calculator</span>
                 <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
-              </button>
-              <button
-                type="button"
-                onClick={() => onNavigate('/tools/photo-checker')}
+              </NavLink>
+              <NavLink
+                href="/tools/photo-checker"
+                onNavigate={onNavigate}
                 className="w-full p-2.5 rounded-lg border border-slate-200 hover:border-blue-400 hover:bg-blue-50/30 text-left transition-colors cursor-pointer flex items-center justify-between"
               >
                 <span className="font-semibold text-slate-800">Photo & Signature Checker</span>
                 <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
-              </button>
-              <button
-                type="button"
-                onClick={() => onNavigate('/tools/relaxation')}
+              </NavLink>
+              <NavLink
+                href="/tools/relaxation"
+                onNavigate={onNavigate}
                 className="w-full p-2.5 rounded-lg border border-slate-200 hover:border-blue-400 hover:bg-blue-50/30 text-left transition-colors cursor-pointer flex items-center justify-between"
               >
                 <span className="font-semibold text-slate-800">Fee & Age Relaxation Calculator</span>
                 <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
-              </button>
-              <button
-                type="button"
-                onClick={() => onNavigate('/tools/age')}
+              </NavLink>
+              <NavLink
+                href="/tools/age"
+                onNavigate={onNavigate}
                 className="w-full p-2.5 rounded-lg border border-slate-200 hover:border-blue-400 hover:bg-blue-50/30 text-left transition-colors cursor-pointer flex items-center justify-between"
               >
                 <span className="font-semibold text-slate-800">Age Cut-off Calculator</span>
                 <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
-              </button>
-              <button
-                type="button"
-                onClick={() => onNavigate('/tools/marking')}
+              </NavLink>
+              <NavLink
+                href="/tools/marking"
+                onNavigate={onNavigate}
                 className="w-full p-2.5 rounded-lg border border-slate-200 hover:border-blue-400 hover:bg-blue-50/30 text-left transition-colors cursor-pointer flex items-center justify-between"
               >
                 <span className="font-semibold text-slate-800">Negative Marking Score</span>
                 <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
-              </button>
-              <button
-                type="button"
-                onClick={() => onNavigate('/tools/height')}
+              </NavLink>
+              <NavLink
+                href="/tools/height"
+                onNavigate={onNavigate}
                 className="w-full p-2.5 rounded-lg border border-slate-200 hover:border-blue-400 hover:bg-blue-50/30 text-left transition-colors cursor-pointer flex items-center justify-between"
               >
                 <span className="font-semibold text-slate-800">Physical Height Checker</span>
                 <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
-              </button>
-              <button
-                type="button"
-                onClick={() => onNavigate('/tools/rank')}
+              </NavLink>
+              <NavLink
+                href="/tools/rank"
+                onNavigate={onNavigate}
                 className="w-full p-2.5 rounded-lg border border-slate-200 hover:border-blue-400 hover:bg-blue-50/30 text-left transition-colors cursor-pointer flex items-center justify-between"
               >
                 <span className="font-semibold text-slate-800">Rank & Normalization</span>
                 <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
-              </button>
+              </NavLink>
             </div>
           </div>
 
@@ -572,30 +546,9 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
               GovIndiaNews is an independent news portal. For corrections, queries, or editorial inquiries:
             </p>
             <div className="space-y-1.5 pt-1 text-xs">
-              <button
-                type="button"
-                onClick={() => onNavigate('/trust/editorial')}
-                className="w-full py-1.5 text-left text-blue-600 font-semibold hover:underline flex items-center justify-between cursor-pointer"
-              >
-                <span>Editorial Policy</span>
-                <ChevronRight className="w-3 h-3 text-slate-400" />
-              </button>
-              <button
-                type="button"
-                onClick={() => onNavigate('/corrections')}
-                className="w-full py-1.5 text-left text-blue-600 font-semibold hover:underline flex items-center justify-between cursor-pointer"
-              >
-                <span>Submit a Correction</span>
-                <ChevronRight className="w-3 h-3 text-slate-400" />
-              </button>
-              <button
-                type="button"
-                onClick={() => onNavigate('/contact')}
-                className="w-full py-1.5 text-left text-blue-600 font-semibold hover:underline flex items-center justify-between cursor-pointer"
-              >
-                <span>Contact Editorial Desk</span>
-                <ChevronRight className="w-3 h-3 text-slate-400" />
-              </button>
+              <NavLink href="/trust/editorial" onNavigate={onNavigate} className="w-full py-1.5 text-left text-blue-600 font-semibold hover:underline flex items-center justify-between cursor-pointer"><span>Editorial Policy</span><ChevronRight className="w-3 h-3 text-slate-400" /></NavLink>
+              <NavLink href="/corrections" onNavigate={onNavigate} className="w-full py-1.5 text-left text-blue-600 font-semibold hover:underline flex items-center justify-between cursor-pointer"><span>Submit a Correction</span><ChevronRight className="w-3.5 h-3.5 text-slate-400" /></NavLink>
+              <NavLink href="/contact" onNavigate={onNavigate} className="w-full py-1.5 text-left text-blue-600 font-semibold hover:underline flex items-center justify-between cursor-pointer"><span>Contact Editorial Desk</span><ChevronRight className="w-3.5 h-3.5 text-slate-400" /></NavLink>
             </div>
           </div>
 
@@ -606,16 +559,7 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
             </h4>
             <div className="divide-y divide-slate-100 text-xs">
               {relatedArticles.slice(0, 4).map((rel) => (
-                <div
-                  key={rel.id}
-                  onClick={() => onNavigate(`/article/${rel.slug}`)}
-                  className="py-2.5 first:pt-0 last:pb-0 hover:text-blue-600 transition-colors cursor-pointer group"
-                >
-                  <div className="text-[11px] text-slate-400 mb-0.5">{rel.organization}</div>
-                  <h5 className="font-semibold text-slate-800 group-hover:text-blue-600 line-clamp-2 leading-snug">
-                    {rel.title}
-                  </h5>
-                </div>
+                <NavLink key={rel.id} href={`/article/${rel.slug}`} onNavigate={onNavigate} className="py-2.5 first:pt-0 last:pb-0 hover:text-blue-600 transition-colors cursor-pointer group block"><div className="text-[11px] text-slate-400 mb-0.5">{rel.organization}</div><h5 className="font-semibold text-slate-800 group-hover:text-blue-600 line-clamp-2 leading-snug">{rel.title}</h5></NavLink>
               ))}
             </div>
           </div>

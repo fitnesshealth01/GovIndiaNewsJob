@@ -20,6 +20,7 @@ import {
   injectSchema,
 } from '../utils/seoSchema';
 import { PhysicalFitnessCountdown } from './tools/PhysicalFitnessCountdown';
+import { NavLink } from './NavLink';
 
 interface GuideViewProps {
   slug?: string;
@@ -120,10 +121,11 @@ export const GuideView: React.FC<GuideViewProps> = ({ slug, onNavigate }) => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           {filtered.map((item) => (
-            <div
+            <NavLink
               key={item.slug}
-              onClick={() => onNavigate(`/guides/${item.slug}`)}
-              className="p-6 bg-white rounded-2xl border border-stone-200 hover:border-blue-400 hover:shadow-sm transition-all cursor-pointer space-y-3 flex flex-col justify-between"
+              href={`/guides/${item.slug}`}
+              onNavigate={onNavigate}
+              className="p-6 bg-white rounded-2xl border border-stone-200 hover:border-blue-400 hover:shadow-sm transition-all cursor-pointer space-y-3 flex flex-col justify-between block"
             >
               <div className="space-y-2.5">
                 <div className="flex items-center justify-between text-[11px] text-stone-500">
@@ -144,7 +146,7 @@ export const GuideView: React.FC<GuideViewProps> = ({ slug, onNavigate }) => {
                 <span>Read Masterclass</span>
                 <ChevronRight className="w-4 h-4" />
               </div>
-            </div>
+            </NavLink>
           ))}
         </div>
       </div>
@@ -156,19 +158,21 @@ export const GuideView: React.FC<GuideViewProps> = ({ slug, onNavigate }) => {
     <div className="max-w-4xl mx-auto space-y-8">
       {/* Breadcrumb Navigation */}
       <div className="flex items-center gap-1.5 text-xs text-stone-500">
-        <button
-          onClick={() => onNavigate('/')}
+        <NavLink
+          href="/"
+          onNavigate={onNavigate}
           className="hover:text-blue-700 cursor-pointer"
         >
           Home
-        </button>
+        </NavLink>
         <ChevronRight className="w-3 h-3 text-stone-400" />
-        <button
-          onClick={() => onNavigate('/guides')}
+        <NavLink
+          href="/guides"
+          onNavigate={onNavigate}
           className="hover:text-blue-700 cursor-pointer"
         >
           Guides
-        </button>
+        </NavLink>
         <ChevronRight className="w-3 h-3 text-stone-400" />
         <span className="text-stone-900 font-medium truncate">{guide.title}</span>
       </div>
@@ -393,18 +397,20 @@ export const GuideView: React.FC<GuideViewProps> = ({ slug, onNavigate }) => {
 
       {/* Back to Guides */}
       <div className="pt-4 flex justify-between items-center text-xs">
-        <button
-          onClick={() => onNavigate('/guides')}
+        <NavLink
+          href="/guides"
+          onNavigate={onNavigate}
           className="text-blue-700 hover:underline font-semibold cursor-pointer"
         >
           ← Back to All Application Guides
-        </button>
-        <button
-          onClick={() => onNavigate('/corrections')}
+        </NavLink>
+        <NavLink
+          href="/corrections"
+          onNavigate={onNavigate}
           className="text-stone-500 hover:text-stone-800 cursor-pointer"
         >
           Report a factual correction on this guide
-        </button>
+        </NavLink>
       </div>
     </div>
   );

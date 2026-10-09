@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { RECRUITMENT_ALERTS, RecruitmentAlert } from '../data/gazetteData';
 import { isAlertActive, isAlertExpired } from '../utils/alertStatus';
+import { NavLink } from './NavLink';
 import {
   Briefcase,
   FileCheck,
@@ -67,6 +68,7 @@ export const RecruitmentDirectory: React.FC<RecruitmentDirectoryProps> = ({
   const categories = [
     { id: 'all', label: 'All Updates', icon: Briefcase },
     { id: 'jobs', label: 'Latest Jobs', icon: Briefcase },
+    { id: 'board-exams', label: 'Board Exams', icon: GraduationCap },
     { id: 'admit-card', label: 'Admit Cards', icon: FileCheck },
     { id: 'answer-key', label: 'Answer Keys', icon: KeyRound },
     { id: 'cut-off', label: 'Cut-Off Marks', icon: GraduationCap },
@@ -245,7 +247,9 @@ export const RecruitmentDirectory: React.FC<RecruitmentDirectoryProps> = ({
                   <div className="flex items-center justify-between gap-2 mb-2.5">
                     <div className="flex items-center flex-wrap gap-x-2 gap-y-1 text-xs text-slate-500">
                       <span className={`text-[10px] font-bold px-2 py-0.5 rounded tracking-wide uppercase ${
-                        item.category === 'admit-card'
+                        item.category === 'board-exams'
+                          ? 'bg-indigo-100 text-indigo-800 border border-indigo-200'
+                          : item.category === 'admit-card'
                           ? 'bg-purple-100 text-purple-800 border border-purple-200'
                           : item.category === 'jobs'
                           ? 'bg-blue-100 text-blue-800 border border-blue-200'
@@ -253,7 +257,7 @@ export const RecruitmentDirectory: React.FC<RecruitmentDirectoryProps> = ({
                           ? 'bg-emerald-100 text-emerald-800 border border-emerald-200'
                           : 'bg-amber-100 text-amber-800 border border-amber-200'
                       }`}>
-                        {item.category === 'admit-card' ? 'Admit Card' : item.category === 'jobs' ? 'Recruitment' : item.category}
+                        {item.category === 'board-exams' ? 'Board Exams' : item.category === 'admit-card' ? 'Admit Card' : item.category === 'jobs' ? 'Recruitment' : item.category}
                       </span>
                       {item.status === 'verified' ? (
                         <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
@@ -324,11 +328,14 @@ export const RecruitmentDirectory: React.FC<RecruitmentDirectoryProps> = ({
                   </div>
 
                   {/* Card Title */}
-                  <h3
-                    onClick={() => onNavigate(`/article/${item.slug}`)}
-                    className="text-base font-bold text-slate-900 group-hover:text-blue-600 transition-colors cursor-pointer leading-snug"
-                  >
-                    {item.title}
+                  <h3 className="text-base font-bold text-slate-900 group-hover:text-blue-600 transition-colors leading-snug">
+                    <NavLink
+                      href={`/article/${item.slug}`}
+                      onNavigate={onNavigate}
+                      className="hover:text-blue-600 block"
+                    >
+                      {item.title}
+                    </NavLink>
                   </h3>
 
                   {/* Summary */}
@@ -361,14 +368,14 @@ export const RecruitmentDirectory: React.FC<RecruitmentDirectoryProps> = ({
                     {item.qualification}
                   </span>
 
-                  <button
-                    type="button"
-                    onClick={() => onNavigate(`/article/${item.slug}`)}
+                  <NavLink
+                    href={`/article/${item.slug}`}
+                    onNavigate={onNavigate}
                     className="text-blue-600 hover:text-blue-800 font-semibold flex items-center gap-1 shrink-0 group-hover:translate-x-0.5 transition-transform cursor-pointer"
                   >
                     <span>Read Full Gazette</span>
                     <ChevronRight className="w-3.5 h-3.5" />
-                  </button>
+                  </NavLink>
                 </div>
               </div>
             );

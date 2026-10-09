@@ -1,6 +1,7 @@
 import React from 'react';
 import { Home, ChevronRight } from 'lucide-react';
 import { RECRUITMENT_ALERTS } from '../data/gazetteData';
+import { NavLink } from './NavLink';
 
 export interface BreadcrumbItem {
   label: string;
@@ -33,6 +34,7 @@ export const Breadcrumb: React.FC<BreadcrumbProps> = ({
 
     if (article) {
       const categoryMap: Record<string, { label: string; path: string }> = {
+        'board-exams': { label: 'Board Exams', path: '/board-exams' },
         jobs: { label: 'Latest Jobs', path: '/jobs' },
         'admit-card': { label: 'Admit Cards', path: '/admit-card' },
         'cut-off': { label: 'Cut-Off Marks', path: '/cut-off' },
@@ -83,6 +85,8 @@ export const Breadcrumb: React.FC<BreadcrumbProps> = ({
     items.push({ label: 'Exam Calculators', isCurrent: true });
   } else if (currentPath.startsWith('/mock-test') || currentPath === '/mock-tests') {
     items.push({ label: 'CBT-Style Practice Test', isCurrent: true });
+  } else if (currentPath === '/board-exams') {
+    items.push({ label: 'Board Exams 2026–27', isCurrent: true });
   } else if (currentPath === '/jobs') {
     items.push({ label: 'Latest Govt Jobs 2026', isCurrent: true });
   } else if (currentPath === '/admit-card') {
@@ -159,21 +163,23 @@ export const Breadcrumb: React.FC<BreadcrumbProps> = ({
                     )}
 
                     {idx === 0 ? (
-                      <button
-                        onClick={() => onNavigate('/')}
+                      <NavLink
+                        href="/"
+                        onNavigate={onNavigate}
                         className="flex items-center gap-1 font-semibold text-slate-700 hover:text-blue-700 transition-colors cursor-pointer shrink-0"
                         title="Return to GovIndiaNews Homepage"
                       >
                         <Home className="w-3.5 h-3.5 text-slate-500" />
                         <span>Home</span>
-                      </button>
+                      </NavLink>
                     ) : item.path && !isLast ? (
-                      <button
-                        onClick={() => onNavigate(item.path!)}
+                      <NavLink
+                        href={item.path}
+                        onNavigate={onNavigate}
                         className="font-semibold text-slate-700 hover:text-blue-700 transition-colors cursor-pointer shrink-0"
                       >
                         {item.label}
-                      </button>
+                      </NavLink>
                     ) : (
                       <span
                         className="font-bold text-slate-900 truncate max-w-[240px] sm:max-w-[400px] md:max-w-[600px]"

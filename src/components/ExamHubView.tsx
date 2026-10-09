@@ -15,6 +15,7 @@ import {
   Search,
   CheckCircle2,
 } from 'lucide-react';
+import { NavLink } from './NavLink';
 
 interface ExamHubViewProps {
   slug?: string;
@@ -63,10 +64,11 @@ export const ExamHubView: React.FC<ExamHubViewProps> = ({ slug, onNavigate }) =>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {filtered.map((item) => (
-            <div
+            <NavLink
               key={item.slug}
-              onClick={() => onNavigate(`/exams/${item.slug}`)}
-              className="p-5 bg-white rounded-2xl border border-stone-200 hover:border-blue-400 hover:shadow-sm transition-all cursor-pointer space-y-3 flex flex-col justify-between"
+              href={`/exams/${item.slug}`}
+              onNavigate={onNavigate}
+              className="p-5 bg-white rounded-2xl border border-stone-200 hover:border-blue-400 hover:shadow-sm transition-all cursor-pointer space-y-3 flex flex-col justify-between block"
             >
               <div className="space-y-2">
                 <div className="flex items-center justify-between text-[11px] text-stone-500">
@@ -85,7 +87,7 @@ export const ExamHubView: React.FC<ExamHubViewProps> = ({ slug, onNavigate }) =>
                 <span>View Full Examination Blueprint</span>
                 <ChevronRight className="w-4 h-4" />
               </div>
-            </div>
+            </NavLink>
           ))}
         </div>
       </div>
@@ -150,21 +152,21 @@ export const ExamHubView: React.FC<ExamHubViewProps> = ({ slug, onNavigate }) =>
             <span>Official Portal ({hub.conductingBody})</span>
             <ExternalLink className="w-3.5 h-3.5" />
           </a>
-          <button
-            type="button"
-            onClick={() => onNavigate('/tools/salary')}
+          <NavLink
+            href="/tools/salary"
+            onNavigate={onNavigate}
             className="px-3.5 py-1.5 bg-stone-100 hover:bg-stone-200 text-stone-800 font-semibold rounded-lg inline-flex items-center gap-1.5 transition-colors cursor-pointer"
           >
             <span>7th CPC In-Hand Calculator</span>
             <ChevronRight className="w-3.5 h-3.5" />
-          </button>
-          <button
-            type="button"
-            onClick={() => onNavigate('/exams')}
+          </NavLink>
+          <NavLink
+            href="/exams"
+            onNavigate={onNavigate}
             className="px-3.5 py-1.5 text-stone-600 hover:text-stone-900 font-medium cursor-pointer ml-auto"
           >
             ← All 15 Exam Hubs
-          </button>
+          </NavLink>
         </div>
       </div>
 

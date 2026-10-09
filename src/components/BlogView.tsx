@@ -32,7 +32,7 @@ interface BlogViewProps {
 
 export const BlogView: React.FC<BlogViewProps> = ({ slug, onNavigate }) => {
   const [searchTerm, setSearchTerm] = useState('');
-  const [activeCategory, setActiveCategory] = useState<'all' | 'fitness' | 'exam-prep' | 'salary-insights'>('all');
+  const [activeCategory, setActiveCategory] = useState<'all' | 'fitness' | 'exam-prep' | 'salary-insights' | 'government-schemes' | 'career-guide'>('all');
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [copiedLink, setCopiedLink] = useState(false);
 
@@ -146,6 +146,8 @@ export const BlogView: React.FC<BlogViewProps> = ({ slug, onNavigate }) => {
             {[
               { id: 'all', label: 'All Articles' },
               { id: 'fitness', label: 'Fitness & PFT' },
+              { id: 'government-schemes', label: 'Govt Schemes' },
+              { id: 'career-guide', label: 'Career Guide' },
               { id: 'exam-prep', label: 'Exam Preparation' },
               { id: 'salary-insights', label: 'Salary Insights' },
             ].map((tab) => (
@@ -179,6 +181,10 @@ export const BlogView: React.FC<BlogViewProps> = ({ slug, onNavigate }) => {
                     className={`font-bold px-2 py-0.5 rounded text-[11px] ${
                       item.category === 'fitness'
                         ? 'bg-emerald-50 text-emerald-800 border border-emerald-200'
+                        : item.category === 'government-schemes'
+                        ? 'bg-amber-50 text-amber-900 border border-amber-200'
+                        : item.category === 'career-guide'
+                        ? 'bg-indigo-50 text-indigo-900 border border-indigo-200'
                         : item.category === 'exam-prep'
                         ? 'bg-blue-50 text-blue-800 border border-blue-200'
                         : 'bg-purple-50 text-purple-800 border border-purple-200'
@@ -259,6 +265,10 @@ export const BlogView: React.FC<BlogViewProps> = ({ slug, onNavigate }) => {
               className={`font-bold px-2.5 py-0.5 rounded text-[11px] ${
                 post.category === 'fitness'
                   ? 'bg-emerald-50 text-emerald-800 border border-emerald-200'
+                  : post.category === 'government-schemes'
+                  ? 'bg-amber-50 text-amber-900 border border-amber-200'
+                  : post.category === 'career-guide'
+                  ? 'bg-indigo-50 text-indigo-900 border border-indigo-200'
                   : post.category === 'exam-prep'
                   ? 'bg-blue-50 text-blue-800 border border-blue-200'
                   : 'bg-purple-50 text-purple-800 border border-purple-200'

@@ -24,7 +24,7 @@ app.use((req, res, next) => {
   res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
   res.setHeader(
     'Content-Security-Policy',
-    "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://pagead2.googlesyndication.com https://www.googletagservices.com https://adservice.google.com https://www.google-analytics.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https:; connect-src 'self' https://pagead2.googlesyndication.com https://www.google-analytics.com https://region1.google-analytics.com; frame-src 'self' https://googleads.g.doubleclick.net https://tpc.googlesyndication.com;"
+    "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.googlesyndication.com https://*.g.doubleclick.net https://*.google.com https://*.adtrafficquality.google https://*.google-analytics.com https://pagead2.googlesyndication.com https://www.googletagservices.com https://adservice.google.com https://www.google-analytics.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https: https://*.googlesyndication.com https://*.g.doubleclick.net https://*.google.com https://*.google-analytics.com; connect-src 'self' https://*.googlesyndication.com https://*.g.doubleclick.net https://*.google.com https://*.adtrafficquality.google https://*.google-analytics.com https://pagead2.googlesyndication.com https://www.google-analytics.com https://region1.google-analytics.com; frame-src 'self' https://*.googlesyndication.com https://*.g.doubleclick.net https://*.google.com;"
   );
   next();
 });
@@ -196,7 +196,7 @@ app.post('/api/contact', async (req, res) => {
 
 // Serve pre-rendered HTML files if available for clean SEO routes
 app.use((req, res, next) => {
-  if (req.method !== 'GET') return next();
+  if (req.method !== 'GET' && req.method !== 'HEAD') return next();
   const cleanPath = req.path.replace(/^\/|\/$/g, '');
   const candidatePrerender = cleanPath
     ? path.join(distPath, cleanPath, 'index.html')
@@ -218,7 +218,8 @@ app.use(express.static(distPath, {
   },
 }));
 
-// Express 5 compatible SPA fallback middleware
+// Proper 404 handler: return HTTP 404 with a real "Page not found" page linking to home
+// for any path that is not in the prerendered route list or an existing static file.
 app.use((req, res) => {
   // CRITICAL: Never return HTML for XML, robots, or asset requests!
   if (req.path.endsWith('.xml')) {
@@ -230,12 +231,39 @@ app.use((req, res) => {
     return;
   }
 
-  // SPA fallback for HTML page routing
-  if (fs.existsSync(indexPath)) {
-    res.sendFile(indexPath);
-  } else {
-    res.status(404).send('Application build in progress. Please refresh in a few moments.');
+  const notFoundHtmlPath = path.join(distPath, '404.html');
+  if (fs.existsSync(notFoundHtmlPath)) {
+    res.status(404).setHeader('Content-Type', 'text/html; charset=utf-8');
+    res.sendFile(notFoundHtmlPath);
+    return;
   }
+
+  // Fallback 404 semantic HTML page
+  res.status(404).type('text/html').send(`<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Page Not Found — 404 | GovIndiaNews</title>
+  <meta name="description" content="The requested page could not be found on GovIndiaNews. Browse active government recruitment notices and exam utilities on the homepage.">
+  <link rel="canonical" href="https://govindianews.com/404">
+  <style>
+    body { font-family: system-ui, -apple-system, sans-serif; background-color: #f8fafc; color: #0f172a; margin: 0; padding: 2rem; display: flex; align-items: center; justify-content: center; min-height: 80vh; }
+    .card { max-width: 520px; background: white; border: 1px solid #e2e8f0; border-radius: 1rem; padding: 2.5rem; text-align: center; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
+    h1 { font-size: 2rem; font-weight: 800; color: #0f172a; margin: 0 0 0.5rem; }
+    p { font-size: 0.95rem; color: #475569; line-height: 1.6; margin: 0 0 1.5rem; }
+    a { display: inline-block; background-color: #1d4ed8; color: #ffffff; padding: 0.75rem 1.5rem; border-radius: 0.5rem; text-decoration: none; font-weight: 600; font-size: 0.875rem; }
+    a:hover { background-color: #1e40af; }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <h1>404 — Page Not Found</h1>
+    <p>The recruitment notice, calculator, or guide you are looking for does not exist or may have been moved. You can browse all active Central &amp; State job notifications on our homepage.</p>
+    <a href="/">Return to GovIndiaNews Homepage</a>
+  </main>
+</body>
+</html>`);
 });
 
 app.listen(port, () => {

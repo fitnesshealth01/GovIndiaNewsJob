@@ -267,14 +267,23 @@ export function buildNewsArticleSchema(item: RecruitmentAlert): Record<string, u
   const url = `${origin}/article/${item.slug}`;
   const author = getAuthorByAlertId(item.id);
 
+  let pubDate = '2026-10-08T15:30:00+05:30';
+  if (item.publishDate && item.publishDate.includes('08 Oct 2026')) {
+    pubDate = '2026-10-08T15:30:00+05:30';
+  } else if (item.publishDate && item.publishDate.includes('07 Oct 2026')) {
+    pubDate = '2026-10-07T09:00:00+05:30';
+  } else if (item.publishDate && item.publishDate.includes('03 Oct 2026')) {
+    pubDate = '2026-10-03T09:00:00+05:30';
+  }
+
   return {
     '@context': 'https://schema.org',
     '@type': 'NewsArticle',
     headline: item.title,
     description: item.summary,
-    image: [`${origin}/og-image.png`],
-    datePublished: '2026-09-30T09:00:00+05:30',
-    dateModified: '2026-09-30T17:30:00+05:30',
+    image: [`${origin}/og-image.jpg`],
+    datePublished: pubDate,
+    dateModified: pubDate,
     author: [
       {
         '@type': 'Person',

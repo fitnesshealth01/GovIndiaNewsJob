@@ -19,6 +19,7 @@ import {
   ShieldCheck,
   TrendingUp,
 } from 'lucide-react';
+import { NavLink } from './NavLink';
 
 interface HeaderProps {
   currentPath: string;
@@ -79,8 +80,9 @@ export const Header: React.FC<HeaderProps> = ({
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 gap-4">
           {/* Logo & Gazette Badge */}
-          <div
-            onClick={() => handleNavClick('/')}
+          <NavLink
+            href="/"
+            onNavigate={handleNavClick}
             className="flex items-center gap-3 cursor-pointer select-none shrink-0"
           >
             <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-700 via-blue-800 to-indigo-900 flex items-center justify-center text-white shadow-xs font-black text-xl tracking-tighter">
@@ -100,7 +102,7 @@ export const Header: React.FC<HeaderProps> = ({
                 Official Gazette & Career Intelligence
               </div>
             </div>
-          </div>
+          </NavLink>
 
           {/* Center Search Bar (Desktop / Tablet) */}
           <div className="hidden md:flex flex-1 max-w-md mx-4">
@@ -125,18 +127,20 @@ export const Header: React.FC<HeaderProps> = ({
 
           {/* Desktop Navigation Items */}
           <nav className="hidden lg:flex items-center gap-1 text-xs font-semibold text-slate-700">
-            <button
-              onClick={() => handleNavClick('/')}
+            <NavLink
+              href="/"
+              onNavigate={handleNavClick}
               className={`px-3 py-2 rounded-lg transition-colors cursor-pointer ${
                 currentPath === '/' ? 'text-blue-700 bg-blue-50' : 'hover:bg-slate-100'
               }`}
             >
               Home
-            </button>
+            </NavLink>
 
             {/* Latest Jobs Dropdown */}
             <div className="relative">
               <button
+                type="button"
                 onClick={() =>
                   setOpenDropdown(openDropdown === 'jobs' ? null : 'jobs')
                 }
@@ -155,8 +159,9 @@ export const Header: React.FC<HeaderProps> = ({
                   onMouseLeave={() => setOpenDropdown(null)}
                   className="absolute left-0 mt-1 w-64 bg-white border border-slate-200 rounded-xl shadow-lg p-2 text-xs z-50 animate-in fade-in slide-in-from-top-1"
                 >
-                  <button
-                    onClick={() => handleNavClick('/jobs')}
+                  <NavLink
+                    href="/jobs"
+                    onNavigate={handleNavClick}
                     className="w-full p-2.5 rounded-lg hover:bg-slate-50 text-left flex items-start gap-2.5 transition-colors cursor-pointer"
                   >
                     <Briefcase className="w-4 h-4 text-blue-600 mt-0.5" />
@@ -164,9 +169,10 @@ export const Header: React.FC<HeaderProps> = ({
                       <span className="font-bold text-slate-900 block">Latest Govt Jobs</span>
                       <span className="text-[11px] text-slate-500">SSC, Railway, Defence & State</span>
                     </div>
-                  </button>
-                  <button
-                    onClick={() => handleNavClick('/admit-card')}
+                  </NavLink>
+                  <NavLink
+                    href="/admit-card"
+                    onNavigate={handleNavClick}
                     className="w-full p-2.5 rounded-lg hover:bg-slate-50 text-left flex items-start gap-2.5 transition-colors cursor-pointer"
                   >
                     <FileText className="w-4 h-4 text-emerald-600 mt-0.5" />
@@ -174,9 +180,10 @@ export const Header: React.FC<HeaderProps> = ({
                       <span className="font-bold text-slate-900 block">Admit Cards & City Slips</span>
                       <span className="text-[11px] text-slate-500">Download Call Letters</span>
                     </div>
-                  </button>
-                  <button
-                    onClick={() => handleNavClick('/cut-off')}
+                  </NavLink>
+                  <NavLink
+                    href="/cut-off"
+                    onNavigate={handleNavClick}
                     className="w-full p-2.5 rounded-lg hover:bg-slate-50 text-left flex items-start gap-2.5 transition-colors cursor-pointer"
                   >
                     <Award className="w-4 h-4 text-amber-600 mt-0.5" />
@@ -184,9 +191,21 @@ export const Header: React.FC<HeaderProps> = ({
                       <span className="font-bold text-slate-900 block">Cut-Off Marks</span>
                       <span className="text-[11px] text-slate-500">Official Category Cut-offs</span>
                     </div>
-                  </button>
-                  <button
-                    onClick={() => handleNavClick('/answer-key')}
+                  </NavLink>
+                  <NavLink
+                    href="/board-exams"
+                    onNavigate={handleNavClick}
+                    className="w-full p-2.5 rounded-lg hover:bg-slate-50 text-left flex items-start gap-2.5 transition-colors cursor-pointer"
+                  >
+                    <BookOpen className="w-4 h-4 text-indigo-600 mt-0.5" />
+                    <div>
+                      <span className="font-bold text-slate-900 block">Board Exams</span>
+                      <span className="text-[11px] text-slate-500">CBSE, ICSE & State Boards</span>
+                    </div>
+                  </NavLink>
+                  <NavLink
+                    href="/answer-key"
+                    onNavigate={handleNavClick}
                     className="w-full p-2.5 rounded-lg hover:bg-slate-50 text-left flex items-start gap-2.5 transition-colors cursor-pointer"
                   >
                     <FileCheck2 className="w-4 h-4 text-purple-600 mt-0.5" />
@@ -194,7 +213,7 @@ export const Header: React.FC<HeaderProps> = ({
                       <span className="font-bold text-slate-900 block">Answer Keys</span>
                       <span className="text-[11px] text-slate-500">Official Response Sheets</span>
                     </div>
-                  </button>
+                  </NavLink>
                 </div>
               )}
             </div>
@@ -202,6 +221,7 @@ export const Header: React.FC<HeaderProps> = ({
             {/* Exam Calculators Dropdown */}
             <div className="relative">
               <button
+                type="button"
                 onClick={() =>
                   setOpenDropdown(openDropdown === 'tools' ? null : 'tools')
                 }
@@ -221,8 +241,9 @@ export const Header: React.FC<HeaderProps> = ({
                   onMouseLeave={() => setOpenDropdown(null)}
                   className="absolute left-0 mt-1 w-72 bg-white border border-slate-200 rounded-xl shadow-lg p-2 text-xs z-50 animate-in fade-in slide-in-from-top-1"
                 >
-                  <button
-                    onClick={() => handleNavClick('/tools/salary')}
+                  <NavLink
+                    href="/tools/salary"
+                    onNavigate={handleNavClick}
                     className="w-full p-2.5 rounded-lg hover:bg-slate-50 text-left flex items-start gap-2.5 transition-colors cursor-pointer"
                   >
                     <div className="w-7 h-7 rounded-md bg-blue-100 text-blue-700 font-bold flex items-center justify-center shrink-0">
@@ -232,9 +253,10 @@ export const Header: React.FC<HeaderProps> = ({
                       <span className="font-bold text-slate-900 block">7th CPC Salary Calculator</span>
                       <span className="text-[11px] text-slate-500">Pay Levels 1-18, HRA & NPS Deductions</span>
                     </div>
-                  </button>
-                  <button
-                    onClick={() => handleNavClick('/tools/photo-checker')}
+                  </NavLink>
+                  <NavLink
+                    href="/tools/photo-checker"
+                    onNavigate={handleNavClick}
                     className="w-full p-2.5 rounded-lg hover:bg-slate-50 text-left flex items-start gap-2.5 transition-colors cursor-pointer"
                   >
                     <div className="w-7 h-7 rounded-md bg-indigo-100 text-indigo-700 font-bold flex items-center justify-center shrink-0">
@@ -244,9 +266,10 @@ export const Header: React.FC<HeaderProps> = ({
                       <span className="font-bold text-slate-900 block">Photo & Signature Checker</span>
                       <span className="text-[11px] text-slate-500">SSC, UPSC, IBPS Official Dimensions</span>
                     </div>
-                  </button>
-                  <button
-                    onClick={() => handleNavClick('/tools/relaxation')}
+                  </NavLink>
+                  <NavLink
+                    href="/tools/relaxation"
+                    onNavigate={handleNavClick}
                     className="w-full p-2.5 rounded-lg hover:bg-slate-50 text-left flex items-start gap-2.5 transition-colors cursor-pointer"
                   >
                     <div className="w-7 h-7 rounded-md bg-emerald-100 text-emerald-800 font-bold flex items-center justify-center shrink-0">
@@ -256,9 +279,10 @@ export const Header: React.FC<HeaderProps> = ({
                       <span className="font-bold text-slate-900 block">Category & Fee Relaxation</span>
                       <span className="text-[11px] text-slate-500">DoPT Rules for OBC, SC, ST, PwBD</span>
                     </div>
-                  </button>
-                  <button
-                    onClick={() => handleNavClick('/tools/age')}
+                  </NavLink>
+                  <NavLink
+                    href="/tools/age"
+                    onNavigate={handleNavClick}
                     className="w-full p-2.5 rounded-lg hover:bg-slate-50 text-left flex items-start gap-2.5 transition-colors cursor-pointer"
                   >
                     <div className="w-7 h-7 rounded-md bg-cyan-100 text-cyan-800 font-bold flex items-center justify-center shrink-0">
@@ -268,9 +292,10 @@ export const Header: React.FC<HeaderProps> = ({
                       <span className="font-bold text-slate-900 block">Age Cut-off Calculator</span>
                       <span className="text-[11px] text-slate-500">Crucial Date Exact Calculation</span>
                     </div>
-                  </button>
-                  <button
-                    onClick={() => handleNavClick('/tools/marking')}
+                  </NavLink>
+                  <NavLink
+                    href="/tools/marking"
+                    onNavigate={handleNavClick}
                     className="w-full p-2.5 rounded-lg hover:bg-slate-50 text-left flex items-start gap-2.5 transition-colors cursor-pointer"
                   >
                     <div className="w-7 h-7 rounded-md bg-rose-100 text-rose-700 font-bold flex items-center justify-center shrink-0">
@@ -280,9 +305,10 @@ export const Header: React.FC<HeaderProps> = ({
                       <span className="font-bold text-slate-900 block">Negative Marking Penalty</span>
                       <span className="text-[11px] text-slate-500">Compute Net Score & Accuracy</span>
                     </div>
-                  </button>
-                  <button
-                    onClick={() => handleNavClick('/tools/height')}
+                  </NavLink>
+                  <NavLink
+                    href="/tools/height"
+                    onNavigate={handleNavClick}
                     className="w-full p-2.5 rounded-lg hover:bg-slate-50 text-left flex items-start gap-2.5 transition-colors cursor-pointer"
                   >
                     <div className="w-7 h-7 rounded-md bg-amber-100 text-amber-800 font-bold flex items-center justify-center shrink-0">
@@ -292,9 +318,10 @@ export const Header: React.FC<HeaderProps> = ({
                       <span className="font-bold text-slate-900 block">Physical Height Checker</span>
                       <span className="text-[11px] text-slate-500">Police, Army & CAPF Standards</span>
                     </div>
-                  </button>
-                  <button
-                    onClick={() => handleNavClick('/tools/rank')}
+                  </NavLink>
+                  <NavLink
+                    href="/tools/rank"
+                    onNavigate={handleNavClick}
                     className="w-full p-2.5 rounded-lg hover:bg-slate-50 text-left flex items-start gap-2.5 transition-colors cursor-pointer"
                   >
                     <div className="w-7 h-7 rounded-md bg-purple-100 text-purple-700 font-bold flex items-center justify-center shrink-0">
@@ -304,9 +331,10 @@ export const Header: React.FC<HeaderProps> = ({
                       <span className="font-bold text-slate-900 block">Rank & Normalization</span>
                       <span className="text-[11px] text-slate-500">Statistical Percentile Estimates</span>
                     </div>
-                  </button>
-                  <button
-                    onClick={() => handleNavClick('/tools/eligibility')}
+                  </NavLink>
+                  <NavLink
+                    href="/tools/eligibility"
+                    onNavigate={handleNavClick}
                     className="w-full p-2.5 rounded-lg hover:bg-slate-50 text-left flex items-start gap-2.5 transition-colors cursor-pointer border-t border-slate-100 mt-1 pt-2"
                   >
                     <div className="w-7 h-7 rounded-md bg-blue-100 text-blue-800 font-bold flex items-center justify-center shrink-0">
@@ -316,65 +344,84 @@ export const Header: React.FC<HeaderProps> = ({
                       <span className="font-bold text-slate-900 block">Instant Eligibility Matcher</span>
                       <span className="text-[11px] text-slate-500">Multi-criteria Notification Finder</span>
                     </div>
-                  </button>
+                  </NavLink>
                 </div>
               )}
             </div>
 
             {/* Exam Hubs */}
-            <button
-              onClick={() => handleNavClick('/exams')}
+            <NavLink
+              href="/exams"
+              onNavigate={handleNavClick}
               className={`px-3 py-2 rounded-lg transition-colors flex items-center gap-1.5 cursor-pointer ${
                 currentPath.startsWith('/exams') ? 'text-blue-700 bg-blue-50' : 'hover:bg-slate-100'
               }`}
             >
               <BookOpen className="w-3.5 h-3.5 text-blue-600" />
               <span>Exam Hubs</span>
-            </button>
+            </NavLink>
 
             {/* Vacancy Data Tracker */}
-            <button
-              onClick={() => handleNavClick('/data/vacancies')}
+            <NavLink
+              href="/data/vacancies"
+              onNavigate={handleNavClick}
               className={`px-3 py-2 rounded-lg transition-colors flex items-center gap-1.5 cursor-pointer ${
                 currentPath.startsWith('/data/vacancies') || currentPath === '/vacancies' ? 'text-blue-700 bg-blue-50' : 'hover:bg-slate-100'
               }`}
             >
               <TrendingUp className="w-3.5 h-3.5 text-blue-600" />
               <span>Vacancies</span>
-            </button>
+            </NavLink>
 
             {/* Application Guides */}
-            <button
-              onClick={() => handleNavClick('/guides')}
+            <NavLink
+              href="/guides"
+              onNavigate={handleNavClick}
               className={`px-3 py-2 rounded-lg transition-colors flex items-center gap-1.5 cursor-pointer ${
                 currentPath.startsWith('/guides') ? 'text-blue-700 bg-blue-50' : 'hover:bg-slate-100'
               }`}
             >
               <FileText className="w-3.5 h-3.5 text-blue-600" />
               <span>Guides</span>
-            </button>
+            </NavLink>
+
+            {/* Evergreen Knowledge Base / Blog */}
+            <NavLink
+              href="/blog"
+              onNavigate={handleNavClick}
+              className={`px-3 py-2 rounded-lg transition-colors flex items-center gap-1.5 cursor-pointer ${
+                currentPath.startsWith('/blog') || currentPath === '/army-running-time'
+                  ? 'text-blue-700 bg-blue-50'
+                  : 'hover:bg-slate-100'
+              }`}
+            >
+              <BookOpen className="w-3.5 h-3.5 text-blue-600" />
+              <span>Articles</span>
+            </NavLink>
 
             {/* Candidate FAQs Link */}
-            <button
-              onClick={() => handleNavClick('/faqs')}
+            <NavLink
+              href="/faqs"
+              onNavigate={handleNavClick}
               className={`px-3 py-2 rounded-lg transition-colors flex items-center gap-1.5 cursor-pointer ${
                 currentPath === '/faqs' ? 'text-blue-700 bg-blue-50' : 'hover:bg-slate-100'
               }`}
             >
               <HelpCircle className="w-3.5 h-3.5 text-blue-600" />
               <span>Exam FAQs</span>
-            </button>
+            </NavLink>
 
             {/* E-E-A-T & Trust Hub Link */}
-            <button
-              onClick={() => handleNavClick('/trust/editorial')}
+            <NavLink
+              href="/trust/editorial"
+              onNavigate={handleNavClick}
               className={`px-3 py-2 rounded-lg transition-colors flex items-center gap-1.5 cursor-pointer ${
                 currentPath.startsWith('/trust') ? 'text-emerald-800 bg-emerald-50 font-bold' : 'hover:bg-slate-100 text-slate-700'
               }`}
             >
               <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
               <span>Trust & Ethics</span>
-            </button>
+            </NavLink>
           </nav>
 
           {/* Right Action: Universal 3-Line Menu Trigger (All Screen Sizes) */}
@@ -498,14 +545,15 @@ export const Header: React.FC<HeaderProps> = ({
                 <p className="text-xs text-slate-300 leading-relaxed">
                   Practice CBT exam pattern questions with countdown timer, 5-state palette, negative marking penalty, and detailed solutions.
                 </p>
-                <button
-                  onClick={() => handleNavClick('/mock-test/ssc-cgl-tier1')}
+                <NavLink
+                  href="/mock-test/ssc-cgl-tier1"
+                  onNavigate={handleNavClick}
                   className="w-full py-2.5 px-4 bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold rounded-xl transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-xs mt-1"
                 >
                   <BookOpen className="w-3.5 h-3.5" />
                   <span>Launch CBT Practice Test</span>
                   <ChevronRight className="w-4 h-4" />
-                </button>
+                </NavLink>
               </div>
 
               {/* Section 1: Government Exam Calculators */}
@@ -514,8 +562,9 @@ export const Header: React.FC<HeaderProps> = ({
                   Government Exam Calculators
                 </h4>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                  <button
-                    onClick={() => handleNavClick('/tools/eligibility')}
+                  <NavLink
+                    href="/tools/eligibility"
+                    onNavigate={handleNavClick}
                     className="p-3 rounded-xl border border-emerald-200 bg-emerald-50/40 hover:border-emerald-400 text-left transition-all cursor-pointer flex items-center gap-2.5 sm:col-span-2"
                   >
                     <div className="w-8 h-8 rounded-lg bg-emerald-600 text-white font-bold text-xs flex items-center justify-center shrink-0">
@@ -528,10 +577,11 @@ export const Header: React.FC<HeaderProps> = ({
                       </span>
                       <span className="text-[10px] text-slate-500">Cross-reference Age, Category & Degrees</span>
                     </div>
-                  </button>
+                  </NavLink>
 
-                  <button
-                    onClick={() => handleNavClick('/tools/age')}
+                  <NavLink
+                    href="/tools/age"
+                    onNavigate={handleNavClick}
                     className="p-3 rounded-xl border border-slate-200 hover:border-blue-400 hover:bg-blue-50/40 text-left transition-all cursor-pointer flex items-center gap-2.5"
                   >
                     <div className="w-8 h-8 rounded-lg bg-blue-50 text-blue-700 font-bold text-xs flex items-center justify-center shrink-0">
@@ -541,10 +591,11 @@ export const Header: React.FC<HeaderProps> = ({
                       <span className="font-bold text-xs text-slate-900 block">Age Calculator</span>
                       <span className="text-[10px] text-slate-500">DOP&T Cutoff Rules</span>
                     </div>
-                  </button>
+                  </NavLink>
 
-                  <button
-                    onClick={() => handleNavClick('/tools/marking')}
+                  <NavLink
+                    href="/tools/marking"
+                    onNavigate={handleNavClick}
                     className="p-3 rounded-xl border border-slate-200 hover:border-blue-400 hover:bg-blue-50/40 text-left transition-all cursor-pointer flex items-center gap-2.5"
                   >
                     <div className="w-8 h-8 rounded-lg bg-rose-50 text-rose-700 font-bold text-xs flex items-center justify-center shrink-0">
@@ -554,10 +605,11 @@ export const Header: React.FC<HeaderProps> = ({
                       <span className="font-bold text-xs text-slate-900 block">Negative Marking</span>
                       <span className="text-[10px] text-slate-500">Score & Accuracy</span>
                     </div>
-                  </button>
+                  </NavLink>
 
-                  <button
-                    onClick={() => handleNavClick('/tools/height')}
+                  <NavLink
+                    href="/tools/height"
+                    onNavigate={handleNavClick}
                     className="p-3 rounded-xl border border-slate-200 hover:border-blue-400 hover:bg-blue-50/40 text-left transition-all cursor-pointer flex items-center gap-2.5"
                   >
                     <div className="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-700 font-bold text-xs flex items-center justify-center shrink-0">
@@ -567,10 +619,11 @@ export const Header: React.FC<HeaderProps> = ({
                       <span className="font-bold text-xs text-slate-900 block">Height & Running</span>
                       <span className="text-[10px] text-slate-500">Police & Army PMT</span>
                     </div>
-                  </button>
+                  </NavLink>
 
-                  <button
-                    onClick={() => handleNavClick('/tools/rank')}
+                  <NavLink
+                    href="/tools/rank"
+                    onNavigate={handleNavClick}
                     className="p-3 rounded-xl border border-slate-200 hover:border-blue-400 hover:bg-blue-50/40 text-left transition-all cursor-pointer flex items-center gap-2.5"
                   >
                     <div className="w-8 h-8 rounded-lg bg-purple-50 text-purple-700 font-bold text-xs flex items-center justify-center shrink-0">
@@ -580,7 +633,7 @@ export const Header: React.FC<HeaderProps> = ({
                       <span className="font-bold text-xs text-slate-900 block">Rank Predictor</span>
                       <span className="text-[10px] text-slate-500">Normalization Index</span>
                     </div>
-                  </button>
+                  </NavLink>
                 </div>
               </div>
 
@@ -590,8 +643,9 @@ export const Header: React.FC<HeaderProps> = ({
                   Recruitment Sections
                 </h4>
                 <div className="space-y-1 text-xs">
-                  <button
-                    onClick={() => handleNavClick('/jobs')}
+                  <NavLink
+                    href="/jobs"
+                    onNavigate={handleNavClick}
                     className="w-full p-2.5 rounded-lg hover:bg-slate-100 text-left flex items-center justify-between text-slate-800 transition-colors cursor-pointer"
                   >
                     <div className="flex items-center gap-2.5">
@@ -599,10 +653,23 @@ export const Header: React.FC<HeaderProps> = ({
                       <span className="font-semibold">All Government Jobs 2026</span>
                     </div>
                     <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
-                  </button>
+                  </NavLink>
 
-                  <button
-                    onClick={() => handleNavClick('/admit-card')}
+                  <NavLink
+                    href="/board-exams"
+                    onNavigate={handleNavClick}
+                    className="w-full p-2.5 rounded-lg hover:bg-slate-100 text-left flex items-center justify-between text-slate-800 transition-colors cursor-pointer"
+                  >
+                    <div className="flex items-center gap-2.5">
+                      <BookOpen className="w-4 h-4 text-indigo-600" />
+                      <span className="font-semibold">Board Exams 2026–27 (CBSE &amp; State)</span>
+                    </div>
+                    <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
+                  </NavLink>
+
+                  <NavLink
+                    href="/admit-card"
+                    onNavigate={handleNavClick}
                     className="w-full p-2.5 rounded-lg hover:bg-slate-100 text-left flex items-center justify-between text-slate-800 transition-colors cursor-pointer"
                   >
                     <div className="flex items-center gap-2.5">
@@ -610,10 +677,11 @@ export const Header: React.FC<HeaderProps> = ({
                       <span className="font-semibold">Admit Cards & City Intimations</span>
                     </div>
                     <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
-                  </button>
+                  </NavLink>
 
-                  <button
-                    onClick={() => handleNavClick('/cut-off')}
+                  <NavLink
+                    href="/cut-off"
+                    onNavigate={handleNavClick}
                     className="w-full p-2.5 rounded-lg hover:bg-slate-100 text-left flex items-center justify-between text-slate-800 transition-colors cursor-pointer"
                   >
                     <div className="flex items-center gap-2.5">
@@ -621,10 +689,11 @@ export const Header: React.FC<HeaderProps> = ({
                       <span className="font-semibold">Official Category Cut-Off Marks</span>
                     </div>
                     <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
-                  </button>
+                  </NavLink>
 
-                  <button
-                    onClick={() => handleNavClick('/answer-key')}
+                  <NavLink
+                    href="/answer-key"
+                    onNavigate={handleNavClick}
                     className="w-full p-2.5 rounded-lg hover:bg-slate-100 text-left flex items-center justify-between text-slate-800 transition-colors cursor-pointer"
                   >
                     <div className="flex items-center gap-2.5">
@@ -632,10 +701,11 @@ export const Header: React.FC<HeaderProps> = ({
                       <span className="font-semibold">Answer Keys & Objection Portals</span>
                     </div>
                     <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
-                  </button>
+                  </NavLink>
 
-                  <button
-                    onClick={() => handleNavClick('/result')}
+                  <NavLink
+                    href="/result"
+                    onNavigate={handleNavClick}
                     className="w-full p-2.5 rounded-lg hover:bg-slate-100 text-left flex items-center justify-between text-slate-800 transition-colors cursor-pointer"
                   >
                     <div className="flex items-center gap-2.5">
@@ -643,7 +713,66 @@ export const Header: React.FC<HeaderProps> = ({
                       <span className="font-semibold">Exam Results & Merit Lists</span>
                     </div>
                     <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
-                  </button>
+                  </NavLink>
+                </div>
+              </div>
+
+              {/* Section 2.5: Knowledge Base & Government Schemes */}
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <h4 className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
+                    Knowledge Base & Schemes
+                  </h4>
+                  <NavLink
+                    href="/blog"
+                    onNavigate={handleNavClick}
+                    className="text-[11px] font-bold text-blue-600 hover:underline cursor-pointer"
+                  >
+                    View All
+                  </NavLink>
+                </div>
+                <div className="space-y-1 text-xs">
+                  <NavLink
+                    href="/blog"
+                    onNavigate={handleNavClick}
+                    className="w-full p-2.5 rounded-lg bg-indigo-50/70 hover:bg-indigo-100/70 text-left flex items-center justify-between text-indigo-950 border border-indigo-200 transition-colors cursor-pointer"
+                  >
+                    <div className="flex items-center gap-2.5">
+                      <BookOpen className="w-4 h-4 text-indigo-700" />
+                      <div>
+                        <span className="font-bold block">Evergreen Articles Hub</span>
+                        <span className="text-[10px] text-indigo-700/80">Physical Tests, Schemes & Salary</span>
+                      </div>
+                    </div>
+                    <ChevronRight className="w-3.5 h-3.5 text-indigo-500" />
+                  </NavLink>
+
+                  <NavLink
+                    href="/blog/army-1600-meter-running-time-agniveer-pft-standards"
+                    onNavigate={handleNavClick}
+                    className="w-full p-2 rounded-lg hover:bg-slate-100 text-left flex items-center justify-between text-slate-700 transition-colors cursor-pointer"
+                  >
+                    <span className="truncate">Army 1600m Running Time & Standards</span>
+                    <ChevronRight className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                  </NavLink>
+
+                  <NavLink
+                    href="/blog/top-central-government-schemes-for-job-seekers-pmkvy-naps-employment"
+                    onNavigate={handleNavClick}
+                    className="w-full p-2 rounded-lg hover:bg-slate-100 text-left flex items-center justify-between text-slate-700 transition-colors cursor-pointer"
+                  >
+                    <span className="truncate">Top Govt Schemes (PMKVY 4.0 & NAPS)</span>
+                    <ChevronRight className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                  </NavLink>
+
+                  <NavLink
+                    href="/blog/agniveer-benefits-career-pathways-post-service"
+                    onNavigate={handleNavClick}
+                    className="w-full p-2 rounded-lg hover:bg-slate-100 text-left flex items-center justify-between text-slate-700 transition-colors cursor-pointer"
+                  >
+                    <span className="truncate">Agniveer Seva Nidhi & CAPF Reservation</span>
+                    <ChevronRight className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                  </NavLink>
                 </div>
               </div>
 
@@ -653,8 +782,9 @@ export const Header: React.FC<HeaderProps> = ({
                   Help Desk & Official Portals
                 </h4>
                 <div className="space-y-1 text-xs">
-                  <button
-                    onClick={() => handleNavClick('/faqs')}
+                  <NavLink
+                    href="/faqs"
+                    onNavigate={handleNavClick}
                     className="w-full p-2.5 rounded-lg bg-blue-50/60 hover:bg-blue-50 text-left flex items-center justify-between text-blue-900 border border-blue-100 transition-colors cursor-pointer"
                   >
                     <div className="flex items-center gap-2.5">
@@ -662,7 +792,7 @@ export const Header: React.FC<HeaderProps> = ({
                       <span className="font-bold">Candidate FAQs & Statutory Rules</span>
                     </div>
                     <ChevronRight className="w-3.5 h-3.5 text-blue-400" />
-                  </button>
+                  </NavLink>
 
                   <a
                     href="https://ssc.gov.in"
@@ -699,54 +829,62 @@ export const Header: React.FC<HeaderProps> = ({
               {/* Section 4: Legal & Editorial Desk */}
               <div className="pt-4 border-t border-slate-200 text-xs text-slate-500 space-y-2">
                 <div className="flex flex-wrap gap-x-4 gap-y-1">
-                  <button
-                    onClick={() => handleNavClick('/author/akash-singh-solanki')}
+                  <NavLink
+                    href="/author/akash-singh-solanki"
+                    onNavigate={handleNavClick}
                     className="hover:text-blue-600 transition-colors cursor-pointer font-semibold text-slate-700"
                   >
                     Author Profile
-                  </button>
-                  <button
-                    onClick={() => handleNavClick('/about')}
+                  </NavLink>
+                  <NavLink
+                    href="/about"
+                    onNavigate={handleNavClick}
                     className="hover:text-blue-600 transition-colors cursor-pointer"
                   >
                     About Us
-                  </button>
-                  <button
-                    onClick={() => handleNavClick('/contact')}
+                  </NavLink>
+                  <NavLink
+                    href="/contact"
+                    onNavigate={handleNavClick}
                     className="hover:text-blue-600 transition-colors cursor-pointer"
                   >
                     Contact & Grievance
-                  </button>
-                  <button
-                    onClick={() => handleNavClick('/fact-checking')}
+                  </NavLink>
+                  <NavLink
+                    href="/fact-checking"
+                    onNavigate={handleNavClick}
                     className="hover:text-blue-600 transition-colors cursor-pointer"
                   >
                     Fact-Checking
-                  </button>
-                  <button
-                    onClick={() => handleNavClick('/corrections')}
+                  </NavLink>
+                  <NavLink
+                    href="/corrections"
+                    onNavigate={handleNavClick}
                     className="hover:text-blue-600 transition-colors cursor-pointer"
                   >
                     Corrections Log
-                  </button>
-                  <button
-                    onClick={() => handleNavClick('/disclaimer')}
+                  </NavLink>
+                  <NavLink
+                    href="/disclaimer"
+                    onNavigate={handleNavClick}
                     className="hover:text-blue-600 transition-colors cursor-pointer"
                   >
                     Disclaimer
-                  </button>
-                  <button
-                    onClick={() => handleNavClick('/privacy')}
+                  </NavLink>
+                  <NavLink
+                    href="/privacy"
+                    onNavigate={handleNavClick}
                     className="hover:text-blue-600 transition-colors cursor-pointer"
                   >
                     Privacy Policy
-                  </button>
-                  <button
-                    onClick={() => handleNavClick('/terms')}
+                  </NavLink>
+                  <NavLink
+                    href="/terms"
+                    onNavigate={handleNavClick}
                     className="hover:text-blue-600 transition-colors cursor-pointer"
                   >
                     Terms
-                  </button>
+                  </NavLink>
                 </div>
                 <div className="text-[11px] text-slate-400 flex items-center gap-1.5 pt-1">
                   <ShieldAlert className="w-3.5 h-3.5 text-amber-500 shrink-0" />

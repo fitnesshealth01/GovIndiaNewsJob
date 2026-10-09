@@ -1,5 +1,6 @@
 import React from 'react';
 import { Shield, Lock, ArrowUp } from 'lucide-react';
+import { NavLink } from './NavLink';
 
 interface FooterProps {
   onNavigate: (path: string) => void;
@@ -16,12 +17,16 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
           {/* Col 1: Brand & Mission */}
           <div className="md:col-span-1 space-y-3">
-            <div className="flex items-center gap-2 text-white font-bold text-lg">
-              <div className="w-7 h-7 rounded-md bg-blue-600 flex items-center justify-center text-sm font-bold">
+            <NavLink
+              href="/"
+              onNavigate={onNavigate}
+              className="flex items-center gap-2 text-white font-bold text-lg hover:text-blue-400 transition-colors"
+            >
+              <div className="w-7 h-7 rounded-md bg-blue-600 flex items-center justify-center text-sm font-bold text-white">
                 G
               </div>
               <span>GovIndiaNews</span>
-            </div>
+            </NavLink>
             <p className="text-xs text-slate-400 leading-relaxed">
               India's transparent, student-first examination preparation & recruitment utility portal. Dedicated to providing authentic, gazette-verified notifications and smart calculators.
             </p>
@@ -38,76 +43,85 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             </h4>
             <ul className="space-y-2 text-xs text-slate-400">
               <li>
-                <button
-                  onClick={() => onNavigate('/tools/eligibility')}
-                  className="hover:text-emerald-400 font-semibold transition-colors cursor-pointer text-left"
+                <NavLink
+                  href="/tools/eligibility"
+                  onNavigate={onNavigate}
+                  className="hover:text-emerald-400 font-semibold transition-colors cursor-pointer text-left block"
                 >
                   Instant Eligibility Matcher (DOB & Category)
-                </button>
+                </NavLink>
               </li>
               <li>
-                <button
-                  onClick={() => onNavigate('/tools/salary')}
-                  className="hover:text-white transition-colors cursor-pointer text-left"
+                <NavLink
+                  href="/tools/salary"
+                  onNavigate={onNavigate}
+                  className="hover:text-white transition-colors cursor-pointer text-left block"
                 >
                   7th CPC In-Hand Salary Calculator
-                </button>
+                </NavLink>
               </li>
               <li>
-                <button
-                  onClick={() => onNavigate('/tools/photo-checker')}
-                  className="hover:text-white transition-colors cursor-pointer text-left"
+                <NavLink
+                  href="/tools/photo-checker"
+                  onNavigate={onNavigate}
+                  className="hover:text-white transition-colors cursor-pointer text-left block"
                 >
                   Photo & Signature Format Checker
-                </button>
+                </NavLink>
               </li>
               <li>
-                <button
-                  onClick={() => onNavigate('/tools/relaxation')}
-                  className="hover:text-white transition-colors cursor-pointer text-left"
+                <NavLink
+                  href="/tools/relaxation"
+                  onNavigate={onNavigate}
+                  className="hover:text-white transition-colors cursor-pointer text-left block"
                 >
                   Fee & Category Relaxation Calculator
-                </button>
+                </NavLink>
               </li>
               <li>
-                <button
-                  onClick={() => onNavigate('/tools/age')}
-                  className="hover:text-white transition-colors cursor-pointer text-left"
+                <NavLink
+                  href="/tools/age"
+                  onNavigate={onNavigate}
+                  className="hover:text-white transition-colors cursor-pointer text-left block"
                 >
                   Govt Exam Age Calculator (Cutoff Date)
-                </button>
+                </NavLink>
               </li>
               <li>
-                <button
-                  onClick={() => onNavigate('/tools/marking')}
-                  className="hover:text-white transition-colors cursor-pointer text-left"
+                <NavLink
+                  href="/tools/marking"
+                  onNavigate={onNavigate}
+                  className="hover:text-white transition-colors cursor-pointer text-left block"
                 >
                   Negative Marking & Score Calculator
-                </button>
+                </NavLink>
               </li>
               <li>
-                <button
-                  onClick={() => onNavigate('/tools/height')}
-                  className="hover:text-white transition-colors cursor-pointer text-left"
+                <NavLink
+                  href="/tools/height"
+                  onNavigate={onNavigate}
+                  className="hover:text-white transition-colors cursor-pointer text-left block"
                 >
                   Physical Height & Chest Standard Checker
-                </button>
+                </NavLink>
               </li>
               <li>
-                <button
-                  onClick={() => onNavigate('/tools/rank')}
-                  className="hover:text-white transition-colors cursor-pointer text-left"
+                <NavLink
+                  href="/tools/rank"
+                  onNavigate={onNavigate}
+                  className="hover:text-white transition-colors cursor-pointer text-left block"
                 >
                   Expected Rank & Normalization Predictor
-                </button>
+                </NavLink>
               </li>
               <li>
-                <button
-                  onClick={() => onNavigate('/tools/eligibility')}
-                  className="hover:text-white transition-colors cursor-pointer text-left"
+                <NavLink
+                  href="/tools"
+                  onNavigate={onNavigate}
+                  className="hover:text-blue-400 transition-colors cursor-pointer text-left block font-medium"
                 >
-                  Instant Eligibility Matcher
-                </button>
+                  View All Exam Calculators →
+                </NavLink>
               </li>
             </ul>
           </div>
@@ -119,60 +133,103 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             </h4>
             <ul className="space-y-2 text-xs text-slate-400">
               <li>
-                <button
-                  onClick={() => onNavigate('/jobs')}
-                  className="hover:text-white transition-colors cursor-pointer text-left"
+                <NavLink
+                  href="/jobs"
+                  onNavigate={onNavigate}
+                  className="hover:text-white transition-colors cursor-pointer text-left block"
                 >
                   Latest Govt Jobs 2026
-                </button>
+                </NavLink>
               </li>
               <li>
-                <button
-                  onClick={() => onNavigate('/exams')}
-                  className="hover:text-white transition-colors cursor-pointer text-left"
+                <NavLink
+                  href="/exams"
+                  onNavigate={onNavigate}
+                  className="hover:text-white transition-colors cursor-pointer text-left block"
                 >
                   15 Exam Blueprints & Syllabi
-                </button>
+                </NavLink>
               </li>
               <li>
-                <button
-                  onClick={() => onNavigate('/data/vacancies')}
-                  className="hover:text-white transition-colors cursor-pointer text-left"
+                <NavLink
+                  href="/data/vacancies"
+                  onNavigate={onNavigate}
+                  className="hover:text-white transition-colors cursor-pointer text-left block"
                 >
                   Multi-Year Vacancy Tracker (2020–2026)
-                </button>
+                </NavLink>
               </li>
               <li>
-                <button
-                  onClick={() => onNavigate('/guides')}
-                  className="hover:text-white transition-colors cursor-pointer text-left"
+                <NavLink
+                  href="/guides"
+                  onNavigate={onNavigate}
+                  className="hover:text-white transition-colors cursor-pointer text-left block"
                 >
                   Application & Certificate Guides
-                </button>
+                </NavLink>
               </li>
               <li>
-                <button
-                  onClick={() => onNavigate('/admit-card')}
-                  className="hover:text-white transition-colors cursor-pointer text-left"
+                <NavLink
+                  href="/admit-card"
+                  onNavigate={onNavigate}
+                  className="hover:text-white transition-colors cursor-pointer text-left block"
                 >
                   Admit Cards & City Slips
-                </button>
+                </NavLink>
               </li>
               <li>
-                <button
-                  onClick={() => onNavigate('/cut-off')}
-                  className="hover:text-white transition-colors cursor-pointer text-left"
+                <NavLink
+                  href="/cut-off"
+                  onNavigate={onNavigate}
+                  className="hover:text-white transition-colors cursor-pointer text-left block"
                 >
                   Official Category Cut-Off Marks
-                </button>
+                </NavLink>
               </li>
               <li>
-                <button
-                  onClick={() => onNavigate('/mock-test/ssc-cgl-tier1')}
-                  className="hover:text-white transition-colors cursor-pointer text-left"
+                <NavLink
+                  href="/answer-key"
+                  onNavigate={onNavigate}
+                  className="hover:text-white transition-colors cursor-pointer text-left block"
+                >
+                  Official Answer Keys & Sheets
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  href="/mock-test/ssc-cgl-tier1"
+                  onNavigate={onNavigate}
+                  className="hover:text-white transition-colors cursor-pointer text-left block"
                 >
                   CBT-Style Practice Test
-                </button>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  href="/blog"
+                  onNavigate={onNavigate}
+                  className="hover:text-white transition-colors cursor-pointer text-left text-blue-300 font-semibold block"
+                >
+                  Knowledge Base & Schemes Hub
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  href="/blog/army-1600-meter-running-time-agniveer-pft-standards"
+                  onNavigate={onNavigate}
+                  className="hover:text-white transition-colors cursor-pointer text-left block"
+                >
+                  Army 1600m Running Standards
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  href="/blog/top-central-government-schemes-for-job-seekers-pmkvy-naps-employment"
+                  onNavigate={onNavigate}
+                  className="hover:text-white transition-colors cursor-pointer text-left block"
+                >
+                  Govt Schemes (PMKVY & NAPS)
+                </NavLink>
               </li>
             </ul>
           </div>
@@ -184,92 +241,103 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             </h4>
             <ul className="space-y-2 text-xs text-slate-400 mb-4">
               <li>
-                <button
-                  onClick={() => onNavigate('/trust/editorial')}
-                  className="hover:text-emerald-400 font-semibold transition-colors cursor-pointer text-left"
+                <NavLink
+                  href="/trust/editorial"
+                  onNavigate={onNavigate}
+                  className="hover:text-emerald-400 font-semibold transition-colors cursor-pointer text-left block"
                 >
                   Editorial Integrity & Standards
-                </button>
+                </NavLink>
               </li>
               <li>
-                <button
-                  onClick={() => onNavigate('/trust/grievance')}
-                  className="hover:text-emerald-400 font-semibold transition-colors cursor-pointer text-left"
+                <NavLink
+                  href="/trust/grievance"
+                  onNavigate={onNavigate}
+                  className="hover:text-emerald-400 font-semibold transition-colors cursor-pointer text-left block"
                 >
                   Contact & Feedback Desk
-                </button>
+                </NavLink>
               </li>
               <li>
-                <button
-                  onClick={() => onNavigate('/author/akash-singh-solanki')}
-                  className="hover:text-white transition-colors cursor-pointer text-left"
+                <NavLink
+                  href="/author/akash-singh-solanki"
+                  onNavigate={onNavigate}
+                  className="hover:text-white transition-colors cursor-pointer text-left block"
                 >
                   Founder & Editor Profile
-                </button>
+                </NavLink>
               </li>
               <li>
-                <button
-                  onClick={() => onNavigate('/about')}
-                  className="hover:text-white transition-colors cursor-pointer text-left"
+                <NavLink
+                  href="/about"
+                  onNavigate={onNavigate}
+                  className="hover:text-white transition-colors cursor-pointer text-left block"
                 >
                   About GovIndiaNews
-                </button>
+                </NavLink>
               </li>
               <li>
-                <button
-                  onClick={() => onNavigate('/contact')}
-                  className="hover:text-white transition-colors cursor-pointer text-left"
+                <NavLink
+                  href="/contact"
+                  onNavigate={onNavigate}
+                  className="hover:text-white transition-colors cursor-pointer text-left block"
                 >
                   Contact & Grievance Redressal
-                </button>
+                </NavLink>
               </li>
               <li>
-                <button
-                  onClick={() => onNavigate('/fact-checking')}
-                  className="hover:text-white transition-colors cursor-pointer text-left"
+                <NavLink
+                  href="/fact-checking"
+                  onNavigate={onNavigate}
+                  className="hover:text-white transition-colors cursor-pointer text-left block"
                 >
                   Fact-Checking & Gazette Policy
-                </button>
+                </NavLink>
               </li>
               <li>
-                <button
-                  onClick={() => onNavigate('/corrections')}
-                  className="hover:text-white transition-colors cursor-pointer text-left"
+                <NavLink
+                  href="/corrections"
+                  onNavigate={onNavigate}
+                  className="hover:text-white transition-colors cursor-pointer text-left block"
                 >
                   Corrections & Errata Policy
-                </button>
+                </NavLink>
               </li>
               <li>
-                <button
-                  onClick={() => onNavigate('/privacy')}
-                  className="hover:text-white transition-colors cursor-pointer text-left"
+                <NavLink
+                  href="/privacy"
+                  onNavigate={onNavigate}
+                  className="hover:text-white transition-colors cursor-pointer text-left block"
                 >
                   Privacy Policy & DART Cookies
-                </button>
+                </NavLink>
               </li>
               <li>
-                <button
-                  onClick={() => onNavigate('/terms')}
-                  className="hover:text-white transition-colors cursor-pointer text-left"
+                <NavLink
+                  href="/terms"
+                  onNavigate={onNavigate}
+                  className="hover:text-white transition-colors cursor-pointer text-left block"
                 >
                   Terms of Service
-                </button>
+                </NavLink>
               </li>
               <li>
-                <button
-                  onClick={() => onNavigate('/disclaimer')}
-                  className="hover:text-white transition-colors cursor-pointer text-left"
+                <NavLink
+                  href="/disclaimer"
+                  onNavigate={onNavigate}
+                  className="hover:text-white transition-colors cursor-pointer text-left block"
                 >
                   Non-Government Disclaimer
-                </button>
+                </NavLink>
               </li>
               <li>
-                <button
-                  onClick={() => onNavigate('/faqs')}
-                  className="hover:text-white transition-colors cursor-pointer text-left font-medium text-blue-300"
+                <NavLink
+                  href="/faqs"
+                  onNavigate={onNavigate}
+                  className="hover:text-white transition-colors cursor-pointer text-left font-medium text-blue-300 block"
                 >
                   Candidate FAQs & Statutory Rules
-                </button>
+                </NavLink>
               </li>
             </ul>
 
@@ -288,22 +356,25 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             <span aria-hidden="true">·</span>
             <span>Independent Exam Prep & News Portal</span>
             <span aria-hidden="true">·</span>
-            <button
-              onClick={() => onNavigate('/disclaimer')}
+            <NavLink
+              href="/disclaimer"
+              onNavigate={onNavigate}
               className="hover:underline cursor-pointer"
             >
               Disclaimer
-            </button>
+            </NavLink>
             <span aria-hidden="true">·</span>
-            <button
-              onClick={() => onNavigate('/privacy')}
+            <NavLink
+              href="/privacy"
+              onNavigate={onNavigate}
               className="hover:underline cursor-pointer"
             >
               Privacy Policy
-            </button>
+            </NavLink>
           </div>
 
           <button
+            type="button"
             onClick={scrollToTop}
             className="flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-slate-800 hover:bg-slate-700 text-slate-300 transition-colors text-xs cursor-pointer"
           >

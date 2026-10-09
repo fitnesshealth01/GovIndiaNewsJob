@@ -45,7 +45,7 @@ export interface SourceNotice {
 export interface RecruitmentAlert {
   id: string;
   slug: string;
-  category: 'jobs' | 'admit-card' | 'result' | 'answer-key' | 'cut-off';
+  category: 'jobs' | 'admit-card' | 'result' | 'answer-key' | 'cut-off' | 'board-exams';
   title: string;
   organization: string;
   examName: string;
@@ -103,6 +103,19 @@ export interface RecruitmentAlert {
   commonRejectionMistakes?: string[];
   documentsNeeded?: string[];
   admitCardDetails?: AdmitCardDetails;
+  seoTitle?: string;
+  metaDescription?: string;
+  primaryKeyword?: string;
+  secondaryKeywords?: string[];
+  quickFacts?: { detail: string; information: string }[];
+  whoCanApplyClass10?: string[];
+  whoCanApplyClass12?: string[];
+  goodToKnow?: string[];
+  feesTable?: { item: string; amount: string }[];
+  feesNotes?: string;
+  class10TwoExamSystemNotes?: string;
+  notEligibleAdvisory?: string;
+  editorialDisclaimer?: string;
 }
 
 export interface SalaryArithmetic {
@@ -243,6 +256,170 @@ export interface PYQQuestion {
 }
 
 export const RECRUITMENT_ALERTS: RecruitmentAlert[] = [
+  // LATEST BOARD EXAM NOTIFICATION - 08 OCTOBER 2026
+  {
+    id: 'cbse-private-candidate-form-2027',
+    slug: 'cbse-private-candidate-form-2027-eligibility-last-date-fees',
+    category: 'board-exams',
+    title: 'CBSE Private Candidate Form 2027 Is Open: Who Can Apply, Last Date, Fees and Step-by-Step Process',
+    seoTitle: 'CBSE Private Candidate Form 2027: Last Date Oct 23, Eligibility, Fees',
+    metaDescription: 'CBSE private candidate form 2027 is open for Class 10 and 12. Check who can apply, last date (Oct 23), fees, documents and step-by-step process.',
+    primaryKeyword: 'CBSE private candidate form 2027',
+    secondaryKeywords: [
+      'CBSE private candidate eligibility 2027',
+      'CBSE private form last date',
+      'CBSE private candidate fee 2027',
+      'CBSE essential repeat private candidate',
+    ],
+    organization: 'Central Board of Secondary Education (CBSE)',
+    examName: 'CBSE Class 10 & 12 Board Examinations 2027 (Private Candidates)',
+    postCount: 'Class 10 & 12 Private Candidates',
+    publishDate: '08 Oct 2026',
+    lastDate: '23 Oct 2026 (No Late Fee) / 30 Oct 2026 (With Late Fee)',
+    examDate: 'February to April 2027 (Class 10: Feb–Mar 2027, Class 12: Feb–Apr 2027)',
+    qualification: 'Class 10 / Class 12 (Essential Repeat, Compartment, Fail or Improvement Candidates)',
+    qualificationTier: '10th',
+    sector: 'other',
+    fees: '₹300–₹320/subject (India), Late Fee: ₹2,000',
+    sourceNotice: {
+      title: 'CBSE Official Notification — Online Submission of LOC for Private Candidates Class X & XII Examination 2027',
+      url: 'https://www.cbse.gov.in/newsite/private/index.html',
+      checkedOn: '08 Oct 2026',
+    },
+    verifiedBy: 'Akash Singh Solanki (Founder & Editor)',
+    status: 'verified',
+    author: 'Akash Singh Solanki',
+    reviewedDate: '08 Oct 2026, 15:30 IST',
+    readTime: '6 min read',
+    summary: 'CBSE opened private candidate registration for the 2027 Class 10 and 12 board exams on 8 October 2026. The last date without a late fee is 23 October 2026. Applications with a late fee of ₹2,000 are accepted from 24 to 30 October. Apply only at cbse.gov.in.',
+    linkText: 'Apply at cbse.gov.in Private Candidate Portal',
+    quickFacts: [
+      { detail: 'Form opens', information: '8 October 2026' },
+      { detail: 'Last date (no late fee)', information: '23 October 2026 (Friday)' },
+      { detail: 'Late fee window', information: '24 to 30 October 2026' },
+      { detail: 'Late fee', information: '₹2,000, on top of the normal fee' },
+      { detail: 'Class 10 private exams', information: 'February to March 2027' },
+      { detail: 'Class 12 private exams', information: 'February to April 2027' },
+      { detail: 'Separate private exam?', information: 'No, papers run alongside the main board exams' },
+      { detail: 'Apply at', information: 'cbse.gov.in → Private Candidate link' },
+    ],
+    whoCanApplyClass10: [
+      'Session 2025-26 students declared **Essential Repeat** in the 2026 result.',
+      'Students placed in **Compartment** in 2026 (second chance).',
+      'Candidates declared **Fail or Essential Repeat** in any year from 2021 to 2026.',
+      'Students who **passed in 2026** and want Improvement of Performance in one or more subjects.',
+    ],
+    whoCanApplyClass12: [
+      'Students declared **Essential Repeat** in the 2026 exam.',
+      'Students placed in **Compartment** in the 2026 main or supplementary exam. They can apply only for the subject in which they were placed in compartment, and must choose the Compartment category.',
+      'Candidates declared Fail or Essential Repeat in earlier years, as listed in the notice.',
+      'Students who **passed in 2026** and want improvement, subject to the Board’s conditions.',
+      'Passed students who want an **additional subject**, within two years of passing.',
+    ],
+    goodToKnow: [
+      'A student with compartment in one subject can choose to re-appear in all subjects by selecting the Essential Repeat category.',
+      'In Class 12, Physics, Chemistry and Biology are open only to Essential Repeat, Compartment and Improvement candidates.',
+      'Study from the 2027 curriculum on cbseacademic.nic.in.',
+    ],
+    feesTable: [
+      { item: 'Additional subject', amount: '₹320 per subject' },
+      { item: 'Class 12 practical', amount: '₹160 per practical subject' },
+      { item: 'Compartment / improvement / additional subject (earlier-year rate)', amount: '₹300 per subject' },
+      { item: 'Late fee (24-30 Oct)', amount: '₹2,000' },
+    ],
+    feesNotes: 'Candidates from Nepal pay ₹1,100 per additional subject and those from other countries ₹2,200. Fees vary by category, so confirm your exact amount on the portal before paying.',
+    howToApplySteps: [
+      'Open **cbse.gov.in** and click the **Private Candidate** (Vyaktigat Pariksharthi) link.',
+      'Select Class 10 or Class 12 and choose your correct category.',
+      'Enter your previous roll number, year of passing and personal details exactly as on your marksheet.',
+      'Select subjects (and practical subjects where applicable) and your exam city.',
+      'Upload your photograph and signature.',
+      'Pay the fee online and download the confirmation page.',
+    ],
+    documentsNeeded: [
+      'Previous CBSE roll number and marksheet or admit card',
+      'Recent passport-size photograph and scanned signature',
+      'Valid mobile number and email ID',
+      'ID proof (Aadhaar is commonly asked for)',
+      'Debit card, credit card or net banking for payment',
+    ],
+    commonRejectionMistakes: [
+      'Choosing the wrong category (for example Improvement instead of Compartment).',
+      'Typing name, date of birth or parent details differently from your marksheet.',
+      'Submitting more than one application. Only one is allowed per student.',
+      'Assuming payment means approval. CBSE still checks your eligibility.',
+      'Using agents or unofficial websites for payment.',
+      'Waiting until the last day, when the portal is busiest.',
+      'Picking subjects you are not eligible for, such as science subjects in the wrong category.',
+    ],
+    class10TwoExamSystemNotes: 'Since 2026, Class 10 students take a mandatory Phase 1 in February and an optional improvement Phase 2 in May. A clear rule for how Phase 2 applies to private candidates in 2027 was not available when this article was written. Check the official notice before choosing your category.',
+    notEligibleAdvisory: 'If your category isn\'t covered, regular schooling or an open schooling board such as NIOS may be options. Confirm admission rules with them directly.',
+    editorialDisclaimer: 'GovIndiaNews is an independent publication and is not affiliated with CBSE or any government body. Details were compiled from CBSE\'s notice as reported by education outlets and may change. Always confirm on cbse.gov.in.',
+    importantDates: [
+      { event: 'Online Application Portal Opens', date: '08 October 2026' },
+      { event: 'Last Date to Apply (Without Late Fee)', date: '23 October 2026 (Friday)' },
+      { event: 'Late Fee Application Window (₹2,000 Surcharge)', date: '24 to 30 October 2026' },
+      { event: 'Class 10 Private Board Examinations', date: 'February to March 2027' },
+      { event: 'Class 12 Private Board Examinations', date: 'February to April 2027' },
+    ],
+    applicationFees: [
+      { category: 'Additional Subject (Candidates in India)', fee: '₹320 per subject' },
+      { category: 'Class 12 Practical Subject Fee', fee: '₹160 per practical subject' },
+      { category: 'Compartment / Improvement / Additional Subject (Earlier Rate)', fee: '₹300 per subject' },
+      { category: 'Late Fee Surcharge (24–30 Oct 2026)', fee: '₹2,000' },
+      { category: 'Candidates from Nepal (Per Additional Subject)', fee: '₹1,100' },
+      { category: 'Candidates from Other Countries (Per Additional Subject)', fee: '₹2,200' },
+    ],
+    officialLinks: [
+      {
+        title: 'CBSE Private Candidate Portal',
+        label: 'cbse.gov.in/newsite/private/index.html',
+        url: 'https://www.cbse.gov.in/newsite/private/index.html',
+        isPrimary: true,
+        linkType: 'official',
+      },
+      {
+        title: 'CBSE Academic Curriculum 2027',
+        label: 'cbseacademic.nic.in/curriculum_2027.html',
+        url: 'https://cbseacademic.nic.in/curriculum_2027.html',
+        linkType: 'official',
+      },
+    ],
+    faqs: [
+      {
+        question: 'When does the CBSE private candidate form 2027 close?',
+        answer: '23 October 2026 without a late fee. It stays open until 30 October with a ₹2,000 late fee.',
+      },
+      {
+        question: 'Is there a separate exam for private candidates?',
+        answer: 'No. Private candidates write their papers in February to April 2027 along with the main board exams.',
+      },
+      {
+        question: 'Can I apply if I passed in 2026?',
+        answer: 'Yes, but only for Improvement of Performance, or for an additional subject within two years of passing.',
+      },
+      {
+        question: 'Can I submit two forms?',
+        answer: 'No. Only one application per student is accepted.',
+      },
+      {
+        question: 'Does paying the fee confirm my seat?',
+        answer: 'No. CBSE verifies eligibility after submission.',
+      },
+      {
+        question: 'Where is the official form?',
+        answer: 'Only on cbse.gov.in under the Private Candidate section.',
+      },
+      {
+        question: 'Is the fee the same for everyone?',
+        answer: 'No. It depends on your category, subjects, practicals and country.',
+      },
+      {
+        question: 'When will the admit card come?',
+        answer: 'Dates for private candidates are not yet announced. Watch cbse.gov.in and your registered email.',
+      },
+    ],
+  },
   // LATEST RECRUITMENT NOTIFICATION - 07 OCTOBER 2026
   {
     id: 'nicl-ao-recruitment-2026',
