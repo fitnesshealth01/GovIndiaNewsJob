@@ -276,12 +276,14 @@ export function buildNewsArticleSchema(item: RecruitmentAlert): Record<string, u
     pubDate = '2026-10-03T09:00:00+05:30';
   }
 
+  const articleImage = item.titleImage || item.featuredImage || `${origin}/og-image.jpg`;
+
   return {
     '@context': 'https://schema.org',
     '@type': 'NewsArticle',
     headline: item.title,
     description: item.summary,
-    image: [`${origin}/og-image.jpg`],
+    image: [articleImage],
     datePublished: pubDate,
     dateModified: pubDate,
     author: [
@@ -370,14 +372,43 @@ export function buildEventSchema(item: RecruitmentAlert): Record<string, unknown
   const origin = getOrigin();
   const url = `${origin}/article/${item.slug}`;
   const location = getOrganizationLocation(item.organization);
+  const eventImage = item.titleImage || item.featuredImage || `${origin}/og-image.jpg`;
+  const officialPortalUrl = item.officialLinks?.[0]?.url || item.sourceNotice?.url || 'https://india.gov.in';
+
+  // Parse fee number if available, default to 0 for admit cards or examination entry
+  let feePrice = 0;
+  if (item.applicationFees && item.applicationFees.length > 0) {
+    const rawFee = item.applicationFees[0].fee.replace(/[^0-9]/g, '');
+    if (rawFee) {
+      feePrice = parseInt(rawFee, 10);
+    }
+  }
+
+  // Parse ISO date
+  let startDate = '2026-11-01T09:00:00+05:30';
+  let endDate = '2026-12-31T18:00:00+05:30';
+  if (item.examDate) {
+    const match = item.examDate.match(/(\d{1,2}\s+[A-Za-z]{3,9}\s+\d{4})/);
+    if (match) {
+      const parsed = new Date(match[1]);
+      if (!isNaN(parsed.getTime())) {
+        const year = parsed.getFullYear();
+        const month = String(parsed.getMonth() + 1).padStart(2, '0');
+        const day = String(parsed.getDate()).padStart(2, '0');
+        startDate = `${year}-${month}-${day}T09:00:00+05:30`;
+        endDate = `${year}-${month}-${day}T18:00:00+05:30`;
+      }
+    }
+  }
 
   return {
     '@context': 'https://schema.org',
     '@type': 'EducationEvent',
     name: item.examName || item.title,
     description: item.summary,
-    startDate: '2026-10-14T09:00:00+05:30',
-    endDate: '2026-10-26T18:00:00+05:30',
+    image: [eventImage],
+    startDate,
+    endDate,
     eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
     eventStatus: 'https://schema.org/EventScheduled',
     location: {
@@ -392,11 +423,26 @@ export function buildEventSchema(item: RecruitmentAlert): Record<string, unknown
         addressCountry: 'IN',
       },
     },
-    // Use Organization for maximum schema validator compatibility
+    // Fix Google Search Console non-critical warning: Missing field "performer"
+    performer: {
+      '@type': 'Organization',
+      name: item.organization,
+      url: officialPortalUrl,
+    },
+    // Fix Google Search Console non-critical warning: Missing field "organizer"
     organizer: {
       '@type': 'Organization',
       name: item.organization,
-      url: item.officialLinks?.[0]?.url || 'https://india.gov.in',
+      url: officialPortalUrl,
+    },
+    // Fix Google Search Console non-critical warning: Missing field "offers"
+    offers: {
+      '@type': 'Offer',
+      price: feePrice,
+      priceCurrency: 'INR',
+      availability: 'https://schema.org/InStock',
+      url: officialPortalUrl,
+      validFrom: '2026-10-01T00:00:00+05:30',
     },
     url,
   };

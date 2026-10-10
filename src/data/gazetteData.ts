@@ -119,6 +119,8 @@ export interface RecruitmentAlert {
   keyTakeaways?: string[];
   dbtBetMergerNotes?: string;
   categoryChoiceOptions?: { title: string; description: string }[];
+  featuredImage?: string;
+  titleImage?: string;
 }
 
 export interface SalaryArithmetic {
@@ -268,6 +270,8 @@ export const RECRUITMENT_ALERTS: RecruitmentAlert[] = [
     seoTitle: 'UGC NET December 2026 Form Out: Last Date Oct 28, Fee, Eligibility',
     metaDescription: 'UGC NET December 2026 application form is live. Check last date (Oct 28), fee, eligibility, JRF age limit, exam date, new CSIR-UGC NET change and how to apply.',
     primaryKeyword: 'UGC NET December 2026 application form',
+    featuredImage: 'https://i.ibb.co/ks7jY7Wc/e5446fb5-0274-4413-b9f3-5ed6a2868bfb-1.png',
+    titleImage: 'https://i.ibb.co/ks7jY7Wc/e5446fb5-0274-4413-b9f3-5ed6a2868bfb-1.png',
     secondaryKeywords: [
       'UGC NET December 2026 last date',
       'UGC NET 2026 fee',
@@ -417,6 +421,8 @@ export const RECRUITMENT_ALERTS: RecruitmentAlert[] = [
     seoTitle: 'CBSE Private Candidate Form 2027: Last Date Oct 23, Eligibility, Fees',
     metaDescription: 'CBSE private candidate form 2027 is open for Class 10 and 12. Check who can apply, last date (Oct 23), fees, documents and step-by-step process.',
     primaryKeyword: 'CBSE private candidate form 2027',
+    featuredImage: 'https://i.ibb.co/hFL2t4Y0/c3f1c1f1-724b-4f8a-8bb9-891fe128d25d-1-1.png',
+    titleImage: 'https://i.ibb.co/hFL2t4Y0/c3f1c1f1-724b-4f8a-8bb9-891fe128d25d-1-1.png',
     secondaryKeywords: [
       'CBSE private candidate eligibility 2027',
       'CBSE private form last date',

@@ -235,6 +235,18 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
               {article.title}
             </h1>
 
+            {/* Article Title Image / Featured Banner */}
+            {(article.titleImage || article.featuredImage) && (
+              <div className="relative w-full rounded-2xl overflow-hidden border border-slate-200 shadow-md bg-slate-950 my-3">
+                <img
+                  src={article.titleImage || article.featuredImage}
+                  alt={article.title}
+                  loading="eager"
+                  className="w-full h-auto max-h-[460px] object-cover object-center mx-auto"
+                />
+              </div>
+            )}
+
             {/* Official Source Citation Line */}
             <div className="flex items-center gap-2 flex-wrap text-xs text-slate-500 py-2 border-y border-slate-200">
               <span className="font-semibold text-slate-700">Official Source:</span>
@@ -387,10 +399,10 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
               >
                 {author.initials}
                 <div
-                  className="absolute -bottom-1 -right-1 bg-amber-500 text-slate-950 p-0.5 rounded-full text-[9px] shadow-2xs"
-                  title="Indian Army Veteran (Former Soldier)"
+                  className="absolute -bottom-1 -right-1 bg-blue-600 text-white p-0.5 rounded-full text-[9px] shadow-2xs"
+                  title="Editorial Staff"
                 >
-                  🎖️
+                  ✍️
                 </div>
               </div>
               <div className="space-y-1.5 flex-1 min-w-0 text-xs">

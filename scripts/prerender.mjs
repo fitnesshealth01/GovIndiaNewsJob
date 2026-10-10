@@ -1694,6 +1694,11 @@ for (const alert of RECRUITMENT_ALERTS) {
               <span style="color:${alert.status === 'verified' ? '#059669' : '#d97706'};font-weight:700;">${alert.status === 'verified' ? '&check; Gazette Verified' : 'Under Verification'}</span>
             </div>
             <h1 style="font-size:2.2rem;font-weight:800;color:#0f172a;line-height:1.25;margin:0 0 1rem 0;">${escapeHtml(alert.title)}</h1>
+            ${alert.titleImage || alert.featuredImage ? `
+              <div style="margin:1rem 0 1.5rem 0;border-radius:12px;overflow:hidden;border:1px solid #e2e8f0;background:#020617;max-height:480px;box-shadow:0 4px 6px -1px rgba(0,0,0,0.1);">
+                <img src="${escapeHtml(alert.titleImage || alert.featuredImage)}" alt="${escapeHtml(alert.title)}" style="width:100%;height:auto;max-height:480px;object-fit:cover;display:block;" />
+              </div>
+            ` : ''}
             <p style="font-size:1.05rem;color:#475569;margin:0 0 1.25rem 0;">${escapeHtml(alert.summary)}</p>
             <div style="font-size:0.8rem;color:#64748b;display:flex;flex-wrap:wrap;gap:1.5rem;">
               <span>By <strong>${escapeHtml(alert.author || 'Akash Singh Solanki')}</strong> (Founder &amp; Editor)</span>
@@ -2023,34 +2028,34 @@ Grievance Redressal Officer:
   },
   {
     path: '/author/akash-singh-solanki',
-    title: 'Akash Singh Solanki — Founder, Editor & Indian Army Veteran | GovIndiaNews',
-    description: 'Editorial profile and chronological publications archive of Akash Singh Solanki, former Indian Army soldier, founder and editor of GovIndiaNews specializing in official government gazette recruitment analysis.',
-    heading: 'Akash Singh Solanki — Founder, Editor & Indian Army Veteran',
-    bodyText: `Former Indian Army soldier with firsthand military service experience, bringing disciplined rigor and ground-truth verification to public examination reporting. Founder and Editor of GovIndiaNews, dedicated to providing authentic, gazette-verified government job notifications, transparent pay arithmetic, and candidate-first preparation guidance for millions of aspirants across India. Contact: contact@govindianews.com.
+    title: 'Akash Singh Solanki — Founder & Editor | GovIndiaNews',
+    description: 'Editorial profile and chronological publications archive of Akash Singh Solanki, founder and editor of GovIndiaNews specializing in official government gazette recruitment analysis.',
+    heading: 'Akash Singh Solanki — Founder & Editor',
+    bodyText: `Founder and Editor of GovIndiaNews, dedicated to providing authentic, gazette-verified government job notifications, transparent pay arithmetic, and candidate-first preparation guidance for millions of aspirants across India. Contact: contact@govindianews.com.
 
-Akash Singh Solanki founded GovIndiaNews to bridge the critical gap between complex official government gazettes and young aspirants navigating competitive examinations. With extensive personal background in disciplined uniformed service, he personally inspects central notifications from the Ministry of Personnel, Public Grievances and Pensions, Staff Selection Commission, Union Public Service Commission, and Ministry of Railways.
+Akash Singh Solanki founded GovIndiaNews to bridge the critical gap between complex official government gazettes and young aspirants navigating competitive examinations. He inspects central notifications from the Ministry of Personnel, Public Grievances and Pensions, Staff Selection Commission, Union Public Service Commission, and Ministry of Railways.
 
 Under his editorial direction, GovIndiaNews guarantees that every published recruitment alert cites the primary commission source notice, provides truthful reservation arithmetic, and respects candidate privacy across all calculation utilities.`
   },
   {
     path: '/author',
-    title: 'Akash Singh Solanki — Founder, Editor & Indian Army Veteran | GovIndiaNews',
-    description: 'Editorial profile and chronological publications archive of Akash Singh Solanki, former Indian Army soldier, founder and editor of GovIndiaNews specializing in official government gazette recruitment analysis.',
-    heading: 'Akash Singh Solanki — Founder, Editor & Indian Army Veteran',
-    bodyText: `Former Indian Army soldier with firsthand military service experience, bringing disciplined rigor and ground-truth verification to public examination reporting. Founder and Editor of GovIndiaNews, dedicated to providing authentic, gazette-verified government job notifications, transparent pay arithmetic, and candidate-first preparation guidance for millions of aspirants across India. Contact: contact@govindianews.com.
+    title: 'Akash Singh Solanki — Founder & Editor | GovIndiaNews',
+    description: 'Editorial profile and chronological publications archive of Akash Singh Solanki, founder and editor of GovIndiaNews specializing in official government gazette recruitment analysis.',
+    heading: 'Akash Singh Solanki — Founder & Editor',
+    bodyText: `Founder and Editor of GovIndiaNews, dedicated to providing authentic, gazette-verified government job notifications, transparent pay arithmetic, and candidate-first preparation guidance for millions of aspirants across India. Contact: contact@govindianews.com.
 
-Akash Singh Solanki founded GovIndiaNews to bridge the critical gap between complex official government gazettes and young aspirants navigating competitive examinations. With extensive personal background in disciplined uniformed service, he personally inspects central notifications from the Ministry of Personnel, Public Grievances and Pensions, Staff Selection Commission, Union Public Service Commission, and Ministry of Railways.
+Akash Singh Solanki founded GovIndiaNews to bridge the critical gap between complex official government gazettes and young aspirants navigating competitive examinations. He inspects central notifications from the Ministry of Personnel, Public Grievances and Pensions, Staff Selection Commission, Union Public Service Commission, and Ministry of Railways.
 
 Under his editorial direction, GovIndiaNews guarantees that every published recruitment alert cites the primary commission source notice, provides truthful reservation arithmetic, and respects candidate privacy across all calculation utilities.`
   },
   {
     path: '/author/akash-solanki',
-    title: 'Akash Singh Solanki — Founder, Editor & Indian Army Veteran | GovIndiaNews',
-    description: 'Editorial profile and chronological publications archive of Akash Singh Solanki, former Indian Army soldier, founder and editor of GovIndiaNews specializing in official government gazette recruitment analysis.',
-    heading: 'Akash Singh Solanki — Founder, Editor & Indian Army Veteran',
-    bodyText: `Former Indian Army soldier with firsthand military service experience, bringing disciplined rigor and ground-truth verification to public examination reporting. Founder and Editor of GovIndiaNews, dedicated to providing authentic, gazette-verified government job notifications, transparent pay arithmetic, and candidate-first preparation guidance for millions of aspirants across India. Contact: contact@govindianews.com.
+    title: 'Akash Singh Solanki — Founder & Editor | GovIndiaNews',
+    description: 'Editorial profile and chronological publications archive of Akash Singh Solanki, founder and editor of GovIndiaNews specializing in official government gazette recruitment analysis.',
+    heading: 'Akash Singh Solanki — Founder & Editor',
+    bodyText: `Founder and Editor of GovIndiaNews, dedicated to providing authentic, gazette-verified government job notifications, transparent pay arithmetic, and candidate-first preparation guidance for millions of aspirants across India. Contact: contact@govindianews.com.
 
-Akash Singh Solanki founded GovIndiaNews to bridge the critical gap between complex official government gazettes and young aspirants navigating competitive examinations. With extensive personal background in disciplined uniformed service, he personally inspects central notifications from the Ministry of Personnel, Public Grievances and Pensions, Staff Selection Commission, Union Public Service Commission, and Ministry of Railways.
+Akash Singh Solanki founded GovIndiaNews to bridge the critical gap between complex official government gazettes and young aspirants navigating competitive examinations. He inspects central notifications from the Ministry of Personnel, Public Grievances and Pensions, Staff Selection Commission, Union Public Service Commission, and Ministry of Railways.
 
 Under his editorial direction, GovIndiaNews guarantees that every published recruitment alert cites the primary commission source notice, provides truthful reservation arithmetic, and respects candidate privacy across all calculation utilities.`
   },
@@ -2208,13 +2213,15 @@ for (const route of ROUTES) {
     const pubTime = isCbse ? '15:30:00' : '06:00:00';
     const modTime = isCbse ? '15:30:00' : '06:00:00';
 
+    const articleImage = alert.titleImage || alert.featuredImage || `${DOMAIN}/og-image.jpg`;
+
     schemas.push({
       '@context': 'https://schema.org',
       '@type': 'NewsArticle',
       headline: alert.title,
       description: alert.metaDescription || alert.summary,
       url: route.canonical,
-      image: [`${DOMAIN}/og-image.jpg`],
+      image: [articleImage],
       datePublished: `${isoDate}T${pubTime}+05:30`,
       dateModified: `${modDate}T${modTime}+05:30`,
       author: {
@@ -2229,6 +2236,61 @@ for (const route of ROUTES) {
       },
       mainEntityOfPage: route.canonical
     });
+
+    // EducationEvent for admit cards, board exams, NTA exams, or any alert with examDate
+    if (alert.category === 'admit-card' || alert.category === 'board-exams' || alert.category === 'nta-exams' || alert.examDate) {
+      let feePrice = 0;
+      if (alert.applicationFees && alert.applicationFees.length > 0) {
+        const rawFee = alert.applicationFees[0].fee.replace(/[^0-9]/g, '');
+        if (rawFee) {
+          feePrice = parseInt(rawFee, 10);
+        }
+      }
+      const officialPortalUrl = alert.sourceNotice?.url || alert.officialPdfUrl || alert.directApplyUrl || 'https://india.gov.in';
+
+      schemas.push({
+        '@context': 'https://schema.org',
+        '@type': 'EducationEvent',
+        name: alert.examName || alert.title,
+        description: alert.summary,
+        image: [articleImage],
+        startDate: `${isoDate}T09:00:00+05:30`,
+        endDate: `${isoDate}T18:00:00+05:30`,
+        eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+        eventStatus: 'https://schema.org/EventScheduled',
+        location: {
+          '@type': 'Place',
+          name: `${alert.organization} Designated Examination Centers`,
+          address: {
+            '@type': 'PostalAddress',
+            streetAddress: 'Designated Center Coordinates across India',
+            addressLocality: 'New Delhi',
+            addressRegion: 'Delhi',
+            postalCode: '110001',
+            addressCountry: 'IN'
+          }
+        },
+        performer: {
+          '@type': 'Organization',
+          name: alert.organization,
+          url: officialPortalUrl
+        },
+        organizer: {
+          '@type': 'Organization',
+          name: alert.organization,
+          url: officialPortalUrl
+        },
+        offers: {
+          '@type': 'Offer',
+          price: feePrice,
+          priceCurrency: 'INR',
+          availability: 'https://schema.org/InStock',
+          url: officialPortalUrl,
+          validFrom: `${isoDate}T00:00:00+05:30`
+        },
+        url: route.canonical
+      });
+    }
 
     // JobPosting ONLY if real post count > 0, last date exists, and official source URL exists
     const postCountNum = typeof alert.postCount === 'number'

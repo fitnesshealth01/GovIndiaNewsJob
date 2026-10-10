@@ -18,6 +18,7 @@ import {
   Bookmark,
   ShieldCheck,
   TrendingUp,
+  GraduationCap,
 } from 'lucide-react';
 import { NavLink } from './NavLink';
 
