@@ -636,6 +636,31 @@ export const EliteJobTemplate: React.FC<EliteJobTemplateProps> = ({ article, onN
         </div>
       </section>
 
+      {/* 7B. STRATEGIC PREPARATION ACTION PLAN */}
+      {article.preparationTips && article.preparationTips.length > 0 && (
+        <section className="space-y-3 border-t border-slate-200 pt-4">
+          <div className="flex items-center gap-2">
+            <Award className="w-4 h-4 text-blue-700" />
+            <h3 className="text-base font-bold text-slate-900">
+              Strategic Preparation Action Plan &amp; Score Maximization Blueprint
+            </h3>
+          </div>
+          <p className="text-xs text-slate-600">
+            Actionable study guidelines, speed drills, and score defense tactics curated by the GovIndiaNews Editorial Board for this recruitment cycle.
+          </p>
+          <div className="grid grid-cols-1 gap-2.5 pt-1">
+            {article.preparationTips.map((tip, idx) => (
+              <div key={idx} className="p-3.5 bg-slate-50/80 border border-slate-200 rounded-xl flex items-start gap-3 text-xs text-slate-800">
+                <span className="w-6 h-6 rounded-full bg-blue-100 text-blue-800 font-bold text-[11px] flex items-center justify-center shrink-0 mt-0.5">
+                  {idx + 1}
+                </span>
+                <p className="leading-relaxed font-sans">{tip}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
       {/* 8. FAQS (Mandatory Step 8 with Schema) */}
       {article.faqs && article.faqs.length > 0 && (
         <section className="space-y-3">

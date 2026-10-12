@@ -1738,6 +1738,747 @@ function renderNtaExamArticleContent(alert) {
   `;
 }
 
+// 16C. ADMIT CARD ARTICLE CONTENT RENDERER
+function renderAdmitCardArticleContent(alert) {
+  const steps = alert.admitCardDetails?.officialDownloadSteps || alert.admitCardDetails?.downloadSteps || alert.howToApplySteps || [
+    `Navigate to the official commission examination portal at ${alert.sourceNotice?.url}.`,
+    'Click on the link for "Download e-Admit Card / Admission Certificate".',
+    'Select login option: Either through Registration ID and Date of Birth, or Roll Number and Date of Birth.',
+    'Enter your credentials along with the security Captcha code displayed on the screen.',
+    'Verify all particulars on the electronic admit card and take at least 2 clear printouts on clean A4 paper.'
+  ];
+
+  const checklist = alert.admitCardDetails?.checklistOnCard || alert.admitCardDetails?.detailsToCheck || [
+    'Candidate Name and spelling (must exactly match 10th certificate).',
+    'Roll Number and Registration Number.',
+    'Date of Birth and Category (UR / EWS / OBC / SC / ST / PwBD).',
+    'Clear, identifiable Passport Photograph and Signature print.',
+    'Exam Date, Shift Timing, Reporting Time, and Gate Closure Time.',
+    'Exact Exam Center Name, Complete Address, and Center Code.'
+  ];
+
+  const carryList = alert.admitCardDetails?.examDayCarryList || alert.admitCardDetails?.itemsToCarry || [
+    'Original Printed e-Admit Card (all pages, clear print on A4 paper).',
+    'Original Government Valid Photo Identity Card (Aadhaar Card, Voter ID, PAN Card, Driving Licence, or Passport).',
+    'Two recent identical passport-size colour photographs (matching the one uploaded during application).',
+    'Transparent Blue / Black Ballpoint pen (if permitted by commission notice).',
+    'PwBD Scribe Permission Letter and Category Disability Certificate (where applicable).'
+  ];
+
+  const barredList = alert.admitCardDetails?.prohibitedItems || [
+    'Mobile phones, smartphones, and electronic gadgets of any kind.',
+    'Bluetooth earbuds, smartwatches, fitness trackers, and digital watches.',
+    'Calculators, digital pens, health bands, and recording instruments.',
+    'Bags, wallets, purses, pouches, study notes, and blank paper sheets.',
+    'Metallic jewellery, nose pins, charms, and belts with large metallic buckles.',
+    'Any eating food items (except transparent water bottle where allowed).'
+  ];
+
+  const helpdesk = alert.admitCardDetails?.officialHelpdesk || {
+    email: 'support@govindianews.com',
+    phone: 'Refer to Official Notification Helpline',
+    portalUrl: alert.sourceNotice?.url
+  };
+
+  return `
+    <!-- Examination Notice & Schedule Highlights -->
+    <section style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:1.5rem;margin-bottom:2rem;">
+      <h2 style="font-size:1.25rem;font-weight:700;color:#0f172a;margin:0 0 1rem 0;">Official Examination Notice &amp; Schedule</h2>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;font-size:0.85rem;margin-bottom:1rem;">
+        <div><strong>Conducting Authority:</strong> <span style="color:#475569;">${escapeHtml(alert.organization)}</span></div>
+        <div><strong>Examination Window:</strong> <span style="color:#1e40af;font-weight:700;">${escapeHtml(alert.examDate || 'Scheduled as per official notice')}</span></div>
+        <div><strong>Admit Card Status:</strong> <span style="color:#059669;font-weight:700;">${escapeHtml(alert.publishDate || 'Live on Official Server')}</span></div>
+      </div>
+      <div style="border-top:1px solid #e2e8f0;padding-top:0.75rem;">
+        <p style="margin:0;font-size:0.85rem;color:#334155;line-height:1.6;">${escapeHtml(alert.admitCardDetails?.officialNoticeSummary || alert.summary)}</p>
+      </div>
+    </section>
+
+    <!-- Step-by-Step Instructions to Download Admit Card -->
+    <section style="background:#ffffff;border:1px solid #e2e8f0;border-radius:12px;padding:1.5rem;margin-bottom:2rem;">
+      <h2 style="font-size:1.25rem;font-weight:700;color:#0f172a;margin:0 0 0.5rem 0;">Step-by-Step Instructions to Download Admit Card</h2>
+      <p style="font-size:0.85rem;color:#64748b;margin:0 0 1rem 0;">Follow the official commission portal procedure below to download your electronic admission certificate:</p>
+      <ol style="margin:0;padding-left:1.5rem;font-size:0.85rem;color:#334155;line-height:1.8;">
+        ${steps.map(s => `<li style="margin-bottom:0.4rem;">${escapeHtml(s)}</li>`).join('')}
+      </ol>
+    </section>
+
+    <!-- Shift Timings & Gate Closure Protocol -->
+    <section style="background:#ffffff;border:1px solid #e2e8f0;border-radius:12px;padding:1.5rem;margin-bottom:2rem;">
+      <h2 style="font-size:1.25rem;font-weight:700;color:#0f172a;margin:0 0 0.5rem 0;">Exam Shift Timings &amp; Strict Gate Closure Protocol</h2>
+      <p style="font-size:0.85rem;color:#64748b;margin:0 0 1rem 0;">Entry gates are sealed permanently 30 to 45 minutes prior to test commencement. Late entry is strictly prohibited under all circumstances:</p>
+      <div style="overflow-x:auto;">
+        <table style="width:100%;border-collapse:collapse;font-size:0.85rem;text-align:left;">
+          <thead>
+            <tr style="background:#f1f5f9;color:#0f172a;border-bottom:2px solid #cbd5e1;">
+              <th style="padding:0.6rem 0.75rem;">Shift Number</th>
+              <th style="padding:0.6rem 0.75rem;">Reporting Window</th>
+              <th style="padding:0.6rem 0.75rem;">Gate Closure (Strict)</th>
+              <th style="padding:0.6rem 0.75rem;">Test Duration</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px solid #e2e8f0;">
+              <td style="padding:0.6rem 0.75rem;font-weight:600;">Shift 1 (Morning)</td>
+              <td style="padding:0.6rem 0.75rem;color:#475569;">07:45 AM – 08:30 AM</td>
+              <td style="padding:0.6rem 0.75rem;color:#b91c1c;font-weight:700;">08:30 AM Sharp</td>
+              <td style="padding:0.6rem 0.75rem;color:#0f172a;">09:00 AM – 10:00 AM / 11:00 AM</td>
+            </tr>
+            <tr style="border-bottom:1px solid #e2e8f0;">
+              <td style="padding:0.6rem 0.75rem;font-weight:600;">Shift 2 (Afternoon)</td>
+              <td style="padding:0.6rem 0.75rem;color:#475569;">11:15 AM – 12:00 PM</td>
+              <td style="padding:0.6rem 0.75rem;color:#b91c1c;font-weight:700;">12:00 PM Sharp</td>
+              <td style="padding:0.6rem 0.75rem;color:#0f172a;">12:30 PM – 01:30 PM / 02:30 PM</td>
+            </tr>
+            <tr>
+              <td style="padding:0.6rem 0.75rem;font-weight:600;">Shift 3 (Evening)</td>
+              <td style="padding:0.6rem 0.75rem;color:#475569;">02:45 PM – 03:30 PM</td>
+              <td style="padding:0.6rem 0.75rem;color:#b91c1c;font-weight:700;">03:30 PM Sharp</td>
+              <td style="padding:0.6rem 0.75rem;color:#0f172a;">04:00 PM – 05:00 PM / 06:00 PM</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Particulars to Check on Admit Card -->
+    <section style="background:#ffffff;border:1px solid #e2e8f0;border-radius:12px;padding:1.5rem;margin-bottom:2rem;">
+      <h2 style="font-size:1.25rem;font-weight:700;color:#0f172a;margin:0 0 0.5rem 0;">Mandatory Particulars to Verify on the Printed Hall Ticket</h2>
+      <p style="font-size:0.85rem;color:#64748b;margin:0 0 1rem 0;">Check each of the following fields immediately upon download. Discrepancies must be reported to the commission facilitation counter before test day:</p>
+      <ul style="margin:0;padding-left:1.5rem;font-size:0.85rem;color:#334155;line-height:1.8;">
+        ${checklist.map(c => `<li style="margin-bottom:0.3rem;">&check; ${escapeHtml(c)}</li>`).join('')}
+      </ul>
+    </section>
+
+    <!-- Permitted vs Prohibited Items Matrix -->
+    <section style="background:#ffffff;border:1px solid #e2e8f0;border-radius:12px;padding:1.5rem;margin-bottom:2rem;">
+      <h2 style="font-size:1.25rem;font-weight:700;color:#0f172a;margin:0 0 1rem 0;">Permitted vs. Prohibited Items Inside Testing Venue</h2>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;">
+        <div style="background:#ecfdf5;border:1px solid #a7f3d0;border-radius:8px;padding:1rem;">
+          <strong style="color:#065f46;display:block;margin-bottom:0.5rem;font-size:0.9rem;">Mandatory &amp; Permitted Items:</strong>
+          <ul style="margin:0;padding-left:1.25rem;color:#047857;font-size:0.85rem;line-height:1.6;">
+            ${carryList.map(item => `<li style="margin-bottom:0.3rem;">${escapeHtml(item)}</li>`).join('')}
+          </ul>
+        </div>
+        <div style="background:#fff1f2;border:1px solid #fecdd3;border-radius:8px;padding:1rem;">
+          <strong style="color:#9f1239;display:block;margin-bottom:0.5rem;font-size:0.9rem;">Strictly Prohibited &amp; Barred Items:</strong>
+          <ul style="margin:0;padding-left:1.25rem;color:#881337;font-size:0.85rem;line-height:1.6;">
+            ${barredList.map(item => `<li style="margin-bottom:0.3rem;">${escapeHtml(item)}</li>`).join('')}
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Examination Pattern & Negative Marking Table (If present) -->
+    ${alert.examPattern && alert.examPattern.length > 0 ? `
+      <section style="background:#ffffff;border:1px solid #e2e8f0;border-radius:12px;padding:1.5rem;margin-bottom:2rem;">
+        <h2 style="font-size:1.25rem;font-weight:700;color:#0f172a;margin:0 0 0.5rem 0;">Examination Pattern, Sectional Weightage &amp; Negative Marking</h2>
+        <p style="font-size:0.85rem;color:#64748b;margin:0 0 1rem 0;">Structure of the question paper, mark distribution, and deduction rules governing this test cycle:</p>
+        <div style="overflow-x:auto;">
+          <table style="width:100%;border-collapse:collapse;font-size:0.85rem;text-align:left;">
+            <thead>
+              <tr style="background:#f1f5f9;color:#0f172a;border-bottom:2px solid #cbd5e1;">
+                <th style="padding:0.6rem 0.75rem;">Subject / Test Module</th>
+                <th style="padding:0.6rem 0.75rem;text-align:center;">Questions</th>
+                <th style="padding:0.6rem 0.75rem;text-align:center;">Max Marks</th>
+                <th style="padding:0.6rem 0.75rem;">Duration</th>
+                <th style="padding:0.6rem 0.75rem;">Negative Deduction</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${alert.examPattern.map(p => `
+                <tr style="border-bottom:1px solid #e2e8f0;">
+                  <td style="padding:0.6rem 0.75rem;font-weight:600;color:#0f172a;">${escapeHtml(p.subject)}</td>
+                  <td style="padding:0.6rem 0.75rem;text-align:center;color:#475569;">${p.questions}</td>
+                  <td style="padding:0.6rem 0.75rem;text-align:center;font-weight:700;color:#1e40af;">${p.marks}</td>
+                  <td style="padding:0.6rem 0.75rem;color:#475569;">${escapeHtml(p.time)}</td>
+                  <td style="padding:0.6rem 0.75rem;color:#b91c1c;font-weight:600;">${escapeHtml(p.negativeMarking)}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      </section>
+    ` : ''}
+
+    <!-- Previous Cycle Qualifying Cut-Off Benchmarks (If present) -->
+    ${alert.cutOffTrends && alert.cutOffTrends.length > 0 ? `
+      <section style="background:#ffffff;border:1px solid #e2e8f0;border-radius:12px;padding:1.5rem;margin-bottom:2rem;">
+        <h2 style="font-size:1.25rem;font-weight:700;color:#0f172a;margin:0 0 0.5rem 0;">Previous Cycle Qualifying Cut-Off Benchmarks</h2>
+        <p style="font-size:0.85rem;color:#64748b;margin:0 0 1rem 0;">Historical normalized qualifying marks across reservation categories to gauge target scores and safe attempt targets:</p>
+        <div style="overflow-x:auto;">
+          <table style="width:100%;border-collapse:collapse;font-size:0.85rem;text-align:left;">
+            <thead>
+              <tr style="background:#f1f5f9;color:#0f172a;border-bottom:2px solid #cbd5e1;">
+                <th style="padding:0.6rem 0.75rem;">Cycle / Exam Stage</th>
+                <th style="padding:0.6rem 0.75rem;text-align:center;">General (UR)</th>
+                <th style="padding:0.6rem 0.75rem;text-align:center;">OBC-NCL</th>
+                <th style="padding:0.6rem 0.75rem;text-align:center;">EWS</th>
+                <th style="padding:0.6rem 0.75rem;text-align:center;">SC</th>
+                <th style="padding:0.6rem 0.75rem;text-align:center;">ST</th>
+                <th style="padding:0.6rem 0.75rem;text-align:right;">Total Marks</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${alert.cutOffTrends.map(c => `
+                <tr style="border-bottom:1px solid #e2e8f0;font-family:monospace;">
+                  <td style="padding:0.6rem 0.75rem;font-weight:600;color:#0f172a;font-family:system-ui,-apple-system,sans-serif;">${escapeHtml(c.year)}</td>
+                  <td style="padding:0.6rem 0.75rem;text-align:center;font-weight:700;color:#1e40af;">${c.general.toFixed(2)}</td>
+                  <td style="padding:0.6rem 0.75rem;text-align:center;color:#334155;">${c.obc.toFixed(2)}</td>
+                  <td style="padding:0.6rem 0.75rem;text-align:center;color:#334155;">${c.ews.toFixed(2)}</td>
+                  <td style="padding:0.6rem 0.75rem;text-align:center;color:#334155;">${c.sc.toFixed(2)}</td>
+                  <td style="padding:0.6rem 0.75rem;text-align:center;color:#334155;">${c.st.toFixed(2)}</td>
+                  <td style="padding:0.6rem 0.75rem;text-align:right;color:#64748b;font-family:system-ui,-apple-system,sans-serif;">${c.totalMarks}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      </section>
+    ` : ''}
+
+    <!-- Key Examination Syllabus Topics (If present) -->
+    ${alert.syllabusTopics && alert.syllabusTopics.length > 0 ? `
+      <section style="background:#ffffff;border:1px solid #e2e8f0;border-radius:12px;padding:1.5rem;margin-bottom:2rem;">
+        <h2 style="font-size:1.25rem;font-weight:700;color:#0f172a;margin:0 0 0.5rem 0;">Official Examination Syllabus &amp; Section-Wise Topics</h2>
+        <p style="font-size:0.85rem;color:#64748b;margin:0 0 1rem 0;">Curated subject topics based on official recruitment notifications and past pattern distribution:</p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;">
+          ${alert.syllabusTopics.map(s => `
+            <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:1rem;">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;">
+                <strong style="color:#0f172a;font-size:0.9rem;">${escapeHtml(s.subject)}</strong>
+                ${s.weightage ? `<span style="font-size:0.75rem;background:#dbeafe;color:#1e40af;padding:0.15rem 0.5rem;border-radius:4px;font-weight:600;">${escapeHtml(s.weightage)}</span>` : ''}
+              </div>
+              <ul style="margin:0;padding-left:1.25rem;font-size:0.85rem;color:#475569;line-height:1.6;">
+                ${s.topics.map(t => `<li style="margin-bottom:0.3rem;">${escapeHtml(t)}</li>`).join('')}
+              </ul>
+            </div>
+          `).join('')}
+        </div>
+      </section>
+    ` : ''}
+
+    <!-- Strategic Exam-Day Preparation Strategy & Final Revision Drills -->
+    ${alert.preparationTips && alert.preparationTips.length > 0 ? `
+      <section style="background:#ffffff;border:1px solid #e2e8f0;border-radius:12px;padding:1.5rem;margin-bottom:2rem;">
+        <h2 style="font-size:1.25rem;font-weight:700;color:#0f172a;margin:0 0 0.5rem 0;">Exam-Day Preparation Strategy &amp; Final Revision Drills</h2>
+        <p style="font-size:0.85rem;color:#64748b;margin:0 0 1rem 0;">Expert guidelines curated by GovIndiaNews editorial board to maximize accuracy and minimize negative marking penalties:</p>
+        <div style="display:flex;flex-direction:column;gap:0.75rem;">
+          ${alert.preparationTips.map((tip, idx) => `
+            <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:0.85rem 1rem;display:flex;align-items:flex-start;gap:0.75rem;">
+              <span style="background:#dbeafe;color:#1e40af;font-weight:700;font-size:0.8rem;border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">${idx + 1}</span>
+              <p style="margin:0;font-size:0.85rem;color:#334155;line-height:1.6;">${escapeHtml(tip)}</p>
+            </div>
+          `).join('')}
+        </div>
+      </section>
+    ` : ''}
+
+    <!-- Interactive Candidate Utilities Suite -->
+    <section style="background:#0f172a;border:1px solid #1e293b;border-radius:12px;padding:1.5rem;margin-bottom:2rem;color:#ffffff;">
+      <h2 style="font-size:1.25rem;font-weight:700;color:#ffffff;margin:0 0 0.5rem 0;">Interactive Candidate Utilities Suite</h2>
+      <p style="font-size:0.85rem;color:#94a3b8;margin:0 0 1.25rem 0;">Statutory software calculators and document specification checkers for this examination</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem;">
+        <a href="/tools/marking" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:1rem;text-decoration:none;display:block;">
+          <strong style="color:#60a5fa;display:block;font-size:0.9rem;margin-bottom:0.25rem;">Negative Marking Calculator &rarr;</strong>
+          <span style="color:#cbd5e1;font-size:0.8rem;">Model test score trajectory under 1/3rd, 1/4th, or 0.50 negative penalty deductions.</span>
+        </a>
+        <a href="/tools/photo-checker" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:1rem;text-decoration:none;display:block;">
+          <strong style="color:#60a5fa;display:block;font-size:0.9rem;margin-bottom:0.25rem;">Photo &amp; Signature Validator &rarr;</strong>
+          <span style="color:#cbd5e1;font-size:0.8rem;">Verify image size, dimensions, and plain background rules before venue entry.</span>
+        </a>
+        <a href="/mock-test/ssc-cgl-tier1" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:1rem;text-decoration:none;display:block;">
+          <strong style="color:#60a5fa;display:block;font-size:0.9rem;margin-bottom:0.25rem;">CBT Practice Test Simulator &rarr;</strong>
+          <span style="color:#cbd5e1;font-size:0.8rem;">Timed practice environment with live countdown, question palette, and instant score analysis.</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- Post-Examination Roadmap & Milestone Timeline -->
+    <section style="background:#ffffff;border:1px solid #e2e8f0;border-radius:12px;padding:1.5rem;margin-bottom:2rem;">
+      <h2 style="font-size:1.25rem;font-weight:700;color:#0f172a;margin:0 0 0.5rem 0;">Post-Examination Roadmap &amp; Milestone Timeline</h2>
+      <p style="font-size:0.85rem;color:#64748b;margin:0 0 1rem 0;">Typical sequence of commission milestones following conclusion of the examination:</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;font-size:0.85rem;">
+        <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:1rem;">
+          <strong style="color:#1e40af;display:block;font-size:0.8rem;text-transform:uppercase;">Stage 1: Day 3 to 7</strong>
+          <strong style="color:#0f172a;display:block;margin:0.25rem 0;">Tentative Answer Key</strong>
+          <span style="color:#475569;">Commission releases candidate response sheets and provisional answer keys on portal.</span>
+        </div>
+        <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:1rem;">
+          <strong style="color:#1e40af;display:block;font-size:0.8rem;text-transform:uppercase;">Stage 2: 3-5 Days Window</strong>
+          <strong style="color:#0f172a;display:block;margin:0.25rem 0;">Objection Filing Window</strong>
+          <span style="color:#475569;">Candidates submit challenges against tentative keys with prescribed fee (typically ₹100/question).</span>
+        </div>
+        <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:1rem;">
+          <strong style="color:#1e40af;display:block;font-size:0.8rem;text-transform:uppercase;">Stage 3: 4 to 6 Weeks</strong>
+          <strong style="color:#0f172a;display:block;margin:0.25rem 0;">Final Key &amp; Normalization</strong>
+          <span style="color:#475569;">Subject matter committees evaluate challenges, finalize keys, and apply multi-shift score normalization.</span>
+        </div>
+        <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:1rem;">
+          <strong style="color:#059669;display:block;font-size:0.8rem;text-transform:uppercase;">Stage 4: Merit Release</strong>
+          <strong style="color:#0f172a;display:block;margin:0.25rem 0;">Result &amp; Next Tier List</strong>
+          <span style="color:#475569;">Roll-number-wise merit PDF and tier qualifying cut-offs are published on official portal.</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- What to Do If Download Fails -->
+    <section style="background:#ffffff;border:1px solid #e2e8f0;border-radius:12px;padding:1.5rem;margin-bottom:2rem;">
+      <h2 style="font-size:1.25rem;font-weight:700;color:#0f172a;margin:0 0 0.5rem 0;">What to Do If Download Fails or Particulars Are Incorrect</h2>
+      <div style="border-left:4px solid #2563eb;padding-left:1rem;font-size:0.85rem;color:#334155;line-height:1.7;">
+        <p style="margin:0 0 0.5rem 0;">${escapeHtml(alert.admitCardDetails?.ifDownloadFailsAdvice || 'If you are unable to download your e-call letter, clear your browser cache and cookies or attempt login during non-peak hours. If your registration is valid but the hall ticket is not generating, email the regional director of the commission immediately with your application form copy and fee transaction reference.')}</p>
+        <p style="margin:0;font-weight:600;color:#0f172a;">For photograph or signature printing discrepancies: Carry 2 original passport photos matching your application along with valid government photo ID to the examination center superintendent prior to the shift reporting time.</p>
+      </div>
+    </section>
+
+    <!-- Frequently Asked Questions -->
+    ${alert.faqs && alert.faqs.length > 0 ? `
+      <section style="background:#ffffff;border:1px solid #e2e8f0;border-radius:12px;padding:1.5rem;margin-bottom:2rem;">
+        <h2 style="font-size:1.25rem;font-weight:700;color:#0f172a;margin:0 0 1rem 0;">Frequently Asked Questions (${escapeHtml(alert.organization)})</h2>
+        <div style="display:flex;flex-direction:column;gap:1rem;">
+          ${alert.faqs.map(f => `
+            <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:1rem;">
+              <h3 style="font-size:0.95rem;font-weight:700;color:#0f172a;margin:0 0 0.5rem 0;">${escapeHtml(f.question)}</h3>
+              <p style="font-size:0.85rem;color:#475569;margin:0;line-height:1.6;">${escapeHtml(f.answer)}</p>
+            </div>
+          `).join('')}
+        </div>
+      </section>
+    ` : ''}
+
+    <!-- Official Links & Primary Sources -->
+    <section style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:12px;padding:1.5rem;margin-bottom:2rem;font-size:0.85rem;">
+      <h2 style="font-size:1.15rem;font-weight:700;color:#1e3a8a;margin:0 0 0.5rem 0;">Official Links &amp; Primary Sources</h2>
+      <p style="color:#1e40af;margin:0 0 1rem 0;">
+        Conducting Body: <strong>${escapeHtml(alert.organization)}</strong><br/>
+        Verified Portal: <a href="${escapeHtml(helpdesk.portalUrl || alert.sourceNotice?.url || 'https://govindianews.com')}" target="_blank" rel="noopener noreferrer" style="color:#2563eb;font-weight:700;">${escapeHtml(helpdesk.portalUrl || alert.sourceNotice?.url || 'Official Commission Portal')}</a>
+      </p>
+      <div style="display:flex;flex-wrap:wrap;gap:0.75rem;">
+        <a href="${escapeHtml(helpdesk.portalUrl || alert.sourceNotice?.url || alert.officialPdfUrl || 'https://govindianews.com')}" target="_blank" rel="noopener noreferrer" style="background:#2563eb;color:#ffffff;padding:0.5rem 1rem;border-radius:6px;font-weight:700;text-decoration:none;">
+          Open Official Download Portal &nearr;
+        </a>
+        <a href="/tools/marking" style="background:#ffffff;color:#1e40af;padding:0.5rem 1rem;border-radius:6px;font-weight:600;text-decoration:none;border:1px solid #bfdbfe;">
+          Negative Marking Calculator
+        </a>
+        <a href="/corrections" style="background:#ffffff;color:#1e40af;padding:0.5rem 1rem;border-radius:6px;font-weight:600;text-decoration:none;border:1px solid #bfdbfe;">
+          Report Correction
+        </a>
+      </div>
+    </section>
+
+    <!-- Institutional Editorial Board E-E-A-T Box -->
+    <section style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:1.5rem;margin-bottom:2rem;font-size:0.85rem;">
+      <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.75rem;">
+        <span style="font-size:1.1rem;">🛡️</span>
+        <strong style="color:#0f172a;font-size:0.95rem;">GovIndiaNews Editorial Desk &amp; Central Verification Board</strong>
+      </div>
+      <p style="color:#475569;margin:0 0 0.75rem 0;line-height:1.6;">
+        This admit card guide was verified against primary commission announcements and candidate instructions bulletins. All examination guidelines, prohibited items, and schedule notes conform to official standard operating procedures. Reviewed under our transparent <a href="/fact-checking" style="color:#2563eb;font-weight:600;">Fact-Checking Policy</a>. Found a discrepancy? Submit a correction via our public <a href="/corrections" style="color:#2563eb;font-weight:600;">Corrections Desk</a>.
+      </p>
+      <div style="display:flex;flex-wrap:wrap;gap:1rem;color:#64748b;font-size:0.8rem;">
+        <span>Author: <strong>Akash Singh Solanki</strong> (Founder &amp; Lead Editor)</span>
+        <span>Editorial Contact: <a href="mailto:desk@govindianews.com" style="color:#2563eb;">desk@govindianews.com</a></span>
+        <a href="/author/akash-singh-solanki" style="color:#2563eb;text-decoration:none;">View Author Dossier &rarr;</a>
+      </div>
+    </section>
+  `;
+}
+
+// 16D. GENERAL RECRUITMENT / JOB ARTICLE CONTENT RENDERER
+function renderJobArticleContent(alert) {
+  return `
+    <!-- Key Facts Summary Grid -->
+    <section style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:1.5rem;margin-bottom:2rem;">
+      <h2 style="font-size:1.25rem;font-weight:700;color:#0f172a;margin:0 0 1rem 0;">Notification Highlights</h2>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;font-size:0.85rem;">
+        <div><strong>Conducting Body:</strong> <span style="color:#475569;">${escapeHtml(alert.organization)}</span></div>
+        <div><strong>Qualification:</strong> <span style="color:#475569;">${escapeHtml(alert.qualification)}</span></div>
+        <div><strong>Age Limit:</strong> <span style="color:#475569;">${escapeHtml(alert.ageLimit || 'As per official gazette')}</span></div>
+        <div><strong>Application Fee:</strong> <span style="color:#475569;">${escapeHtml(alert.fees || 'Check notice')}</span></div>
+        <div><strong>Last Date to Apply:</strong> <span style="color:#b91c1c;font-weight:700;">${escapeHtml(alert.lastDate || 'Refer to notice')}</span></div>
+        ${alert.examDate ? `<div><strong>Exam Date:</strong> <span style="color:#1e40af;font-weight:700;">${escapeHtml(alert.examDate)}</span></div>` : ''}
+      </div>
+    </section>
+
+    <!-- Important Dates Table -->
+    ${alert.importantDates && alert.importantDates.length > 0 ? `
+      <section style="background:#ffffff;border:1px solid #e2e8f0;border-radius:12px;padding:1.5rem;margin-bottom:2rem;">
+        <h2 style="font-size:1.25rem;font-weight:700;color:#0f172a;margin:0 0 1rem 0;">Important Examination &amp; Application Dates</h2>
+        <div style="overflow-x:auto;">
+          <table style="width:100%;border-collapse:collapse;font-size:0.85rem;text-align:left;">
+            <thead>
+              <tr style="background:#f1f5f9;color:#0f172a;border-bottom:2px solid #cbd5e1;">
+                <th style="padding:0.6rem 0.75rem;">Recruitment Event / Milestone</th>
+                <th style="padding:0.6rem 0.75rem;">Official Date / Schedule</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${alert.importantDates.map(d => `
+                <tr style="border-bottom:1px solid #e2e8f0;">
+                  <td style="padding:0.6rem 0.75rem;font-weight:600;color:#0f172a;">${escapeHtml(d.event)}</td>
+                  <td style="padding:0.6rem 0.75rem;color:#475569;">${escapeHtml(d.date)}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      </section>
+    ` : ''}
+
+    <!-- Application Fees Table -->
+    ${alert.applicationFees && alert.applicationFees.length > 0 ? `
+      <section style="background:#ffffff;border:1px solid #e2e8f0;border-radius:12px;padding:1.5rem;margin-bottom:2rem;">
+        <h2 style="font-size:1.25rem;font-weight:700;color:#0f172a;margin:0 0 1rem 0;">Application Fee by Reservation Category</h2>
+        <div style="overflow-x:auto;">
+          <table style="width:100%;border-collapse:collapse;font-size:0.85rem;text-align:left;">
+            <thead>
+              <tr style="background:#f1f5f9;color:#0f172a;border-bottom:2px solid #cbd5e1;">
+                <th style="padding:0.6rem 0.75rem;">Candidate Category</th>
+                <th style="padding:0.6rem 0.75rem;">Prescribed Fee</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${alert.applicationFees.map(f => `
+                <tr style="border-bottom:1px solid #e2e8f0;">
+                  <td style="padding:0.6rem 0.75rem;font-weight:600;color:#0f172a;">${escapeHtml(f.category)}</td>
+                  <td style="padding:0.6rem 0.75rem;color:#475569;">${escapeHtml(f.fee)}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      </section>
+    ` : ''}
+
+    <!-- Vacancy Breakdown Table -->
+    ${alert.vacanciesTable && alert.vacanciesTable.length > 0 ? `
+      <section style="background:#ffffff;border:1px solid #e2e8f0;border-radius:12px;padding:1.5rem;margin-bottom:2rem;">
+        <h2 style="font-size:1.25rem;font-weight:700;color:#0f172a;margin:0 0 1rem 0;">Post-Wise Vacancy &amp; Pay Scale Breakdown</h2>
+        <div style="overflow-x:auto;">
+          <table style="width:100%;border-collapse:collapse;font-size:0.85rem;text-align:left;">
+            <thead>
+              <tr style="background:#f1f5f9;color:#0f172a;border-bottom:2px solid #cbd5e1;">
+                <th style="padding:0.6rem 0.75rem;">Post Name</th>
+                <th style="padding:0.6rem 0.75rem;">Department</th>
+                <th style="padding:0.6rem 0.75rem;">Pay Scale</th>
+                <th style="padding:0.6rem 0.75rem;text-align:center;">Vacancies</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${alert.vacanciesTable.map(v => `
+                <tr style="border-bottom:1px solid #e2e8f0;">
+                  <td style="padding:0.6rem 0.75rem;font-weight:600;color:#0f172a;">${escapeHtml(v.postName)}</td>
+                  <td style="padding:0.6rem 0.75rem;">${escapeHtml(v.department)}</td>
+                  <td style="padding:0.6rem 0.75rem;">${escapeHtml(v.payScale)}</td>
+                  <td style="padding:0.6rem 0.75rem;text-align:center;font-weight:700;">${escapeHtml(v.vacancy)}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      </section>
+    ` : ''}
+
+    <!-- 7th CPC Salary Structure & In-Hand Arithmetic (If present) -->
+    ${alert.salaryArithmetic ? `
+      <section style="background:#ffffff;border:1px solid #e2e8f0;border-radius:12px;padding:1.5rem;margin-bottom:2rem;">
+        <h2 style="font-size:1.25rem;font-weight:700;color:#0f172a;margin:0 0 0.5rem 0;">7th CPC Salary Structure &amp; In-Hand Arithmetic</h2>
+        <p style="font-size:0.85rem;color:#64748b;margin:0 0 1rem 0;">Monthly compensation breakdown based on Central Government pay matrices (Inputs: ${escapeHtml(alert.salaryArithmetic.inputsDated)}):</p>
+        <div style="overflow-x:auto;">
+          <table style="width:100%;border-collapse:collapse;font-size:0.85rem;text-align:left;">
+            <thead>
+              <tr style="background:#f1f5f9;color:#0f172a;border-bottom:2px solid #cbd5e1;">
+                <th style="padding:0.6rem 0.75rem;">Salary Component / Allowance</th>
+                <th style="padding:0.6rem 0.75rem;text-align:right;">Monthly Amount (₹)</th>
+                <th style="padding:0.6rem 0.75rem;">Calculation Basis / Statutory Rule</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom:1px solid #e2e8f0;">
+                <td style="padding:0.6rem 0.75rem;font-weight:600;">Basic Pay</td>
+                <td style="padding:0.6rem 0.75rem;text-align:right;font-family:monospace;font-weight:700;">₹${alert.salaryArithmetic.basicPay.toLocaleString('en-IN')}</td>
+                <td style="padding:0.6rem 0.75rem;color:#64748b;">Starting entry pay in prescribed 7th CPC matrix cell</td>
+              </tr>
+              <tr style="border-bottom:1px solid #e2e8f0;">
+                <td style="padding:0.6rem 0.75rem;font-weight:600;">Dearness Allowance (DA)</td>
+                <td style="padding:0.6rem 0.75rem;text-align:right;font-family:monospace;">₹${alert.salaryArithmetic.daAmount.toLocaleString('en-IN')}</td>
+                <td style="padding:0.6rem 0.75rem;color:#64748b;">Calculated at ${(alert.salaryArithmetic.daRate * 100).toFixed(0)}% of Basic Pay</td>
+              </tr>
+              <tr style="border-bottom:1px solid #e2e8f0;">
+                <td style="padding:0.6rem 0.75rem;font-weight:600;">House Rent Allowance (HRA)</td>
+                <td style="padding:0.6rem 0.75rem;text-align:right;font-family:monospace;">₹${alert.salaryArithmetic.hraAmount.toLocaleString('en-IN')}</td>
+                <td style="padding:0.6rem 0.75rem;color:#64748b;">Class-X city rate (${(alert.salaryArithmetic.hraRate * 100).toFixed(0)}%)</td>
+              </tr>
+              <tr style="border-bottom:1px solid #e2e8f0;">
+                <td style="padding:0.6rem 0.75rem;font-weight:600;">Transport Allowance (TPTA)</td>
+                <td style="padding:0.6rem 0.75rem;text-align:right;font-family:monospace;">₹${alert.salaryArithmetic.transportAllowance.toLocaleString('en-IN')}</td>
+                <td style="padding:0.6rem 0.75rem;color:#64748b;">Higher TPTA cities + DA on TPTA</td>
+              </tr>
+              <tr style="background:#f8fafc;border-bottom:2px solid #cbd5e1;font-weight:700;">
+                <td style="padding:0.6rem 0.75rem;color:#1e40af;">Gross Monthly Emoluments</td>
+                <td style="padding:0.6rem 0.75rem;text-align:right;font-family:monospace;color:#1e40af;font-size:0.95rem;">₹${alert.salaryArithmetic.grossMonthly.toLocaleString('en-IN')}</td>
+                <td style="padding:0.6rem 0.75rem;color:#1e40af;">Sum of Basic + DA + HRA + Allowances</td>
+              </tr>
+              <tr style="border-bottom:1px solid #e2e8f0;">
+                <td style="padding:0.6rem 0.75rem;color:#64748b;">NPS Employee Contribution (10%)</td>
+                <td style="padding:0.6rem 0.75rem;text-align:right;font-family:monospace;color:#b91c1c;">-₹${alert.salaryArithmetic.npsDeduction.toLocaleString('en-IN')}</td>
+                <td style="padding:0.6rem 0.75rem;color:#64748b;">10% of (Basic Pay + Dearness Allowance)</td>
+              </tr>
+              <tr style="background:#ecfdf5;font-weight:700;">
+                <td style="padding:0.75rem;color:#065f46;font-size:0.95rem;">Estimated Net In-Hand Monthly Pay</td>
+                <td style="padding:0.75rem;text-align:right;font-family:monospace;color:#065f46;font-size:1.05rem;">₹${alert.salaryArithmetic.netInHandMonthly.toLocaleString('en-IN')}</td>
+                <td style="padding:0.75rem;color:#047857;">Credited directly to employee bank account</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        ${alert.salaryArithmetic.notes ? `<p style="margin:0.75rem 0 0 0;font-size:0.8rem;color:#64748b;font-style:italic;">${escapeHtml(alert.salaryArithmetic.notes)}</p>` : ''}
+      </section>
+    ` : ''}
+
+    <!-- Selection Process -->
+    ${alert.selectionProcess && alert.selectionProcess.length > 0 ? `
+      <section style="background:#ffffff;border:1px solid #e2e8f0;border-radius:12px;padding:1.5rem;margin-bottom:2rem;">
+        <h2 style="font-size:1.25rem;font-weight:700;color:#0f172a;margin:0 0 1rem 0;">Selection Process &amp; Stages</h2>
+        <div style="display:flex;flex-direction:column;gap:1rem;">
+          ${alert.selectionProcess.map(s => `
+            <div style="background:#f8fafc;border-left:4px solid #059669;padding:1rem;border-radius:0 8px 8px 0;font-size:0.85rem;">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.25rem;">
+                <strong style="color:#065f46;font-size:0.95rem;">${escapeHtml(s.stageNumber)}: ${escapeHtml(s.stageName)}</strong>
+                <span style="color:#64748b;">${escapeHtml(s.qualifyingNature)}</span>
+              </div>
+              <p style="margin:0;color:#475569;">${escapeHtml(s.description)}</p>
+            </div>
+          `).join('')}
+        </div>
+      </section>
+    ` : ''}
+
+    <!-- Examination Pattern & Sectional Weightage (If present) -->
+    ${alert.examPattern && alert.examPattern.length > 0 ? `
+      <section style="background:#ffffff;border:1px solid #e2e8f0;border-radius:12px;padding:1.5rem;margin-bottom:2rem;">
+        <h2 style="font-size:1.25rem;font-weight:700;color:#0f172a;margin:0 0 0.5rem 0;">Examination Pattern, Subjects &amp; Negative Marking</h2>
+        <p style="font-size:0.85rem;color:#64748b;margin:0 0 1rem 0;">Detailed section-wise question distribution, marks allocation, and penalty rules:</p>
+        <div style="overflow-x:auto;">
+          <table style="width:100%;border-collapse:collapse;font-size:0.85rem;text-align:left;">
+            <thead>
+              <tr style="background:#f1f5f9;color:#0f172a;border-bottom:2px solid #cbd5e1;">
+                <th style="padding:0.6rem 0.75rem;">Subject / Test Module</th>
+                <th style="padding:0.6rem 0.75rem;text-align:center;">Questions</th>
+                <th style="padding:0.6rem 0.75rem;text-align:center;">Max Marks</th>
+                <th style="padding:0.6rem 0.75rem;">Duration</th>
+                <th style="padding:0.6rem 0.75rem;">Negative Marking Penalty</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${alert.examPattern.map(p => `
+                <tr style="border-bottom:1px solid #e2e8f0;">
+                  <td style="padding:0.6rem 0.75rem;font-weight:600;color:#0f172a;">${escapeHtml(p.subject)}</td>
+                  <td style="padding:0.6rem 0.75rem;text-align:center;color:#475569;">${p.questions}</td>
+                  <td style="padding:0.6rem 0.75rem;text-align:center;font-weight:700;color:#1e40af;">${p.marks}</td>
+                  <td style="padding:0.6rem 0.75rem;color:#475569;">${escapeHtml(p.time)}</td>
+                  <td style="padding:0.6rem 0.75rem;color:#b91c1c;font-weight:600;">${escapeHtml(p.negativeMarking)}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      </section>
+    ` : ''}
+
+    <!-- Official Examination Syllabus & Section-Wise Topics (If present) -->
+    ${alert.syllabusTopics && alert.syllabusTopics.length > 0 ? `
+      <section style="background:#ffffff;border:1px solid #e2e8f0;border-radius:12px;padding:1.5rem;margin-bottom:2rem;">
+        <h2 style="font-size:1.25rem;font-weight:700;color:#0f172a;margin:0 0 0.5rem 0;">Official Examination Syllabus &amp; Section-Wise Topics</h2>
+        <p style="font-size:0.85rem;color:#64748b;margin:0 0 1rem 0;">Curated subject topics based on official recruitment notifications and past pattern distribution:</p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;">
+          ${alert.syllabusTopics.map(s => `
+            <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:1rem;">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;">
+                <strong style="color:#0f172a;font-size:0.9rem;">${escapeHtml(s.subject)}</strong>
+                ${s.weightage ? `<span style="font-size:0.75rem;background:#dbeafe;color:#1e40af;padding:0.15rem 0.5rem;border-radius:4px;font-weight:600;">${escapeHtml(s.weightage)}</span>` : ''}
+              </div>
+              <ul style="margin:0;padding-left:1.25rem;font-size:0.85rem;color:#475569;line-height:1.6;">
+                ${s.topics.map(t => `<li style="margin-bottom:0.3rem;">${escapeHtml(t)}</li>`).join('')}
+              </ul>
+            </div>
+          `).join('')}
+        </div>
+      </section>
+    ` : ''}
+
+    <!-- Previous Cycle Cut-Off Trends (If present) -->
+    ${alert.cutOffTrends && alert.cutOffTrends.length > 0 ? `
+      <section style="background:#ffffff;border:1px solid #e2e8f0;border-radius:12px;padding:1.5rem;margin-bottom:2rem;">
+        <h2 style="font-size:1.25rem;font-weight:700;color:#0f172a;margin:0 0 0.5rem 0;">Previous Cycle Qualifying Cut-Off Benchmarks</h2>
+        <p style="font-size:0.85rem;color:#64748b;margin:0 0 1rem 0;">Historical normalized qualifying marks across reservation categories to gauge target scores and safe attempt targets:</p>
+        <div style="overflow-x:auto;">
+          <table style="width:100%;border-collapse:collapse;font-size:0.85rem;text-align:left;">
+            <thead>
+              <tr style="background:#f1f5f9;color:#0f172a;border-bottom:2px solid #cbd5e1;">
+                <th style="padding:0.6rem 0.75rem;">Cycle / Exam Stage</th>
+                <th style="padding:0.6rem 0.75rem;text-align:center;">General (UR)</th>
+                <th style="padding:0.6rem 0.75rem;text-align:center;">OBC-NCL</th>
+                <th style="padding:0.6rem 0.75rem;text-align:center;">EWS</th>
+                <th style="padding:0.6rem 0.75rem;text-align:center;">SC</th>
+                <th style="padding:0.6rem 0.75rem;text-align:center;">ST</th>
+                <th style="padding:0.6rem 0.75rem;text-align:right;">Total Marks</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${alert.cutOffTrends.map(c => `
+                <tr style="border-bottom:1px solid #e2e8f0;font-family:monospace;">
+                  <td style="padding:0.6rem 0.75rem;font-weight:600;color:#0f172a;font-family:system-ui,-apple-system,sans-serif;">${escapeHtml(c.year)}</td>
+                  <td style="padding:0.6rem 0.75rem;text-align:center;font-weight:700;color:#1e40af;">${c.general.toFixed(2)}</td>
+                  <td style="padding:0.6rem 0.75rem;text-align:center;color:#334155;">${c.obc.toFixed(2)}</td>
+                  <td style="padding:0.6rem 0.75rem;text-align:center;color:#334155;">${c.ews.toFixed(2)}</td>
+                  <td style="padding:0.6rem 0.75rem;text-align:center;color:#334155;">${c.sc.toFixed(2)}</td>
+                  <td style="padding:0.6rem 0.75rem;text-align:center;color:#334155;">${c.st.toFixed(2)}</td>
+                  <td style="padding:0.6rem 0.75rem;text-align:right;color:#64748b;font-family:system-ui,-apple-system,sans-serif;">${c.totalMarks}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      </section>
+    ` : ''}
+
+    <!-- Bespoke Editorial Guidance: Who Should Apply & Who Should Skip -->
+    ${alert.whoShouldApply && alert.whoShouldApply.length > 0 ? `
+      <section style="background:#ffffff;border:1px solid #e2e8f0;border-radius:12px;padding:1.5rem;margin-bottom:2rem;">
+        <h2 style="font-size:1.25rem;font-weight:700;color:#0f172a;margin:0 0 1rem 0;">Profile Match &amp; Application Advisory</h2>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;">
+          <div style="background:#ecfdf5;border:1px solid #a7f3d0;border-radius:8px;padding:1rem;">
+            <strong style="color:#065f46;display:block;margin-bottom:0.5rem;font-size:0.9rem;">Who Should Definitely Apply:</strong>
+            <ul style="margin:0;padding-left:1.25rem;color:#047857;font-size:0.85rem;line-height:1.6;">
+              ${alert.whoShouldApply.map(w => `<li style="margin-bottom:0.3rem;">${escapeHtml(w)}</li>`).join('')}
+            </ul>
+          </div>
+          ${alert.whoShouldSkip && alert.whoShouldSkip.length > 0 ? `
+            <div style="background:#fff1f2;border:1px solid #fecdd3;border-radius:8px;padding:1rem;">
+              <strong style="color:#9f1239;display:block;margin-bottom:0.5rem;font-size:0.9rem;">Who Should Reconsider or Skip:</strong>
+              <ul style="margin:0;padding-left:1.25rem;color:#881337;font-size:0.85rem;line-height:1.6;">
+                ${alert.whoShouldSkip.map(s => `<li style="margin-bottom:0.3rem;">${escapeHtml(s)}</li>`).join('')}
+              </ul>
+            </div>
+          ` : ''}
+        </div>
+      </section>
+    ` : ''}
+
+    <!-- Common Rejection Mistakes -->
+    ${alert.commonRejectionMistakes && alert.commonRejectionMistakes.length > 0 ? `
+      <section style="background:#fff1f2;border:1px solid #fecdd3;border-radius:12px;padding:1.5rem;margin-bottom:2rem;">
+        <h2 style="font-size:1.25rem;font-weight:700;color:#9f1239;margin:0 0 1rem 0;">Common Application Mistakes &amp; Scrutiny Pitfalls</h2>
+        <ol style="margin:0;padding-left:1.5rem;color:#881337;font-size:0.9rem;line-height:1.7;">
+          ${alert.commonRejectionMistakes.map(m => `<li style="margin-bottom:0.4rem;">${escapeHtml(m)}</li>`).join('')}
+        </ol>
+      </section>
+    ` : ''}
+
+    <!-- Documents Needed -->
+    ${alert.documentsNeeded && alert.documentsNeeded.length > 0 ? `
+      <section style="background:#ffffff;border:1px solid #e2e8f0;border-radius:12px;padding:1.5rem;margin-bottom:2rem;">
+        <h2 style="font-size:1.25rem;font-weight:700;color:#0f172a;margin:0 0 1rem 0;">Documents to Keep Ready Before Applying</h2>
+        <ul style="margin:0;padding-left:1.5rem;color:#334155;font-size:0.85rem;line-height:1.7;">
+          ${alert.documentsNeeded.map(d => `<li style="margin-bottom:0.4rem;">${escapeHtml(d)}</li>`).join('')}
+        </ul>
+      </section>
+    ` : ''}
+
+    <!-- Strategic Examination Preparation Tips (If present) -->
+    ${alert.preparationTips && alert.preparationTips.length > 0 ? `
+      <section style="background:#ffffff;border:1px solid #e2e8f0;border-radius:12px;padding:1.5rem;margin-bottom:2rem;">
+        <h2 style="font-size:1.25rem;font-weight:700;color:#0f172a;margin:0 0 0.5rem 0;">Strategic Examination Preparation Blueprint</h2>
+        <p style="font-size:0.85rem;color:#64748b;margin:0 0 1rem 0;">Actionable study guidelines, speed drills, and score defense tactics curated by GovIndiaNews editorial board:</p>
+        <div style="display:flex;flex-direction:column;gap:0.75rem;">
+          ${alert.preparationTips.map((tip, idx) => `
+            <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:0.85rem 1rem;display:flex;align-items:flex-start;gap:0.75rem;">
+              <span style="background:#dbeafe;color:#1e40af;font-weight:700;font-size:0.8rem;border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">${idx + 1}</span>
+              <p style="margin:0;font-size:0.85rem;color:#334155;line-height:1.6;">${escapeHtml(tip)}</p>
+            </div>
+          `).join('')}
+        </div>
+      </section>
+    ` : ''}
+
+    <!-- Candidate Software Utilities Suite -->
+    <section style="background:#0f172a;border:1px solid #1e293b;border-radius:12px;padding:1.5rem;margin-bottom:2rem;color:#ffffff;">
+      <h2 style="font-size:1.25rem;font-weight:700;color:#ffffff;margin:0 0 0.5rem 0;">Interactive Candidate Utilities Suite</h2>
+      <p style="font-size:0.85rem;color:#94a3b8;margin:0 0 1.25rem 0;">Statutory software calculators and document specification checkers for this notification</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem;">
+        <a href="/tools/salary" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:1rem;text-decoration:none;display:block;">
+          <strong style="color:#60a5fa;display:block;font-size:0.9rem;margin-bottom:0.25rem;">7th CPC Salary Calculator &rarr;</strong>
+          <span style="color:#cbd5e1;font-size:0.8rem;">Calculate Level 1 to 14 basic pay, gross earnings, and in-hand salary with 50% DA.</span>
+        </a>
+        <a href="/tools/age" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:1rem;text-decoration:none;display:block;">
+          <strong style="color:#60a5fa;display:block;font-size:0.9rem;margin-bottom:0.25rem;">Age Cut-Off &amp; Relaxation Checker &rarr;</strong>
+          <span style="color:#cbd5e1;font-size:0.8rem;">Verify exact completed age on crucial cutoff with DoPT category concessions.</span>
+        </a>
+        <a href="/tools/photo-checker" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:1rem;text-decoration:none;display:block;">
+          <strong style="color:#60a5fa;display:block;font-size:0.9rem;margin-bottom:0.25rem;">Photo &amp; Signature Validator &rarr;</strong>
+          <span style="color:#cbd5e1;font-size:0.8rem;">Check file sizes, pixel dimensions, and background rules before portal upload.</span>
+        </a>
+        <a href="/tools/marking" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:1rem;text-decoration:none;display:block;">
+          <strong style="color:#60a5fa;display:block;font-size:0.9rem;margin-bottom:0.25rem;">Negative Marking Penalty Simulator &rarr;</strong>
+          <span style="color:#cbd5e1;font-size:0.8rem;">Model raw score trajectories under official negative marking deduction rules.</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- Frequently Asked Questions -->
+    ${alert.faqs && alert.faqs.length > 0 ? `
+      <section style="background:#ffffff;border:1px solid #e2e8f0;border-radius:12px;padding:1.5rem;margin-bottom:2rem;">
+        <h2 style="font-size:1.25rem;font-weight:700;color:#0f172a;margin:0 0 1rem 0;">Frequently Asked Questions (${escapeHtml(alert.organization)})</h2>
+        <div style="display:flex;flex-direction:column;gap:1rem;">
+          ${alert.faqs.map(f => `
+            <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:1rem;">
+              <h3 style="font-size:0.95rem;font-weight:700;color:#0f172a;margin:0 0 0.5rem 0;">${escapeHtml(f.question)}</h3>
+              <p style="font-size:0.85rem;color:#475569;margin:0;line-height:1.6;">${escapeHtml(f.answer)}</p>
+            </div>
+          `).join('')}
+        </div>
+      </section>
+    ` : ''}
+
+    <!-- Source Notice Verification & Official Links -->
+    <section style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:12px;padding:1.5rem;margin-bottom:2rem;font-size:0.85rem;">
+      <h2 style="font-size:1.15rem;font-weight:700;color:#1e3a8a;margin:0 0 0.5rem 0;">Primary Gazette Source Notice</h2>
+      <p style="color:#1e40af;margin:0 0 1rem 0;">
+        Notice Title: <strong>${escapeHtml(alert.sourceNotice?.title || alert.title)}</strong><br/>
+        Verified on: <strong>${escapeHtml(alert.sourceNotice?.checkedOn || alert.publishDate)}</strong>
+      </p>
+      <div style="display:flex;flex-wrap:wrap;gap:0.75rem;">
+        <a href="${escapeHtml(alert.sourceNotice?.url || alert.officialPdfUrl || alert.directApplyUrl || 'https://govindianews.com')}" target="_blank" rel="noopener noreferrer" style="background:#2563eb;color:#ffffff;padding:0.5rem 1rem;border-radius:6px;font-weight:700;text-decoration:none;">
+          Open Official Notice &nearr;
+        </a>
+        <a href="/corrections" style="background:#ffffff;color:#1e40af;padding:0.5rem 1rem;border-radius:6px;font-weight:600;text-decoration:none;border:1px solid #bfdbfe;">
+          Report Correction on this Alert
+        </a>
+        <a href="/tools/salary" style="background:#ffffff;color:#1e40af;padding:0.5rem 1rem;border-radius:6px;font-weight:600;text-decoration:none;border:1px solid #bfdbfe;">
+          7th CPC In-Hand Calculator
+        </a>
+      </div>
+    </section>
+
+    <!-- Institutional Editorial Board E-E-A-T Box -->
+    <section style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:1.5rem;margin-bottom:2rem;font-size:0.85rem;">
+      <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.75rem;">
+        <span style="font-size:1.1rem;">🛡️</span>
+        <strong style="color:#0f172a;font-size:0.95rem;">GovIndiaNews Editorial Desk &amp; Central Verification Board</strong>
+      </div>
+      <p style="color:#475569;margin:0 0 0.75rem 0;line-height:1.6;">
+        This notice was audited by the GovIndiaNews Editorial Desk against primary gazette releases and official portal bulletins. Review sign-off conducted under our transparent <a href="/fact-checking" style="color:#2563eb;font-weight:600;">Fact-Checking Policy</a>. Found a discrepancy? Submit a notice revision via our public <a href="/corrections" style="color:#2563eb;font-weight:600;">Corrections Desk</a>.
+      </p>
+      <div style="display:flex;flex-wrap:wrap;gap:1rem;color:#64748b;font-size:0.8rem;">
+        <span>Author: <strong>Akash Singh Solanki</strong> (Founder &amp; Lead Editor)</span>
+        <span>Editorial Contact: <a href="mailto:desk@govindianews.com" style="color:#2563eb;">desk@govindianews.com</a></span>
+        <a href="/author/akash-singh-solanki" style="color:#2563eb;text-decoration:none;">View Author Dossier &rarr;</a>
+      </div>
+    </section>
+  `;
+}
+
 // 17. ALL RECRUITMENT ALERTS INDIVIDUAL ROUTES (/article/:slug)
 for (const alert of RECRUITMENT_ALERTS) {
   ROUTES.push({
@@ -1750,8 +2491,9 @@ for (const alert of RECRUITMENT_ALERTS) {
     render: () => {
       const isBoardExam = alert.category === 'board-exams';
       const isNtaExam = alert.category === 'nta-exams';
-      const categoryPath = isNtaExam ? '/nta-exams' : isBoardExam ? '/board-exams' : alert.category === 'admit-card' ? '/admit-card' : '/jobs';
-      const categoryLabel = isNtaExam ? 'NTA Exams' : isBoardExam ? 'Board Exams' : alert.category === 'admit-card' ? 'Admit Card' : 'Jobs';
+      const isAdmitCard = alert.category === 'admit-card' || !!alert.admitCardDetails;
+      const categoryPath = isNtaExam ? '/nta-exams' : isBoardExam ? '/board-exams' : isAdmitCard ? '/admit-card' : '/jobs';
+      const categoryLabel = isNtaExam ? 'NTA Exams' : isBoardExam ? 'Board Exams' : isAdmitCard ? 'Admit Card' : 'Jobs';
       return `
         ${renderSiteHeader()}
         <main style="max-width:1080px;margin:2rem auto;padding:0 1.5rem;font-family:system-ui,-apple-system,sans-serif;color:#1e293b;line-height:1.6;">
@@ -1772,7 +2514,7 @@ for (const alert of RECRUITMENT_ALERTS) {
             ` : ''}
             <p style="font-size:1.05rem;color:#475569;margin:0 0 1.25rem 0;">${escapeHtml(alert.summary)}</p>
             <div style="font-size:0.8rem;color:#64748b;display:flex;flex-wrap:wrap;gap:1.5rem;">
-              <span>By <strong>${escapeHtml(alert.author || 'Akash Singh Solanki')}</strong> (Founder &amp; Editor)</span>
+              <span>By <strong>${escapeHtml(alert.author || 'Akash Singh Solanki')}</strong> (Founder &amp; Lead Editor)</span>
               <span>Read time: ${escapeHtml(alert.readTime || '5 min')}</span>
             </div>
           </header>
@@ -1791,231 +2533,7 @@ for (const alert of RECRUITMENT_ALERTS) {
           ` : ''}
 
           <article>
-            ${isBoardExam ? renderBoardExamArticleContent(alert) : isNtaExam ? renderNtaExamArticleContent(alert) : `
-            <!-- Key Facts Summary Grid -->
-            <section style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:1.5rem;margin-bottom:2rem;">
-              <h2 style="font-size:1.25rem;font-weight:700;color:#0f172a;margin:0 0 1rem 0;">Notification Highlights</h2>
-              <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;font-size:0.85rem;">
-                <div><strong>Conducting Body:</strong> <span style="color:#475569;">${escapeHtml(alert.organization)}</span></div>
-                <div><strong>Qualification:</strong> <span style="color:#475569;">${escapeHtml(alert.qualification)}</span></div>
-                <div><strong>Age Limit:</strong> <span style="color:#475569;">${escapeHtml(alert.ageLimit || 'As per official gazette')}</span></div>
-                <div><strong>Application Fee:</strong> <span style="color:#475569;">${escapeHtml(alert.fees || 'Check notice')}</span></div>
-                <div><strong>Last Date to Apply:</strong> <span style="color:#b91c1c;font-weight:700;">${escapeHtml(alert.lastDate || 'Refer to notice')}</span></div>
-                ${alert.examDate ? `<div><strong>Exam Date:</strong> <span style="color:#1e40af;font-weight:700;">${escapeHtml(alert.examDate)}</span></div>` : ''}
-              </div>
-            </section>
-
-            <!-- Important Dates Table -->
-            ${alert.importantDates && alert.importantDates.length > 0 ? `
-              <section style="background:#ffffff;border:1px solid #e2e8f0;border-radius:12px;padding:1.5rem;margin-bottom:2rem;">
-                <h2 style="font-size:1.25rem;font-weight:700;color:#0f172a;margin:0 0 1rem 0;">Important Examination &amp; Application Dates</h2>
-                <div style="overflow-x:auto;">
-                  <table style="width:100%;border-collapse:collapse;font-size:0.85rem;text-align:left;">
-                    <thead>
-                      <tr style="background:#f1f5f9;color:#0f172a;border-bottom:2px solid #cbd5e1;">
-                        <th style="padding:0.6rem 0.75rem;">Recruitment Event / Milestone</th>
-                        <th style="padding:0.6rem 0.75rem;">Official Date / Schedule</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      ${alert.importantDates.map(d => `
-                        <tr style="border-bottom:1px solid #e2e8f0;">
-                          <td style="padding:0.6rem 0.75rem;font-weight:600;color:#0f172a;">${escapeHtml(d.event)}</td>
-                          <td style="padding:0.6rem 0.75rem;color:#475569;">${escapeHtml(d.date)}</td>
-                        </tr>
-                      `).join('')}
-                    </tbody>
-                  </table>
-                </div>
-              </section>
-            ` : ''}
-
-            <!-- Application Fees Table -->
-            ${alert.applicationFees && alert.applicationFees.length > 0 ? `
-              <section style="background:#ffffff;border:1px solid #e2e8f0;border-radius:12px;padding:1.5rem;margin-bottom:2rem;">
-                <h2 style="font-size:1.25rem;font-weight:700;color:#0f172a;margin:0 0 1rem 0;">Application Fee by Reservation Category</h2>
-                <div style="overflow-x:auto;">
-                  <table style="width:100%;border-collapse:collapse;font-size:0.85rem;text-align:left;">
-                    <thead>
-                      <tr style="background:#f1f5f9;color:#0f172a;border-bottom:2px solid #cbd5e1;">
-                        <th style="padding:0.6rem 0.75rem;">Candidate Category</th>
-                        <th style="padding:0.6rem 0.75rem;">Prescribed Fee</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      ${alert.applicationFees.map(f => `
-                        <tr style="border-bottom:1px solid #e2e8f0;">
-                          <td style="padding:0.6rem 0.75rem;font-weight:600;color:#0f172a;">${escapeHtml(f.category)}</td>
-                          <td style="padding:0.6rem 0.75rem;color:#475569;">${escapeHtml(f.fee)}</td>
-                        </tr>
-                      `).join('')}
-                    </tbody>
-                  </table>
-                </div>
-              </section>
-            ` : ''}
-
-            <!-- Vacancy Breakdown Table -->
-            ${alert.vacanciesTable && alert.vacanciesTable.length > 0 ? `
-              <section style="background:#ffffff;border:1px solid #e2e8f0;border-radius:12px;padding:1.5rem;margin-bottom:2rem;">
-                <h2 style="font-size:1.25rem;font-weight:700;color:#0f172a;margin:0 0 1rem 0;">Post-Wise Vacancy &amp; Pay Scale Breakdown</h2>
-                <div style="overflow-x:auto;">
-                  <table style="width:100%;border-collapse:collapse;font-size:0.85rem;text-align:left;">
-                    <thead>
-                      <tr style="background:#f1f5f9;color:#0f172a;border-bottom:2px solid #cbd5e1;">
-                        <th style="padding:0.6rem 0.75rem;">Post Name</th>
-                        <th style="padding:0.6rem 0.75rem;">Department</th>
-                        <th style="padding:0.6rem 0.75rem;">Pay Scale</th>
-                        <th style="padding:0.6rem 0.75rem;text-align:center;">Vacancies</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      ${alert.vacanciesTable.map(v => `
-                        <tr style="border-bottom:1px solid #e2e8f0;">
-                          <td style="padding:0.6rem 0.75rem;font-weight:600;color:#0f172a;">${escapeHtml(v.postName)}</td>
-                          <td style="padding:0.6rem 0.75rem;">${escapeHtml(v.department)}</td>
-                          <td style="padding:0.6rem 0.75rem;">${escapeHtml(v.payScale)}</td>
-                          <td style="padding:0.6rem 0.75rem;text-align:center;font-weight:700;">${escapeHtml(v.vacancy)}</td>
-                        </tr>
-                      `).join('')}
-                    </tbody>
-                  </table>
-                </div>
-              </section>
-            ` : ''}
-
-            <!-- Selection Process -->
-            ${alert.selectionProcess && alert.selectionProcess.length > 0 ? `
-              <section style="background:#ffffff;border:1px solid #e2e8f0;border-radius:12px;padding:1.5rem;margin-bottom:2rem;">
-                <h2 style="font-size:1.25rem;font-weight:700;color:#0f172a;margin:0 0 1rem 0;">Selection Process &amp; Stages</h2>
-                <div style="display:flex;flex-direction:column;gap:1rem;">
-                  ${alert.selectionProcess.map(s => `
-                    <div style="background:#f8fafc;border-left:4px solid #059669;padding:1rem;border-radius:0 8px 8px 0;font-size:0.85rem;">
-                      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.25rem;">
-                        <strong style="color:#065f46;font-size:0.95rem;">${escapeHtml(s.stageNumber)}: ${escapeHtml(s.stageName)}</strong>
-                        <span style="color:#64748b;">${escapeHtml(s.qualifyingNature)}</span>
-                      </div>
-                      <p style="margin:0;color:#475569;">${escapeHtml(s.description)}</p>
-                    </div>
-                  `).join('')}
-                </div>
-              </section>
-            ` : ''}
-
-            <!-- Bespoke Editorial Guidance: Who Should Apply & Who Should Skip -->
-            ${alert.whoShouldApply && alert.whoShouldApply.length > 0 ? `
-              <section style="background:#ffffff;border:1px solid #e2e8f0;border-radius:12px;padding:1.5rem;margin-bottom:2rem;">
-                <h2 style="font-size:1.25rem;font-weight:700;color:#0f172a;margin:0 0 1rem 0;">Profile Match &amp; Application Advisory</h2>
-                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;">
-                  <div style="background:#ecfdf5;border:1px solid #a7f3d0;border-radius:8px;padding:1rem;">
-                    <strong style="color:#065f46;display:block;margin-bottom:0.5rem;font-size:0.9rem;">Who Should Definitely Apply:</strong>
-                    <ul style="margin:0;padding-left:1.25rem;color:#047857;font-size:0.85rem;line-height:1.6;">
-                      ${alert.whoShouldApply.map(w => `<li style="margin-bottom:0.3rem;">${escapeHtml(w)}</li>`).join('')}
-                    </ul>
-                  </div>
-                  ${alert.whoShouldSkip && alert.whoShouldSkip.length > 0 ? `
-                    <div style="background:#fff1f2;border:1px solid #fecdd3;border-radius:8px;padding:1rem;">
-                      <strong style="color:#9f1239;display:block;margin-bottom:0.5rem;font-size:0.9rem;">Who Should Reconsider or Skip:</strong>
-                      <ul style="margin:0;padding-left:1.25rem;color:#881337;font-size:0.85rem;line-height:1.6;">
-                        ${alert.whoShouldSkip.map(s => `<li style="margin-bottom:0.3rem;">${escapeHtml(s)}</li>`).join('')}
-                      </ul>
-                    </div>
-                  ` : ''}
-                </div>
-              </section>
-            ` : ''}
-
-            <!-- Common Rejection Mistakes -->
-            ${alert.commonRejectionMistakes && alert.commonRejectionMistakes.length > 0 ? `
-              <section style="background:#fff1f2;border:1px solid #fecdd3;border-radius:12px;padding:1.5rem;margin-bottom:2rem;">
-                <h2 style="font-size:1.25rem;font-weight:700;color:#9f1239;margin:0 0 1rem 0;">Common Application Mistakes &amp; Scrutiny Pitfalls</h2>
-                <ol style="margin:0;padding-left:1.5rem;color:#881337;font-size:0.9rem;line-height:1.7;">
-                  ${alert.commonRejectionMistakes.map(m => `<li style="margin-bottom:0.4rem;">${escapeHtml(m)}</li>`).join('')}
-                </ol>
-              </section>
-            ` : ''}
-
-            <!-- Documents Needed -->
-            ${alert.documentsNeeded && alert.documentsNeeded.length > 0 ? `
-              <section style="background:#ffffff;border:1px solid #e2e8f0;border-radius:12px;padding:1.5rem;margin-bottom:2rem;">
-                <h2 style="font-size:1.25rem;font-weight:700;color:#0f172a;margin:0 0 1rem 0;">Documents to Keep Ready Before Applying</h2>
-                <ul style="margin:0;padding-left:1.5rem;color:#334155;font-size:0.85rem;line-height:1.7;">
-                  ${alert.documentsNeeded.map(d => `<li style="margin-bottom:0.4rem;">${escapeHtml(d)}</li>`).join('')}
-                </ul>
-              </section>
-            ` : ''}
-
-            <!-- Candidate Software Utilities Suite -->
-            <section style="background:#0f172a;border:1px solid #1e293b;border-radius:12px;padding:1.5rem;margin-bottom:2rem;color:#ffffff;">
-              <h2 style="font-size:1.25rem;font-weight:700;color:#ffffff;margin:0 0 0.5rem 0;">Interactive Candidate Utilities Suite</h2>
-              <p style="font-size:0.85rem;color:#94a3b8;margin:0 0 1.25rem 0;">Statutory software calculators and document specification checkers for this notification</p>
-              <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem;">
-                <a href="/tools/salary" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:1rem;text-decoration:none;display:block;">
-                  <strong style="color:#60a5fa;display:block;font-size:0.9rem;margin-bottom:0.25rem;">7th CPC Salary Calculator &rarr;</strong>
-                  <span style="color:#cbd5e1;font-size:0.8rem;">Calculate Level 1 to 14 basic pay, gross earnings, and in-hand salary with 50% DA.</span>
-                </a>
-                <a href="/tools/age" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:1rem;text-decoration:none;display:block;">
-                  <strong style="color:#60a5fa;display:block;font-size:0.9rem;margin-bottom:0.25rem;">Age Cut-Off &amp; Relaxation Checker &rarr;</strong>
-                  <span style="color:#cbd5e1;font-size:0.8rem;">Verify exact completed age on crucial cutoff with DoPT category concessions.</span>
-                </a>
-                <a href="/tools/photo-checker" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:1rem;text-decoration:none;display:block;">
-                  <strong style="color:#60a5fa;display:block;font-size:0.9rem;margin-bottom:0.25rem;">Photo &amp; Signature Validator &rarr;</strong>
-                  <span style="color:#cbd5e1;font-size:0.8rem;">Check file sizes, pixel dimensions, and background rules before portal upload.</span>
-                </a>
-              </div>
-            </section>
-
-            <!-- Frequently Asked Questions -->
-            ${alert.faqs && alert.faqs.length > 0 ? `
-              <section style="background:#ffffff;border:1px solid #e2e8f0;border-radius:12px;padding:1.5rem;margin-bottom:2rem;">
-                <h2 style="font-size:1.25rem;font-weight:700;color:#0f172a;margin:0 0 1rem 0;">Frequently Asked Questions (${escapeHtml(alert.organization)})</h2>
-                <div style="display:flex;flex-direction:column;gap:1rem;">
-                  ${alert.faqs.map(f => `
-                    <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:1rem;">
-                      <h3 style="font-size:0.95rem;font-weight:700;color:#0f172a;margin:0 0 0.5rem 0;">${escapeHtml(f.question)}</h3>
-                      <p style="font-size:0.85rem;color:#475569;margin:0;line-height:1.6;">${escapeHtml(f.answer)}</p>
-                    </div>
-                  `).join('')}
-                </div>
-              </section>
-            ` : ''}
-
-            <!-- Source Notice Verification & Official Links -->
-            <section style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:12px;padding:1.5rem;margin-bottom:2rem;font-size:0.85rem;">
-              <h2 style="font-size:1.15rem;font-weight:700;color:#1e3a8a;margin:0 0 0.5rem 0;">Primary Gazette Source Notice</h2>
-              <p style="color:#1e40af;margin:0 0 1rem 0;">
-                Notice Title: <strong>${escapeHtml(alert.sourceNotice?.title || alert.title)}</strong><br/>
-                Verified on: <strong>${escapeHtml(alert.sourceNotice?.checkedOn || alert.publishDate)}</strong>
-              </p>
-              <div style="display:flex;flex-wrap:wrap;gap:0.75rem;">
-                <a href="${escapeHtml(alert.sourceNotice?.url || alert.officialPdfUrl || alert.directApplyUrl || 'https://govindianews.com')}" target="_blank" rel="noopener noreferrer" style="background:#2563eb;color:#ffffff;padding:0.5rem 1rem;border-radius:6px;font-weight:700;text-decoration:none;">
-                  Open Official Notice &nearr;
-                </a>
-                <a href="/corrections" style="background:#ffffff;color:#1e40af;padding:0.5rem 1rem;border-radius:6px;font-weight:600;text-decoration:none;border:1px solid #bfdbfe;">
-                  Report Correction on this Alert
-                </a>
-                <a href="/tools/salary" style="background:#ffffff;color:#1e40af;padding:0.5rem 1rem;border-radius:6px;font-weight:600;text-decoration:none;border:1px solid #bfdbfe;">
-                  7th CPC In-Hand Calculator
-                </a>
-              </div>
-            </section>
-
-            <!-- Institutional Editorial Board E-E-A-T Box -->
-            <section style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:1.5rem;margin-bottom:2rem;font-size:0.85rem;">
-              <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.75rem;">
-                <span style="font-size:1.1rem;">🛡️</span>
-                <strong style="color:#0f172a;font-size:0.95rem;">GovIndiaNews Editorial Desk &amp; Central Verification Board</strong>
-              </div>
-              <p style="color:#475569;margin:0 0 0.75rem 0;line-height:1.6;">
-                This notice was audited by the GovIndiaNews Editorial Desk against primary gazette releases and official portal bulletins. Review sign-off conducted under our transparent <a href="/fact-checking" style="color:#2563eb;font-weight:600;">Fact-Checking Policy</a>. Found a discrepancy? Submit a notice revision via our public <a href="/corrections" style="color:#2563eb;font-weight:600;">Corrections Desk</a>.
-              </p>
-              <div style="display:flex;flex-wrap:wrap;gap:1rem;color:#64748b;font-size:0.8rem;">
-                <span>Author: <strong>Akash Singh Solanki</strong> (Founder &amp; Lead Editor)</span>
-                <span>Editorial Contact: <a href="mailto:desk@govindianews.com" style="color:#2563eb;">desk@govindianews.com</a></span>
-                <a href="/author/akash-singh-solanki" style="color:#2563eb;text-decoration:none;">View Author Dossier &rarr;</a>
-              </div>
-            </section>
-            `}
+            ${isBoardExam ? renderBoardExamArticleContent(alert) : isNtaExam ? renderNtaExamArticleContent(alert) : isAdmitCard ? renderAdmitCardArticleContent(alert) : renderJobArticleContent(alert)}
           </article>
         </main>
         ${renderSiteFooter()}
