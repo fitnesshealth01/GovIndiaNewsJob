@@ -208,7 +208,7 @@ export default function App() {
     );
   }, [currentPath]);
 
-  // Set robots noindex for unverified or expired articles and archive page
+  // Set robots noindex for unverified or expired articles, 404s, and archive page
   useEffect(() => {
     if (typeof document === 'undefined') return;
     let robotsMeta = document.querySelector('meta[name="robots"]');
@@ -218,10 +218,12 @@ export default function App() {
       document.head.appendChild(robotsMeta);
     }
 
-    const isUnverifiedArticle = currentArticle && currentArticle.status !== 'verified';
+    const isUnverifiedOrExpired = currentArticle && (currentArticle.status !== 'verified' || isAlertExpired(currentArticle));
     const isArchivePage = currentPath === '/archive';
+    const isMissingArticle = currentPath.startsWith('/article/') && !currentArticle;
+    const is404 = currentPath === '/404' || isMissingArticle;
 
-    if (isUnverifiedArticle || isArchivePage) {
+    if (isUnverifiedOrExpired || isArchivePage || is404) {
       robotsMeta.setAttribute('content', 'noindex, follow');
     } else {
       robotsMeta.setAttribute('content', 'index, follow');

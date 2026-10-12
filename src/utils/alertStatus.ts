@@ -68,7 +68,7 @@ export function isAlertExpired(alert: RecruitmentAlert, referenceDate: Date = ne
   }
 
   if (alert.category === 'admit-card' && alert.examDate) {
-    const dates = alert.examDate.split(/to|-/);
+    const dates = alert.examDate.split(/\bto\b|-|&|,/i);
     const endStr = dates[dates.length - 1]?.trim();
     const endD = parseDateString(endStr);
     if (endD && endD.getTime() < referenceDate.getTime()) {

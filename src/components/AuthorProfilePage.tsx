@@ -109,10 +109,10 @@ export const AuthorProfilePage: React.FC<AuthorProfilePageProps> = ({
           {/* Author Details & Bio */}
           <div className="space-y-3 flex-1 min-w-0">
             <div className="flex flex-wrap items-center gap-2.5">
-              <span className="px-3 py-1 bg-amber-50 text-amber-900 border border-amber-300 rounded-full text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 shadow-2xs">
-                <span>🎖️ {author.serviceBackground}</span>
+              <span className="px-3 py-1 bg-blue-50 text-blue-900 border border-blue-200 rounded-full text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 shadow-2xs">
+                <span>🛡️ {author.serviceBackground}</span>
               </span>
-              <span className="px-3 py-1 bg-blue-50 text-blue-800 border border-blue-200 rounded-full text-xs font-semibold">
+              <span className="px-3 py-1 bg-stone-50 text-stone-800 border border-stone-200 rounded-full text-xs font-semibold">
                 {author.designation}
               </span>
               <span className="text-xs text-slate-500 font-medium">
@@ -129,7 +129,7 @@ export const AuthorProfilePage: React.FC<AuthorProfilePageProps> = ({
               </p>
             </div>
 
-            {/* 2-3 Lines Bio with Soldier / Army Service Experience */}
+            {/* Institutional Bio & Verification Background */}
             <p className="text-sm text-slate-700 leading-relaxed font-sans pt-1 border-t border-slate-100">
               {author.biography}
             </p>
@@ -189,7 +189,7 @@ export const AuthorProfilePage: React.FC<AuthorProfilePageProps> = ({
           <div className="pt-5 border-t border-slate-100 space-y-2.5">
             <h2 className="text-xs font-bold uppercase tracking-wider text-slate-800 flex items-center gap-2">
               <Award className="w-4 h-4 text-blue-600" />
-              <span>Service Background, Defense Insights & Editorial Standards</span>
+              <span>Institutional Research, Editorial Standards & Verification Protocols</span>
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs text-slate-700">
               {author.detailedExperience.map((item, idx) => (
@@ -354,9 +354,11 @@ export const AuthorProfilePage: React.FC<AuthorProfilePageProps> = ({
 
                 {/* Right CTA */}
                 <div className="shrink-0 flex sm:flex-col items-center sm:items-end justify-between sm:justify-center border-t sm:border-t-0 pt-3 sm:pt-0 border-slate-100">
-                  <div className="hidden sm:block text-[11px] text-slate-400 font-mono mb-2">
-                    Verified By {author.name.split(' ')[0]}
-                  </div>
+                  {article.status === 'verified' && (
+                    <div className="hidden sm:block text-[11px] text-emerald-700 font-semibold mb-2 flex items-center gap-1">
+                      <span>✓ Verified Notice</span>
+                    </div>
+                  )}
                   <button
                     type="button"
                     className="px-3.5 py-1.5 text-xs font-bold text-blue-700 bg-blue-50 group-hover:bg-blue-600 group-hover:text-white rounded-lg transition-all flex items-center gap-1.5 shadow-2xs"

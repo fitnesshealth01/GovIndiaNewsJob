@@ -11,6 +11,8 @@ import {
   Phone,
   Mail,
   ShieldAlert,
+  Calculator,
+  ChevronRight,
 } from 'lucide-react';
 import { RecruitmentAlert } from '../data/gazetteData';
 
@@ -19,8 +21,8 @@ interface EliteAdmitCardTemplateProps {
   onNavigate: (path: string) => void;
 }
 
-export const EliteAdmitCardTemplate: React.FC<EliteAdmitCardTemplateProps> = ({ article }) => {
-  const steps = article.admitCardDetails?.officialDownloadSteps || article.howToApplySteps || [
+export const EliteAdmitCardTemplate: React.FC<EliteAdmitCardTemplateProps> = ({ article, onNavigate }) => {
+  const steps = article.admitCardDetails?.officialDownloadSteps || article.admitCardDetails?.downloadSteps || article.howToApplySteps || [
     `Navigate to the official commission examination portal at ${article.sourceNotice?.url}.`,
     'Click on the link for "Download e-Admit Card / Admission Certificate".',
     'Select login option: Either through Registration ID and Date of Birth, or Roll Number and Date of Birth.',
@@ -28,7 +30,7 @@ export const EliteAdmitCardTemplate: React.FC<EliteAdmitCardTemplateProps> = ({ 
     'Verify all particulars on the electronic admit card and take at least 2 clear printouts on clean A4 paper.',
   ];
 
-  const checklist = article.admitCardDetails?.checklistOnCard || [
+  const checklist = article.admitCardDetails?.checklistOnCard || article.admitCardDetails?.detailsToCheck || [
     'Candidate Name and spelling (must exactly match 10th certificate).',
     'Roll Number and Registration Number.',
     'Date of Birth and Category (UR / EWS / OBC / SC / ST / PwBD).',
@@ -37,7 +39,7 @@ export const EliteAdmitCardTemplate: React.FC<EliteAdmitCardTemplateProps> = ({ 
     'Exact Exam Center Name, Complete Address, and Center Code.',
   ];
 
-  const carryList = article.admitCardDetails?.examDayCarryList || [
+  const carryList = article.admitCardDetails?.examDayCarryList || article.admitCardDetails?.itemsToCarry || [
     'Original Printed e-Admit Card (all pages, clear print on A4 paper).',
     'Original Government Valid Photo Identity Card (Aadhaar Card, Voter ID, PAN Card, Driving Licence, or Passport).',
     'Two recent identical passport-size colour photographs (matching the one uploaded during application).',
@@ -137,6 +139,56 @@ export const EliteAdmitCardTemplate: React.FC<EliteAdmitCardTemplateProps> = ({ 
         </ul>
         <div className="p-3 bg-amber-50/70 border-l-3 border-amber-600 rounded-r-lg text-xs text-amber-950">
           <strong>Strict Prohibition:</strong> Mobile phones, smartwatches, Bluetooth devices, calculators, metallic accessories, and bags are prohibited inside the testing hall.
+        </div>
+      </section>
+
+      {/* Interactive Candidate Utilities for Exam Day */}
+      <section className="bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 rounded-2xl p-6 text-white border border-slate-800 shadow-sm space-y-4">
+        <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-3">
+          <div className="flex items-center gap-2.5">
+            <div className="p-2 bg-blue-600/30 rounded-xl border border-blue-500/40 text-blue-300">
+              <Calculator className="w-5 h-5" />
+            </div>
+            <div>
+              <h3 className="text-base font-bold text-white tracking-tight">
+                Exam Day Candidate Utilities
+              </h3>
+              <p className="text-xs text-slate-300">Software calculators and accuracy simulators for candidates writing this examination</p>
+            </div>
+          </div>
+          <span className="px-2.5 py-0.5 bg-blue-500/20 text-blue-300 border border-blue-400/30 rounded-full text-[11px] font-bold">
+            Live Software Tools
+          </span>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+          <button
+            type="button"
+            onClick={() => onNavigate?.('/tools/marking')}
+            className="p-3.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-left transition-colors cursor-pointer space-y-1.5 group"
+          >
+            <div className="flex items-center justify-between text-blue-300 text-xs font-bold">
+              <span>Negative Marking &amp; Penalty Calculator</span>
+              <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+            </div>
+            <p className="text-[11px] text-slate-300 leading-relaxed">
+              Model your score trajectory under 1/3, 1/4, or 0.50 negative deduction rules.
+            </p>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => onNavigate?.('/mock-test/ssc-cgl-tier1')}
+            className="p-3.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-left transition-colors cursor-pointer space-y-1.5 group"
+          >
+            <div className="flex items-center justify-between text-blue-300 text-xs font-bold">
+              <span>Full Computer-Based Test (CBT) Simulator</span>
+              <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+            </div>
+            <p className="text-[11px] text-slate-300 leading-relaxed">
+              Timed practice environment with live countdown, question palette, and instant score analysis.
+            </p>
+          </button>
         </div>
       </section>
 

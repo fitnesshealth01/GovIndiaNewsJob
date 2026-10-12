@@ -661,9 +661,9 @@ export const LegalPages: React.FC<LegalPageProps> = ({ type, onNavigate }) => {
 
               <div className="p-4 rounded-xl border border-slate-200 bg-slate-50/60 space-y-1.5">
                 <span className="w-6 h-6 rounded-md bg-blue-700 text-white font-bold text-xs flex items-center justify-center">4</span>
-                <h3 className="font-bold text-slate-900 text-sm">Dual Senior Editor Scrutiny</h3>
+                <h3 className="font-bold text-slate-900 text-sm">AI-Assisted Check &amp; Lead Editor Sign-Off</h3>
                 <p className="text-xs text-slate-600">
-                  Before any article goes live, it must be peer-reviewed and signed off by a credentialed senior educational editor.
+                  We utilize AI-assisted validation tools to cross-reference notification PDFs, tabular dates, and application portals against official .gov.in sources, followed by mandatory human review and sign-off by Lead Editor Akash Singh Solanki before any article receives verified status.
                 </p>
               </div>
             </div>

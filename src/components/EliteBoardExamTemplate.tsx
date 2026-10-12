@@ -15,6 +15,8 @@ import {
   BookOpen,
   ArrowRight,
   Sparkles,
+  Calculator,
+  ChevronRight,
 } from 'lucide-react';
 import { RecruitmentAlert } from '../data/gazetteData';
 import { NavLink } from './NavLink';
@@ -262,6 +264,56 @@ export const EliteBoardExamTemplate: React.FC<EliteBoardExamTemplateProps> = ({
           Candidates from Nepal pay ₹1,100 per additional subject and those from other countries ₹2,200.
           Fees vary by category, so confirm your exact amount on the portal before paying.
         </p>
+      </section>
+
+      {/* Interactive Candidate Utilities for Board Candidates */}
+      <section className="bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 rounded-2xl p-6 text-white border border-slate-800 shadow-sm space-y-4">
+        <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-3">
+          <div className="flex items-center gap-2.5">
+            <div className="p-2 bg-blue-600/30 rounded-xl border border-blue-500/40 text-blue-300">
+              <Calculator className="w-5 h-5" />
+            </div>
+            <div>
+              <h3 className="text-base font-bold text-white tracking-tight">
+                Candidate Utilities for CBSE Registration
+              </h3>
+              <p className="text-xs text-slate-300">Image specification tools and fee calculation utilities for private candidates</p>
+            </div>
+          </div>
+          <span className="px-2.5 py-0.5 bg-blue-500/20 text-blue-300 border border-blue-400/30 rounded-full text-[11px] font-bold">
+            Live Software Tools
+          </span>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+          <button
+            type="button"
+            onClick={() => onNavigate('/tools/photo-checker')}
+            className="p-3.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-left transition-colors cursor-pointer space-y-1.5 group"
+          >
+            <div className="flex items-center justify-between text-blue-300 text-xs font-bold">
+              <span>Photo &amp; Signature Compliance Validator</span>
+              <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+            </div>
+            <p className="text-[11px] text-slate-300 leading-relaxed">
+              Verify CBSE-required file sizes (10–40 KB signature, 20–50 KB photo with name/date) and aspect ratios.
+            </p>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => onNavigate('/tools/relaxation')}
+            className="p-3.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-left transition-colors cursor-pointer space-y-1.5 group"
+          >
+            <div className="flex items-center justify-between text-blue-300 text-xs font-bold">
+              <span>Fee &amp; Category Relaxation Calculator</span>
+              <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+            </div>
+            <p className="text-[11px] text-slate-300 leading-relaxed">
+              Compute subject fees, practical charges, and late fee surcharges for your specific category.
+            </p>
+          </button>
+        </div>
       </section>
 
       {/* 5. How to apply, step by step */}

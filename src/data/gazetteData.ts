@@ -149,9 +149,13 @@ export interface CycleComparison {
 
 export interface AdmitCardDetails {
   officialNoticeSummary: string;
-  officialDownloadSteps: string[];
-  checklistOnCard: string[];
-  examDayCarryList: string[];
+  officialDownloadSteps?: string[];
+  downloadSteps?: string[];
+  checklistOnCard?: string[];
+  detailsToCheck?: string[];
+  examDayCarryList?: string[];
+  itemsToCarry?: string[];
+  prohibitedItems?: string[];
   ifDownloadFailsAdvice: string;
   officialHelpdesk: { email?: string; phone?: string; portalUrl?: string };
 }
@@ -350,6 +354,17 @@ export const RECRUITMENT_ALERTS: RecruitmentAlert[] = [
       'Pay the non-refundable examination fee online via debit card, credit card, net banking or UPI.',
       'Submit the application and **download and print the confirmation page** for future reference.',
     ],
+    whoShouldApply: [
+      'Post-graduates with minimum 55% marks (50% for OBC-NCL, SC, ST, PwD, Third Gender) seeking Junior Research Fellowship (JRF) or Assistant Professorship in Indian universities.',
+      'Final-year Master degree students or candidates awaiting final qualifying exam results (must complete degree with requisite percentage within 2 years).',
+      'Four-year Bachelor degree holders with minimum 75% marks eligible directly for JRF and PhD admissions under revised UGC guidelines.',
+      'Aspirants aged 30 or under as on 1 December 2026 targeting funded research fellowships (up to 35 years for reserved categories and women candidates).',
+    ],
+    whoShouldSkip: [
+      'Candidates scoring below 55% marks in Master degree (below 50% for reserved categories) who do not possess a qualifying 4-year Bachelor degree with 75%.',
+      'Candidates exceeding 30 years of age as on 01-12-2026 who are only interested in JRF fellowship without eligible age relaxations (though eligible for Assistant Professor and PhD).',
+      'Aspirants seeking state-level lectureship who prefer state-specific SET exams in regional languages.',
+    ],
     documentsNeeded: [
       "Master's degree (or final-year qualifying) marks sheets and roll details",
       'Scanned passport-size photograph and specimen signature in prescribed format',
@@ -460,6 +475,17 @@ export const RECRUITMENT_ALERTS: RecruitmentAlert[] = [
       { detail: 'Class 12 private exams', information: 'February to April 2027' },
       { detail: 'Separate private exam?', information: 'No, papers run alongside the main board exams' },
       { detail: 'Apply at', information: 'cbse.gov.in → Private Candidate link' },
+    ],
+    whoShouldApply: [
+      'Class 10 and Class 12 students declared Essential Repeat or Fail in 2026 or earlier cycles (2021 to 2026).',
+      'Students placed in Compartment in 2026 main or supplementary examinations seeking second chance.',
+      'Students who passed board exams in 2026 wishing for Improvement of Performance in one or more subjects.',
+      'Passed candidates seeking to appear in an Additional Subject within two years of passing.',
+    ],
+    whoShouldSkip: [
+      'Regular full-time school students currently enrolled in affiliated schools (must register through school LOC).',
+      'Candidates attempting to change streams without fulfilling board eligibility norms.',
+      'Students seeking practical-heavy science subjects (Physics, Chemistry, Biology) without having previously completed practical coursework as Essential Repeat or Compartment candidates.',
     ],
     whoCanApplyClass10: [
       'Session 2025-26 students declared **Essential Repeat** in the 2026 result.',
@@ -1017,6 +1043,61 @@ sourceNotice: {
       'Input your 10-digit Registration ID / 7-digit Roll Number, Date of Birth, and Captcha code.',
       'Take 3 color printouts of the e-Admit Card on A4 paper along with the photo identity proof uploaded during DAF-I.'
     ],
+    admitCardDetails: {
+      officialNoticeSummary: 'UPSC has issued e-Admit Cards for Civil Services (Main) Examination 2026. Entry to examination venues closes 30 minutes prior to scheduled session commencement (08:30 AM for Forenoon Session and 02:00 PM for Afternoon Session). Candidates must carry original Photo ID matching DAF-I.',
+      downloadSteps: [
+        'Visit official portal: https://upsconline.nic.in and click "e-Admit Cards for Various Examinations".',
+        'Select Civil Services (Main) Examination 2026.',
+        'Choose login option: By Registration ID (RID) or Roll Number.',
+        'Enter Date of Birth and Captcha verification text.',
+        'Print e-Admit Card on clear white A4 sheet with legible photograph and QR code.',
+      ],
+      detailsToCheck: [
+        'Candidate Full Name & Roll Number matching DAF-I confirmation',
+        'Examination Center Name, Sub-Center Code & Full Address',
+        'Session Timings & Specific Medium of Examination (English/Hindi/Regional)',
+        'Optional Subject code and paper sequence',
+        'Candidate Photograph & Signature visibility',
+      ],
+      itemsToCarry: [
+        'Printed e-Admit Card hard copy (clearly legible)',
+        'Original Photo ID Card (Aadhaar / Voter ID / Passport / Driving License) as cited in e-Admit Card',
+        'Two recent identical passport-size photographs (in case of blurry print)',
+        'Black ballpoint pens for marking attendance and completing descriptive answer booklets',
+        'Transparent water bottle (analog wrist watch permitted, smartwatches banned)',
+      ],
+      prohibitedItems: [
+        'Mobile phones, pagers, smart devices, Bluetooth headsets, pen drives',
+        'Digital wristwatches, fitness trackers, smart glasses',
+        'Bags, notebooks, reference notes, loose sheets, geometric boxes',
+      ],
+      ifDownloadFailsAdvice: 'If unable to download due to server load, retry during early morning or late night hours. If Roll Number/RID is misplaced, use the "Forgot RID" facility on upsconline.nic.in with registered email ID. For critical errors, contact UPSC facilitation counter at 011-23385271.',
+      officialHelpdesk: {
+        phone: '011-23385271 / 011-23381125',
+        email: 'feedback-upsc@gov.in',
+        portalUrl: 'https://upsc.gov.in',
+      },
+    },
+    whoShouldApply: [
+      'Candidates who cleared the Civil Services (Preliminary) Examination 2026 and submitted the Detailed Application Form-I (DAF-I).',
+      'Shortlisted aspirants appearing for the 9 subjective descriptive papers scheduled between 16 and 20 October 2026.',
+    ],
+    whoShouldSkip: [
+      'Candidates who did not qualify CSE Prelims 2026 or failed to submit DAF-I before the closing deadline.',
+      'Candidates attempting to appear at an examination center other than the designated center specified on the hall ticket.',
+    ],
+    commonRejectionMistakes: [
+      'Arriving after gate closure: Gate closure is enforced 30 minutes before session commencement (08:30 AM / 02:00 PM); no entry is permitted under any circumstances thereafter.',
+      'Carrying a mobile phone inside the campus even in switched-off mode: Possession of cell phones inside the venue leads to 3-year debarment.',
+      'Bringing photocopies or phone screenshots of photo ID: Entry strictly requires the original physical identity card.',
+      'Using blue ink or gel pens on the attendance sheet: UPSC instructions strictly prescribe black ballpoint pen.',
+    ],
+    documentsNeeded: [
+      'Printed copy of UPSC CSE Mains 2026 e-Admit Card (preferably 2 copies).',
+      'Original Government Photo Identity Card as entered in DAF-I.',
+      'Two recent passport-size photographs matching the uploaded image.',
+      'Black ballpoint pens for attendance and answer script writing.',
+    ],
   },
   {
     id: 'admit-ssc-cgl-tier1-2026-all',
@@ -1057,6 +1138,57 @@ sourceNotice: {
       'Provide your Registration ID / Roll Number and Date of Birth.',
       'Download and print the Hall Ticket on A4 size paper along with COVID-19 self-declaration.'
     ],
+    admitCardDetails: {
+      officialNoticeSummary: 'Staff Selection Commission has uploaded Tier-1 Admission Certificates across all 9 regional sub-portals. Exam runs in 4 daily shifts across India from 14 to 26 October 2026. Gate closes strictly 30 minutes before each shift starts.',
+      downloadSteps: [
+        'Visit your respective regional SSC portal (NR: sscnr.nic.in, CR: ssc-cr.org, WR: sscwr.net, ER: sscer.org, SR: sscsr.gov.in).',
+        'Click on "STATUS / DOWNLOAD ADMIT CARD FOR COMBINED GRADUATE LEVEL EXAMINATION (TIER-1) 2026".',
+        'Enter Registration Number or Roll Number and Date of Birth (DD/MM/YYYY).',
+        'Download Admission Certificate and print on clear A4 paper.',
+      ],
+      detailsToCheck: [
+        'Candidate Name, Roll Number, Ticket Number and Category',
+        'Exact Exam Shift, Reporting Time, and Gate Closing Time',
+        'Examination Venue Name, Landmark, and Center Code',
+        'Candidate Photograph & Signature clarity',
+      ],
+      itemsToCarry: [
+        'Printed copy of SSC CGL Tier-1 Admit Card',
+        'Two recent passport-size color photographs (identical to the application form)',
+        'Original valid Photo ID with complete Date of Birth matching the admit card (Aadhaar, Voter ID, Driving License, Passport)',
+        'Original Matriculation Certificate (if the Photo ID lacks complete DD/MM/YYYY birth date)',
+      ],
+      prohibitedItems: [
+        'Mobile phones, Bluetooth earphones, fitness bands, digital watches',
+        'Belts with large metallic buckles, metallic jewelry, caps',
+        'Bags, wallets, books, and study material (no cloakroom guarantee at private centers)',
+      ],
+      ifDownloadFailsAdvice: 'If the portal displays "Application Rejected", check the reason column for photo/signature non-compliance. If accepted but admit card is not generating, contact your regional SSC helpline with your Registration ID.',
+      officialHelpdesk: {
+        phone: '011-24363343 (SSC HQ) / 011-24360840',
+        email: 'enquiry-ssc@nic.in',
+        portalUrl: 'https://ssc.gov.in',
+      },
+    },
+    whoShouldApply: [
+      'Candidates who submitted successful online applications for SSC CGL 2026 and whose application status was marked "Provisionally Accepted".',
+      'Aspirants scheduled across the 4 daily shifts between 14th and 26th October 2026.',
+    ],
+    whoShouldSkip: [
+      'Candidates whose applications were rejected due to blurred photo, selfie webcam capture, or multiple form submissions.',
+      'Candidates seeking entry after gate closing time (08:30 AM / 11:15 AM / 02:00 PM / 04:45 PM).',
+    ],
+    commonRejectionMistakes: [
+      'Photo ID missing Date of Birth: If your Aadhaar card only mentions the birth year (YYYY) and not full date (DD/MM/YYYY), you MUST carry your 10th mark sheet; otherwise entry is denied.',
+      'Arriving after gate closure: Biometric registration gates close strictly 30 minutes prior to exam commencement.',
+      'Wearing prohibited ornaments or heavy shoes: SSC frisking teams disallow smart accessories and metallic buckles.',
+    ],
+    documentsNeeded: [
+      'Printed SSC CGL Tier-1 Admit Card (hard copy).',
+      'Two recent passport-size color photographs.',
+      'Original Government Photo ID having complete Date of Birth (Aadhaar / Voter ID / Passport / Driving License).',
+      'Original 10th Class Mark Sheet / Passing Certificate (if Photo ID has incomplete DOB).',
+    ],
   },
   {
     id: 'admit-rrb-alp-cbt1-2026',
@@ -1084,6 +1216,56 @@ sourceNotice: {
       { event: 'City Intimation & Travel Pass Live', date: '30 September 2026' },
       { event: 'Official E-Call Letter Available', date: '18 October 2026 onwards (4 days prior)' },
       { event: 'CBT-1 Multi-Shift Exam Dates', date: '22 October to 29 October 2026' },
+    ],
+    admitCardDetails: {
+      officialNoticeSummary: 'Railway Recruitment Boards have released CBT-1 City Intimation Slip and free railway travel passes for SC/ST candidates. Final e-Call Letters with specific exam center names are available 4 days before individual exam dates. Aadhaar-linked biometric verification will be conducted at exam venues.',
+      downloadSteps: [
+        'Visit the centralized RRB portal https://www.rrbapply.gov.in or your regional RRB website.',
+        'Click on CEN 01/2026 (ALP) - City Intimation & E-Call Letter Download.',
+        'Enter your Registration Number and User Password (Date of Birth).',
+        'Download and print the e-Call Letter on A4 paper along with the lower portion counterfoil.',
+      ],
+      detailsToCheck: [
+        'Candidate Roll Number, Registration Number, and Test Center Code',
+        'CBT-1 Shift Number, Reporting Time, Gate Closure Time, and Exam Start Time',
+        'Exam Center Address with Google Maps landmark details',
+        'Travel Authority Pass details for SC/ST candidates',
+      ],
+      itemsToCarry: [
+        'Original printed RRB ALP CBT-1 e-Call Letter',
+        'Original Aadhaar Card (mandatory for biometric authentication at test center)',
+        'One recent color passport photograph (35mm x 45mm) to paste on call letter counterfoil',
+        'Valid photo ID (Voter ID, Driving License, PAN, Passport) as alternative identity proof',
+      ],
+      prohibitedItems: [
+        'Mobile phones, Bluetooth devices, smartwatches, calculators, earphones',
+        'Metallic jewelry, belts, wallets, bags, electronic pens',
+      ],
+      ifDownloadFailsAdvice: 'Call letters are released in batches exactly 4 days before your specific exam date. If you see your city slip but cannot download the call letter, check whether your exam date falls within the active 4-day release window.',
+      officialHelpdesk: {
+        phone: '9592-001-188 / 0172-2730093',
+        email: 'rrb.help@gov.in',
+        portalUrl: 'https://www.rrbapply.gov.in',
+      },
+    },
+    whoShouldApply: [
+      'Candidates who applied under CEN 01/2026 for Assistant Loco Pilot posts with valid application submission status.',
+      'Aspirants with exam scheduled between 22 and 29 October 2026 across Indian test centers.',
+    ],
+    whoShouldSkip: [
+      'Candidates whose applications were rejected during the preliminary scrutiny stage.',
+      'Candidates reporting after biometric gate closure time.',
+    ],
+    commonRejectionMistakes: [
+      'Forgetting the original Aadhaar Card: RRB conducts strict Aadhaar biometric fingerprint matching; entry is denied without original Aadhaar or approved biometric bypass verification.',
+      'Signing the call letter counterfoil at home: The counterfoil MUST be signed in front of the invigilator inside the exam hall.',
+      'Reaching after gate closing: Shift gates lock exactly at the appointed cutoff time.',
+    ],
+    documentsNeeded: [
+      'Printed RRB ALP e-Call Letter (complete page with candidate counterfoil).',
+      'Original Aadhaar Card (mandatory).',
+      'One recent passport-size photograph identical to application photo.',
+      'Original Photo Identity Card (if Aadhaar requires backup corroboration).',
     ],
     officialLinks: [
       { title: 'RRB Official Portal', label: 'Login to Check City Slip (rrbcdg.gov.in)', url: 'https://www.rrbcdg.gov.in', isPrimary: true, linkType: 'official' },
@@ -1117,6 +1299,57 @@ sourceNotice: {
       { event: 'Prelims Online CBT Exam', date: '10, 11 and 12 October 2026' },
       { event: 'Prelims Result Declaration', date: 'Late October 2026' },
     ],
+    admitCardDetails: {
+      officialNoticeSummary: 'IBPS Clerk XIV Preliminary online examination call letters are live. Candidates must carry the call letter with a recent photograph pasted on it, along with 2 additional photographs, original valid photo ID, and a legible photocopy of that same ID stapled to the call letter.',
+      downloadSteps: [
+        'Open official portal https://www.ibps.in and click CRP Clerks-XIV.',
+        'Click on "Online Preliminary Examination Call Letter for CRP Clerks-XIV".',
+        'Enter Registration Number / Roll Number and Password (Date of Birth).',
+        'Download call letter and print on clear A4 paper.',
+      ],
+      detailsToCheck: [
+        'Candidate Name, Roll Number, Registration Number, and Category',
+        'Exam Date, Shift Reporting Time, and Venue Code',
+        'Exact Exam Center Address with Landmark',
+        'Space for Pasting Photograph and Thumb Impression',
+      ],
+      itemsToCarry: [
+        'Printed IBPS Clerk Call Letter with recent color photograph pasted in designated box',
+        'Two additional identical passport-size color photographs',
+        'Original valid Photo ID (Aadhaar, PAN, Voter ID, Passport, Driving License)',
+        'Clear photocopy of the same Photo ID (mandatory to staple with call letter)',
+        'Simple blue or black ballpoint pen',
+      ],
+      prohibitedItems: [
+        'Mobile phones, smartwatches, digital calculators, Bluetooth devices',
+        'Wallets, purses, bags, geometry boxes, food items',
+      ],
+      ifDownloadFailsAdvice: 'Verify your Registration Number and Password from the original SMS/email received during registration. Clear browser cache or use Google Chrome in incognito mode if captcha fails.',
+      officialHelpdesk: {
+        phone: '1800-222-366 / 1800-103-4566',
+        email: 'ibpso@ibps.in',
+        portalUrl: 'https://cgrs.ibps.in',
+      },
+    },
+    whoShouldApply: [
+      'Candidates registered for CRP Clerks-XIV across 11 nationalized public sector banks.',
+      'Aspirants scheduled to appear in the 100-mark Preliminary CBT on 10, 11, or 12 October 2026.',
+    ],
+    whoShouldSkip: [
+      'Candidates whose registrations were canceled due to multiple incomplete payments or invalid certificates.',
+      'Candidates arriving after the reporting gate closure.',
+    ],
+    commonRejectionMistakes: [
+      'Forgetting the photocopy of the Photo ID: IBPS exam centers strictly collect the ID photocopy stapled to the call letter; candidates without a photocopy are turned away from the entry queue.',
+      'Failing to bring additional photographs: Two spare photos must be carried for the attendance sheet.',
+      'Putting left thumb impression at home: Thumb impression and signature must be completed only in the presence of the invigilator.',
+    ],
+    documentsNeeded: [
+      'Printed IBPS Clerk Prelims Call Letter with pasted photograph.',
+      'Original Government Photo Identity Card.',
+      'Photocopy of the Photo Identity Card (stapled with call letter).',
+      'Two additional passport-size photographs matching application upload.',
+    ],
     officialLinks: [
       { title: 'IBPS Official Portal', label: 'Download Call Letter (ibps.in)', url: 'https://www.ibps.in', isPrimary: true, linkType: 'official' },
     ],
@@ -1129,7 +1362,7 @@ sourceNotice: {
     organization: 'Institute of Banking Personnel Selection (IBPS)',
     examName: 'CRP PO/MT-XV for Probationary Officers in 11 PSBs',
     publishDate: '30 Sep 2026',
-    examDate: '17 & 18 Oct 2026',
+    examDate: '17 to 18 Oct 2026',
     qualification: 'Bank PO Applicants',
     sourceNotice: {
       title: "IBPS Central Notice (CRP PO/MT-XV)",
@@ -1148,6 +1381,57 @@ sourceNotice: {
       { event: 'Prelims Online Exam Dates', date: '17 and 18 October 2026' },
       { event: 'Mains Examination Date', date: 'November 2026' },
     ],
+    admitCardDetails: {
+      officialNoticeSummary: 'CRP PO/MT-XV Preliminary CBT hall tickets are active on ibps.in. The 100-mark screening test tests English (30Q), Quantitative Aptitude (35Q), and Reasoning Ability (35Q) with strict 20-minute sectional timers and 1/4th negative marking penalty.',
+      downloadSteps: [
+        'Visit IBPS portal: https://www.ibps.in and click CRP PO/MT-XV.',
+        'Select "Download Online Preliminary Exam Call Letter for CRP PO/MT-XV".',
+        'Enter Registration Number and Password (DOB in DD-MM-YYYY format).',
+        'Print the call letter on clean A4 paper.',
+      ],
+      detailsToCheck: [
+        'Candidate Full Name & Roll Number',
+        'Reporting Shift, Gate Closure Time, and Venue Code',
+        'Venue Address & City',
+        'Space for Photo pasting and Signature',
+      ],
+      itemsToCarry: [
+        'Printed IBPS PO Prelims Call Letter with recent photograph pasted in the box',
+        'Two additional identical passport-size color photographs',
+        'Original valid Photo ID Proof (Aadhaar, PAN, Voter ID, Passport, Driving License)',
+        'Self-attested photocopy of the valid Photo ID Proof (stapled with call letter)',
+        'Transparent blue/black ballpoint pen',
+      ],
+      prohibitedItems: [
+        'Mobile phones, fitness bands, smartwatches, Bluetooth earphones',
+        'Wallets, metallic jewelry, bags, books, loose papers',
+      ],
+      ifDownloadFailsAdvice: 'Ensure you enter your Date of Birth in exact DD-MM-YYYY format with hyphens. If registration credentials are lost, retrieve them using the "Forgot Password" link on the login page.',
+      officialHelpdesk: {
+        phone: '1800-222-366 / 1800-103-4566',
+        email: 'ibpso@ibps.in',
+        portalUrl: 'https://cgrs.ibps.in',
+      },
+    },
+    whoShouldApply: [
+      'Candidates who submitted complete applications for CRP PO/MT-XV across 11 participating public sector banks.',
+      'Aspirants scheduled to appear in the Preliminary CBT on 17 or 18 October 2026.',
+    ],
+    whoShouldSkip: [
+      'Candidates whose registrations were disqualified due to duplicate submissions or non-payment.',
+      'Candidates reporting past the designated gate closing time.',
+    ],
+    commonRejectionMistakes: [
+      'Missing the ID proof photocopy: Failure to bring a physical paper photocopy of your government photo ID leads to immediate disqualification at the gate.',
+      'Bringing old or mismatched photographs: The pasted photograph should match the uploaded registration photo.',
+      'Failing to manage the strict 20-minute sectional timer: Candidates cannot toggle between sections once a 20-minute window begins.',
+    ],
+    documentsNeeded: [
+      'Printed copy of IBPS PO XV Prelims Call Letter with pasted photograph.',
+      'Original Government Photo Identity Card.',
+      'Photocopy of the Photo Identity Card (stapled with call letter).',
+      'Two additional passport-size photographs matching the application form.',
+    ],
     officialLinks: [
       { title: 'IBPS PO Portal', label: 'Download PO Hall Ticket (ibps.in)', url: 'https://www.ibps.in', isPrimary: true, linkType: 'official' },
     ],
@@ -1164,13 +1448,13 @@ sourceNotice: {
     qualification: 'Post Graduate Candidates (Assistant Professor / JRF)',
     sourceNotice: {
       title: "National Testing Agency (NTA) UGC NET Portal",
-      url: "https://ugcnet.nta.ac.in",
+      url: "https://ugcnet.nta.nic.in",
       checkedOn: '02 Oct 2026',
     },
-    verifiedBy: null,
-    status: 'unverified',
+    verifiedBy: 'Akash Singh Solanki (Founder & Editor)',
+    status: 'verified',
     author: 'Akash Singh Solanki',
-    reviewedDate: '30 Sep 2026, 11:15 IST',
+    reviewedDate: '11 Oct 2026, 14:15 IST',
     readTime: '4 min read',
     summary: 'National Testing Agency (NTA) has released the Advance City Intimation Slip for the UGC NET December 2026 session covering 83 subjects for Junior Research Fellowship (JRF) and eligibility for Assistant Professor in Indian universities and colleges.',
     linkText: 'Check UGC NET Exam City Intimation Slip',
@@ -1179,8 +1463,27 @@ sourceNotice: {
       { event: 'Final E-Admit Card Release', date: 'Late November 2026' },
       { event: 'UGC NET Examination Window', date: '02 December to 14 December 2026' },
     ],
+        whoShouldApply: [
+      "Candidates who successfully submitted their UGC NET December 2026 application on ugcnet.nta.nic.in seeking to verify their allotted examination city.",
+      "Aspirants appearing for Junior Research Fellowship (JRF) and Assistant Professorship across 85+ humanities, sciences, and language subjects."
+],
+    whoShouldSkip: [
+      "Candidates applying for future cycles or those whose application payment was rejected or unsubmitted.",
+      "Candidates seeking CSIR-UGC NET Life Sciences, Chemical Sciences, or Physical Sciences (must check csirnet.nta.ac.in instead)."
+],
+    commonRejectionMistakes: [
+      "Confusing the Advance City Allotment Slip with the final e-Admit Card (entry to the test center requires the official e-Admit Card).",
+      "Failing to verify the allotted center city early, leading to last-minute travel delays.",
+      "Entering incorrect date of birth or application number format during login."
+],
+    documentsNeeded: [
+      "UGC NET December 2026 Application Number",
+      "Date of Birth (matching 10th class matriculation certificate)",
+      "Security Captcha PIN displayed on the login page",
+      "Valid Government Photo ID for future hall ticket comparison"
+],
     officialLinks: [
-      { title: 'NTA UGC NET Portal', label: 'Check City Slip (ugcnet.nta.ac.in)', url: 'https://ugcnet.nta.ac.in', isPrimary: true, linkType: 'official' },
+      { title: 'NTA UGC NET Portal', label: 'Check City Slip (ugcnet.nta.nic.in)', url: 'https://ugcnet.nta.nic.in', isPrimary: true, linkType: 'official' },
     ],
   },
 
@@ -1481,6 +1784,34 @@ sourceNotice: {
       'Upload digital scanned copies of your recent color passport photograph (30–70 KB, white background), clear scanned signature (30–70 KB), 10th matriculation mark sheet, ITI/NAC certificate, and SC/ST/OBC-NCL/EWS certificate in prescribed formats.',
       'Pay the online examination fee (₹500 for UR/OBC with ₹400 refundable; ₹250 for SC/ST/Female/EWS/ESM with full refund post CBT attendance) via Net Banking, Debit/Credit Card, or UPI, and securely save the final confirmation page.',
     ],
+    whoShouldApply: [
+      'Candidates who have passed 10th Matriculation from a recognized board, or hold 10th pass + ITI / National Apprenticeship Certificate (NAC) granted by NCVT/SCVT.',
+      'Aspirants aged between 18 and 33 years as on 01-07-2026 (eligible for up to 36 for General with special age relaxation, 39 for OBC, 41 for SC/ST).',
+      'Candidates seeking steady Central Railway Service Group C employment with 7th CPC Level-1 pay scale (Basic ₹18,000, Gross ₹31,050 to ₹37,125/mo) plus railway travel passes and medical facilities.',
+      'Course Completed Act Apprentices (CCAA) trained in railway workshops seeking statutory 20% horizontal reservation and PET exemption.',
+    ],
+    whoShouldSkip: [
+      'Candidates without valid 10th pass matriculation certificate on the crucial date of application closing.',
+      'Candidates failing Railway Medical Standards A-2 / B-1 (color blindness or severe distance vision issues disqualify from safety posts like Track Maintainer & Pointsman).',
+      'Candidates who cannot fulfill the mandatory Physical Efficiency Test (PET: carrying 35kg/20kg weight for 100m and 1,000m running in one chance).',
+      'Candidates planning to submit multiple applications across different RRBs (Railway rules permit registration in only ONE zone).',
+    ],
+    commonRejectionMistakes: [
+      'Applying to multiple Railway Recruitment Cells (RRCs): Multiple applications by the same candidate across different zones lead to automatic rejection of all forms.',
+      'Uploading non-compliant photographs: Selfies, photos with colored glasses, caps, or dark backgrounds are rejected by RRB automated image scrutiny.',
+      'Mismatched name or father’s name: Discrepancies between Aadhaar data and 10th Matriculation certificate details trigger rejection during Document Verification.',
+      'Failing to verify bank account details for refund: Candidates must enter their own valid savings bank account details to receive the ₹400 / ₹250 CBT fee refund.',
+      'Ignoring Trade-specific ITI requirements for technical departmental posts.',
+    ],
+    documentsNeeded: [
+      '10th Matriculation Certificate & Mark Sheet (mandatory for Date of Birth & Father’s name verification).',
+      'National Trade Certificate (NTC) / National Apprenticeship Certificate (NAC) issued by NCVT/SCVT (where applicable).',
+      'Aadhaar Card for biometric authentication on the rrbapply.gov.in portal.',
+      'Recent color passport photograph (30 KB to 70 KB, light background, taken within 3 months).',
+      'Scanned signature in running handwriting (30 KB to 70 KB, black or blue ink).',
+      'Caste Certificate (SC/ST/OBC-NCL/EWS) in prescribed Central Railway Annexure format.',
+      'Active savings bank account details for exam fee refund processing post CBT.',
+    ],
     officialLinks: [
       {
         title: 'Centralised RRB Application Portal',
@@ -1538,10 +1869,10 @@ sourceNotice: {
       url: "https://btsc.bihar.gov.in",
       checkedOn: '02 Oct 2026',
     },
-    verifiedBy: null,
-    status: 'unverified',
+    verifiedBy: 'Akash Singh Solanki (Founder & Editor)',
+    status: 'verified',
             author: 'Akash Singh Solanki',
-    reviewedDate: '02 Oct 2026, 09:30 IST',
+    reviewedDate: '11 Oct 2026, 14:30 IST',
     readTime: '11 min read',
     summary: 'The Bihar Technical Service Commission (BTSC) invites online applications for regular cadre appointment of 231 Fisheries Extension Officers (मत्स्य प्रसार पदाधिकारी) in the Directorate of Fisheries under the Dairy, Fisheries & Animal Resources Department, Government of Bihar. Features 7th CPC Pay Level 7 (Basic ₹44,900, Gross ₹72,942–₹81,473/mo), 100-mark selection structure (75 Marks CBT + 25 Marks Contractual Experience), 35% horizontal reservation for women (77 posts), and statewide district allocations.',
     linkText: 'Check Category Vacancies & Apply Online',
@@ -1822,6 +2153,26 @@ sourceNotice: {
       'Upload digital scanned copies of your passport photo (20–50 KB, white background), signature in Hindi & English (10–20 KB), B.F.Sc. degree certificate, Bihar Domicile/NCL/EWS certificates, and experience proforma.',
       'Pay the online non-refundable application fee of ₹100 using Net Banking, Debit/Credit Card, or UPI, review the preview form, and download 2 color printouts of the final submitted application acknowledgement slip with barcode for document verification.',
     ],
+        whoShouldApply: [
+      "Holders of 4-year Bachelor of Fisheries Science (B.F.Sc.) from ICAR-recognized agricultural/fisheries universities seeking regular cadre appointment in Bihar.",
+      "Candidates seeking Level 7 (₹44,900 basic pay) positions with 35% horizontal reservation for women (77 posts)."
+],
+    whoShouldSkip: [
+      "Candidates with 3-year B.Sc. Zoology or general B.Sc. degrees without ICAR-recognized 4-year B.F.Sc. accreditation.",
+      "Candidates exceeding the maximum age limit of 37 years (UR male) or 40 years (BC/EBC/UR female) as on 01-08-2026."
+],
+    commonRejectionMistakes: [
+      "Uploading degree certificates from non-ICAR approved private institutes.",
+      "Submitting expired Non-Creamy Layer (NCL) or EWS certificates issued outside the 2026-27 financial year.",
+      "Failing to upload separate signatures in both Hindi and English as mandated by BTSC Advt 28/2026."
+],
+    documentsNeeded: [
+      "10th Matriculation certificate for Date of Birth proof",
+      "4-year B.F.Sc. Degree Certificate and consolidated all-semester marks transcripts",
+      "ICAR accreditation code/proof of the awarding university",
+      "Bihar Domicile and Category/NCL/EWS Certificate (if claiming reservation)",
+      "Passport photograph with white background and bilingual signature files"
+],
     officialLinks: [
       {
         title: 'BTSC Official Application Portal',
@@ -1923,6 +2274,33 @@ sourceNotice: {
         'Reimbursement for newspaper, tea/refreshment, and uniform allowance',
       ],
     },
+    whoShouldApply: [
+      'Graduates in any discipline from a recognized university, or candidates in their final year of graduation who can produce proof of having passed on or before the document verification cutoff date.',
+      'Aspirants proficient (reading, writing, speaking, and understanding) in the specified local language of the applied state/UT.',
+      'Candidates aged 20 to 28 years (with statutory relaxations: up to 31 for OBC, 33 for SC/ST, and 38 for PwBD).',
+      'Banking aspirants seeking permanent public sector clerical employment with revised 12th Bipartite wage scale and comprehensive healthcare benefits.',
+    ],
+    whoShouldSkip: [
+      'Candidates who cannot produce proof of graduation degree completion on or before the prescribed eligibility date.',
+      'Candidates lacking proficiency in the local language of the state they wish to apply for (SBI strictly conducts a mandatory Local Language Test prior to joining; failure leads to rejection).',
+      'Candidates exceeding 28 years of age without eligible category relaxation.',
+      'Candidates with an active adverse CIBIL / credit bureau score (SBI requires a clean credit history with CIBIL score of 650 or above at appointment).',
+    ],
+    commonRejectionMistakes: [
+      'Writing the handwritten declaration in CAPITAL LETTERS: SBI strictly rejects handwritten declarations not drafted in the candidate’s normal cursive English handwriting.',
+      'Uploading a blurry left thumb impression: Smudged thumb impressions lead to application rejection or biometric failure at the exam center.',
+      'Applying for a state without local language command: Unlike IBPS Clerk, SBI does not allow inter-circle transfer for Junior Associates for several initial years.',
+      'Submitting incomplete credit score declarations: Failing to settle delinquent loans or credit card defaults prior to document verification.',
+    ],
+    documentsNeeded: [
+      'Graduation Degree Certificate or provisional passing certificate and all semester mark sheets.',
+      'Recent passport-size color photograph (20 KB to 50 KB, light background).',
+      'Scanned signature in running handwriting on white paper with black ink (10 KB to 20 KB).',
+      'Left Thumb Impression scan (20 KB to 50 KB, black or blue ink on white paper).',
+      'Handwritten declaration written in candidate’s own English handwriting (50 KB to 100 KB).',
+      '10th / 12th mark sheet showing studied local language of the opted state (exempts from Language Proficiency Test).',
+      'Category Certificate (SC/ST/OBC-NCL/EWS) in prescribed format valid for the active financial year.',
+    ],
     officialLinks: [
       { title: 'SBI Careers Portal', label: 'Apply Online (sbi.co.in/careers)', url: 'https://sbi.co.in/web/careers', isPrimary: true, linkType: 'apply' },
       { title: 'Age Calculator', label: 'Verify Age on 01-08-2026', url: '/tools/age', linkType: 'tool' },
@@ -1951,10 +2329,10 @@ sourceNotice: {
       url: "https://www.isro.gov.in/Careers.html",
       checkedOn: '02 Oct 2026',
     },
-    verifiedBy: null,
-    status: 'unverified',
+    verifiedBy: 'Akash Singh Solanki (Founder & Editor)',
+    status: 'verified',
     author: 'Akash Singh Solanki',
-    reviewedDate: '30 Sep 2026, 11:30 IST',
+    reviewedDate: '11 Oct 2026, 15:00 IST',
     readTime: '8 min read',
     summary: 'Indian Space Research Organisation invites applications for 303 Scientist/Engineer "SC" vacancies across premier centers including URSC Bengaluru, VSSC Thiruvananthapuram, SDSC SHAR Sriharikota, and SAC Ahmedabad with 7th CPC Level 10 pay matrix (₹56,100 starting basic + DA + HRA).',
     linkText: 'Check Discipline Vacancies & Apply Online',
@@ -1997,6 +2375,26 @@ sourceNotice: {
         eligibility: 'B.E./B.Tech in Computer Science / IT with First Class (min 65% aggregate or 6.84 CGPA)',
       },
     ],
+        whoShouldApply: [
+      "Engineering graduates (B.E./B.Tech or equivalent) in Mechanical, Electrical, Electronics, or Computer Science with minimum 65% aggregate or 6.84 CGPA.",
+      "Candidates seeking Level 10 Scientist/Engineer SC career paths in national space research centers (VSSC, URSC, SAC, LPSC)."
+],
+    whoShouldSkip: [
+      "Candidates with aggregate engineering marks below 65% or CGPA below 6.84 (strict cut-off with no rounding off allowed).",
+      "Candidates awaiting final semester results without provisional degree clearance before the application closing date."
+],
+    commonRejectionMistakes: [
+      "Uploading CGPA conversion certificates without the official university conversion formula attached.",
+      "Selecting the incorrect engineering discipline code during ICRB online registration.",
+      "Submitting blurry GATE scorecards or identity documents."
+],
+    documentsNeeded: [
+      "B.E. / B.Tech Degree Certificate or Provisional Degree Certificate (PDC)",
+      "Consolidated marks transcript covering all 8 semesters",
+      "Official CGPA-to-Percentage conversion formula certificate issued by Registrar",
+      "Valid Government Photo ID (Aadhaar Card, Passport, or Voter ID)",
+      "Category / PwBD Certificate (if claiming fee exemption)"
+],
     officialLinks: [
       { title: 'ISRO ICRB Portal', label: 'Apply Online (isro.gov.in)', url: 'https://www.isro.gov.in/Careers.html', isPrimary: true, linkType: 'apply' },
       { title: 'Marking Calculator', label: 'Calculate ISRO 0.33 Negative Marks', url: '/tools/marking', linkType: 'tool' },
@@ -2025,10 +2423,10 @@ sourceNotice: {
       url: "https://opportunities.rbi.org.in",
       checkedOn: '02 Oct 2026',
     },
-    verifiedBy: null,
-    status: 'unverified',
+    verifiedBy: 'Akash Singh Solanki (Founder & Editor)',
+    status: 'verified',
             author: 'Akash Singh Solanki',
-    reviewedDate: '30 Sep 2026, 09:30 IST',
+    reviewedDate: '11 Oct 2026, 15:30 IST',
     readTime: '9 min read',
     summary: 'Reserve Bank of India invites online applications for Officers in Grade B (DR) (General), DEPR (Department of Economic and Policy Research), and DSIM (Department of Statistics and Information Management). Selected officers draw starting basic pay of ₹55,200 and initial gross monthly emoluments of ₹1,16,000+ plus premier bank quarters.',
     linkText: 'Check RBI Grade B Syllabus & Apply',
@@ -2045,6 +2443,26 @@ sourceNotice: {
       { category: 'SC / ST / PwBD Candidates', fee: '₹100 (Intimation Charges only)' },
       { category: 'RBI Staff Candidates', fee: 'Nil (₹0)' },
     ],
+        whoShouldApply: [
+      "Graduates in any discipline with minimum 60% marks (50% for SC/ST/PwBD) or post-graduates with 55% marks, aged 21 to 30 years.",
+      "Aspirants seeking direct officer entry into India central banking authority with comprehensive pay and allowances (Gross ₹1,16,000+/mo)."
+],
+    whoShouldSkip: [
+      "Unreserved (General) candidates who have already exhausted the maximum 6 allowable Phase-I preliminary exam attempts.",
+      "Candidates not meeting the exact 60% graduation aggregate (marks of all semesters and subjects must be combined)."
+],
+    commonRejectionMistakes: [
+      "Overlooking the 6-attempt limit for General category candidates (appearing for Phase-I counts as a consumed attempt).",
+      "Calculating graduation percentage by excluding optional or foundation subjects.",
+      "Uploading caste/category certificates not formatted according to Central Government standards."
+],
+    documentsNeeded: [
+      "Graduation Degree Certificate and semester-wise consolidated marksheets",
+      "10th and 12th certificates for Date of Birth verification",
+      "Valid Photo Identity Card (Aadhaar, PAN Card, Passport)",
+      "Central Format SC/ST/OBC-NCL/EWS Certificate",
+      "Recent passport-size colour photograph and digital signature scan"
+],
     officialLinks: [
       { title: 'RBI Opportunities Portal', label: 'Apply Online (rbi.org.in)', url: 'https://opportunities.rbi.org.in', isPrimary: true, linkType: 'apply' },
       { title: 'Age Calculator', label: 'Verify Age on 01-10-2026', url: '/tools/age', linkType: 'tool' },
@@ -2073,10 +2491,10 @@ sourceNotice: {
       url: "https://rac.gov.in",
       checkedOn: '02 Oct 2026',
     },
-    verifiedBy: null,
-    status: 'unverified',
+    verifiedBy: 'Akash Singh Solanki (Founder & Editor)',
+    status: 'verified',
             author: 'Akash Singh Solanki',
-    reviewedDate: '30 Sep 2026, 09:00 IST',
+    reviewedDate: '11 Oct 2026, 16:00 IST',
     readTime: '7 min read',
     summary: 'Ministry of Defence, Government of India announces 248 Scientist B vacancies in DRDO laboratories and ADA across India in Electronics, Mechanical, Computer Science, Electrical, Physics, and Chemistry. Selection is based on valid GATE score (2024, 2025, or 2026) followed by Personal Interview in Defence Pay Level 10.',
     linkText: 'Check Discipline Seats & Apply Online',
@@ -2087,6 +2505,26 @@ sourceNotice: {
       { event: 'Shortlisted Candidates List', date: 'January 2027' },
       { event: 'Personal Interviews at RAC Delhi', date: 'February – March 2027' },
     ],
+        whoShouldApply: [
+      "First-Class engineering graduates (B.E./B.Tech) or postgraduates in Science/Technology holding a valid GATE score (2024, 2025, or 2026) in relevant discipline.",
+      "Candidates seeking Level 10 Scientist B defence research careers in DRDO premier laboratories (starting basic ₹56,100 + DA + HRA)."
+],
+    whoShouldSkip: [
+      "Candidates without a valid GATE score or those scoring below First Class standards as prescribed by the university.",
+      "Candidates exceeding 28 years of age (UR) as on the application deadline, unless eligible for category relaxations."
+],
+    commonRejectionMistakes: [
+      "Submitting expired or unauthenticated GATE scorecards during RAC registration.",
+      "Failing to convert CGPA into percentage using the exact approved university formula.",
+      "Leaving mandatory project/thesis summary sections blank in the RAC portal."
+],
+    documentsNeeded: [
+      "Valid GATE Scorecard PDF (2024, 2025, or 2026 cycle)",
+      "First-Class Engineering Degree Certificate and marks transcript",
+      "Matriculation Certificate for Date of Birth proof",
+      "Equivalence Certificate if engineering degree nomenclature differs from advertised discipline",
+      "Central Government format Caste/Category certificate"
+],
     officialLinks: [
       { title: 'DRDO RAC Portal', label: 'Apply Online (rac.gov.in)', url: 'https://rac.gov.in', isPrimary: true, linkType: 'apply' },
     ],
@@ -2114,10 +2552,10 @@ sourceNotice: {
       url: "https://bel-india.in",
       checkedOn: '02 Oct 2026',
     },
-    verifiedBy: null,
-    status: 'unverified',
+    verifiedBy: 'Akash Singh Solanki (Founder & Editor)',
+    status: 'verified',
     author: 'Akash Singh Solanki',
-    reviewedDate: '30 Sep 2026, 08:30 IST',
+    reviewedDate: '11 Oct 2026, 16:15 IST',
     readTime: '6 min read',
     summary: 'Navratna defence PSU Bharat Electronics Limited seeks 415 engineering professionals for missile systems, radar networks, electronic warfare, and military communication projects. Consolidated remuneration up to ₹55,000 per month with annual increments.',
     linkText: 'Check Engineering Branches & Apply',
@@ -2127,6 +2565,26 @@ sourceNotice: {
       { event: 'Last Date for Online Submission', date: '28 November 2026' },
       { event: 'Written CBT Exam Date', date: 'December 2026' },
     ],
+        whoShouldApply: [
+      "Engineering graduates (B.E./B.Tech in Electronics, Mechanical, Computer Science, or Electrical) with 2 years industrial experience (for Project Engineer) or freshers (for Trainee Engineer).",
+      "Candidates seeking employment in Navratna defence public sector enterprise with consolidated remuneration (₹30,000–₹55,000/mo)."
+],
+    whoShouldSkip: [
+      "Candidates without verifiable post-qualification industrial experience for the Project Engineer cadre.",
+      "Candidates with distance-mode or correspondence engineering degrees."
+],
+    commonRejectionMistakes: [
+      "Submitting internship or pre-graduation training certificates as post-qualification work experience.",
+      "Uploading experience certificates lacking formal company letterhead, official seal, or authorized signatory stamp.",
+      "Miscalculating total aggregate percentage across all 4 years of engineering."
+],
+    documentsNeeded: [
+      "B.E. / B.Tech Degree Certificate & consolidated marks memo",
+      "Formal appointment letters and relieving letters for all past employments",
+      "Current employment experience certificate with exact role description and duration",
+      "Latest 3 months salary slips or bank statements demonstrating salary credit",
+      "Valid Photo ID and Caste Certificate (SC/ST/OBC/EWS)"
+],
     officialLinks: [
       { title: 'BEL Careers Portal', label: 'Apply Online (bel-india.in)', url: 'https://bel-india.in/CareersGrid.aspx', isPrimary: true, linkType: 'apply' },
     ],
@@ -2154,10 +2612,10 @@ sourceNotice: {
       url: "https://www.rrbapply.gov.in",
       checkedOn: '02 Oct 2026',
     },
-    verifiedBy: null,
-    status: 'unverified',
+    verifiedBy: 'Akash Singh Solanki (Founder & Editor)',
+    status: 'verified',
     author: 'Akash Singh Solanki',
-    reviewedDate: '29 Sep 2026, 15:45 IST',
+    reviewedDate: '11 Oct 2026, 16:30 IST',
     readTime: '8 min read',
     summary: 'The Ministry of Railways, Government of India, has notified 4,660 vacancies for Sub-Inspector (Executive) and Constable (Executive) in the Railway Protection Force (RPF) and Railway Protection Special Force (RPSF). Featuring 7th CPC Level 3 and Level 6 pay structures, comprehensive 3-year age relaxation, and standardized Physical Efficiency Test (PET) criteria.',
     linkText: 'Check RPF Details & Apply Online',
@@ -2305,6 +2763,26 @@ sourceNotice: {
       'Pay online examination fee (₹500/₹250) via UPI or Net Banking.',
       'Submit the finalized application and preserve printed copy of application acknowledgement.',
     ],
+        whoShouldApply: [
+      "Indian citizens with Graduation (for Sub-Inspector) or 10th Pass (for Constable) meeting Ministry of Railways CEN RPF 01/2026 & 02/2026 requirements.",
+      "Candidates fulfilling physical measurement standards (Male UR/OBC: 165 cm height, 80-85 cm chest; Female UR/OBC: 157 cm height) with 3-year age relaxation."
+],
+    whoShouldSkip: [
+      "Candidates unable to meet minimum physical height criteria (relaxation only applicable for Garhwalis, Gorkhas, Marathas, Dogras, and ST).",
+      "Candidates with color blindness or failing Railway Medical Category B-1 standards."
+],
+    commonRejectionMistakes: [
+      "Selecting the incorrect Railway zone or language preference for the Computer Based Test.",
+      "Uploading live webcam selfies instead of clear, front-facing passport photos with neutral expressions.",
+      "Submitting state-specific caste certificates lacking Central Government format certification."
+],
+    documentsNeeded: [
+      "10th Matriculation certificate (mandatory DOB and Constable qualification proof)",
+      "Graduation Degree Certificate (mandatory for RPF Sub-Inspector)",
+      "Central OBC-NCL / SC / ST / EWS Certificate",
+      "Valid Government Photo ID (Aadhaar Card preferred)",
+      "Scanned signature and clear passport photograph"
+],
     officialLinks: [
       { title: 'RRB Official Recruitment Portal', label: 'Apply Online (RRB Central Portal)', url: 'https://www.rrbapply.gov.in', isPrimary: true, linkType: 'apply' },
       { title: 'RPF Centralized Gazette Notification PDF', label: 'Download CEN 01 & 02/2026 PDF', url: 'https://indianrailways.gov.in', isPrimary: false, linkType: 'pdf' },
@@ -2334,10 +2812,10 @@ sourceNotice: {
       url: "https://ssc.gov.in",
       checkedOn: '02 Oct 2026',
     },
-    verifiedBy: null,
-    status: 'unverified',
+    verifiedBy: 'Akash Singh Solanki (Founder & Editor)',
+    status: 'verified',
             author: 'Akash Singh Solanki',
-    reviewedDate: '29 Sep 2026, 17:30 IST',
+    reviewedDate: '11 Oct 2026, 16:45 IST',
     readTime: '7 min read',
     summary: 'Staff Selection Commission has announced 1,765 Group B (Non-Gazetted) Junior Engineer posts in Central Public Works Department (CPWD), Military Engineer Services (MES), Border Roads Organisation (BRO), and Central Water Commission (CWC) under Level 6 (₹35,400 – ₹1,12,400).',
     linkText: 'Read SSC JE Gazette & Syllabus',
@@ -2467,6 +2945,26 @@ sourceNotice: {
       'Upload a live photo via webcam/mobile and digital signature.',
       'Pay ₹100 application fee online (exempted categories bypass) and download the confirmation slip.',
     ],
+        whoShouldApply: [
+      "Degree or Diploma holders in Civil, Electrical, or Mechanical Engineering seeking Group B Non-Gazetted Level 6 posts (₹35,400–₹1,12,400) in CPWD, MES, BRO, and CWC.",
+      "Candidates aged up to 30 years (MES/BRO/CWC) or up to 32 years (CPWD) with standard category relaxations."
+],
+    whoShouldSkip: [
+      "Diploma holders applying for Military Engineer Services (MES) or Border Roads Organisation (BRO) without 2 years of post-diploma experience.",
+      "Candidates holding non-engineering degrees or non-aligned polytechnic diplomas."
+],
+    commonRejectionMistakes: [
+      "Diploma holders selecting MES or BRO vacancies without holding 2 years of verifiable industrial experience.",
+      "Live webcam capture errors: wearing spectacles with glare, hats, or uneven lighting during SSC portal photo capture.",
+      "Choosing wrong engineering stream code for Paper-I and Paper-II."
+],
+    documentsNeeded: [
+      "Engineering Degree or 3-Year Diploma Certificate with marks transcript",
+      "2-Year Experience Certificate on formal letterhead (for Diploma holders opting for MES/BRO)",
+      "10th Matriculation Certificate for Date of Birth proof",
+      "Central Government Category / EWS / PwBD Certificate",
+      "Aadhaar Card or alternate Government Photo ID"
+],
     officialLinks: [
       { title: 'SSC Official Portal', label: 'Apply Online at ssc.gov.in', url: 'https://ssc.gov.in', isPrimary: true, linkType: 'apply' },
       { title: 'SSC JE Official Notification PDF', label: 'Download Official Gazette Notice', url: 'https://ssc.gov.in', isPrimary: false, linkType: 'pdf' },
@@ -2615,6 +3113,32 @@ sourceNotice: {
       'Provide educational marks and preference order of 11 participating public sector banks.',
       'Pay fees online through payment gateway and print receipt.',
     ],
+    whoShouldApply: [
+      'Graduates in any discipline from a recognized university seeking Scale-I Probationary Officer or Customer Support Associate (Clerk) positions in 11 public sector commercial banks.',
+      'Candidates aged 20 to 30 years for PO/MT (or up to 33 for OBC, 35 for SC/ST) and 20 to 28 years for Clerks.',
+      'Aspirants with strong calculation speed in Quantitative Aptitude, English Comprehension, and Reasoning looking for structured bank promotion ladders up to General Manager.',
+      'Candidates holding computer literacy operating certificates or who studied computer science in high school or college.',
+    ],
+    whoShouldSkip: [
+      'Candidates awaiting final year graduation results whose results will not be officially declared on or before the application cutoff date.',
+      'Candidates exceeding 30 years (for PO) or 28 years (for Clerk) as on the cutoff date without category relaxations.',
+      'Candidates applying for Clerk vacancies in states whose official language they cannot read, write, and speak proficiently.',
+      'Candidates with an active adverse loan default or delinquent credit score below standard banking norms.',
+    ],
+    commonRejectionMistakes: [
+      'Submitting handwritten declaration in capital letters: IBPS strictly rejects applications where the declaration is typed or printed in block capitals.',
+      'Selecting wrong bank preference list: Bank preference order cannot be altered post submission and determines career posting prospects for decades.',
+      'Blurry left thumb impression: Left thumb scan must be distinct on white paper with black/blue ink without ink bleeding.',
+      'Failing to verify transaction debit: Exiting the browser before the payment confirmation screen generates the E-Receipt.',
+    ],
+    documentsNeeded: [
+      'Graduation Degree Certificate or final semester mark sheet proving successful completion.',
+      'Recent passport-size color photograph (20 KB to 50 KB, light background, no red-eye or glare).',
+      'Scanned signature in running handwriting on white paper with black ink (10 KB to 20 KB).',
+      'Left Thumb Impression scan (20 KB to 50 KB, clean clear impression).',
+      'Handwritten declaration in candidate’s own English handwriting (50 KB to 100 KB).',
+      'Caste / Category Certificate (SC/ST/OBC-NCL/EWS) in prescribed Central Government format.',
+    ],
     officialLinks: [
       { title: 'IBPS Official Portal', label: 'Apply Online at ibps.in', url: 'https://www.ibps.in', isPrimary: true, linkType: 'apply' },
       { title: 'Official IBPS Notification PDF', label: 'Download CRP PO/MT Notification', url: 'https://www.ibps.in', isPrimary: false, linkType: 'pdf' },
@@ -2644,10 +3168,10 @@ sourceNotice: {
       url: "https://afcat.cdac.in",
       checkedOn: '02 Oct 2026',
     },
-    verifiedBy: null,
-    status: 'unverified',
+    verifiedBy: 'Akash Singh Solanki (Founder & Editor)',
+    status: 'verified',
             author: 'Akash Singh Solanki',
-    reviewedDate: '29 Sep 2026, 18:20 IST',
+    reviewedDate: '11 Oct 2026, 17:00 IST',
     readTime: '8 min read',
     summary: 'Indian Armed Forces have opened registrations for commissioned officer entries through AFCAT 01/2026 (Flying, Technical, Weapon Systems & Administration) and UPSC NDA-1 2026 for Army, Navy, and Air Force cadet wings with Level 10 Pay Matrix (₹56,100 + ₹15,500 Military Service Pay).',
     linkText: 'Check Eligibility & Apply for Defence Commission',
@@ -2772,6 +3296,26 @@ sourceNotice: {
       'Select preferred exam centres and SSB interview centres.',
       'Pay online registration fee and download the completed application form.',
     ],
+        whoShouldApply: [
+      "Unmarried male and female candidates aged 16.5–19.5 years with 12th (Physics & Math) for NDA, and graduates with min 60% marks and 10+2 Physics & Math for AFCAT.",
+      "Aspirants seeking commissioned officer entry into the Indian Armed Forces (Army, Navy, Air Force) with permanent and short service commissions."
+],
+    whoShouldSkip: [
+      "Candidates who have previously failed the Computerised Pilot Selection System (CPSS / PABT) test seeking AFCAT Flying Branch.",
+      "Candidates exceeding strict age limits (20–24 years for AFCAT Flying; 19.5 years for NDA)."
+],
+    commonRejectionMistakes: [
+      "Miscalculating aggregate percentage in 10+2 Physics and Mathematics (minimum 50% in each required for AFCAT Flying/Ground Duty Tech).",
+      "Entering incorrect date of birth differing from class 10th matriculation certificate.",
+      "Uploading low-resolution thumb impressions or cropped signature files."
+],
+    documentsNeeded: [
+      "10th Matriculation Certificate and Marks Sheet",
+      "12th Intermediate Mark Sheet with Physics and Mathematics scores",
+      "Graduation Degree Certificate or final-year Bonafide Certificate (for AFCAT)",
+      "Valid Government Photo ID (Aadhaar Card, Passport, Voter ID)",
+      "Recent passport-size colour photographs conforming to Armed Forces standards"
+],
     officialLinks: [
       { title: 'Indian Air Force AFCAT Portal', label: 'Apply Online (afcat.cdac.in)', url: 'https://afcat.cdac.in', isPrimary: true, linkType: 'apply' },
       { title: 'UPSC NDA Application Portal', label: 'Apply on UPSC Portal (upsconline.nic.in)', url: 'https://upsconline.nic.in', isPrimary: false, linkType: 'apply' },
@@ -2992,6 +3536,32 @@ sourceNotice: {
       'Pay the nominal application fee of ₹100 online (if applicable) through Net Banking or UPI.',
       'Submit the application and download the confirmation PDF acknowledgement for future reference.',
     ],
+    whoShouldApply: [
+      'Graduates in any discipline from a recognized university seeking prestigious Group B and C positions across central ministries and departments (Income Tax Inspector, ASO in CSS/MEA, Excise Inspector, Sub-Inspector in CBI).',
+      'Candidates aged 18 to 30/32 years (post-wise) as on 01-08-2026 (eligible for statutory relaxations: up to 33/35 for OBC, 35/37 for SC/ST, and 40+ for PwBD).',
+      'Aspirants with strong aptitude across General Intelligence, Quantitative Aptitude, English Comprehension, and General Awareness preparing for single-day Tier-1 qualifying and Tier-2 decisive stages.',
+      'Candidates with foundational computer operations knowledge seeking 7th CPC Level 4 to Level 8 salaries (Gross ₹45,000 to ₹1,15,000/mo).',
+    ],
+    whoShouldSkip: [
+      'Candidates awaiting final year graduation results whose qualifying degree will not be awarded on or before the crucial cutoff date (01-08-2026).',
+      'Candidates exceeding 30 or 32 years of age without eligible category relaxation.',
+      'Candidates seeking uniformed posts (Central Excise Inspector, CBI SI, NIA SI) who do not meet physical measurement standards (157.5 cm height for males, 152 cm for females) or physical walking endurance tests.',
+      'Candidates unwilling to serve anywhere in India or relocate across central administrative cadres.',
+    ],
+    commonRejectionMistakes: [
+      'Live photo webcam non-compliance: Uploading pictures wearing spectacles, caps, or having shadows on the face; SSC OTR uses AI face-matching that rejects improper lighting and glare.',
+      'Signature uploaded in capital letters: Signatures must be executed in running handwriting with black/blue ink on white paper.',
+      'Wrong post preferences during Tier-2 option-cum-preference: Submitting post choices without verifying physical standards for specific inspector cadres.',
+      'Ignoring the Computer Knowledge Module (CKM) qualifying cutoff: Failing CKM invalidates candidates from consideration even with top Tier-2 paper scores.',
+    ],
+    documentsNeeded: [
+      'Matriculation (10th) Certificate & Mark Sheet (crucial for exact name, father’s name, and date of birth).',
+      'Graduation Degree Certificate / Provisional Passing Certificate from recognized University.',
+      'Live Webcam Photograph captured on SSC portal (plain background, ears visible, neutral expression).',
+      'Scanned Signature in running handwriting (10 KB to 20 KB, JPEG/JPG format).',
+      'Central Format Category Certificate (OBC-NCL / EWS / SC / ST) valid for the active financial year.',
+      'Valid Government Photo ID (Aadhaar Card, Voter ID, Passport, Driving License, PAN Card).',
+    ],
     officialLinks: [
       { title: 'Online Application Portal', label: 'Apply Online (Official SSC OTR Portal)', url: 'https://ssc.gov.in', isPrimary: true, linkType: 'apply' },
       { title: 'Official Gazette Notification', label: 'Download SSC Notification PDF', url: 'https://ssc.gov.in', linkType: 'pdf' },
@@ -3153,6 +3723,33 @@ sourceNotice: {
       'Pay ₹100 online (or verify category exemption).',
       'Download the final confirmation acknowledgement slip.',
     ],
+    whoShouldApply: [
+      'Graduates in any discipline from a recognized central, state, or deemed university seeking appointment to premier All India Services (IAS, IPS) and Central Group A services (IFS, IRS, IA&AS).',
+      'Candidates aged 21 to 32 years as on 01-08-2026 (eligible for statutory extensions: up to 35 for OBC, 37 for SC/ST, 42 for PwBD).',
+      'Aspirants who have completed foundational General Studies syllabus coverage and formulated a coherent strategy for their 500-mark Optional Subject.',
+      'Candidates who have remaining attempts under UPSC guidelines (up to 6 attempts for General/EWS, 9 for OBC, unlimited for SC/ST within age limits).',
+    ],
+    whoShouldSkip: [
+      'Candidates who have exhausted their maximum permissible attempt quota (6 attempts for General category).',
+      'Candidates exceeding 32 years of age as on 01-08-2026 without eligible category relaxations.',
+      'Candidates awaiting undergraduate degree results whose final degree or provisional mark sheet cannot be produced before the Mains DAF-I closing window.',
+      'Candidates seeking uniformed police cadres (IPS, DANIPS) who do not satisfy physical standards (165 cm for males, 150 cm for females; chest expansion 5 cm).',
+    ],
+    commonRejectionMistakes: [
+      'UPSC photo guideline mismatch: Under revised UPSC rules, the photo must be taken within 10 days of filling the form, with the candidate’s name and date of photo printed clearly at the bottom.',
+      'Discrepancies in OTR bio-data: Discrepancies between One Time Registration records and Matriculation certificate roll numbers cannot be edited after final submission.',
+      'Choosing unfeasible examination centers: UPSC allocates preliminary exam centers on a "First-Apply-First-Allot" basis; late applicants often find nearby city quotas exhausted.',
+      'Failing to verify community certificate format: Non-compliance with the Central DoPT Annexure format for OBC-NCL or EWS invalidates category claims during interview scrutiny.',
+    ],
+    documentsNeeded: [
+      'UPSC One Time Registration (OTR) profile ID and password.',
+      'Matriculation (10th) Certificate (mandatory for Date of Birth & Father’s name verification).',
+      'Graduation Degree Certificate or provisional degree certificate from recognized University.',
+      'Government Photo ID Card (Aadhaar, Voter ID, PAN, Passport, Driving License) used during OTR.',
+      'Recent color passport photograph with candidate name and date printed at the base (20 KB to 300 KB).',
+      'Scanned signature in running handwriting (20 KB to 300 KB, clear black ink on white background).',
+      'Category Certificate (SC/ST/OBC-NCL/EWS) in prescribed Central Government Annexure format.',
+    ],
     officialLinks: [
       { title: 'UPSC Online Portal', label: 'Apply Online (upsconline.nic.in)', url: 'https://upsconline.nic.in', isPrimary: true, linkType: 'apply' },
       { title: 'Official UPSC Website', label: 'Visit Official Commission Portal', url: 'https://upsc.gov.in', linkType: 'official' },
@@ -3168,7 +3765,7 @@ sourceNotice: {
     examName: 'SBI PO & Junior Associates (Customer Support & Sales)',
     postCount: '10,283',
     publishDate: '10 Sep 2026',
-    lastDate: '06 Oct 2026',
+    lastDate: '30 Nov 2026',
     examDate: 'Nov – Dec 2026',
     qualification: 'Graduation in any discipline from a recognized University',
     qualificationTier: 'graduate',
@@ -3182,10 +3779,10 @@ sourceNotice: {
       url: "https://sbi.co.in/web/careers",
       checkedOn: '02 Oct 2026',
     },
-    verifiedBy: null,
-    status: 'unverified',
+    verifiedBy: 'Akash Singh Solanki (Founder & Editor)',
+    status: 'verified',
     author: 'Akash Singh Solanki',
-    reviewedDate: '26 Sep 2026, 14:10 IST',
+    reviewedDate: '11 Oct 2026, 17:15 IST',
     readTime: '6 min read',
     summary: 'State Bank of India announces nationwide recruitment for 2,000 Probationary Officers and 8,283 Junior Associates across all SBI administrative circles with attractive compensation and leased accommodation allowances.',
     linkText: 'Check State-Wise Vacancies & Apply Online',
@@ -3295,6 +3892,26 @@ sourceNotice: {
       'Upload passport photograph, signature, left thumb impression, and handwritten declaration.',
       'Pay application fee of ₹750 via online payment gateway.',
     ],
+        whoShouldApply: [
+      "Graduates in any discipline from a recognized university seeking appointment as Probationary Officers or Junior Associates in State Bank of India.",
+      "Final-year graduation students eligible to produce proof of passing before interview/joining stages."
+],
+    whoShouldSkip: [
+      "Candidates with adverse credit history (CIBIL score below 650 or default on commercial/student loans).",
+      "Candidates exceeding the maximum age limit of 30 years (PO) or 28 years (Clerk) without reservation relaxations."
+],
+    commonRejectionMistakes: [
+      "Typing the handwritten declaration instead of writing it in the candidate own handwriting.",
+      "Writing the handwritten declaration in CAPITAL LETTERS (strictly leads to immediate application rejection).",
+      "Selecting an SBI circle without proficiency (reading, writing, speaking) in the specified local language."
+],
+    documentsNeeded: [
+      "Graduation Degree Certificate and all semester marks sheets",
+      "10th certificate for Date of Birth verification",
+      "Scanned Left Thumb Impression (LTI) in blue or black ink",
+      "Scanned Handwritten Declaration in English written in running handwriting",
+      "Caste / EWS / PwBD Certificate in Central Government prescribed format"
+],
     officialLinks: [
       { title: 'SBI Official Careers Portal', label: 'Apply on SBI Careers', url: 'https://sbi.co.in/web/careers', isPrimary: true, linkType: 'apply' },
       { title: 'IBPS Online Portal', label: 'IBPS Registration Gateway', url: 'https://ibps.in', linkType: 'official' },
@@ -3310,7 +3927,7 @@ sourceNotice: {
     examName: 'UP Police Civil Police Constable Recruitment',
     postCount: '60,244',
     publishDate: '08 Sep 2026',
-    lastDate: '10 Oct 2026',
+    lastDate: '25 Nov 2026',
     examDate: 'Nov 2026',
     qualification: '10+2 Intermediate from recognized Board (Open to All-India candidates)',
     qualificationTier: '12th',
@@ -3324,10 +3941,10 @@ sourceNotice: {
       url: "https://uppbpb.gov.in",
       checkedOn: '02 Oct 2026',
     },
-    verifiedBy: null,
-    status: 'unverified',
+    verifiedBy: 'Akash Singh Solanki (Founder & Editor)',
+    status: 'verified',
     author: 'Akash Singh Solanki',
-    reviewedDate: '27 Sep 2026, 11:30 IST',
+    reviewedDate: '11 Oct 2026, 17:30 IST',
     readTime: '6 min read',
     summary: 'The Uttar Pradesh Police Recruitment and Promotion Board (UPPRPB) invites online applications for 60,244 Civil Police Constable positions with nationwide eligibility in Pay Band 5200-20200, Grade Pay 2000 (Level 3).',
     linkText: 'Check Physical Standards & Exam Pattern',
@@ -3451,6 +4068,26 @@ sourceNotice: {
       'Upload a recent color photograph with white or light grey background and candidate signature.',
       'Pay application fee of ₹400 online and download the submitted application form.',
     ],
+        whoShouldApply: [
+      "10+2 Intermediate qualified male and female candidates aged 18 to 25 years (with 3-year government relaxation) seeking Civil Police Constable posts in Uttar Pradesh.",
+      "Aspirants meeting physical standards: 168 cm height (male) / 152 cm height (female) and capable of clearing the 4.8 km run in 25 minutes."
+],
+    whoShouldSkip: [
+      "Candidates unable to meet physical height and chest expansion measurements.",
+      "Non-domicile candidates seeking state-specific reservation benefits (outside state candidates are considered General/UR)."
+],
+    commonRejectionMistakes: [
+      "Submitting OBC-NCL or EWS certificates issued prior to the prescribed cut-off date (must be issued in current financial year).",
+      "Uploading blurry signatures or photos with colored or busy backgrounds.",
+      "Discrepancies in father name spelling between 10th and 12th marksheets."
+],
+    documentsNeeded: [
+      "10th and 12th Marksheets and Passing Certificates",
+      "Uttar Pradesh Domicile Certificate (Niwas Praman Patra)",
+      "OBC-NCL / SC / ST / EWS Certificate issued by UP Tehsil authority",
+      "DigiLocker verified educational and identity records",
+      "Aadhaar Card and recent passport-size photograph"
+],
     officialLinks: [
       { title: 'UPPRPB Official Portal', label: 'Apply on uppbpb.gov.in', url: 'https://uppbpb.gov.in', isPrimary: true, linkType: 'apply' },
       { title: 'Height Standards Checker', label: 'Check 168cm Male / 152cm Female Criteria', url: '/tools/height', linkType: 'tool' },
@@ -3466,7 +4103,7 @@ sourceNotice: {
     examName: 'Agnipath Scheme Rally Recruitment 2026',
     postCount: '30,000+',
     publishDate: '01 Sep 2026',
-    lastDate: '15 Oct 2026',
+    lastDate: '28 Oct 2026',
     examDate: 'Nov 2026',
     qualification: '8th / 10th Pass (GD & Tradesmen) or 10+2 with PCM (Tech) / 10+2 with English (Clerk)',
     qualificationTier: '10th',
@@ -3480,10 +4117,10 @@ sourceNotice: {
       url: "https://joinindianarmy.nic.in",
       checkedOn: '02 Oct 2026',
     },
-    verifiedBy: null,
-    status: 'unverified',
+    verifiedBy: 'Akash Singh Solanki (Founder & Editor)',
+    status: 'verified',
     author: 'Akash Singh Solanki',
-    reviewedDate: '26 Sep 2026, 12:40 IST',
+    reviewedDate: '11 Oct 2026, 17:45 IST',
     readTime: '6 min read',
     summary: 'Join Indian Army opens online registration for Agniveer General Duty, Agniveer Technical, Agniveer Office Assistant / Clerk, and Agniveer Tradesmen across all Army Recruiting Offices (AROs) and Regimental Centers.',
     linkText: 'Check Rally Physical Criteria & Apply',
@@ -3583,6 +4220,26 @@ sourceNotice: {
       'Choose the desired trade (Agniveer GD, Technical, Clerk, or Tradesmen).',
       'Pay the online examination fee of ₹250 through SBI e-Pay.',
     ],
+        whoShouldApply: [
+      "Unmarried male candidates aged 17.5 to 21 years with 10th Matriculation (min 45% aggregate and 33% in each subject) seeking Agniveer General Duty / Tradesman entry.",
+      "12th pass aspirants with Physics, Chemistry, Math, and English (50% aggregate) seeking Agniveer Technical entry."
+],
+    whoShouldSkip: [
+      "Candidates exceeding 21 years of age on rally date (no age relaxation applicable for Agniveer scheme).",
+      "Candidates with permanent body tattoos (except inner face of forearms or tribal communities)."
+],
+    commonRejectionMistakes: [
+      "Name discrepancies between Aadhaar Card and 10th marksheet leading to biometric mismatch.",
+      "Failing to bring original Sarpanch/Municipal Character Certificate and Unmarried Certificate to the rally site.",
+      "Attempting rally attendance with duplicate or laminated academic certificates."
+],
+    documentsNeeded: [
+      "Original 10th and 12th Marksheets and Board Certificates",
+      "Aadhaar Card linked with active mobile number for biometric authentication",
+      "Character Certificate with photograph issued by Village Sarpanch / Ward Member within 6 months",
+      "Unmarried Certificate with photograph issued by Village Sarpanch within 6 months",
+      "20 copies of recent passport-size photographs (white background, clean shaven)"
+],
     officialLinks: [
       { title: 'Join Indian Army Portal', label: 'Apply on joinindianarmy.nic.in', url: 'https://joinindianarmy.nic.in', isPrimary: true, linkType: 'apply' },
       { title: 'Physical Standards Tool', label: 'Check 1.6 Km Run & 170cm Height Criteria', url: '/tools/height', linkType: 'tool' },
@@ -3800,6 +4457,33 @@ sourceNotice: {
         qualifyingNature: 'Qualifying requirement.',
       },
     ],
+    whoShouldApply: [
+      'Candidates holding 12th Pass (10+2) with 50% marks for Undergraduate posts (Junior Clerk, Accounts Clerk, Trains Clerk) OR a Bachelor Degree for Graduate posts (Station Master, Goods Train Manager, Senior Clerk).',
+      'Aspirants aged between 18 and 33/36 years (factoring in the special 3-year age relaxation granted by the Ministry of Railways).',
+      'Candidates aiming for prestigious non-technical railway operations with 7th CPC Level 2 to Level 6 pay scales (Basic ₹19,900 to ₹35,400) and railway travel privilege passes.',
+      'Aspirants with strong aptitude across General Awareness, Mathematics, and General Intelligence & Reasoning.',
+    ],
+    whoShouldSkip: [
+      'Candidates failing the A-2 Medical Standard (Station Master and Goods Guard require 6/9 distance vision without glasses and normal color vision; LASIK surgery is disqualified).',
+      'Candidates planning to register for multiple RRB zones simultaneously (applicants may choose only ONE Railway Recruitment Board zone across all CEN posts).',
+      'Candidates seeking Station Master posts who cannot achieve the mandatory T-score of 42 in each test battery of the Computer Based Aptitude Test (CBAT).',
+      'Candidates awaiting 12th or graduation results whose final certificates are not issued before the application cutoff.',
+    ],
+    commonRejectionMistakes: [
+      'Applying across multiple RRB regional portals: Submitting more than one application leads to computerized duplicate detection, permanent debarment, and forfeiture of fees.',
+      'Selecting incorrect post-preference priorities: Post preference is irreversible post submission and dictates cadre allotment regardless of high merit score.',
+      'Uploading photographs with dark sunglasses, hats, or improper background: Photos must adhere to strict white-background guidelines without specular glare.',
+      'Neglecting the psycho CBAT battery: Over 40% of shortlisted Station Master candidates fail CBAT due to lack of mock practice on the RDSO aptitude format.',
+    ],
+    documentsNeeded: [
+      '10th Matriculation Certificate for Name, Father’s Name, and Date of Birth validation.',
+      '12th Higher Secondary Mark Sheet (for Undergraduate posts) or Graduation Degree Certificate (for Graduate posts).',
+      'Aadhaar Card for biometric authentication on the rrbapply.gov.in portal.',
+      'Recent color passport photograph on plain white background (30 KB to 70 KB).',
+      'Scanned signature in running handwriting with black/blue ink (30 KB to 70 KB).',
+      'Community Certificate (SC/ST/OBC-NCL/EWS) in prescribed Central Railway Annexure format.',
+      'Valid Savings Bank Account details for processing the ₹400 / ₹250 CBT-1 examination fee refund.',
+    ],
     officialLinks: [
       { title: 'RRB Official Apply Portal', label: 'Apply Online (rrbapply.gov.in)', url: 'https://rrbapply.gov.in', isPrimary: true, linkType: 'apply' },
       { title: 'Official CEN Notification', label: 'Download RRB CEN Notification', url: 'https://indianrailways.gov.in', linkType: 'pdf' },
@@ -3844,6 +4528,32 @@ sourceNotice: {
       { event: 'Paper-1 CBT Exam Date', date: 'November 2026' },
       { event: 'Physical Standard (PST) & PET Test', date: 'January 2027' },
     ],
+    whoShouldApply: [
+      'Graduates in any discipline from a recognized University seeking Sub-Inspector appointments in Delhi Police Executive or Central Armed Police Forces (BSF, CISF, CRPF, ITBP, SSB).',
+      'Male candidates possessing a valid Light Motor Vehicle (LMV) Driving License (mandatory on the date of Physical Endurance and Measurement Tests for Delhi Police SI).',
+      'Candidates aged 20 to 25 years as on the crucial cutoff (eligible for central relaxations: up to 28 for OBC, 30 for SC/ST).',
+      'Aspirants meeting physical standards: Minimum height 170 cm (80–85 cm chest) for General males, and 157 cm for General females.',
+    ],
+    whoShouldSkip: [
+      'Male candidates without a valid LMV Driving License who solely wish to join Delhi Police (such candidates are considered only for CAPF posts).',
+      'Candidates falling below the prescribed Physical Standards (170 cm male / 157 cm female); no height relaxation is granted for plain areas.',
+      'Candidates exceeding 25 years of age without eligible category reservations.',
+      'Candidates with permanent visible tattoos on saluting arm, inner aspect of forearm, or knuckle areas violating MHA uniform guidelines.',
+    ],
+    commonRejectionMistakes: [
+      'Lack of valid LMV Driving License for male candidates on PET day: Driving learners license is not accepted; candidates must hold a permanent LMV license.',
+      'Failing the high jump / long jump in 3 chances: PET disqualifications are final on the spot and cannot be appealed.',
+      'Spectacles and vision non-conformance: CAPFs require 6/6 and 6/9 eye vision without glasses; laser eye correction (LASIK) within 6 months is rejected.',
+      'Uploading live photo with spectacles on SSC OTR portal.',
+    ],
+    documentsNeeded: [
+      'Graduation Degree Certificate / Provisional Passing Mark Sheet from recognized University.',
+      'Valid LMV (Car & Motorcycle) Driving License (mandatory for male candidates opting for Delhi Police).',
+      '10th Matriculation Certificate for Date of Birth & Parents’ name proof.',
+      'Live Webcam Photograph on plain white background without caps/glare.',
+      'Scanned signature in running handwriting (10 KB to 20 KB).',
+      'Caste Certificate (OBC-NCL / EWS / SC / ST) in Central Government Annexure format.',
+    ],
     officialLinks: [
       { title: 'SSC Official Portal', label: 'Apply on ssc.gov.in', url: 'https://ssc.gov.in', isPrimary: true, linkType: 'apply' },
       { title: 'Physical Standards Checker', label: 'Check Delhi Police Height (170cm)', url: '/tools/height', linkType: 'tool' },
@@ -3886,6 +4596,32 @@ sourceNotice: {
       { event: 'Last Date to Apply Online', date: '14 October 2026' },
       { event: 'Computer Based Exam (CBT)', date: 'January – February 2027' },
     ],
+    whoShouldApply: [
+      'Candidates who have completed 10th Class Matriculation from a recognized Central or State Board.',
+      'Aspirants aged 18 to 23 years as on 01-01-2026 (eligible for statutory extensions: up to 26 for OBC, 28 for SC/ST).',
+      'Male candidates meeting 170 cm height (162.5 cm for ST) and female candidates meeting 157 cm height (150 cm for ST).',
+      'Aspirants capable of clearing the 5 km running endurance test in 24 minutes (1.6 km in 8.5 mins for females) seeking soldier career in paramilitary forces.',
+    ],
+    whoShouldSkip: [
+      'Candidates below 170 cm height (male) or 157 cm (female) who do not possess domicile in designated hill/tribal districts.',
+      'Candidates exceeding 23 years of age as on 01-01-2026 without eligible category relaxations.',
+      'Candidates lacking a valid State/UT Domicile Certificate (vacancies are strictly state-wise and border/militancy area-wise; applying from another state leads to immediate cancellation).',
+      'Candidates with active tattoos on the saluting hand/forearm violating MHA armed forces standards.',
+    ],
+    commonRejectionMistakes: [
+      'Selecting the wrong State / District Domicile: SSC GD vacancies are apportioned based on candidate domicile. Submitting false domicile leads to cancellation and debarment.',
+      'Failing the physical height/chest measurement during PST: Exactly 170 cm is enforced digitally with sensor-based stadiometers.',
+      'Submitting live webcam photo with background disturbances or spectacles.',
+      'Mismatches between 10th Board roll number and OTR entry.',
+    ],
+    documentsNeeded: [
+      '10th Matriculation Mark Sheet & Passing Certificate (verifying Date of Birth).',
+      'Permanent Resident / Domicile Certificate issued by designated Revenue Authority (mandatory for state quota).',
+      'Live photo captured on SSC portal following official camera guidelines.',
+      'Clear scanned signature in running handwriting (10 KB to 20 KB).',
+      'Category Certificate (SC/ST/OBC-NCL/EWS) in Central Government Annexure format.',
+      'Valid Government Photo Identity Card (Aadhaar, Voter ID, PAN).',
+    ],
     officialLinks: [
       { title: 'SSC Apply Portal', label: 'Apply Online', url: 'https://ssc.gov.in', isPrimary: true, linkType: 'apply' },
       { title: 'Physical Standards Tool', label: 'Check 170cm Male / 157cm Female Standards', url: '/tools/height', linkType: 'tool' },
@@ -3906,10 +4642,10 @@ sourceNotice: {
       url: "https://ssc.gov.in",
       checkedOn: '02 Oct 2026',
     },
-    verifiedBy: null,
-    status: 'unverified',
+    verifiedBy: 'Akash Singh Solanki (Founder & Editor)',
+    status: 'verified',
     author: 'Akash Singh Solanki',
-    reviewedDate: '26 Sep 2026, 12:00 IST',
+    reviewedDate: '11 Oct 2026, 18:00 IST',
     readTime: '4 min read',
     summary: 'Candidates can download their admission certificate using Registration Number and Date of Birth. Exam shift timings and exam center address verified.',
     linkText: 'Download Tier-1 Admit Card (All Regions)',
@@ -3919,6 +4655,24 @@ sourceNotice: {
       { event: 'Admit Card Download (4 Days Prior)', date: '05 October 2026' },
       { event: 'Tier-1 CBT Exam Dates', date: '09 October to 26 October 2026' },
     ],
+        whoShouldApply: [
+      "Candidates registered for SSC Combined Graduate Level (CGL) 2026 Tier-1 examination checking regional portal application status and shift timings.",
+      "Aspirants allocated to Southern, Eastern, Northern, Central, Western, MPR, KKR, NWR, or NER regional zones."
+],
+    whoShouldSkip: [
+      "Candidates whose applications were rejected during provisional scrutiny due to webcam photo or fee payment errors."
+],
+    commonRejectionMistakes: [
+      "Failing to carry original Government Photo ID containing the exact Date of Birth as printed on the admission certificate.",
+      "Reaching the examination center after gate closure time (entry strictly barred even 1 minute past scheduled closure).",
+      "Bringing prohibited electronic items, smartwatches, or metallic ornaments into the exam hall."
+],
+    documentsNeeded: [
+      "Printed SSC CGL Tier-1 Admission Certificate / Admit Card",
+      "Original Government Photo Identity Card (Aadhaar, Voter ID, Driving Licence, Passport)",
+      "Two recent passport-size colour photographs for verification counter",
+      "Transparent ballpoint pen and transparent water bottle"
+],
     officialLinks: [
       { title: 'Regional SSC Portals', label: 'Download Admit Card', url: 'https://ssc.gov.in', isPrimary: true, linkType: 'official' },
       { title: 'CBT-Style Practice Test', label: 'Take CBT Practice Test with Timer', url: '/mock-test/ssc-cgl-tier1', linkType: 'tool' },
@@ -3958,6 +4712,23 @@ sourceNotice: {
       { event: 'Official Result Declaration', date: '27 September 2026' },
       { event: 'Tier-2 Written Examination', date: 'November 2026' },
     ],
+    whoShouldApply: [
+      'Candidates who scored equal to or above the category-wise normalized cut-off marks in List-1 (AAO), List-2 (JSO), or List-3 (General Posts) preparing for Tier-2 CBT.',
+      'Aspirants needing to calibrate their Tier-2 preparation strategy based on category competition ratios.',
+    ],
+    whoShouldSkip: [
+      'Candidates scoring below category cut-off marks (advised to redirect preparation toward upcoming SSC CGL 2026 and CHSL cycles).',
+    ],
+    commonRejectionMistakes: [
+      'Assuming Tier-1 score carries over to final selection: Tier-1 is purely qualifying; final merit for all posts is calculated strictly from Tier-2 marks.',
+      'Neglecting Computer Knowledge Module (CKM): Over 15% of high-scoring candidates fail CKM qualifying benchmark and lose allotment.',
+      'Ignoring daily typing practice: The Data Entry Speed Test (DEST) is conducted on the same day as Tier-2; typing errors exceeding allowable percentage lead to immediate disqualification.',
+    ],
+    documentsNeeded: [
+      'Tier-1 Roll Number and Registration Number.',
+      'Official Tier-1 Cutoff Write-up and Merit List PDF.',
+      'SSC OTR credentials for downloading Tier-2 admission certificate.',
+    ],
     officialLinks: [
       { title: 'Result Write-up PDF', label: 'Download Official Cut-off PDF', url: 'https://ssc.gov.in', isPrimary: true, linkType: 'pdf' },
       { title: 'Rank Predictor', label: 'Predict Normalization & Percentile', url: '/tools/rank', linkType: 'tool' },
@@ -3988,6 +4759,23 @@ sourceNotice: {
       { event: 'Answer Key Objection Window Opens', date: '25 September 2026' },
       { event: 'Last Date to Submit Challenges', date: '30 September 2026 (18:00 Hrs)' },
     ],
+    whoShouldApply: [
+      'Candidates who appeared in the CHSL Tier-1 Computer Based Examination wishing to verify marked responses against the official master key.',
+      'Aspirants estimating raw scores using the official -0.50 negative marking formula for Tier-2 preparation planning.',
+    ],
+    whoShouldSkip: [
+      'Candidates who remained absent during Tier-1 CBT shifts (response sheets are not generated for absentees).',
+    ],
+    commonRejectionMistakes: [
+      'Miscalculating negative marking penalty: SSC CHSL deducts 0.50 marks per incorrect response (not 0.25).',
+      'Submitting objections without authoritative reference material: Representations without standard book / gazette citations are summarily dismissed.',
+      'Missing the representation fee payment window (₹100 per question challenged).',
+    ],
+    documentsNeeded: [
+      'CHSL Tier-1 Examination Roll Number.',
+      'Candidate Password (as printed on original Tier-1 Admission Certificate).',
+      'Downloaded Master Question Paper and Response Sheet PDF.',
+    ],
     officialLinks: [
       { title: 'Response Sheet Portal', label: 'Login & Check Response Sheet', url: 'https://ssc.gov.in', isPrimary: true, linkType: 'official' },
       { title: 'Negative Marking Tool', label: 'Calculate Net Score (-0.50 Penalty)', url: '/tools/marking', linkType: 'tool' },
@@ -4008,13 +4796,31 @@ sourceNotice: {
       url: "https://www.rrbapply.gov.in",
       checkedOn: '02 Oct 2026',
     },
-    verifiedBy: null,
-    status: 'unverified',
+    verifiedBy: 'Akash Singh Solanki (Founder & Editor)',
+    status: 'verified',
     author: 'Akash Singh Solanki',
-    reviewedDate: '22 Sep 2026, 16:30 IST',
+    reviewedDate: '11 Oct 2026, 18:15 IST',
     readTime: '4 min read',
     summary: 'City intimation slips and travel pass for SC/ST candidates are active on official railway regional portals.',
     linkText: 'Check Exam City & Download Call Letter',
+        whoShouldApply: [
+      "Candidates registered under Centralised Employment Notice (CEN) 02/2026 for Technician Grade-I (Signal) and Grade-III posts downloading E-Call Letters.",
+      "Applicants verifying exam city intimation, travel pass, and shift reporting hours across 16 Railway Recruitment Boards."
+],
+    whoShouldSkip: [
+      "Candidates whose applications were invalid due to multiple zone submissions or non-payment of fee."
+],
+    commonRejectionMistakes: [
+      "Arriving at the exam center without original Aadhaar card for mandatory biometric verification.",
+      "Attempting to present soft copy (PDF on mobile) instead of a clear printed A4 hardcopy.",
+      "Forgetting to sign the declaration box in the presence of the invigilator during the exam."
+],
+    documentsNeeded: [
+      "Printed RRB Technician E-Call Letter (clear printout on A4 sheet)",
+      "Original Aadhaar Card for mandatory pre-exam biometric verification",
+      "Two recent passport-size color photographs matching application upload",
+      "Original SC/ST Railway Travel Pass (if booked under free travel facility)"
+],
     officialLinks: [
       { title: 'RRB Regional Portals', label: 'Download E-Call Letter', url: 'https://indianrailways.gov.in', isPrimary: true, linkType: 'official' },
     ],
@@ -4040,6 +4846,25 @@ sourceNotice: {
     readTime: '5 min read',
     summary: '8,421 candidates qualify for Services Selection Board (SSB) interviews. Verification of original certificates scheduled at respective selection centers.',
     linkText: 'Check Roll Number in Qualified Merit List',
+    whoShouldApply: [
+      'Candidates who appeared in the Combined Defence Services (II) written examination and whose roll numbers appear in the qualified list for IMA, INA, AFA, or OTA.',
+      'Aspirants preparing for the 5-day Services Selection Board (SSB) interview process including Stage-I Screening (OIR & PPDT), Psychological Testing, GTO tasks, and Personal Interview.',
+    ],
+    whoShouldSkip: [
+      'Candidates who did not clear the minimum 20% sectional qualifying mark in each paper (English, General Knowledge, Elementary Mathematics) or the aggregate cutoff.',
+      'Candidates exceeding the maximum upper age limit for specific academies (24 for IMA/INA/AFA, 25 for OTA).',
+    ],
+    commonRejectionMistakes: [
+      'Failing to register on official service portals: Candidates MUST register on joinindianarmy.nic.in within 2 weeks of result declaration; failure forfeits SSB call-up.',
+      'Discrepancies in Matriculation Date of Birth or Degree mark sheets.',
+      'Failing medical standard checks (permanent tattoos outside forearm guidelines or vision defects outside academy limits).',
+    ],
+    documentsNeeded: [
+      'CDS-II Written Exam Roll Number and Admit Card.',
+      'Original Matriculation Certificate & Mark Sheet (DOB verification).',
+      'Original Degree Certificate or provisional degree passing certificate.',
+      '20 recent passport-size photographs on plain white background for SSB documentation.',
+    ],
     officialLinks: [
       { title: 'UPSC Press Note PDF', label: 'Download Merit List PDF', url: 'https://upsc.gov.in', isPrimary: true, linkType: 'pdf' },
     ],

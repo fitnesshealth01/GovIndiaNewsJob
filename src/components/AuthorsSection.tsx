@@ -35,57 +35,64 @@ export const AuthorsSection: React.FC<AuthorsSectionProps> = ({ onNavigate }) =>
         </p>
       </div>
 
-      {/* Author Profile Card */}
-      <div className="bg-white rounded-2xl border border-stone-200 p-6 sm:p-8 space-y-6 shadow-xs">
-        <div className="flex flex-col sm:flex-row items-start gap-5">
+      {/* Editorial Profiles List */}
+      <div className="space-y-6">
+        {EDITORIAL_AUTHORS.map((author) => (
           <div
-            className={`w-18 h-18 sm:w-20 sm:h-20 rounded-2xl ${author.avatarBg} text-white flex items-center justify-center text-2xl sm:text-3xl font-serif font-bold shadow-md shrink-0 border-2 ${author.avatarBorder}`}
+            key={author.id}
+            className="bg-white rounded-2xl border border-stone-200 p-6 sm:p-8 space-y-6 shadow-xs"
           >
-            {author.initials}
-          </div>
+            <div className="flex flex-col sm:flex-row items-start gap-5">
+              <div
+                className={`w-18 h-18 sm:w-20 sm:h-20 rounded-2xl ${author.avatarBg} text-white flex items-center justify-center text-2xl sm:text-3xl font-serif font-bold shadow-md shrink-0 border-2 ${author.avatarBorder}`}
+              >
+                {author.initials}
+              </div>
 
-          <div className="space-y-2 flex-1 min-w-0">
-            <div className="flex flex-wrap items-center gap-2">
-              <h3 className="text-lg sm:text-xl font-serif font-bold text-stone-900 tracking-tight">
-                {author.name}
-              </h3>
-              {author.serviceBackground && (
-                <span className="px-2.5 py-0.5 bg-amber-50 text-amber-900 border border-amber-200 rounded-full text-[11px] font-bold">
-                  🎖️ {author.serviceBackground}
-                </span>
-              )}
-            </div>
+              <div className="space-y-2 flex-1 min-w-0">
+                <div className="flex flex-wrap items-center gap-2">
+                  <h3 className="text-lg sm:text-xl font-serif font-bold text-stone-900 tracking-tight">
+                    {author.name}
+                  </h3>
+                  {author.serviceBackground && (
+                    <span className="px-2.5 py-0.5 bg-blue-50 text-blue-900 border border-blue-200 rounded-full text-[11px] font-bold">
+                      🛡️ {author.serviceBackground}
+                    </span>
+                  )}
+                </div>
 
-            <div className="text-xs font-semibold text-stone-700">
-              {author.designation} · GovIndiaNews
-            </div>
+                <div className="text-xs font-semibold text-stone-700">
+                  {author.designation} · GovIndiaNews
+                </div>
 
-            <div className="text-xs text-stone-500">
-              <span>Beat: {author.beat}</span>
-            </div>
+                <div className="text-xs text-stone-500">
+                  <span>Beat: {author.beat}</span>
+                </div>
 
-            <div className="pt-2 text-xs text-stone-700 leading-relaxed bg-stone-50 p-4 rounded-xl border border-stone-200">
-              <p className="font-sans text-stone-700 mb-3 leading-relaxed">{author.biography}</p>
-              <div className="flex flex-wrap items-center gap-3 pt-1">
-                <button
-                  type="button"
-                  onClick={() => onNavigate?.(`/author/${author.id}`)}
-                  className="px-3.5 py-1.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg transition-colors cursor-pointer text-xs flex items-center gap-1.5 shadow-2xs"
-                >
-                  <span>View Author Page & All Published Articles</span>
-                  <ExternalLink className="w-3.5 h-3.5" />
-                </button>
-                <a
-                  href={`mailto:${author.contactEmail}`}
-                  className="inline-flex items-center gap-1.5 text-blue-600 hover:underline font-semibold"
-                >
-                  <Mail className="w-3.5 h-3.5" />
-                  <span>{author.contactEmail}</span>
-                </a>
+                <div className="pt-2 text-xs text-stone-700 leading-relaxed bg-stone-50 p-4 rounded-xl border border-stone-200">
+                  <p className="font-sans text-stone-700 mb-3 leading-relaxed">{author.biography}</p>
+                  <div className="flex flex-wrap items-center gap-3 pt-1">
+                    <button
+                      type="button"
+                      onClick={() => onNavigate?.(`/author/${author.id}`)}
+                      className="px-3.5 py-1.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg transition-colors cursor-pointer text-xs flex items-center gap-1.5 shadow-2xs"
+                    >
+                      <span>View Dossier & Published Coverage</span>
+                      <ExternalLink className="w-3.5 h-3.5" />
+                    </button>
+                    <a
+                      href={`mailto:${author.contactEmail}`}
+                      className="inline-flex items-center gap-1.5 text-blue-600 hover:underline font-semibold"
+                    >
+                      <Mail className="w-3.5 h-3.5" />
+                      <span>{author.contactEmail}</span>
+                    </a>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        ))}
       </div>
     </div>
   );

@@ -282,7 +282,7 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
               </div>
 
               <div className="flex items-center gap-2 text-[11px] text-slate-500">
-                <span>Updated: <strong className="text-slate-700 font-medium">{article.publishDate || 'Recent'}</strong></span>
+                <span>Last updated: <strong className="text-slate-700 font-medium">{article.reviewedDate || article.publishDate || 'Recent'}</strong></span>
                 <span className="text-slate-300">·</span>
                 <span>{article.readTime}</span>
                 <span className="text-slate-300">·</span>
@@ -412,12 +412,12 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
                   </h4>
                   <span className="text-[11px] text-slate-500">({author.designation})</span>
                   {author.serviceBackground && (
-                    <span className="px-2 py-0.5 bg-amber-50 text-amber-900 border border-amber-200 rounded text-[10px] font-bold">
-                      🎖️ {author.serviceBackground}
+                    <span className="px-2 py-0.5 bg-blue-50 text-blue-900 border border-blue-200 rounded text-[10px] font-bold">
+                      🛡️ {author.serviceBackground}
                     </span>
                   )}
                 </div>
-                {/* 2-3 lines about author highlighting Army Service Experience as Soldier */}
+                {/* Institutional editorial profile and research background */}
                 <p className="font-sans text-slate-700 leading-relaxed text-xs">
                   {author.biography}
                 </p>

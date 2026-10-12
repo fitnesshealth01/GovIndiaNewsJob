@@ -20,7 +20,7 @@ const { EXAM_HUBS } = await import('../src/content/examHubsData.ts');
 const { APPLICATION_GUIDES } = await import('../src/content/guidesData.ts');
 const { RECRUITMENT_ALERTS } = await import('../src/data/gazetteData.ts');
 const { BLOG_POSTS } = await import('../src/content/blogData.ts');
-const { isAlertActive, isAlertActiveAndVerified, parsePublishDateToTimestamp } = await import('../src/utils/alertStatus.ts');
+const { isAlertActive, isAlertActiveAndVerified, isAlertExpired, parsePublishDateToTimestamp } = await import('../src/utils/alertStatus.ts');
 
 const DOMAIN = 'https://govindianews.com';
 
@@ -36,7 +36,7 @@ function escapeHtml(str) {
 
 function toIsoDate(dateStr, fallbackIso = '2026-10-08') {
   if (!dateStr) return fallbackIso;
-  const clean = dateStr.replace(/\(.*?\)/g, '').replace(/,/g, ' ').trim();
+  const clean = dateStr.replace(/\bIST\b/i, '+0530').replace(/\(.*?\)/g, '').replace(/,/g, ' ').trim();
   const timestamp = Date.parse(clean);
   if (!isNaN(timestamp)) {
     return new Date(timestamp).toISOString().split('T')[0];
@@ -163,8 +163,8 @@ const ROUTES = [];
 // 1. HOMEPAGE ROUTE (/)
 ROUTES.push({
   path: '/',
-  title: 'GovIndiaNews — Independent Government Jobs & Exam Information Hub',
-  description: 'Independent news, recruitment notices, exam blueprints, and candidate utilities for Central and State government competitive exams in India.',
+  title: 'GovIndiaNews — Gazette-Verified Government Jobs, Admit Cards & Exam Utilities',
+  description: 'Authoritative Central & State government recruitment notifications, verified admit cards, statutory DoPT cut-offs, 7th CPC salary calculators, and official examination schedules across India.',
   canonical: `${DOMAIN}/`,
   publishDate: activeAlerts[0]?.publishDate || '08 Oct 2026',
   render: () => {
@@ -1446,6 +1446,32 @@ function renderBoardExamArticleContent(alert) {
       <p style="font-size:0.9rem;color:#475569;line-height:1.6;margin:0;">If your category isn't covered, regular schooling or an open schooling board such as NIOS may be options. Confirm admission rules with them directly.</p>
     </section>
 
+    <!-- Common Mistakes That Cause Rejection -->
+    ${mistakes.length > 0 ? `
+      <section style="background:#fff1f2;border:1px solid #fecdd3;border-radius:12px;padding:1.5rem;margin-bottom:2rem;">
+        <h2 style="font-size:1.25rem;font-weight:700;color:#9f1239;margin:0 0 1rem 0;">Common Mistakes That Invalidate CBSE Private Forms</h2>
+        <ol style="margin:0;padding-left:1.5rem;color:#881337;font-size:0.9rem;line-height:1.7;">
+          ${mistakes.map(m => `<li style="margin-bottom:0.4rem;">${escapeHtml(m)}</li>`).join('')}
+        </ol>
+      </section>
+    ` : ''}
+
+    <!-- Candidate Software Utilities -->
+    <section style="background:#0f172a;border:1px solid #1e293b;border-radius:12px;padding:1.5rem;margin-bottom:2rem;color:#ffffff;">
+      <h2 style="font-size:1.25rem;font-weight:700;color:#ffffff;margin:0 0 0.5rem 0;">Candidate Software Utilities for CBSE Registration</h2>
+      <p style="font-size:0.85rem;color:#94a3b8;margin:0 0 1.25rem 0;">Free in-browser tools to validate application specifications prior to portal submission</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem;">
+        <a href="/tools/photo-checker" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:1rem;text-decoration:none;display:block;">
+          <strong style="color:#60a5fa;display:block;font-size:0.9rem;margin-bottom:0.25rem;">Photo &amp; Signature Validator &rarr;</strong>
+          <span style="color:#cbd5e1;font-size:0.8rem;">Verify CBSE file sizes (10-40 KB signature, 20-50 KB photo with name &amp; date).</span>
+        </a>
+        <a href="/tools/relaxation" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:1rem;text-decoration:none;display:block;">
+          <strong style="color:#60a5fa;display:block;font-size:0.9rem;margin-bottom:0.25rem;">Fee &amp; Surcharge Calculator &rarr;</strong>
+          <span style="color:#cbd5e1;font-size:0.8rem;">Calculate per-subject examination fees, practical charges, and late fee amounts.</span>
+        </a>
+      </div>
+    </section>
+
     ${alert.faqs && alert.faqs.length > 0 ? `
       <section style="background:#ffffff;border:1px solid #e2e8f0;border-radius:12px;padding:1.5rem;margin-bottom:2rem;">
         <h2 style="font-size:1.25rem;font-weight:700;color:#0f172a;margin:0 0 1rem 0;">Frequently asked questions</h2>
@@ -1621,12 +1647,57 @@ function renderNtaExamArticleContent(alert) {
       </ul>
     </section>
 
-    <!-- DBT-BET Merger -->
-    <section style="background:#fffbeb;border:1px solid #fde68a;border-radius:12px;padding:1.5rem;margin-bottom:2rem;">
-      <h2 style="font-size:1.25rem;font-weight:700;color:#92400e;margin:0 0 0.75rem 0;">Big Change This Cycle: DBT-BET Merged with CSIR-UGC NET Life Sciences</h2>
-      <p style="font-size:0.9rem;color:#78350f;line-height:1.6;margin:0;">
-        ${escapeHtml(alert.dbtBetMergerNotes || "NTA has announced that the Department of Biotechnology's Biotechnology Eligibility Test (DBT-BET) will be merged with the Joint CSIR-UGC NET Life Sciences exam from the December 2026 cycle. A new discipline, Life Sciences and Biotechnology (LS & BT), joins the paper list. If you are a biotechnology aspirant, prepare according to the new LS & BT syllabus and register for CSIR-UGC NET by 5 November 2026.")}
-      </p>
+    <!-- Profile Match & Advisory -->
+    ${alert.whoShouldApply && alert.whoShouldApply.length > 0 ? `
+      <section style="background:#ffffff;border:1px solid #e2e8f0;border-radius:12px;padding:1.5rem;margin-bottom:2rem;">
+        <h2 style="font-size:1.25rem;font-weight:700;color:#0f172a;margin:0 0 1rem 0;">Profile Match &amp; Application Advisory</h2>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;">
+          <div style="background:#ecfdf5;border:1px solid #a7f3d0;border-radius:8px;padding:1rem;">
+            <strong style="color:#065f46;display:block;margin-bottom:0.5rem;font-size:0.9rem;">Who Should Definitely Apply:</strong>
+            <ul style="margin:0;padding-left:1.25rem;color:#047857;font-size:0.85rem;line-height:1.6;">
+              ${alert.whoShouldApply.map(w => `<li style="margin-bottom:0.3rem;">${escapeHtml(w)}</li>`).join('')}
+            </ul>
+          </div>
+          ${alert.whoShouldSkip && alert.whoShouldSkip.length > 0 ? `
+            <div style="background:#fff1f2;border:1px solid #fecdd3;border-radius:8px;padding:1rem;">
+              <strong style="color:#9f1239;display:block;margin-bottom:0.5rem;font-size:0.9rem;">Who Should Reconsider or Skip:</strong>
+              <ul style="margin:0;padding-left:1.25rem;color:#881337;font-size:0.85rem;line-height:1.6;">
+                ${alert.whoShouldSkip.map(s => `<li style="margin-bottom:0.3rem;">${escapeHtml(s)}</li>`).join('')}
+              </ul>
+            </div>
+          ` : ''}
+        </div>
+      </section>
+    ` : ''}
+
+    <!-- Common Mistakes That Cause Rejection -->
+    ${mistakes.length > 0 ? `
+      <section style="background:#fff1f2;border:1px solid #fecdd3;border-radius:12px;padding:1.5rem;margin-bottom:2rem;">
+        <h2 style="font-size:1.25rem;font-weight:700;color:#9f1239;margin:0 0 1rem 0;">Common Registration Mistakes to Avoid</h2>
+        <ol style="margin:0;padding-left:1.5rem;color:#881337;font-size:0.9rem;line-height:1.7;">
+          ${mistakes.map(m => `<li style="margin-bottom:0.4rem;">${escapeHtml(m)}</li>`).join('')}
+        </ol>
+      </section>
+    ` : ''}
+
+    <!-- Candidate Software Utilities -->
+    <section style="background:#0f172a;border:1px solid #1e293b;border-radius:12px;padding:1.5rem;margin-bottom:2rem;color:#ffffff;">
+      <h2 style="font-size:1.25rem;font-weight:700;color:#ffffff;margin:0 0 0.5rem 0;">Interactive Candidate Utilities Suite</h2>
+      <p style="font-size:0.85rem;color:#94a3b8;margin:0 0 1.25rem 0;">Free statutory calculators and specification validators for UGC NET aspirants</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem;">
+        <a href="/tools/age" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:1rem;text-decoration:none;display:block;">
+          <strong style="color:#60a5fa;display:block;font-size:0.9rem;margin-bottom:0.25rem;">JRF Age Cut-Off Checker &rarr;</strong>
+          <span style="color:#cbd5e1;font-size:0.8rem;">Verify 30-year cutoff as on 01-12-2026 with category relaxations.</span>
+        </a>
+        <a href="/tools/marking" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:1rem;text-decoration:none;display:block;">
+          <strong style="color:#60a5fa;display:block;font-size:0.9rem;margin-bottom:0.25rem;">CBT Raw Score Simulator &rarr;</strong>
+          <span style="color:#cbd5e1;font-size:0.8rem;">Simulate scores across Paper-1 (50 Qs) and Paper-2 (100 Qs).</span>
+        </a>
+        <a href="/tools/photo-checker" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:1rem;text-decoration:none;display:block;">
+          <strong style="color:#60a5fa;display:block;font-size:0.9rem;margin-bottom:0.25rem;">Photo &amp; Signature Validator &rarr;</strong>
+          <span style="color:#cbd5e1;font-size:0.8rem;">Check 80% face coverage and white background compliance.</span>
+        </a>
+      </div>
     </section>
 
     <!-- FAQs -->
@@ -1690,8 +1761,8 @@ for (const alert of RECRUITMENT_ALERTS) {
           <header style="margin-bottom:2rem;border-bottom:1px solid #e2e8f0;padding-bottom:1.5rem;">
             <div style="display:flex;flex-wrap:wrap;align-items:center;gap:0.75rem;margin-bottom:0.75rem;font-size:0.75rem;">
               <span style="font-weight:700;color:#1e40af;background:#dbeafe;padding:0.25rem 0.6rem;border-radius:4px;">${escapeHtml(alert.organization)}</span>
-              <span style="color:#64748b;">Published: ${escapeHtml(alert.publishDate)} &bull; Reviewed: ${escapeHtml(alert.reviewedDate || alert.publishDate)}</span>
-              <span style="color:${alert.status === 'verified' ? '#059669' : '#d97706'};font-weight:700;">${alert.status === 'verified' ? '&check; Gazette Verified' : 'Under Verification'}</span>
+              <span style="color:#64748b;">Published: ${escapeHtml(alert.publishDate)} &bull; Last updated: <strong>${escapeHtml(alert.reviewedDate || alert.publishDate)}</strong></span>
+              <span style="color:${alert.status === 'verified' ? '#059669' : '#d97706'};font-weight:700;">${alert.status === 'verified' ? '&check; Verified Notice' : 'Under Verification'}</span>
             </div>
             <h1 style="font-size:2.2rem;font-weight:800;color:#0f172a;line-height:1.25;margin:0 0 1rem 0;">${escapeHtml(alert.title)}</h1>
             ${alert.titleImage || alert.featuredImage ? `
@@ -1705,6 +1776,19 @@ for (const alert of RECRUITMENT_ALERTS) {
               <span>Read time: ${escapeHtml(alert.readTime || '5 min')}</span>
             </div>
           </header>
+
+          ${alert.status === 'unverified' ? `
+            <div style="background:#fffbeb;border-left:4px solid #f59e0b;padding:1rem;border-radius:0 8px 8px 0;margin-bottom:1.5rem;color:#78350f;">
+              <p style="font-weight:700;margin:0 0 0.25rem 0;">Notice Re-verification in Progress</p>
+              <p style="margin:0;font-size:0.85rem;">This page is being re-verified against the official notice. All figures, schedules, eligibility requirements, and fees are subject to direct confirmation from official notifications.</p>
+            </div>
+          ` : ''}
+          ${alert.status === 'expired' ? `
+            <div style="background:#f1f5f9;border-left:4px solid #64748b;padding:1rem;border-radius:0 8px 8px 0;margin-bottom:1.5rem;color:#1e293b;">
+              <p style="font-weight:700;margin:0 0 0.25rem 0;">Archived Notice / Expired Recruitment</p>
+              <p style="margin:0;font-size:0.85rem;">This recruitment drive has expired. The application window or examination schedule has passed.</p>
+            </div>
+          ` : ''}
 
           <article>
             ${isBoardExam ? renderBoardExamArticleContent(alert) : isNtaExam ? renderNtaExamArticleContent(alert) : `
@@ -1818,6 +1902,69 @@ for (const alert of RECRUITMENT_ALERTS) {
               </section>
             ` : ''}
 
+            <!-- Bespoke Editorial Guidance: Who Should Apply & Who Should Skip -->
+            ${alert.whoShouldApply && alert.whoShouldApply.length > 0 ? `
+              <section style="background:#ffffff;border:1px solid #e2e8f0;border-radius:12px;padding:1.5rem;margin-bottom:2rem;">
+                <h2 style="font-size:1.25rem;font-weight:700;color:#0f172a;margin:0 0 1rem 0;">Profile Match &amp; Application Advisory</h2>
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;">
+                  <div style="background:#ecfdf5;border:1px solid #a7f3d0;border-radius:8px;padding:1rem;">
+                    <strong style="color:#065f46;display:block;margin-bottom:0.5rem;font-size:0.9rem;">Who Should Definitely Apply:</strong>
+                    <ul style="margin:0;padding-left:1.25rem;color:#047857;font-size:0.85rem;line-height:1.6;">
+                      ${alert.whoShouldApply.map(w => `<li style="margin-bottom:0.3rem;">${escapeHtml(w)}</li>`).join('')}
+                    </ul>
+                  </div>
+                  ${alert.whoShouldSkip && alert.whoShouldSkip.length > 0 ? `
+                    <div style="background:#fff1f2;border:1px solid #fecdd3;border-radius:8px;padding:1rem;">
+                      <strong style="color:#9f1239;display:block;margin-bottom:0.5rem;font-size:0.9rem;">Who Should Reconsider or Skip:</strong>
+                      <ul style="margin:0;padding-left:1.25rem;color:#881337;font-size:0.85rem;line-height:1.6;">
+                        ${alert.whoShouldSkip.map(s => `<li style="margin-bottom:0.3rem;">${escapeHtml(s)}</li>`).join('')}
+                      </ul>
+                    </div>
+                  ` : ''}
+                </div>
+              </section>
+            ` : ''}
+
+            <!-- Common Rejection Mistakes -->
+            ${alert.commonRejectionMistakes && alert.commonRejectionMistakes.length > 0 ? `
+              <section style="background:#fff1f2;border:1px solid #fecdd3;border-radius:12px;padding:1.5rem;margin-bottom:2rem;">
+                <h2 style="font-size:1.25rem;font-weight:700;color:#9f1239;margin:0 0 1rem 0;">Common Application Mistakes &amp; Scrutiny Pitfalls</h2>
+                <ol style="margin:0;padding-left:1.5rem;color:#881337;font-size:0.9rem;line-height:1.7;">
+                  ${alert.commonRejectionMistakes.map(m => `<li style="margin-bottom:0.4rem;">${escapeHtml(m)}</li>`).join('')}
+                </ol>
+              </section>
+            ` : ''}
+
+            <!-- Documents Needed -->
+            ${alert.documentsNeeded && alert.documentsNeeded.length > 0 ? `
+              <section style="background:#ffffff;border:1px solid #e2e8f0;border-radius:12px;padding:1.5rem;margin-bottom:2rem;">
+                <h2 style="font-size:1.25rem;font-weight:700;color:#0f172a;margin:0 0 1rem 0;">Documents to Keep Ready Before Applying</h2>
+                <ul style="margin:0;padding-left:1.5rem;color:#334155;font-size:0.85rem;line-height:1.7;">
+                  ${alert.documentsNeeded.map(d => `<li style="margin-bottom:0.4rem;">${escapeHtml(d)}</li>`).join('')}
+                </ul>
+              </section>
+            ` : ''}
+
+            <!-- Candidate Software Utilities Suite -->
+            <section style="background:#0f172a;border:1px solid #1e293b;border-radius:12px;padding:1.5rem;margin-bottom:2rem;color:#ffffff;">
+              <h2 style="font-size:1.25rem;font-weight:700;color:#ffffff;margin:0 0 0.5rem 0;">Interactive Candidate Utilities Suite</h2>
+              <p style="font-size:0.85rem;color:#94a3b8;margin:0 0 1.25rem 0;">Statutory software calculators and document specification checkers for this notification</p>
+              <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem;">
+                <a href="/tools/salary" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:1rem;text-decoration:none;display:block;">
+                  <strong style="color:#60a5fa;display:block;font-size:0.9rem;margin-bottom:0.25rem;">7th CPC Salary Calculator &rarr;</strong>
+                  <span style="color:#cbd5e1;font-size:0.8rem;">Calculate Level 1 to 14 basic pay, gross earnings, and in-hand salary with 50% DA.</span>
+                </a>
+                <a href="/tools/age" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:1rem;text-decoration:none;display:block;">
+                  <strong style="color:#60a5fa;display:block;font-size:0.9rem;margin-bottom:0.25rem;">Age Cut-Off &amp; Relaxation Checker &rarr;</strong>
+                  <span style="color:#cbd5e1;font-size:0.8rem;">Verify exact completed age on crucial cutoff with DoPT category concessions.</span>
+                </a>
+                <a href="/tools/photo-checker" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:1rem;text-decoration:none;display:block;">
+                  <strong style="color:#60a5fa;display:block;font-size:0.9rem;margin-bottom:0.25rem;">Photo &amp; Signature Validator &rarr;</strong>
+                  <span style="color:#cbd5e1;font-size:0.8rem;">Check file sizes, pixel dimensions, and background rules before portal upload.</span>
+                </a>
+              </div>
+            </section>
+
             <!-- Frequently Asked Questions -->
             ${alert.faqs && alert.faqs.length > 0 ? `
               <section style="background:#ffffff;border:1px solid #e2e8f0;border-radius:12px;padding:1.5rem;margin-bottom:2rem;">
@@ -1850,6 +1997,22 @@ for (const alert of RECRUITMENT_ALERTS) {
                 <a href="/tools/salary" style="background:#ffffff;color:#1e40af;padding:0.5rem 1rem;border-radius:6px;font-weight:600;text-decoration:none;border:1px solid #bfdbfe;">
                   7th CPC In-Hand Calculator
                 </a>
+              </div>
+            </section>
+
+            <!-- Institutional Editorial Board E-E-A-T Box -->
+            <section style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:1.5rem;margin-bottom:2rem;font-size:0.85rem;">
+              <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.75rem;">
+                <span style="font-size:1.1rem;">🛡️</span>
+                <strong style="color:#0f172a;font-size:0.95rem;">GovIndiaNews Editorial Desk &amp; Central Verification Board</strong>
+              </div>
+              <p style="color:#475569;margin:0 0 0.75rem 0;line-height:1.6;">
+                This notice was audited by the GovIndiaNews Editorial Desk against primary gazette releases and official portal bulletins. Review sign-off conducted under our transparent <a href="/fact-checking" style="color:#2563eb;font-weight:600;">Fact-Checking Policy</a>. Found a discrepancy? Submit a notice revision via our public <a href="/corrections" style="color:#2563eb;font-weight:600;">Corrections Desk</a>.
+              </p>
+              <div style="display:flex;flex-wrap:wrap;gap:1rem;color:#64748b;font-size:0.8rem;">
+                <span>Author: <strong>Akash Singh Solanki</strong> (Founder &amp; Lead Editor)</span>
+                <span>Editorial Contact: <a href="mailto:desk@govindianews.com" style="color:#2563eb;">desk@govindianews.com</a></span>
+                <a href="/author/akash-singh-solanki" style="color:#2563eb;text-decoration:none;">View Author Dossier &rarr;</a>
               </div>
             </section>
             `}
@@ -2145,11 +2308,32 @@ for (const route of ROUTES) {
     html = html.replace('</head>', `  <meta property="og:url" content="${ogUrl}" />\n</head>`);
   }
 
+  const ogImg = route.alertData?.titleImage || route.alertData?.featuredImage || `${DOMAIN}/og-image.jpg`;
+  if (html.includes('<meta property="og:image"')) {
+    html = html.replace(/<meta property="og:image" content=".*?"\s*\/?>/i, `<meta property="og:image" content="${ogImg}" />`);
+  } else {
+    html = html.replace('</head>', `  <meta property="og:image" content="${ogImg}" />\n</head>`);
+  }
+
   // 4. Canonical link
   if (html.includes('<link rel="canonical"')) {
     html = html.replace(/<link rel="canonical" href=".*?"\s*\/?>/i, `<link rel="canonical" href="${route.canonical}" />`);
   } else {
     html = html.replace('</head>', `  <link rel="canonical" href="${route.canonical}" />\n</head>`);
+  }
+
+  // 4b. Strict Robots Tag: unverified / expired / 404 / archive get noindex, follow
+  const shouldNoindex = Boolean(
+    route.noindex ||
+    route.path === '/404' ||
+    route.path === '/archive' ||
+    (route.alertData && (route.alertData.status !== 'verified' || isAlertExpired(route.alertData)))
+  );
+  const robotsTagContent = shouldNoindex ? 'noindex, follow' : 'index, follow';
+  if (html.includes('<meta name="robots"')) {
+    html = html.replace(/<meta name="robots" content=".*?"\s*\/?>/i, `<meta name="robots" content="${robotsTagContent}" />`);
+  } else {
+    html = html.replace('</head>', `  <meta name="robots" content="${robotsTagContent}" />\n</head>`);
   }
 
   // 5. Per-page JSON-LD schemas
@@ -2402,7 +2586,10 @@ for (const route of ROUTES) {
 const seenCanonicals = new Set();
 const uniqueSitemapRoutes = [];
 for (const r of ROUTES) {
-  if (r.path === '/404') continue; // Do not index 404
+  if (r.path === '/404' || r.path === '/archive') continue; // Do not index 404 or archive
+  if (r.noindex) continue;
+  // Exclude unverified or expired recruitment alerts
+  if (r.alertData && (r.alertData.status !== 'verified' || isAlertExpired(r.alertData))) continue;
   if (!seenCanonicals.has(r.canonical)) {
     seenCanonicals.add(r.canonical);
     uniqueSitemapRoutes.push(r);
@@ -2411,10 +2598,13 @@ for (const r of ROUTES) {
 
 const sitemapXml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${uniqueSitemapRoutes.map(r => `  <url>
+${uniqueSitemapRoutes.map(r => {
+  const lastmodDate = r.alertData?.reviewedDate || r.alertData?.publishDate || r.publishDate || '08 Oct 2026';
+  return `  <url>
     <loc>${r.canonical}</loc>
-    <lastmod>${toIsoDate(r.publishDate || '08 Oct 2026')}</lastmod>
-  </url>`).join('\n')}
+    <lastmod>${toIsoDate(lastmodDate)}</lastmod>
+  </url>`;
+}).join('\n')}
 </urlset>`;
 
 fs.writeFileSync(path.join(distDir, 'sitemap.xml'), sitemapXml, 'utf8');
@@ -2422,10 +2612,14 @@ fs.writeFileSync(path.join(rootDir, 'public', 'sitemap.xml'), sitemapXml, 'utf8'
 
 // 9. Generate dynamic rss.xml with real publication pubDates (no new Date())
 const authorRoute = ROUTES.find(r => r.path === '/author/akash-singh-solanki');
-const articleRoutes = ROUTES.filter(r => r.path.startsWith('/article/') || r.path.startsWith('/exams/') || r.path.startsWith('/guides/')).slice(0, 35);
+const articleRoutes = ROUTES.filter(r => {
+  if (r.path === '/404' || r.path === '/archive' || r.noindex) return false;
+  if (r.alertData && (r.alertData.status !== 'verified' || isAlertExpired(r.alertData))) return false;
+  return r.path.startsWith('/article/') || r.path.startsWith('/exams/') || r.path.startsWith('/guides/');
+}).slice(0, 35);
 const rssItems = authorRoute ? [authorRoute, ...articleRoutes] : articleRoutes;
 
-const newestDateRfc = toRfc822Date(activeAlerts[0]?.publishDate || '08 Oct 2026');
+const newestDateRfc = toRfc822Date(activeVerifiedAlerts[0]?.reviewedDate || activeVerifiedAlerts[0]?.publishDate || '08 Oct 2026');
 
 const rssXml = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">

@@ -16,6 +16,7 @@ import {
   Award,
   BookOpen,
   TrendingUp,
+  ChevronRight,
 } from 'lucide-react';
 import { RecruitmentAlert } from '../data/gazetteData';
 
@@ -517,6 +518,70 @@ export const EliteJobTemplate: React.FC<EliteJobTemplateProps> = ({ article, onN
             * Note: {salary.notes}
           </p>
         )}
+      </section>
+
+      {/* Interactive Candidate Utilities Callout */}
+      <section className="bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 rounded-2xl p-6 text-white border border-slate-800 shadow-sm space-y-4">
+        <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-3">
+          <div className="flex items-center gap-2.5">
+            <div className="p-2 bg-blue-600/30 rounded-xl border border-blue-500/40 text-blue-300">
+              <Calculator className="w-5 h-5" />
+            </div>
+            <div>
+              <h3 className="text-base font-bold text-white tracking-tight">
+                Candidate Utilities for this Recruitment
+              </h3>
+              <p className="text-xs text-slate-300">Live calculators configured according to official Department of Personnel &amp; Training (DoPT) and 7th CPC guidelines</p>
+            </div>
+          </div>
+          <span className="px-2.5 py-0.5 bg-blue-500/20 text-blue-300 border border-blue-400/30 rounded-full text-[11px] font-bold">
+            Live Software Tools
+          </span>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1">
+          <button
+            type="button"
+            onClick={() => onNavigate('/tools/salary')}
+            className="p-3.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-left transition-colors cursor-pointer space-y-1.5 group"
+          >
+            <div className="flex items-center justify-between text-blue-300 text-xs font-bold">
+              <span>7th CPC In-Hand Pay Calculator</span>
+              <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+            </div>
+            <p className="text-[11px] text-slate-300 leading-relaxed">
+              Calculate exact take-home pay, 10% NPS deduction, and DA/HRA rates for Level 1 to 14 posts.
+            </p>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => onNavigate('/tools/age')}
+            className="p-3.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-left transition-colors cursor-pointer space-y-1.5 group"
+          >
+            <div className="flex items-center justify-between text-blue-300 text-xs font-bold">
+              <span>Crucial Age Cut-Off Checker</span>
+              <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+            </div>
+            <p className="text-[11px] text-slate-300 leading-relaxed">
+              Verify exact completed years, months, and days against the official gazette closing date.
+            </p>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => onNavigate('/tools/photo-checker')}
+            className="p-3.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-left transition-colors cursor-pointer space-y-1.5 group"
+          >
+            <div className="flex items-center justify-between text-blue-300 text-xs font-bold">
+              <span>Photo &amp; Signature Validator</span>
+              <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+            </div>
+            <p className="text-[11px] text-slate-300 leading-relaxed">
+              Validate photo aspect ratios, background plainness, and signature dimensions before final form upload.
+            </p>
+          </button>
+        </div>
       </section>
 
       {/* 7. HOW TO APPLY & PITFALLS (Clean Open Editorial Lists) */}
