@@ -77,36 +77,36 @@ export const Header: React.FC<HeaderProps> = ({
   };
 
   return (
-    <header className="sticky top-0 z-40 bg-white border-b border-slate-200 shadow-2xs">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 gap-4">
+    <header className="sticky top-0 z-40 bg-white border-b border-slate-200 shadow-2xs w-full">
+      <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 xl:px-8 w-full">
+        <div className="flex items-center justify-between h-14 sm:h-16 gap-2 sm:gap-3 lg:gap-4 w-full min-w-0">
           {/* Logo & Gazette Badge */}
           <NavLink
             href="/"
             onNavigate={handleNavClick}
-            className="flex items-center gap-3 cursor-pointer select-none shrink-0"
+            className="flex items-center gap-2 sm:gap-2.5 md:gap-3 cursor-pointer select-none shrink-0 min-w-0"
           >
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-700 via-blue-800 to-indigo-900 flex items-center justify-center text-white shadow-xs font-black text-xl tracking-tighter">
+            <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-lg sm:rounded-xl bg-gradient-to-tr from-blue-700 via-blue-800 to-indigo-900 flex items-center justify-center text-white shadow-xs font-black text-sm sm:text-base md:text-xl tracking-tighter shrink-0">
               GI
             </div>
-            <div>
-              <div className="flex items-center gap-1.5">
-                <span className="text-lg sm:text-xl font-black text-slate-900 tracking-tight">
+            <div className="min-w-0">
+              <div className="flex items-center gap-1 sm:gap-1.5">
+                <span className="text-base sm:text-lg lg:text-xl font-black text-slate-900 tracking-tight whitespace-nowrap">
                   GovIndia<span className="text-blue-700">News</span>
                 </span>
-                <span className="flex h-2 w-2 relative">
+                <span className="flex h-2 w-2 relative shrink-0">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
                 </span>
               </div>
-              <div className="text-[10px] text-slate-500 font-medium tracking-tight -mt-0.5">
-                Official Gazette & Career Intelligence
+              <div className="text-[10px] text-slate-500 font-medium tracking-tight -mt-0.5 hidden sm:block truncate max-w-[150px] md:max-w-[210px] xl:max-w-none">
+                Independent Exam News &amp; Career Intelligence
               </div>
             </div>
           </NavLink>
 
-          {/* Center Search Bar (Desktop / Tablet) */}
-          <div className="hidden md:flex flex-1 max-w-md mx-4">
+          {/* Center Search Bar (Tablet / Desktop) */}
+          <div className="hidden md:flex flex-1 min-w-[130px] max-w-xs xl:max-w-sm 2xl:max-w-md mx-2 lg:mx-3 xl:mx-4">
             <form
               onSubmit={(e) => {
                 e.preventDefault();
@@ -120,18 +120,18 @@ export const Header: React.FC<HeaderProps> = ({
                 value={searchTerm}
                 onClick={onOpenSearch ? () => onOpenSearch() : undefined}
                 onChange={(e) => onSearchChange(e.target.value)}
-                placeholder="Search SSC, UPSC, Railway, Police notifications..."
-                className="w-full pl-9 pr-4 py-2 bg-slate-100 hover:bg-slate-100/80 focus:bg-white text-xs text-slate-800 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all outline-hidden cursor-pointer"
+                placeholder="Search notifications & tools..."
+                className="w-full pl-9 pr-3 py-1.5 sm:py-2 bg-slate-100 hover:bg-slate-100/80 focus:bg-white text-xs text-slate-800 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all outline-hidden cursor-pointer"
               />
             </form>
           </div>
 
           {/* Desktop Navigation Items */}
-          <nav className="hidden lg:flex items-center gap-1 text-xs font-semibold text-slate-700">
+          <nav className="hidden lg:flex items-center gap-0.5 xl:gap-1 text-xs font-semibold text-slate-700 shrink-0">
             <NavLink
               href="/"
               onNavigate={handleNavClick}
-              className={`px-3 py-2 rounded-lg transition-colors cursor-pointer ${
+              className={`px-2.5 py-1.5 rounded-lg transition-colors cursor-pointer whitespace-nowrap shrink-0 ${
                 currentPath === '/' ? 'text-blue-700 bg-blue-50' : 'hover:bg-slate-100'
               }`}
             >
@@ -145,7 +145,7 @@ export const Header: React.FC<HeaderProps> = ({
                 onClick={() =>
                   setOpenDropdown(openDropdown === 'jobs' ? null : 'jobs')
                 }
-                className={`px-3 py-2 rounded-lg transition-colors flex items-center gap-1 cursor-pointer ${
+                className={`px-2.5 py-1.5 rounded-lg transition-colors flex items-center gap-1 cursor-pointer whitespace-nowrap shrink-0 ${
                   openDropdown === 'jobs' || currentPath.startsWith('/jobs')
                     ? 'text-blue-700 bg-blue-50'
                     : 'hover:bg-slate-100'
@@ -237,14 +237,14 @@ export const Header: React.FC<HeaderProps> = ({
                 onClick={() =>
                   setOpenDropdown(openDropdown === 'tools' ? null : 'tools')
                 }
-                className={`px-3 py-2 rounded-lg transition-colors flex items-center gap-1 cursor-pointer ${
+                className={`px-2.5 py-1.5 rounded-lg transition-colors flex items-center gap-1 cursor-pointer whitespace-nowrap shrink-0 ${
                   openDropdown === 'tools' || currentPath.startsWith('/tools')
                     ? 'text-blue-700 bg-blue-50'
                     : 'hover:bg-slate-100'
                 }`}
               >
                 <Calculator className="w-3.5 h-3.5 text-blue-600" />
-                <span>Exam Calculators</span>
+                <span>Calculators</span>
                 <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
               </button>
 
@@ -357,6 +357,19 @@ export const Header: React.FC<HeaderProps> = ({
                       <span className="text-[11px] text-slate-500">Multi-criteria Notification Finder</span>
                     </div>
                   </NavLink>
+                  <NavLink
+                    href="/adsense-auditor"
+                    onNavigate={handleNavClick}
+                    className="w-full p-2.5 rounded-lg hover:bg-slate-50 text-left flex items-start gap-2.5 transition-colors cursor-pointer border-t border-slate-100 mt-1 pt-2"
+                  >
+                    <div className="w-7 h-7 rounded-md bg-emerald-100 text-emerald-800 font-bold flex items-center justify-center shrink-0 text-[10px]">
+                      ADS
+                    </div>
+                    <div>
+                      <span className="font-bold text-slate-900 block">AdSense Pre-Flight Auditor</span>
+                      <span className="text-[11px] text-slate-500">Live 112-Route Policy Verification</span>
+                    </div>
+                  </NavLink>
                 </div>
               )}
             </div>
@@ -365,7 +378,7 @@ export const Header: React.FC<HeaderProps> = ({
             <NavLink
               href="/exams"
               onNavigate={handleNavClick}
-              className={`px-3 py-2 rounded-lg transition-colors flex items-center gap-1.5 cursor-pointer ${
+              className={`px-2.5 py-1.5 rounded-lg transition-colors flex items-center gap-1 cursor-pointer whitespace-nowrap shrink-0 ${
                 currentPath.startsWith('/exams') ? 'text-blue-700 bg-blue-50' : 'hover:bg-slate-100'
               }`}
             >
@@ -373,35 +386,11 @@ export const Header: React.FC<HeaderProps> = ({
               <span>Exam Hubs</span>
             </NavLink>
 
-            {/* Vacancy Data Tracker */}
-            <NavLink
-              href="/data/vacancies"
-              onNavigate={handleNavClick}
-              className={`px-3 py-2 rounded-lg transition-colors flex items-center gap-1.5 cursor-pointer ${
-                currentPath.startsWith('/data/vacancies') || currentPath === '/vacancies' ? 'text-blue-700 bg-blue-50' : 'hover:bg-slate-100'
-              }`}
-            >
-              <TrendingUp className="w-3.5 h-3.5 text-blue-600" />
-              <span>Vacancies</span>
-            </NavLink>
-
-            {/* Application Guides */}
-            <NavLink
-              href="/guides"
-              onNavigate={handleNavClick}
-              className={`px-3 py-2 rounded-lg transition-colors flex items-center gap-1.5 cursor-pointer ${
-                currentPath.startsWith('/guides') ? 'text-blue-700 bg-blue-50' : 'hover:bg-slate-100'
-              }`}
-            >
-              <FileText className="w-3.5 h-3.5 text-blue-600" />
-              <span>Guides</span>
-            </NavLink>
-
             {/* Evergreen Knowledge Base / Blog */}
             <NavLink
               href="/blog"
               onNavigate={handleNavClick}
-              className={`px-3 py-2 rounded-lg transition-colors flex items-center gap-1.5 cursor-pointer ${
+              className={`px-2.5 py-1.5 rounded-lg transition-colors flex items-center gap-1 cursor-pointer whitespace-nowrap shrink-0 ${
                 currentPath.startsWith('/blog') || currentPath === '/army-running-time'
                   ? 'text-blue-700 bg-blue-50'
                   : 'hover:bg-slate-100'
@@ -411,11 +400,35 @@ export const Header: React.FC<HeaderProps> = ({
               <span>Articles</span>
             </NavLink>
 
-            {/* Candidate FAQs Link */}
+            {/* Vacancy Data Tracker (visible on xl and above) */}
+            <NavLink
+              href="/data/vacancies"
+              onNavigate={handleNavClick}
+              className={`hidden xl:flex px-2.5 py-1.5 rounded-lg transition-colors items-center gap-1 cursor-pointer whitespace-nowrap shrink-0 ${
+                currentPath.startsWith('/data/vacancies') || currentPath === '/vacancies' ? 'text-blue-700 bg-blue-50' : 'hover:bg-slate-100'
+              }`}
+            >
+              <TrendingUp className="w-3.5 h-3.5 text-blue-600" />
+              <span>Vacancies</span>
+            </NavLink>
+
+            {/* Application Guides (visible on xl and above) */}
+            <NavLink
+              href="/guides"
+              onNavigate={handleNavClick}
+              className={`hidden xl:flex px-2.5 py-1.5 rounded-lg transition-colors items-center gap-1 cursor-pointer whitespace-nowrap shrink-0 ${
+                currentPath.startsWith('/guides') ? 'text-blue-700 bg-blue-50' : 'hover:bg-slate-100'
+              }`}
+            >
+              <FileText className="w-3.5 h-3.5 text-blue-600" />
+              <span>Guides</span>
+            </NavLink>
+
+            {/* Candidate FAQs Link (visible on 2xl and above) */}
             <NavLink
               href="/faqs"
               onNavigate={handleNavClick}
-              className={`px-3 py-2 rounded-lg transition-colors flex items-center gap-1.5 cursor-pointer ${
+              className={`hidden 2xl:flex px-2.5 py-1.5 rounded-lg transition-colors items-center gap-1 cursor-pointer whitespace-nowrap shrink-0 ${
                 currentPath === '/faqs' ? 'text-blue-700 bg-blue-50' : 'hover:bg-slate-100'
               }`}
             >
@@ -423,45 +436,60 @@ export const Header: React.FC<HeaderProps> = ({
               <span>Exam FAQs</span>
             </NavLink>
 
-            {/* E-E-A-T & Trust Hub Link */}
+            {/* E-E-A-T & Trust Hub Link (visible on 2xl and above) */}
             <NavLink
               href="/trust/editorial"
               onNavigate={handleNavClick}
-              className={`px-3 py-2 rounded-lg transition-colors flex items-center gap-1.5 cursor-pointer ${
+              className={`hidden 2xl:flex px-2.5 py-1.5 rounded-lg transition-colors items-center gap-1 cursor-pointer whitespace-nowrap shrink-0 ${
                 currentPath.startsWith('/trust') ? 'text-emerald-800 bg-emerald-50 font-bold' : 'hover:bg-slate-100 text-slate-700'
               }`}
             >
               <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
-              <span>Trust & Ethics</span>
+              <span>Trust</span>
             </NavLink>
           </nav>
 
-          {/* Right Action: Universal 3-Line Menu Trigger (All Screen Sizes) */}
-          <div className="flex items-center gap-2">
+          {/* Right Action: Mobile Search, Bookmarks, and Universal Menu Trigger */}
+          <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+            {/* Mobile Search Button */}
+            {onOpenSearch && (
+              <button
+                type="button"
+                onClick={onOpenSearch}
+                aria-label="Open search dialog"
+                className="p-1.5 sm:p-2 text-slate-700 hover:text-blue-700 hover:bg-slate-100 rounded-lg transition-colors md:hidden shrink-0 cursor-pointer"
+              >
+                <Search className="w-4 h-4" />
+              </button>
+            )}
+
+            {/* Saved Bookmarks Button */}
             {onOpenBookmarks && (
               <button
                 type="button"
                 onClick={onOpenBookmarks}
                 aria-label="Saved Notifications"
-                className="px-2.5 sm:px-3 py-2 text-xs font-bold text-slate-800 bg-white hover:bg-slate-50 border border-slate-300 rounded-lg transition-all flex items-center gap-1.5 cursor-pointer shadow-2xs hover:shadow-xs active:scale-95"
+                className="px-2 sm:px-2.5 py-1.5 sm:py-2 text-xs font-bold text-slate-800 bg-white hover:bg-slate-50 border border-slate-300 rounded-lg transition-all flex items-center gap-1 sm:gap-1.5 cursor-pointer shadow-2xs hover:shadow-xs active:scale-95 shrink-0 whitespace-nowrap"
               >
-                <Bookmark className="w-4 h-4 text-blue-700" />
+                <Bookmark className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-blue-700 shrink-0" />
                 <span className="hidden sm:inline">Saved</span>
                 {savedCount > 0 && (
-                  <span className="px-1.5 py-0.2 rounded-full bg-blue-600 text-white text-[10px] font-black">
+                  <span className="px-1.5 py-0.2 rounded-full bg-blue-600 text-white text-[10px] font-black shrink-0">
                     {savedCount}
                   </span>
                 )}
               </button>
             )}
+
+            {/* Universal Menu Button */}
             <button
               type="button"
               onClick={() => setIsDrawerOpen(true)}
               aria-label="Open Navigation Menu"
-              className="px-3 py-2 text-xs font-bold text-slate-800 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-lg transition-all flex items-center gap-2 cursor-pointer shadow-2xs hover:shadow-xs active:scale-95"
+              className="px-2.5 sm:px-3 py-1.5 sm:py-2 text-xs font-bold text-slate-800 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-lg transition-all flex items-center gap-1.5 sm:gap-2 cursor-pointer shadow-2xs hover:shadow-xs active:scale-95 shrink-0 whitespace-nowrap"
             >
-              <Menu className="w-4 h-4 text-blue-700" />
-              <span>Menu</span>
+              <Menu className="w-4 h-4 text-blue-700 shrink-0" />
+              <span className="shrink-0 font-bold">Menu</span>
             </button>
           </div>
         </div>

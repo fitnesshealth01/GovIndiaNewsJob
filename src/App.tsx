@@ -29,6 +29,8 @@ import { NegativeMarkingPage } from './components/tools/NegativeMarkingPage';
 import { HeightEligibilityPage } from './components/tools/HeightEligibilityPage';
 import { RankPredictorPage } from './components/tools/RankPredictorPage';
 import { EligibilityMatcherPage } from './components/tools/EligibilityMatcherPage';
+import { NotFoundView } from './components/NotFoundView';
+import { AdSenseAuditor } from './components/AdSenseAuditor';
 import { getBookmarks } from './utils/bookmarkStorage';
 import {
   Calendar,
@@ -101,11 +103,84 @@ export default function App() {
     return () => window.removeEventListener('popstate', handlePopState);
   }, []);
 
+  // Determine active article if viewing an article page
+  const currentArticle = useMemo(() => {
+    if (!currentPath.startsWith('/article/')) return null;
+    const slug = currentPath.replace('/article/', '');
+    return (
+      RECRUITMENT_ALERTS.find(
+        (a) =>
+          a.slug === slug ||
+          (slug === 'army-1600-meter-running-time-agniveer-pft-standards' &&
+            a.slug === 'army-1600-meter-running-standards-agniveer-guide')
+      ) || null
+    );
+  }, [currentPath]);
+
+  // Determine if current URL matches a recognized platform route
+  const isKnownRoute = useMemo(() => {
+    if (currentPath === '/' || currentPath === '/home') return true;
+    if (currentPath.startsWith('/article/')) return true;
+    if (currentPath.startsWith('/mock-test') || currentPath === '/mock-tests') return true;
+    if (
+      currentPath === '/tools' ||
+      currentPath === '/tools/salary' ||
+      currentPath === '/tools/photo-checker' ||
+      currentPath === '/tools/relaxation' ||
+      currentPath === '/tools/age' ||
+      currentPath === '/tools/marking' ||
+      currentPath === '/tools/height' ||
+      currentPath === '/tools/rank' ||
+      currentPath === '/tools/eligibility' ||
+      currentPath === '/matcher'
+    ) return true;
+    if (
+      currentPath === '/nta-exams' ||
+      currentPath === '/board-exams' ||
+      currentPath === '/jobs' ||
+      currentPath === '/admit-card' ||
+      currentPath === '/admit-cards' ||
+      currentPath === '/cut-off' ||
+      currentPath === '/cut-offs' ||
+      currentPath === '/results' ||
+      currentPath === '/result' ||
+      currentPath === '/answer-key' ||
+      currentPath === '/answer-keys' ||
+      currentPath === '/archive'
+    ) return true;
+    if (currentPath === '/exams' || currentPath.startsWith('/exams/')) return true;
+    if (currentPath === '/data/vacancies' || currentPath === '/vacancies') return true;
+    if (currentPath === '/guides' || currentPath.startsWith('/guides/')) return true;
+    if (currentPath === '/blog' || currentPath.startsWith('/blog/') || currentPath === '/army-running-time') return true;
+    if (currentPath === '/faqs') return true;
+    if (
+      currentPath === '/about' ||
+      currentPath === '/contact' ||
+      currentPath === '/privacy' ||
+      currentPath === '/terms' ||
+      currentPath === '/disclaimer' ||
+      currentPath === '/fact-checking' ||
+      currentPath === '/corrections'
+    ) return true;
+    if (
+      currentPath.startsWith('/trust') ||
+      currentPath === '/editorial-policy' ||
+      currentPath === '/grievance-redressal' ||
+      currentPath === '/adsense-auditor'
+    ) return true;
+    if (currentPath.startsWith('/author') || currentPath.startsWith('/authors')) return true;
+    return false;
+  }, [currentPath]);
+
   // Sync document title dynamically
   useEffect(() => {
     let title = 'GovIndiaNews - Government Jobs, Exam Utilities & Mock Tests';
     let metaDesc = 'India\'s verified government recruitment alerts, smart calculators, and CBT examination practice platform.';
-    if (currentPath.startsWith('/article/')) {
+    
+    if (!isKnownRoute || (currentPath.startsWith('/article/') && !currentArticle)) {
+      title = '404 - Page or Gazette Notice Not Found - GovIndiaNews';
+      metaDesc = 'The requested examination notice or page could not be located. Explore verified government jobs, admit cards, and smart calculators.';
+    } else if (currentPath.startsWith('/article/')) {
       const slug = currentPath.replace('/article/', '');
       const item = RECRUITMENT_ALERTS.find((a) => a.slug === slug);
       if (item) {
@@ -140,10 +215,14 @@ export default function App() {
       title = 'Govt Exam Smart Calculators Suite - GovIndiaNews';
     } else if (currentPath === '/jobs') {
       title = 'Latest Govt Jobs 2026 Notifications - GovIndiaNews';
-    } else if (currentPath === '/admit-cards') {
+    } else if (currentPath === '/admit-card' || currentPath === '/admit-cards') {
       title = 'Admit Cards & Exam City Intimation Slips - GovIndiaNews';
-    } else if (currentPath === '/results') {
+    } else if (currentPath === '/cut-off' || currentPath === '/cut-offs') {
+      title = 'Category Cut-Off Marks & Normalized Trends - GovIndiaNews';
+    } else if (currentPath === '/results' || currentPath === '/result') {
       title = 'Category Cut-Off Marks & Merit Lists - GovIndiaNews';
+    } else if (currentPath === '/answer-key' || currentPath === '/answer-keys') {
+      title = 'Official Answer Keys & Response Sheets - GovIndiaNews';
     } else if (currentPath === '/faqs') {
       title = 'Exam FAQs & DOP&T Guidelines - GovIndiaNews';
     } else if (currentPath === '/about') {
@@ -172,6 +251,9 @@ export default function App() {
       }
     } else if (currentPath.startsWith('/author') || currentPath.startsWith('/authors')) {
       title = 'Akash Singh Solanki - Founder & Editor | GovIndiaNews';
+    } else if (currentPath === '/adsense-auditor' || currentPath.startsWith('/trust/adsense')) {
+      title = 'Google AdSense Pre-Flight Auditor & Compliance Suite - GovIndiaNews';
+      metaDesc = 'Real-time AdSense compliance monitoring verifying 112 routes against Google publisher policies, content depth, and anti-misrepresentation rules.';
     }
     document.title = title;
     if (typeof document !== 'undefined') {
@@ -192,21 +274,7 @@ export default function App() {
         page_location: window.location.href,
       });
     }
-  }, [currentPath]);
-
-  // Determine active article if viewing an article page
-  const currentArticle = useMemo(() => {
-    if (!currentPath.startsWith('/article/')) return null;
-    const slug = currentPath.replace('/article/', '');
-    return (
-      RECRUITMENT_ALERTS.find(
-        (a) =>
-          a.slug === slug ||
-          (slug === 'army-1600-meter-running-time-agniveer-pft-standards' &&
-            a.slug === 'army-1600-meter-running-standards-agniveer-guide')
-      ) || null
-    );
-  }, [currentPath]);
+  }, [currentPath, currentArticle, isKnownRoute]);
 
   // Set robots noindex for unverified or expired articles, 404s, and archive page
   useEffect(() => {
@@ -221,14 +289,14 @@ export default function App() {
     const isUnverifiedOrExpired = currentArticle && (currentArticle.status !== 'verified' || isAlertExpired(currentArticle));
     const isArchivePage = currentPath === '/archive';
     const isMissingArticle = currentPath.startsWith('/article/') && !currentArticle;
-    const is404 = currentPath === '/404' || isMissingArticle;
+    const is404 = currentPath === '/404' || isMissingArticle || !isKnownRoute;
 
     if (isUnverifiedOrExpired || isArchivePage || is404) {
       robotsMeta.setAttribute('content', 'noindex, follow');
     } else {
       robotsMeta.setAttribute('content', 'index, follow');
     }
-  }, [currentArticle, currentPath]);
+  }, [currentArticle, currentPath, isKnownRoute]);
 
   // Synchronize calculator sub-tab if URL is /tools/:tool
   useEffect(() => {
@@ -662,6 +730,11 @@ export default function App() {
         {currentPath === '/fact-checking' && <LegalPages type="fact-checking" onNavigate={navigate} />}
         {currentPath === '/corrections' && <LegalPages type="corrections" onNavigate={navigate} />}
 
+
+        {/* ROUTE 6.6: GOOGLE ADSENSE PRE-FLIGHT AUDITOR & COMPLIANCE SUITE */}
+        {(currentPath === '/adsense-auditor' || currentPath.startsWith('/trust/adsense')) && (
+          <AdSenseAuditor onNavigate={navigate} />
+        )}
 
         {/* ROUTE 6.7: E-E-A-T & GOOGLE ADSENSE TRUST HUB */}
         {(currentPath.startsWith('/trust/editorial') || currentPath === '/editorial-policy') && (
@@ -1174,6 +1247,9 @@ export default function App() {
             </section>
           </div>
         )}
+
+        {/* ROUTE 8: UNIVERSAL CATCH-ALL 404 NOT FOUND */}
+        {!isKnownRoute && <NotFoundView onNavigate={navigate} />}
       </main>
 
       {/* Global Quick Search Modal */}

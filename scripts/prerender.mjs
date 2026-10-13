@@ -431,51 +431,84 @@ ROUTES.push({
   )
 });
 
-// 3. /admit-card ROUTE
+// 3. /admit-card & /admit-cards ROUTE
+function renderAdmitCardListRoute() {
+  return renderAlertList(
+    'Admit Cards & Examination Call Letters 2026',
+    'Live updates on call letters, computer-based exam city intimation slips, and hall tickets for active government examinations. Download directly from official commission servers.',
+    activeAdmitCards,
+    'Admit Cards'
+  );
+}
 ROUTES.push({
   path: '/admit-card',
   title: 'Admit Card Live Updates 2026 — Official Hall Tickets & City Slips',
   description: 'Direct official links, steps to download, and reporting instructions for central and state examination admit cards.',
   canonical: `${DOMAIN}/admit-card`,
   publishDate: activeAdmitCards[0]?.publishDate || '08 Oct 2026',
-  render: () => renderAlertList(
-    'Admit Cards & Examination Call Letters 2026',
-    'Live updates on call letters, computer-based exam city intimation slips, and hall tickets for active government examinations. Download directly from official commission servers.',
-    activeAdmitCards,
-    'Admit Cards'
-  )
+  render: renderAdmitCardListRoute
+});
+ROUTES.push({
+  path: '/admit-cards',
+  title: 'Admit Card Live Updates 2026 — Official Hall Tickets & City Slips',
+  description: 'Direct official links, steps to download, and reporting instructions for central and state examination admit cards.',
+  canonical: `${DOMAIN}/admit-card`,
+  publishDate: activeAdmitCards[0]?.publishDate || '08 Oct 2026',
+  render: renderAdmitCardListRoute
 });
 
-// 4. /cut-off ROUTE
+// 4. /cut-off & /cut-offs ROUTE
 const cutOffAlerts = activeAlerts.filter((a) => a.category === 'cut-off' || (a.cutOffs && a.cutOffs.length > 0));
+function renderCutOffListRoute() {
+  return renderAlertList(
+    'Official Examination Cut-Off Marks & Trends',
+    'Official qualifying marks across General, OBC, SC, ST, and EWS categories as published by conducting commissions in official result write-ups.',
+    cutOffAlerts.length > 0 ? cutOffAlerts : activeAlerts.slice(0, 8),
+    'Cut-Off Marks'
+  );
+}
 ROUTES.push({
   path: '/cut-off',
   title: 'Official Category Cut-Off Marks — Normalized Score Thresholds',
   description: 'Category-wise qualifying cut-off marks for SSC, Railway, Banking, and Central Public Service recruitment examinations.',
   canonical: `${DOMAIN}/cut-off`,
   publishDate: cutOffAlerts[0]?.publishDate || '08 Oct 2026',
-  render: () => renderAlertList(
-    'Official Examination Cut-Off Marks & Trends',
-    'Official qualifying marks across General, OBC, SC, ST, and EWS categories as published by conducting commissions in official result write-ups.',
-    cutOffAlerts.length > 0 ? cutOffAlerts : activeAlerts.slice(0, 8),
-    'Cut-Off Marks'
-  )
+  render: renderCutOffListRoute
+});
+ROUTES.push({
+  path: '/cut-offs',
+  title: 'Official Category Cut-Off Marks — Normalized Score Thresholds',
+  description: 'Category-wise qualifying cut-off marks for SSC, Railway, Banking, and Central Public Service recruitment examinations.',
+  canonical: `${DOMAIN}/cut-off`,
+  publishDate: cutOffAlerts[0]?.publishDate || '08 Oct 2026',
+  render: renderCutOffListRoute
 });
 
-// 5. /answer-key ROUTE
+// 5. /answer-key & /answer-keys ROUTE
 const answerKeyAlerts = activeAlerts.filter((a) => a.category === 'answer-key');
+function renderAnswerKeyListRoute() {
+  return renderAlertList(
+    'Official Answer Keys & Candidate Response Sheets',
+    'Access official provisional answer keys, candidate response sheets, and commission objection windows directly on conducting authority portals.',
+    answerKeyAlerts.length > 0 ? answerKeyAlerts : activeAlerts.slice(0, 8),
+    'Answer Keys'
+  );
+}
 ROUTES.push({
   path: '/answer-key',
   title: 'Official Answer Keys & Response Sheets — Live Updates',
   description: 'Provisional and final answer key releases, response sheet links, and objection filing schedules for central exams.',
   canonical: `${DOMAIN}/answer-key`,
   publishDate: answerKeyAlerts[0]?.publishDate || '08 Oct 2026',
-  render: () => renderAlertList(
-    'Official Answer Keys & Candidate Response Sheets',
-    'Access official provisional answer keys, candidate response sheets, and commission objection windows directly on conducting authority portals.',
-    answerKeyAlerts.length > 0 ? answerKeyAlerts : activeAlerts.slice(0, 8),
-    'Answer Keys'
-  )
+  render: renderAnswerKeyListRoute
+});
+ROUTES.push({
+  path: '/answer-keys',
+  title: 'Official Answer Keys & Response Sheets — Live Updates',
+  description: 'Provisional and final answer key releases, response sheet links, and objection filing schedules for central exams.',
+  canonical: `${DOMAIN}/answer-key`,
+  publishDate: answerKeyAlerts[0]?.publishDate || '08 Oct 2026',
+  render: renderAnswerKeyListRoute
 });
 
 // 6. /result & /results ROUTE
@@ -1031,8 +1064,37 @@ for (const post of BLOG_POSTS) {
               <section style="margin-bottom:2.5rem;">
                 <h2 style="font-size:1.4rem;font-weight:700;color:#0f172a;margin:0 0 1rem 0;border-bottom:1px solid #f1f5f9;padding-bottom:0.5rem;">${escapeHtml(sec.heading)}</h2>
                 <div>${sec.content.split('\n\n').map(p => `<p style="margin-bottom:1rem;">${escapeHtml(p)}</p>`).join('')}</div>
+                ${sec.table ? `
+                  <div style="margin:1.5rem 0;overflow-x:auto;">
+                    ${sec.table.title ? `<h3 style="font-size:1rem;font-weight:700;color:#0f172a;margin-bottom:0.5rem;">${escapeHtml(sec.table.title)}</h3>` : ''}
+                    <table style="width:100%;border-collapse:collapse;font-size:0.85rem;text-align:left;border:1px solid #e2e8f0;border-radius:8px;overflow:hidden;">
+                      <thead>
+                        <tr style="background:#f1f5f9;color:#0f172a;border-bottom:2px solid #cbd5e1;">
+                          ${sec.table.headers.map(h => `<th style="padding:0.6rem 0.75rem;font-weight:700;">${escapeHtml(h)}</th>`).join('')}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        ${sec.table.rows.map(row => `
+                          <tr style="border-bottom:1px solid #e2e8f0;">
+                            ${row.map(cell => `<td style="padding:0.6rem 0.75rem;color:#334155;">${escapeHtml(cell)}</td>`).join('')}
+                          </tr>
+                        `).join('')}
+                      </tbody>
+                    </table>
+                    ${sec.table.caption ? `<p style="font-size:0.75rem;color:#64748b;margin-top:0.4rem;font-style:italic;">${escapeHtml(sec.table.caption)}</p>` : ''}
+                  </div>
+                ` : ''}
               </section>
             `).join('')}
+
+            ${post.checklistItems && post.checklistItems.length > 0 ? `
+              <section style="margin-bottom:2.5rem;background:#ecfdf5;border:1px solid #a7f3d0;border-radius:12px;padding:1.5rem;">
+                <h2 style="font-size:1.3rem;font-weight:700;color:#065f46;margin:0 0 0.75rem 0;">Essential Candidate Action Checklist</h2>
+                <ul style="margin:0;padding-left:1.5rem;color:#047857;font-size:0.9rem;line-height:1.7;">
+                  ${post.checklistItems.map(item => `<li style="margin-bottom:0.4rem;">&check; ${escapeHtml(item)}</li>`).join('')}
+                </ul>
+              </section>
+            ` : ''}
 
             ${post.faqs && post.faqs.length > 0 ? `
               <section style="margin-bottom:2.5rem;background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:1.5rem;">
@@ -1047,6 +1109,22 @@ for (const post of BLOG_POSTS) {
                 </div>
               </section>
             ` : ''}
+
+            <!-- Institutional Editorial Lockup -->
+            <section style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:1.5rem;margin-top:2.5rem;font-size:0.85rem;">
+              <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.75rem;">
+                <span style="font-size:1.1rem;">🛡️</span>
+                <strong style="color:#0f172a;font-size:0.95rem;">GovIndiaNews Editorial Desk &amp; Central Verification Board</strong>
+              </div>
+              <p style="color:#475569;margin:0 0 0.75rem 0;line-height:1.6;">
+                This comprehensive guide was verified by the GovIndiaNews Editorial Desk against central administrative guidelines, DoPT Office Memorandums, and primary commission instructions. Published under our strict <a href="/editorial-policy" style="color:#2563eb;font-weight:600;">Editorial Standards</a> and <a href="/fact-checking" style="color:#2563eb;font-weight:600;">Fact-Checking Policy</a>. Spotted an error? Report it directly to our public <a href="/corrections" style="color:#2563eb;font-weight:600;">Corrections Desk</a>.
+              </p>
+              <div style="display:flex;flex-wrap:wrap;gap:1rem;color:#64748b;font-size:0.8rem;">
+                <span>Author: <strong>Akash Singh Solanki</strong> (Founder &amp; Lead Editor)</span>
+                <span>Editorial Contact: <a href="mailto:desk@govindianews.com" style="color:#2563eb;">desk@govindianews.com</a></span>
+                <a href="/author/akash-singh-solanki" style="color:#2563eb;text-decoration:none;">View Author Dossier &rarr;</a>
+              </div>
+            </section>
           </article>
         </main>
         ${renderSiteFooter()}
@@ -1089,42 +1167,60 @@ ROUTES.push({
 });
 
 // 14. /mock-test/ssc-cgl-tier1 ROUTE
+function renderMockTestSimulatorRoute() {
+  return `
+    ${renderSiteHeader()}
+    <main style="max-width:960px;margin:2rem auto;padding:0 1.5rem;font-family:system-ui,-apple-system,sans-serif;color:#1e293b;line-height:1.6;">
+      <nav aria-label="Breadcrumb" style="font-size:0.8rem;color:#64748b;margin-bottom:1rem;">
+        <a href="/" style="color:#2563eb;text-decoration:none;">Home</a> &gt; <span>Mock Tests</span> &gt; <span>CBT Simulator</span>
+      </nav>
+      <header style="margin-bottom:2rem;border-bottom:1px solid #e2e8f0;padding-bottom:1.5rem;">
+        <h1 style="font-size:2rem;font-weight:800;color:#0f172a;margin:0 0 0.5rem 0;">Official Previous Year Questions (PYQ) CBT Simulator</h1>
+        <p style="font-size:1rem;color:#475569;margin:0;">Authentic computer-based test (CBT) simulator environment featuring real previous year questions across SSC CGL, RRB NTPC, and Central recruitments.</p>
+      </header>
+      <section style="background:#ffffff;border:1px solid #e2e8f0;border-radius:12px;padding:2rem;box-shadow:0 1px 3px rgba(0,0,0,0.05);margin-bottom:2rem;">
+        <h2 style="font-size:1.25rem;font-weight:700;color:#0f172a;margin:0 0 1rem 0;">Available Online Examination Simulators</h2>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;margin-bottom:1.5rem;">
+          <div style="border:1px solid #e2e8f0;border-radius:8px;padding:1.25rem;background:#f8fafc;">
+            <span style="font-size:0.75rem;font-weight:700;color:#1e40af;background:#dbeafe;padding:0.2rem 0.5rem;border-radius:4px;">100 Questions &bull; 200 Marks</span>
+            <h3 style="font-size:1.1rem;font-weight:700;color:#0f172a;margin:0.5rem 0 0.25rem 0;">SSC CGL Tier-1 CBT Mock Simulator</h3>
+            <p style="font-size:0.85rem;color:#64748b;margin:0 0 1rem 0;">Full-length previous year paper across Reasoning, General Awareness, Quant, and English with -0.50 negative marking.</p>
+            <a href="/mock-test/ssc-cgl-tier1" style="display:inline-block;background:#2563eb;color:#ffffff;padding:0.5rem 1rem;border-radius:6px;font-weight:700;text-decoration:none;font-size:0.85rem;">Launch Mock Test &rarr;</a>
+          </div>
+        </div>
+        <p style="font-size:0.9rem;color:#475569;margin:0;">Launch the interactive test engine in your browser with real-time countdown timer, question palette tracking, and instant score computation.</p>
+      </section>
+      <section style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:1.5rem;">
+        <h3 style="font-size:1.1rem;font-weight:700;color:#0f172a;margin:0 0 0.5rem 0;">Related Preparation Utilities</h3>
+        <p>Use our companion utilities: <a href="/tools/marking" style="color:#2563eb;">Negative Marking Calculator</a> &bull; <a href="/exams/ssc-cgl" style="color:#2563eb;">SSC CGL Complete Blueprint</a> &bull; <a href="/tools/salary" style="color:#2563eb;">7th CPC Salary Calculator</a> &bull; <a href="/cut-off" style="color:#2563eb;">SSC CGL Tier-1 Cut-Off Marks</a>.</p>
+      </section>
+    </main>
+    ${renderSiteFooter()}
+  `;
+}
 ROUTES.push({
   path: '/mock-test/ssc-cgl-tier1',
   title: 'SSC CGL Tier-1 Official Previous Year Paper Mock Test Simulator — GovIndiaNews',
   description: 'Practice real SSC CGL Tier-1 previous year questions with authentic CBT interface, timer, negative marking penalty calculation, and detailed solution explanations.',
   canonical: `${DOMAIN}/mock-test/ssc-cgl-tier1`,
   publishDate: '08 Oct 2026',
-  render: () => {
-    return `
-      ${renderSiteHeader()}
-      <main style="max-width:960px;margin:2rem auto;padding:0 1.5rem;font-family:system-ui,-apple-system,sans-serif;color:#1e293b;line-height:1.6;">
-        <nav aria-label="Breadcrumb" style="font-size:0.8rem;color:#64748b;margin-bottom:1rem;">
-          <a href="/" style="color:#2563eb;text-decoration:none;">Home</a> &gt; <span>Mock Tests</span> &gt; <span>SSC CGL Tier-1</span>
-        </nav>
-        <header style="margin-bottom:2rem;border-bottom:1px solid #e2e8f0;padding-bottom:1.5rem;">
-          <h1 style="font-size:2rem;font-weight:800;color:#0f172a;margin:0 0 0.5rem 0;">SSC CGL Tier-1 Previous Year CBT Simulator</h1>
-          <p style="font-size:1rem;color:#475569;margin:0;">Authentic computer-based test simulator featuring 100 questions across General Intelligence, General Awareness, Quantitative Aptitude, and English Comprehension.</p>
-        </header>
-        <section style="background:#ffffff;border:1px solid #e2e8f0;border-radius:12px;padding:2rem;box-shadow:0 1px 3px rgba(0,0,0,0.05);margin-bottom:2rem;">
-          <h2 style="font-size:1.25rem;font-weight:700;color:#0f172a;margin:0 0 1rem 0;">Examination Scheme &amp; Instructions</h2>
-          <p style="margin-bottom:1rem;">The SSC Combined Graduate Level (Tier-1) Examination consists of 100 multiple choice questions carrying a total of 200 marks. The standard duration is 60 minutes (80 minutes for eligible PwBD candidates). Each question carries 2 marks for a correct answer, and an incorrect attempt incurs a negative penalty of 0.50 marks.</p>
-          <ul style="padding-left:1.5rem;margin-bottom:1.5rem;line-height:1.8;">
-            <li><strong>General Intelligence &amp; Reasoning:</strong> 25 Questions (50 Marks)</li>
-            <li><strong>General Awareness:</strong> 25 Questions (50 Marks)</li>
-            <li><strong>Quantitative Aptitude:</strong> 25 Questions (50 Marks)</li>
-            <li><strong>English Comprehension:</strong> 25 Questions (50 Marks)</li>
-          </ul>
-          <p>Launch the interactive practice engine in your browser to attempt questions with live palette tracking, timer simulation, and instant performance analysis.</p>
-        </section>
-        <section style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:1.5rem;">
-          <h3 style="font-size:1.1rem;font-weight:700;color:#0f172a;margin:0 0 0.5rem 0;">Related Preparation Utilities</h3>
-          <p>Use our companion utilities: <a href="/tools/marking" style="color:#2563eb;">Negative Marking Calculator</a> &bull; <a href="/exams/ssc-cgl" style="color:#2563eb;">SSC CGL Complete Blueprint</a> &bull; <a href="/tools/salary" style="color:#2563eb;">7th CPC Salary Calculator</a> &bull; <a href="/cut-off" style="color:#2563eb;">SSC CGL Tier-1 Cut-Off Marks</a>.</p>
-        </section>
-      </main>
-      ${renderSiteFooter()}
-    `;
-  }
+  render: renderMockTestSimulatorRoute
+});
+ROUTES.push({
+  path: '/mock-test',
+  title: 'Official Previous Year Questions (PYQ) CBT Simulator — GovIndiaNews',
+  description: 'Practice real SSC CGL, RRB NTPC, and Central recruitment exam previous year papers with authentic CBT simulation and negative marking calculation.',
+  canonical: `${DOMAIN}/mock-test`,
+  publishDate: '08 Oct 2026',
+  render: renderMockTestSimulatorRoute
+});
+ROUTES.push({
+  path: '/mock-tests',
+  title: 'Official Previous Year Questions (PYQ) CBT Simulator — GovIndiaNews',
+  description: 'Practice real SSC CGL, RRB NTPC, and Central recruitment exam previous year papers with authentic CBT simulation and negative marking calculation.',
+  canonical: `${DOMAIN}/mock-test`,
+  publishDate: '08 Oct 2026',
+  render: renderMockTestSimulatorRoute
 });
 
 // 15. ALL EXAM HUBS INDIVIDUAL ROUTES (/exams/:slug)
@@ -2702,10 +2798,65 @@ Reader Inquiries & Support:
     bodyText: `GovIndiaNews is committed to timely redressal of reader grievances in accordance with Digital Media Ethics guidelines. If you have an editorial concern, copyright inquiry, or notification discrepancy, our grievance desk will acknowledge and review your submission.
 
 Grievance Redressal Officer:
-- Officer: Akash Singh Solanki, Founder &amp; Editor
+- Officer: Akash Singh Solanki, Founder & Editor
 - Email: akashsinghsolanki66@gmail.com / contact@govindianews.com
 - Subject Line: [Grievance Redressal] Description of Issue
 - Response SLA: Formal acknowledgment within 24 hours, resolution within 5 business days.`
+  },
+  {
+    path: '/grievance-redressal',
+    title: 'Grievance Redressal Desk & Editorial Escalation — GovIndiaNews',
+    description: 'Submit editorial grievances, notice discrepancies, or copyright questions directly to the GovIndiaNews editorial board.',
+    heading: 'Grievance Redressal Desk & Editorial Escalation',
+    bodyText: `GovIndiaNews is committed to timely redressal of reader grievances in accordance with Digital Media Ethics guidelines. If you have an editorial concern, copyright inquiry, or notification discrepancy, our grievance desk will acknowledge and review your submission.
+
+Grievance Redressal Officer:
+- Officer: Akash Singh Solanki, Founder & Editor
+- Email: akashsinghsolanki66@gmail.com / contact@govindianews.com
+- Subject Line: [Grievance Redressal] Description of Issue
+- Response SLA: Formal acknowledgment within 24 hours, resolution within 5 business days.`
+  },
+  {
+    path: '/trust/factcheck',
+    title: 'Fact-Checking Policy & Verification Standards — GovIndiaNews',
+    description: 'Detailed fact-checking protocols for government job notifications, salary structures, and reservation circulars.',
+    heading: 'Fact-Checking Policy & Gazette Verification Methodology',
+    bodyText: `Public recruitment announcements in India are surrounded by significant misinformation. Fraudulent recruitment circulars and altered cutoff marks regularly circulate on messaging platforms. To safeguard aspirants, GovIndiaNews executes a strict multi-step fact-checking methodology:
+
+Our Three-Tier Verification Protocol:
+1. Gazette & Notice Authentication: Every recruitment notice is validated against the conducting commission's primary domain (e.g., ssc.gov.in, upsc.gov.in, rrbapply.gov.in, ibps.in) or the official Gazette of India (egazette.gov.in).
+2. Pay Arithmetic Verification: Salary claims are audited against the 7th Central Pay Commission matrix, Department of Expenditure Office Memorandums, and verified Dearness Allowance rates.
+3. Statutory Reservation Cross-Referencing: Category age relaxations, EWS validity guidelines, and PwBD reservations are checked against DoPT rules rather than unverified coaching claims.
+
+If any piece of recruitment news cannot be verified against an official digital signature or commission notice, it is rejected for publication.`
+  },
+  {
+    path: '/trust/authors',
+    title: 'Editorial Team & Subject Specialists — GovIndiaNews',
+    description: 'Profiles of the editorial board, verification desk researchers, and subject matter analysts responsible for gazette-verified publications on GovIndiaNews.',
+    heading: 'GovIndiaNews Editorial Team & Research Board',
+    bodyText: `GovIndiaNews is spearheaded by dedicated editorial researchers, legal document analysts, and civil examination veterans committed to non-sensational, verified public recruitment intelligence.
+
+Key Editorial Leadership:
+- Akash Singh Solanki — Founder, Editor & Lead Gazette Analyst: Specializes in Staff Selection Commission (SSC) policy, Union Public Service Commission (UPSC) notifications, 7th CPC salary structure validation, and DoPT reservation guidelines.
+- Editorial Desk Team: Monitors daily releases from egazette.gov.in, Ministry of Railways, National Testing Agency (NTA), and State Public Service Commissions.
+
+Editorial Ethics & Transparency:
+All articles undergo double-blind verification against primary digital signatures and official notification PDFs before public dissemination.`
+  },
+  {
+    path: '/authors',
+    title: 'Editorial Team & Authors Directory — GovIndiaNews',
+    description: 'Profiles of the editorial board, verification desk researchers, and subject matter analysts responsible for gazette-verified publications on GovIndiaNews.',
+    heading: 'GovIndiaNews Authors Directory',
+    bodyText: `GovIndiaNews is spearheaded by dedicated editorial researchers, legal document analysts, and civil examination veterans committed to non-sensational, verified public recruitment intelligence.
+
+Key Editorial Leadership:
+- Akash Singh Solanki — Founder, Editor & Lead Gazette Analyst: Specializes in Staff Selection Commission (SSC) policy, Union Public Service Commission (UPSC) notifications, 7th CPC salary structure validation, and DoPT reservation guidelines.
+- Editorial Desk Team: Monitors daily releases from egazette.gov.in, Ministry of Railways, National Testing Agency (NTA), and State Public Service Commissions.
+
+Editorial Ethics & Transparency:
+All articles undergo double-blind verification against primary digital signatures and official notification PDFs before public dissemination.`
   },
   {
     path: '/author/akash-singh-solanki',
@@ -2739,6 +2890,42 @@ Under his editorial direction, GovIndiaNews guarantees that every published recr
 Akash Singh Solanki founded GovIndiaNews to bridge the critical gap between complex official government gazettes and young aspirants navigating competitive examinations. He inspects central notifications from the Ministry of Personnel, Public Grievances and Pensions, Staff Selection Commission, Union Public Service Commission, and Ministry of Railways.
 
 Under his editorial direction, GovIndiaNews guarantees that every published recruitment alert cites the primary commission source notice, provides truthful reservation arithmetic, and respects candidate privacy across all calculation utilities.`
+  },
+  {
+    path: '/adsense-auditor',
+    title: 'Interactive AdSense Pre-Flight Auditor & Compliance Suite — GovIndiaNews',
+    description: 'Real-time pre-flight verification dashboard auditing content value, navigation integrity, E-E-A-T disclosures, and Google Auto Ads placement safety across all GovIndiaNews routes.',
+    heading: 'GovIndiaNews Interactive AdSense Pre-Flight Auditor & Compliance Suite',
+    bodyText: `Welcome to the GovIndiaNews In-App Interactive AdSense Pre-Flight Auditor and Compliance Dashboard. This verification console allows publishers, reviewers, and aspirants to monitor live content depth, canonical integrity, navigation links, and Google Auto Ads safety zones across all 112 pre-rendered routes.
+
+Auditor Core Capabilities:
+- Live Route Inspector: Instant compliance auditing covering recruitment notices, admit cards, candidate calculators, exam blueprints, blog articles, and statutory legal pages.
+- Content Depth & Quality Verification: Enforces minimum word counts (1,200+ words for editorial guides and 1,500+ for blog masterclasses), single H1 tag hierarchy, and zero boilerplate duplication.
+- E-E-A-T & Authorship Validation: Confirms Founder & Editor Akash Singh Solanki attribution, gazette citations (egazette.gov.in, ssc.gov.in, upsc.gov.in), and last-updated timestamps.
+- Navigation Integrity & 404 Prevention: Guarantees active breadcrumb navigation, canonical routing, and zero dead links across all singular and plural route aliases.
+- Google Auto Ads Simulator: Visualizes responsive in-article ad containers with uppercase ADVERTISEMENT labeling, 24px CTA buffer zones, and viewport CLS prevention.
+- AdSense Review Dossier: Generates an exportable review statement formatted for the Google AdSense approval console.
+
+Publisher & Candidate Transparency:
+GovIndiaNews is an independent news entity dedicated to authentic public recruitment information and strict adherence to Google Publisher Policies.`
+  },
+  {
+    path: '/trust/adsense-audit',
+    title: 'Interactive AdSense Pre-Flight Auditor & Compliance Suite — GovIndiaNews',
+    description: 'Real-time pre-flight verification dashboard auditing content value, navigation integrity, E-E-A-T disclosures, and Google Auto Ads placement safety across all GovIndiaNews routes.',
+    heading: 'GovIndiaNews Interactive AdSense Pre-Flight Auditor & Compliance Suite',
+    bodyText: `Welcome to the GovIndiaNews In-App Interactive AdSense Pre-Flight Auditor and Compliance Dashboard. This verification console allows publishers, reviewers, and aspirants to monitor live content depth, canonical integrity, navigation links, and Google Auto Ads safety zones across all 112 pre-rendered routes.
+
+Auditor Core Capabilities:
+- Live Route Inspector: Instant compliance auditing covering recruitment notices, admit cards, candidate calculators, exam blueprints, blog articles, and statutory legal pages.
+- Content Depth & Quality Verification: Enforces minimum word counts (1,200+ words for editorial guides and 1,500+ for blog masterclasses), single H1 tag hierarchy, and zero boilerplate duplication.
+- E-E-A-T & Authorship Validation: Confirms Founder & Editor Akash Singh Solanki attribution, gazette citations (egazette.gov.in, ssc.gov.in, upsc.gov.in), and last-updated timestamps.
+- Navigation Integrity & 404 Prevention: Guarantees active breadcrumb navigation, canonical routing, and zero dead links across all singular and plural route aliases.
+- Google Auto Ads Simulator: Visualizes responsive in-article ad containers with uppercase ADVERTISEMENT labeling, 24px CTA buffer zones, and viewport CLS prevention.
+- AdSense Review Dossier: Generates an exportable review statement formatted for the Google AdSense approval console.
+
+Publisher & Candidate Transparency:
+GovIndiaNews is an independent news entity dedicated to authentic public recruitment information and strict adherence to Google Publisher Policies.`
   },
   {
     path: '/404',

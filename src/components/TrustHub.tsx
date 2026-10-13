@@ -14,15 +14,16 @@ import {
   Scale
 } from 'lucide-react';
 import { AuthorsSection } from './AuthorsSection';
+import { AdSenseAuditor } from './AdSenseAuditor';
 
 interface TrustHubProps {
-  initialTab?: 'editorial' | 'grievance' | 'factcheck' | 'authors';
+  initialTab?: 'editorial' | 'grievance' | 'factcheck' | 'authors' | 'adsense';
   selectedAuthorId?: string;
   onNavigate?: (path: string) => void;
 }
 
 export const TrustHub: React.FC<TrustHubProps> = ({ initialTab = 'editorial', selectedAuthorId, onNavigate }) => {
-  const [activeTab, setActiveTab] = useState<'editorial' | 'grievance' | 'factcheck' | 'authors'>(initialTab);
+  const [activeTab, setActiveTab] = useState<'editorial' | 'grievance' | 'factcheck' | 'authors' | 'adsense'>(initialTab);
 
   React.useEffect(() => {
     if (initialTab) {
@@ -94,6 +95,18 @@ export const TrustHub: React.FC<TrustHubProps> = ({ initialTab = 'editorial', se
         >
           <UserCheck className="w-4 h-4" />
           <span>Founder & Editor</span>
+        </button>
+
+        <button
+          onClick={() => setActiveTab('adsense')}
+          className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+            activeTab === 'adsense'
+              ? 'bg-blue-600 text-white shadow-xs'
+              : 'bg-emerald-50 text-emerald-800 hover:bg-emerald-100 border border-emerald-200'
+          }`}
+        >
+          <ShieldCheck className="w-4 h-4 text-emerald-600" />
+          <span>AdSense Auditor</span>
         </button>
       </div>
 
@@ -219,6 +232,11 @@ export const TrustHub: React.FC<TrustHubProps> = ({ initialTab = 'editorial', se
           selectedAuthorId={selectedAuthorId}
           onNavigate={onNavigate}
         />
+      )}
+
+      {/* Tab 5: AdSense Compliance Auditor */}
+      {activeTab === 'adsense' && (
+        <AdSenseAuditor onNavigate={onNavigate} />
       )}
     </div>
   );

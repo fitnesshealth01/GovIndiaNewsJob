@@ -251,6 +251,15 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
               </li>
               <li>
                 <NavLink
+                  href="/adsense-auditor"
+                  onNavigate={onNavigate}
+                  className="hover:text-emerald-400 font-semibold transition-colors cursor-pointer text-left block text-emerald-400"
+                >
+                  AdSense Pre-Flight Auditor
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
                   href="/trust/grievance"
                   onNavigate={onNavigate}
                   className="hover:text-emerald-400 font-semibold transition-colors cursor-pointer text-left block"
