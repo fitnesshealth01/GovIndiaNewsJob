@@ -126,12 +126,12 @@ export const Header: React.FC<HeaderProps> = ({
             </form>
           </div>
 
-          {/* Desktop Navigation Items */}
-          <nav className="hidden lg:flex items-center gap-0.5 xl:gap-1 text-xs font-semibold text-slate-700 shrink-0">
+          {/* Desktop Navigation Items (xl and up to guarantee right Menu button never overflows) */}
+          <nav className="hidden xl:flex items-center gap-0.5 2xl:gap-1 text-xs font-semibold text-slate-700 shrink-0">
             <NavLink
               href="/"
               onNavigate={handleNavClick}
-              className={`px-2.5 py-1.5 rounded-lg transition-colors cursor-pointer whitespace-nowrap shrink-0 ${
+              className={`px-2 py-1.5 rounded-lg transition-colors cursor-pointer whitespace-nowrap shrink-0 ${
                 currentPath === '/' ? 'text-blue-700 bg-blue-50' : 'hover:bg-slate-100'
               }`}
             >
@@ -450,7 +450,7 @@ export const Header: React.FC<HeaderProps> = ({
           </nav>
 
           {/* Right Action: Mobile Search, Bookmarks, and Universal Menu Trigger */}
-          <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+          <div className="flex items-center gap-1.5 sm:gap-2 shrink-0 ml-auto flex-nowrap">
             {/* Mobile Search Button */}
             {onOpenSearch && (
               <button
@@ -481,7 +481,7 @@ export const Header: React.FC<HeaderProps> = ({
               </button>
             )}
 
-            {/* Universal Menu Button */}
+            {/* Universal Menu Button - guaranteed visible and never truncated */}
             <button
               type="button"
               onClick={() => setIsDrawerOpen(true)}
@@ -489,7 +489,7 @@ export const Header: React.FC<HeaderProps> = ({
               className="px-2.5 sm:px-3 py-1.5 sm:py-2 text-xs font-bold text-slate-800 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-lg transition-all flex items-center gap-1.5 sm:gap-2 cursor-pointer shadow-2xs hover:shadow-xs active:scale-95 shrink-0 whitespace-nowrap"
             >
               <Menu className="w-4 h-4 text-blue-700 shrink-0" />
-              <span className="shrink-0 font-bold">Menu</span>
+              <span className="shrink-0 font-bold select-none">Menu</span>
             </button>
           </div>
         </div>

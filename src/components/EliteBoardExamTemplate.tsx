@@ -20,6 +20,7 @@ import {
 } from 'lucide-react';
 import { RecruitmentAlert } from '../data/gazetteData';
 import { NavLink } from './NavLink';
+import { UPBoardGapDayCalculator } from './tools/UPBoardGapDayCalculator';
 
 interface EliteBoardExamTemplateProps {
   article: RecruitmentAlert;
@@ -97,6 +98,152 @@ export const EliteBoardExamTemplate: React.FC<EliteBoardExamTemplateProps> = ({
     'Waiting until the last day, when the portal is busiest.',
     'Picking subjects you are not eligible for, such as science subjects in the wrong category.',
   ];
+
+  if (article.id === 'up-board-2027-class-12-science-gap-day-revision-plan') {
+    return (
+      <div className="space-y-10 text-slate-900">
+        {/* 1. Executive Summary & Action Window */}
+        <section className="bg-gradient-to-r from-blue-50 to-indigo-50/50 border border-blue-200/80 rounded-2xl p-5 sm:p-6 shadow-xs space-y-3">
+          <div className="flex items-center gap-2 text-blue-900 font-bold text-xs uppercase tracking-wider">
+            <Info className="w-4 h-4 text-blue-700 shrink-0" />
+            <span>Executive Summary & Strategic Briefing</span>
+          </div>
+          <p className="text-slate-800 text-sm sm:text-base leading-relaxed">
+            <strong className="text-slate-950 font-bold">In short: </strong>
+            The UPMSP (Uttar Pradesh Madhyamik Shiksha Parishad) 2027 Class 10 and Class 12 examinations run from{' '}
+            <strong className="text-blue-800 font-bold">5 February to 24 February 2027</strong>.
+            All core Class 12 Science papers (PCM & PCB) are held in the afternoon shift (<strong className="text-slate-900">2:00 pm to 5:15 pm</strong>).
+            Total candidates registered stand at ~52 lakh (~24.3 lakh in Class 12).
+            Official announcements are hosted on{' '}
+            <a
+              href="https://upmsp.edu.in"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-700 font-bold underline hover:text-blue-900 inline-flex items-center gap-1"
+            >
+              <span>upmsp.edu.in</span>
+              <ExternalLink className="w-3.5 h-3.5" />
+            </a>.
+          </p>
+          <div className="pt-2 flex flex-wrap items-center gap-3">
+            <NavLink
+              href="/blog/up-board-2027-class-12-science-gap-day-revision-plan"
+              onNavigate={onNavigate}
+              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-blue-700 hover:bg-blue-800 text-white rounded-lg text-xs font-bold transition-colors cursor-pointer shadow-2xs"
+            >
+              <BookOpen className="w-3.5 h-3.5" />
+              <span>Read Full 2,200+ Word Editorial Guide & PYQ Analysis</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </NavLink>
+          </div>
+        </section>
+
+        {/* 2. Embedded Interactive Gap-Day Planner */}
+        <section className="space-y-3">
+          <UPBoardGapDayCalculator onNavigate={onNavigate} embedded={true} />
+        </section>
+
+        {/* 3. Quick Facts Table */}
+        <section className="space-y-4">
+          <div className="flex items-center justify-between border-b border-slate-200 pb-2.5">
+            <div className="flex items-center gap-2">
+              <Calendar className="w-4 h-4 text-blue-700" />
+              <h2 className="text-base font-bold text-slate-900">UPMSP 2027 Science Quick Facts</h2>
+            </div>
+            <span className="text-[11px] text-slate-500 font-medium">UPMSP Prayagraj Session 2026–27</span>
+          </div>
+
+          <div className="rounded-xl border border-slate-200 overflow-hidden bg-white shadow-2xs">
+            <div className="overflow-x-auto">
+              <table className="w-full text-left divide-y divide-slate-200 text-xs sm:text-sm">
+                <thead className="bg-slate-50 text-slate-700 font-bold uppercase tracking-wider text-[11px]">
+                  <tr>
+                    <th className="p-3.5 sm:px-4 w-1/3">Detail</th>
+                    <th className="p-3.5 sm:px-4">Information</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-200 bg-white">
+                  {article.quickFacts?.map((row, idx) => (
+                    <tr key={idx} className="hover:bg-slate-50/70 transition-colors">
+                      <td className="p-3.5 sm:px-4 font-semibold text-slate-900">{row.detail}</td>
+                      <td className="p-3.5 sm:px-4 text-slate-800">{row.information}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        {/* 4. Examination Schedule & Free Gap-Day Runway */}
+        <section className="space-y-4">
+          <div className="flex items-center justify-between border-b border-slate-200 pb-2.5">
+            <div className="flex items-center gap-2">
+              <Clock className="w-4 h-4 text-blue-700" />
+              <h2 className="text-base font-bold text-slate-900">Official Exam Dates & Shift Sequence</h2>
+            </div>
+            <span className="text-[11px] text-slate-500 font-medium">Afternoon Shift: 2:00 PM – 5:15 PM</span>
+          </div>
+
+          <div className="rounded-xl border border-slate-200 overflow-hidden bg-white shadow-2xs">
+            <div className="overflow-x-auto">
+              <table className="w-full text-left divide-y divide-slate-200 text-xs sm:text-sm">
+                <thead className="bg-slate-50 text-slate-700 font-bold uppercase tracking-wider text-[11px]">
+                  <tr>
+                    <th className="p-3.5 sm:px-4">Event / Paper</th>
+                    <th className="p-3.5 sm:px-4">Date & Timing</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-200 bg-white">
+                  {article.importantDates?.map((item, idx) => (
+                    <tr key={idx} className="hover:bg-slate-50/70 transition-colors">
+                      <td className="p-3.5 sm:px-4 font-semibold text-slate-900">{item.event}</td>
+                      <td className="p-3.5 sm:px-4 text-slate-800">{item.date}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        {/* 5. FAQs Accordion */}
+        <section className="space-y-4 border-t border-slate-200 pt-6">
+          <div className="flex items-center gap-2">
+            <HelpCircle className="w-5 h-5 text-blue-700" />
+            <h2 className="text-lg font-bold text-slate-900">Frequently Asked Questions</h2>
+          </div>
+
+          <div className="space-y-2.5">
+            {article.faqs?.map((faq, idx) => (
+              <div
+                key={idx}
+                className="rounded-xl border border-slate-200 bg-white overflow-hidden transition-all shadow-2xs"
+              >
+                <button
+                  type="button"
+                  onClick={() => setOpenFaq(openFaq === idx ? null : idx)}
+                  className="w-full flex items-center justify-between p-4 text-left font-semibold text-slate-900 hover:text-blue-700 hover:bg-slate-50/50 transition-colors cursor-pointer text-sm sm:text-base gap-3"
+                >
+                  <span>{faq.question}</span>
+                  <ChevronDown
+                    className={`w-4 h-4 text-slate-400 shrink-0 transition-transform duration-200 ${
+                      openFaq === idx ? 'rotate-180 text-blue-600' : ''
+                    }`}
+                  />
+                </button>
+                {openFaq === idx && (
+                  <div className="p-4 pt-1 text-slate-700 text-xs sm:text-sm leading-relaxed border-t border-slate-100 bg-slate-50/40">
+                    {faq.answer}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </section>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-10 text-slate-900">

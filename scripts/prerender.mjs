@@ -1040,6 +1040,7 @@ for (const post of BLOG_POSTS) {
     description: post.summary,
     canonical: `${DOMAIN}/blog/${post.slug}`,
     publishDate: post.publishDate || '08 Oct 2026',
+    image: post.heroImage,
     render: () => {
       return `
         ${renderSiteHeader()}
@@ -1058,6 +1059,13 @@ for (const post of BLOG_POSTS) {
               By <strong>${escapeHtml(post.author)}</strong> &bull; Verified against statutory guidelines
             </div>
           </header>
+
+          ${post.heroImage ? `
+            <div style="margin:0 0 2rem 0;border-radius:12px;overflow:hidden;border:1px solid #e2e8f0;background:#020617;max-height:480px;box-shadow:0 4px 6px -1px rgba(0,0,0,0.1);text-align:center;">
+              <img src="${escapeHtml(post.heroImage)}" alt="${escapeHtml(post.heroImageAlt || post.title)}" style="width:100%;height:auto;max-height:480px;object-fit:cover;display:block;" />
+              ${post.heroImageCaption ? `<p style="padding:0.6rem 1rem;font-size:0.75rem;color:#64748b;background:#f8fafc;margin:0;border-top:1px solid #e2e8f0;font-style:italic;">${escapeHtml(post.heroImageCaption)}</p>` : ''}
+            </div>
+          ` : ''}
 
           <article style="font-size:0.95rem;color:#334155;line-height:1.8;">
             ${post.sections.map((sec) => `
@@ -3013,7 +3021,7 @@ for (const route of ROUTES) {
     html = html.replace('</head>', `  <meta property="og:url" content="${ogUrl}" />\n</head>`);
   }
 
-  const ogImg = route.alertData?.titleImage || route.alertData?.featuredImage || `${DOMAIN}/og-image.jpg`;
+  const ogImg = route.image || route.alertData?.titleImage || route.alertData?.featuredImage || `${DOMAIN}/og-image.jpg`;
   if (html.includes('<meta property="og:image"')) {
     html = html.replace(/<meta property="og:image" content=".*?"\s*\/?>/i, `<meta property="og:image" content="${ogImg}" />`);
   } else {

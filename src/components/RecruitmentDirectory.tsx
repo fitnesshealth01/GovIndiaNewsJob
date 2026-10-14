@@ -245,9 +245,9 @@ export const RecruitmentDirectory: React.FC<RecruitmentDirectoryProps> = ({
               >
                 <div>
                   {/* Top line with metadata, category badge, countdown & bookmark */}
-                  <div className="flex items-center justify-between gap-2 mb-2.5">
-                    <div className="flex items-center flex-wrap gap-x-2 gap-y-1 text-xs text-slate-500">
-                      <span className={`text-[10px] font-bold px-2 py-0.5 rounded tracking-wide uppercase ${
+                  <div className="flex items-start justify-between gap-2 mb-2.5 min-w-0">
+                    <div className="flex items-center flex-wrap gap-x-2 gap-y-1.5 text-xs text-slate-500 min-w-0 flex-1">
+                      <span className={`text-[10px] font-bold px-2 py-0.5 rounded tracking-wide uppercase shrink-0 ${
                         item.category === 'board-exams'
                           ? 'bg-indigo-100 text-indigo-800 border border-indigo-200'
                           : item.category === 'admit-card'
@@ -261,34 +261,34 @@ export const RecruitmentDirectory: React.FC<RecruitmentDirectoryProps> = ({
                         {item.category === 'board-exams' ? 'Board Exams' : item.category === 'admit-card' ? 'Admit Card' : item.category === 'jobs' ? 'Recruitment' : item.category}
                       </span>
                       {item.status === 'verified' ? (
-                        <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
-                          <CheckCircle2 className="w-3 h-3 text-emerald-600" />
+                        <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 shrink-0">
+                          <CheckCircle2 className="w-3 h-3 text-emerald-600 shrink-0" />
                           Verified
                         </span>
                       ) : (
                         <span
-                          className="inline-flex items-center gap-1 text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-50 text-amber-800 border border-amber-200"
+                          className="inline-flex items-center gap-1 text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-50 text-amber-800 border border-amber-200 shrink-0"
                           title="This recruitment alert is being re-verified against the official commission gazette notice"
                         >
-                          <AlertCircle className="w-3 h-3 text-amber-600" />
+                          <AlertCircle className="w-3 h-3 text-amber-600 shrink-0" />
                           Under Verification
                         </span>
                       )}
-                      <span className="font-semibold text-slate-800">{item.organization}</span>
-                      <span aria-hidden="true" className="text-slate-300">·</span>
-                      <span>{item.publishDate}</span>
+                      <span className="font-semibold text-slate-800 break-words">{item.organization}</span>
+                      <span aria-hidden="true" className="text-slate-300 shrink-0">·</span>
+                      <span className="shrink-0">{item.publishDate}</span>
                       {item.postCount && (
                         <>
-                          <span aria-hidden="true" className="text-slate-300">·</span>
-                          <span className="font-semibold text-emerald-700 bg-emerald-50 px-1.5 py-0.2 rounded">{item.postCount} Posts</span>
+                          <span aria-hidden="true" className="text-slate-300 shrink-0">·</span>
+                          <span className="font-semibold text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded break-words">{item.postCount}</span>
                         </>
                       )}
                     </div>
 
-                    <div className="flex items-center gap-1.5 shrink-0">
+                    <div className="flex items-center gap-1.5 shrink-0 self-start">
                       {item.lastDate ? (
                         <span
-                          className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full flex items-center gap-1 shadow-xs ${
+                          className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full flex items-center gap-1 shadow-xs shrink-0 whitespace-nowrap ${
                             countdown.urgency === 'urgent'
                               ? 'bg-rose-100 text-rose-700 border border-rose-300 animate-pulse'
                               : countdown.urgency === 'moderate'
@@ -299,13 +299,16 @@ export const RecruitmentDirectory: React.FC<RecruitmentDirectoryProps> = ({
                           }`}
                           title={`Application Deadline: ${item.lastDate}`}
                         >
-                          <Clock className="w-3 h-3" />
+                          <Clock className="w-3 h-3 shrink-0" />
                           {countdown.label}
                         </span>
                       ) : item.examDate ? (
-                        <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200 flex items-center gap-1">
-                          <Calendar className="w-3 h-3" />
-                          Exam: {item.examDate}
+                        <span
+                          className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200 flex items-center gap-1 max-w-[170px] sm:max-w-[220px] truncate"
+                          title={`Exam Date: ${item.examDate}`}
+                        >
+                          <Calendar className="w-3 h-3 shrink-0" />
+                          <span className="truncate">Exam: {item.examDate}</span>
                         </span>
                       ) : null}
 
@@ -313,7 +316,7 @@ export const RecruitmentDirectory: React.FC<RecruitmentDirectoryProps> = ({
                         type="button"
                         onClick={(e) => handleToggleBookmark(item.id, e)}
                         title={isSaved ? 'Saved to Bookmarks' : 'Save Notification'}
-                        className={`p-1.5 rounded-lg border transition-all cursor-pointer ${
+                        className={`p-1.5 rounded-lg border transition-all cursor-pointer shrink-0 ${
                           isSaved
                             ? 'bg-blue-50 border-blue-300 text-blue-700'
                             : 'border-slate-200 text-slate-400 hover:text-slate-700 hover:bg-slate-50'
@@ -327,6 +330,18 @@ export const RecruitmentDirectory: React.FC<RecruitmentDirectoryProps> = ({
                       </button>
                     </div>
                   </div>
+
+                  {/* Card Thumbnail if present */}
+                  {(item.titleImage || item.featuredImage) && (
+                    <div className="w-full h-36 overflow-hidden rounded-lg border border-slate-100 bg-slate-900 mb-2.5">
+                      <img
+                        src={item.titleImage || item.featuredImage}
+                        alt={item.title}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        loading="lazy"
+                      />
+                    </div>
+                  )}
 
                   {/* Card Title */}
                   <h3 className="text-base font-bold text-slate-900 group-hover:text-blue-600 transition-colors leading-snug">

@@ -24,6 +24,7 @@ import {
   injectSchema,
 } from '../utils/seoSchema';
 import { PhysicalFitnessCountdown } from './tools/PhysicalFitnessCountdown';
+import { UPBoardGapDayCalculator } from './tools/UPBoardGapDayCalculator';
 
 interface BlogViewProps {
   slug?: string;
@@ -72,7 +73,8 @@ export const BlogView: React.FC<BlogViewProps> = ({ slug, onNavigate }) => {
           },
         },
         datePublished: '2026-10-01T08:00:00+05:30',
-        dateModified: '2026-10-06T08:00:00+05:30',
+        dateModified: '2026-10-13T08:00:00+05:30',
+        image: post.heroImage || 'https://govindianews.com/og-image.png',
         mainEntityOfPage: {
           '@type': 'WebPage',
           '@id': `https://govindianews.com/blog/${post.slug}`,
@@ -176,6 +178,16 @@ export const BlogView: React.FC<BlogViewProps> = ({ slug, onNavigate }) => {
               className="bg-white rounded-2xl border border-slate-200 p-6 hover:border-blue-400 hover:shadow-md transition-all cursor-pointer space-y-4 flex flex-col justify-between group"
             >
               <div className="space-y-3">
+                {item.heroImage && (
+                  <div className="w-full h-44 overflow-hidden rounded-xl border border-slate-100 bg-slate-900">
+                    <img
+                      src={item.heroImage}
+                      alt={item.heroImageAlt || item.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      loading="lazy"
+                    />
+                  </div>
+                )}
                 <div className="flex items-center justify-between text-xs text-slate-500">
                   <span
                     className={`font-bold px-2 py-0.5 rounded text-[11px] ${
@@ -319,9 +331,31 @@ export const BlogView: React.FC<BlogViewProps> = ({ slug, onNavigate }) => {
         </div>
       </div>
 
+      {/* Title Hero Image (Direct URL) */}
+      {post.heroImage && (
+        <div className="overflow-hidden rounded-2xl border border-slate-200 bg-slate-900 shadow-xs">
+          <img
+            src={post.heroImage}
+            alt={post.heroImageAlt || post.title}
+            className="w-full h-auto max-h-[500px] object-cover object-center"
+            loading="eager"
+          />
+          {post.heroImageCaption && (
+            <div className="bg-slate-50 border-t border-slate-200 px-4 py-2.5 text-xs text-slate-600 italic text-center">
+              {post.heroImageCaption}
+            </div>
+          )}
+        </div>
+      )}
+
       {/* Embedded Physical Fitness Test Countdown Widget (if Fitness category) */}
       {post.category === 'fitness' && (
         <PhysicalFitnessCountdown onNavigate={onNavigate} embedded={true} />
+      )}
+
+      {/* Embedded UP Board Science Gap-Day Planner Tool */}
+      {post.slug === 'up-board-2027-class-12-science-gap-day-revision-plan' && (
+        <UPBoardGapDayCalculator onNavigate={onNavigate} embedded={true} />
       )}
 
       {/* Main Content Sections */}

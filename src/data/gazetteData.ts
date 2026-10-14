@@ -267,6 +267,87 @@ export interface PYQQuestion {
 
 export const RECRUITMENT_ALERTS: RecruitmentAlert[] = [
   {
+    "id": "up-board-2027-class-12-science-gap-day-revision-plan",
+    "slug": "up-board-2027-class-12-science-gap-day-revision-plan",
+    "category": "board-exams",
+    "title": "UP Board 2027 Class 12 Science: Gap-Day Revision Plan for PCM and PCB",
+    "seoTitle": "UP Board 2027 Class 12 Science Gap-Day Revision Plan (PCM & PCB)",
+    "metaDescription": "UP Board 2027 exams run 5–24 Feb. See exactly how many free days Class 12 Science students get between Hindi, English, Maths/Biology, Chemistry and Physics, and how to use each one.",
+    "primaryKeyword": "UP Board 2027 Class 12 revision plan",
+    "featuredImage": "https://i.ibb.co/4ZqpwCPY/1dcf9bba-10ba-4916-b2ee-a53345a3bfc3-1.png",
+    "titleImage": "https://i.ibb.co/4ZqpwCPY/1dcf9bba-10ba-4916-b2ee-a53345a3bfc3-1.png",
+    "secondaryKeywords": [
+      "UP Board time table 2027 class 12",
+      "UP Board 2027 PCM strategy",
+      "UP Board 2027 PCB strategy",
+      "UP Board exam date 2027",
+      "UPMSP 2027 Intermediate Science"
+    ],
+    "organization": "Uttar Pradesh Madhyamik Shiksha Parishad (UPMSP)",
+    "examName": "UP Board Class 12 Intermediate Examination 2027 (Science Stream)",
+    "postCount": "~24.3 Lakh Candidates",
+    "publishDate": "13 Oct 2026",
+    "examDate": "5–24 Feb 2027 (Afternoon)",
+    "qualification": "Class 12 Intermediate Science (PCM / PCB Stream)",
+    "qualificationTier": "12th",
+    "sector": "other",
+    "fees": "Included in Board Registration Fee",
+    "sourceNotice": {
+      "title": "UPMSP Prayagraj Official Timetable Notice — High School & Intermediate Examination 2027",
+      "url": "https://upmsp.edu.in",
+      "checkedOn": "13 Oct 2026"
+    },
+    "verifiedBy": "Akash Singh Solanki (Founder & Editor)",
+    "status": "verified",
+    "author": "Akash Singh Solanki",
+    "reviewedDate": "13 Oct 2026, 17:00 IST",
+    "readTime": "18 min read",
+    "summary": "UP Board 2027 exams run 5–24 Feb. See exactly how many free days Class 12 Science students get between Hindi, English, Maths/Biology, Chemistry and Physics, and how to use each one.",
+    "linkText": "View Official UPMSP 2027 Timetable at upmsp.edu.in",
+    "quickFacts": [
+      { "detail": "Board Authority", "information": "Uttar Pradesh Madhyamik Shiksha Parishad (UPMSP Prayagraj)" },
+      { "detail": "Exam Dates", "information": "5 February to 24 February 2027" },
+      { "detail": "Science Shift", "information": "Afternoon Shift: 2:00 PM to 5:15 PM (3 hrs 15 mins)" },
+      { "detail": "Total Registered", "information": "~52 Lakh students (~24.3 Lakh Class 12, ~27.8 Lakh Class 10)" },
+      { "detail": "Critical Bottleneck", "information": "1 single day gap between Chemistry (15 Feb) and Physics (17 Feb)" },
+      { "detail": "Longest Gap", "information": "3 free days (9–11 Feb) before Mathematics / Biology" },
+      { "detail": "Reading Time", "information": "15 minutes question paper reading window included" },
+      { "detail": "Official Portal", "information": "upmsp.edu.in" }
+    ],
+    "importantDates": [
+      { "event": "Official Timetable Release", "date": "October 2026" },
+      { "event": "Class 12 Practical Exams", "date": "January 2027 (Two Phases)" },
+      { "event": "Hindi Exam", "date": "Friday, 5 February 2027 (2:00 pm – 5:15 pm)" },
+      { "event": "English Exam", "date": "Monday, 8 February 2027 (2:00 pm – 5:15 pm)" },
+      { "event": "Mathematics / Biology Exam", "date": "Friday, 12 February 2027 (2:00 pm – 5:15 pm)" },
+      { "event": "Chemistry Exam", "date": "Monday, 15 February 2027 (2:00 pm – 5:15 pm)" },
+      { "event": "Physics Exam (Final Science)", "date": "Wednesday, 17 February 2027 (2:00 pm – 5:15 pm)" },
+      { "event": "Board Exams Conclude", "date": "Wednesday, 24 February 2027" }
+    ],
+    "faqs": [
+      {
+        "question": "What are the exact exam shifts for UP Board 2027 Class 12 Science?",
+        "answer": "All core Class 12 Science papers (Hindi, English, Mathematics/Biology, Chemistry, and Physics) are conducted in the afternoon shift from 2:00 pm to 5:15 pm. Each paper lasts 3 hours 15 minutes, which includes 15 minutes for reading the question paper."
+      },
+      {
+        "question": "Is the 15-minute question paper reading time included in the total duration?",
+        "answer": "Yes. The total examination time is 3 hours and 15 minutes (2:00 pm to 5:15 pm). The first 15 minutes are strictly designated for reading and reviewing the question paper, after which answer writing commences."
+      },
+      {
+        "question": "How should students handle the 1-day gap between Chemistry and Physics?",
+        "answer": "Do not attempt to learn any new topic on 16 February. Complete all extensive Physics revisions before 15 February. Use the single gap day exclusively for formula review, ray diagrams, and solving key numerical types from modern physics and electromagnetism."
+      },
+      {
+        "question": "Are calculators permitted in UP Board Class 12 examinations?",
+        "answer": "No. Electronic calculators, smartwatches, and programmable devices are strictly prohibited in UPMSP examination centers. All logarithmic tables or required constants are provided directly within the question paper."
+      },
+      {
+        "question": "When will UP Board Class 12 Science practical examinations be conducted?",
+        "answer": "UPMSP typically conducts Class 12 Intermediate practical examinations in two phases during January 2027 across different geographic divisions of Uttar Pradesh under external examiners appointed by the Board."
+      }
+    ]
+  },
+  {
     "id": "ugc-net-december-2026-application-form",
     "slug": "ugc-net-december-2026-application-form-last-date-fee-eligibility",
     "category": "nta-exams",

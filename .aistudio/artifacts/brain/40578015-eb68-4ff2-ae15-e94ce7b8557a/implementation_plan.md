@@ -1,96 +1,88 @@
-# Implementation Plan: In-App Interactive AdSense Pre-Flight Auditor & Compliance Dashboard
+# Implementation Plan: UP Board 2027 Class 12 Science Gap-Day Revision Plan
 
-## 1. Executive Summary & Product Architecture
-
-To provide real-time verification and prevent AdSense rejections, we are building a dedicated **In-App Interactive AdSense Pre-Flight Auditor & Compliance Suite** (`/adsense-auditor` and `/trust/adsense-audit`). 
-
-This dashboard serves as an automated editorial gatekeeper and live inspector for candidates, reviewers, and publishers, validating that all routes across **GovIndiaNews** (recruitment alerts, admit cards, candidate calculators, exam blueprints, blog articles, and statutory legal pages) strictly satisfy Google AdSense Program Policies, Google Publisher Policies, Search Essentials, and E-E-A-T quality standards.
-
-```
-+--------------------------------------------------------------------------------------------------+
-|                              GovIndiaNews Trust & Compliance Center                               |
-|                               /adsense-auditor · /trust/adsense-audit                            |
-+--------------------------------------------------------------------------------------------------+
-| [Site-Wide Health Score: 100% (A+)]  [Zero Fatal Rejection Factors]  [112 Pre-rendered Routes]  |
-+--------------------------------------------------------------------------------------------------+
-|  [ 1. Live Route Inspector ]       [ 2. Auto Ads Simulator ]       [ 3. Publisher Review Dossier ]|
-|  - Dropdown across all 112 URLs    - Simulated In-Article Units   - AdSense Console Declaration  |
-|  - Real-time word count & headings - Viewport CLS safeguards      - DoPT / Gazette Audit Trail   |
-|  - Non-Gov disclaimer check        - Accidental click prevention  - 1-click clipboard export     |
-|  - Author attribution verification - Mobile sticky anchor safety  - Policy cross-reference log   |
-+--------------------------------------------------------------------------------------------------+
-```
+Integrate the official **UP Board 2027 Class 12 Science: Gap-Day Revision Plan for PCM and PCB** into GovIndiaNews, using the direct ImgBB image URL for the title image, with cross-category discovery across both the **Articles Knowledge Base** (`/blog`) and **Board Exams Hub** (`/board-exams`), and an embedded **Interactive Gap-Day Countdown & Subject Planner**.
 
 ---
 
-## 2. User Journey & Architectural Specifications
+## 1. Executive Summary & SEO Architecture
 
-### 2.1 Route Selection & Live Route Inspector
-- **Route Switcher**: Interactive selector covering every published route category:
-  - Recruitment Notices (e.g. SSC CGL Tier 1, UPSC Civil Services, RRB NTPC, UP Police).
-  - Live Hubs & Directories (`/jobs`, `/admit-card`, `/cut-off`, `/answer-key`, `/result`, `/archive`).
-  - Candidate Utilities (`/tools/salary`, `/tools/photo-checker`, `/tools/marking`, `/tools/age`, `/tools/rank`).
-  - 15 Exam Blueprints (`/exams/ssc-cgl`, `/exams/rrb-alp`, `/exams/upsc-cse`).
-  - Knowledge Base & Masterclasses (`/blog/army-1600-meter-running-time`, `/blog/central-government-7th-cpc-salary-rules`).
-  - Statutory Legal & E-E-A-T Pages (`/editorial-policy`, `/fact-checking`, `/corrections`, `/privacy`, `/about`, `/grievance-redressal`).
-  - 404 Error Recovery Template (`/404`).
-- **Audit Metrics Evaluated in Real-Time**:
-  1. **Content Depth & Value**: Word count validation (Articles $\ge 1,200$ words, Guides $\ge 1,000$ words, Tools $\ge 400$ words), heading hierarchy check (single `<h1>`, logical `<h2>`/`<h3>`), tabular data density.
-  2. **Anti-Misrepresentation & Domain Safeguards**: Confirms presence of the statutory "Non-Government Private Entity" badge, independence disclosure, and absence of misleading government impersonation titles.
-  3. **Navigation & Dead-End Elimination**: Validates breadcrumbs, canonical URL, and verified internal cross-links ($\ge 10$ internal links per route).
-  4. **E-E-A-T & Authorship**: Validates Founder & Editor *Akash Singh Solanki* author lockup, last-reviewed timestamps, and primary `.gov.in` / `.nic.in` commission citations.
-  5. **Accidental Click & CTA Isolation**: Verifies that official portal buttons are explicitly tagged (`External Official Server: [authority]`) and separated from potential ad injection areas.
+- **Article Title**: UP Board 2027 Class 12 Science: Gap-Day Revision Plan for PCM and PCB
+- **Meta Title**: UP Board 2027 Class 12 Science Gap-Day Revision Plan (PCM & PCB) — GovIndiaNews
+- **Meta Description**: UP Board 2027 exams run 5–24 Feb. See exactly how many free days Class 12 Science students get between Hindi, English, Maths/Biology, Chemistry and Physics, and how to use each one.
+- **Keywords**: UP Board 2027 Class 12 revision plan, UP Board time table 2027 class 12, UP Board 2027 PCM strategy, UP Board 2027 PCB strategy, UP Board exam date 2027
+- **Primary Canonical URL**: `https://govindianews.com/blog/up-board-2027-class-12-science-gap-day-revision-plan`
+- **Secondary Discovery Route**: `/article/up-board-2027-class-12-science-gap-day-revision-plan` and featured card in `/board-exams` directory
+- **Direct Title Image URL**: `https://i.ibb.co/4ZqpwCPY/1dcf9bba-10ba-4916-b2ee-a53345a3bfc3-1.png` (high-resolution direct ImgBB asset used directly for hero display and OpenGraph/Twitter cards)
+- **Word Count & Depth**: ~2,000+ words with full phase blueprints, subject-specific derivation guidelines, gap-day hour allocations, structured data tables, and FAQ schemas
 
-### 2.2 Google Auto Ads Placement Simulator
-- Simulates how Google Auto Ads will populate without triggering policy penalties:
-  - **In-Page Display Units**: Responsive slots framed with subtle `#E2E8F0` hairline borders, labeled with uppercase `ADVERTISEMENT` text, and padded to avoid layout shift (CLS).
-  - **Auto Ads Collision Prevention**: Visualizes the safe buffer zones around "Download Call Letter" or "Apply Online" CTAs, guaranteeing at least 24px clearance.
-  - **Mobile Anchor & Vignette Safeguards**: Confirms non-interfering positioning relative to the sticky header and bottom candidate bookmark bar.
+---
 
-### 2.3 Formal AdSense Submission Dossier
-- Generates a ready-to-submit verification statement for the Google AdSense site approval team:
-  - Site URL, Founder/Editor identification, and domain verification.
-  - E-E-A-T policy compliance breakdown (Primary source validation against `egazette.gov.in`).
-  - Privacy policy and cookie consent compliance with Google DoubleClick DART and DPDP/GDPR directives.
-  - 1-click "Copy Submission Text" button.
+## 2. Interactive Study Tool: UP Board Science Gap-Day Planner
+
+Embed a responsive, accessible React utility (`src/components/tools/UPBoardGapDayCalculator.tsx`) inside the article:
+1. **Stream Selector**: Toggle between **PCM (Mathematics)** and **PCB (Biology)**.
+2. **Live Countdown Timers**:
+   - Hindi (Fri 5 Feb 2027, Afternoon Shift)
+   - English (Mon 8 Feb 2027, Afternoon Shift)
+   - Maths / Biology (Fri 12 Feb 2027, Afternoon Shift)
+   - Chemistry (Mon 15 Feb 2027, Afternoon Shift)
+   - Physics (Wed 17 Feb 2027, Afternoon Shift)
+3. **Dynamic Gap-Day Visualizer**:
+   - Visual timeline displaying the 2-day, 3-day, 2-day, and 1-day gaps with color-coded intensity flags (e.g. Critical 1-day Chemistry $\to$ Physics warning).
+4. **Interactive Action Checklist**:
+   - Checkboxes for each gap-day phase (6–7 Feb English & Science warm-up, 9–11 Feb Maths/Bio timed sprint, 13–14 Feb Chemistry reaction charts, 16 Feb Physics recall & derivation pass).
+5. **Print & Offline PDF Export**:
+   - One-click button to print or save the personalized gap-day study schedule.
 
 ---
 
 ## 3. Step-by-Step Implementation Roadmap
 
-### Phase 1: Interactive Auditor Component Architecture
-- Create `src/components/AdSenseAuditor.tsx`:
-  - Full-featured, responsive auditor view with tabs: "Route Audit", "Auto Ads Simulator", and "Publisher Dossier".
-  - Pre-loaded comprehensive dataset indexing all 112 routes with word counts, category classifications, and policy compliance checkpoints.
-  - Interactive live analysis engine calculating compliance percentages, grade status, and zero-defect confirmations.
+### Phase 1: Data Modeling & Content Registration
+- Update `src/content/blogData.ts`:
+  - Extend `BlogPost` interface to support optional `heroImage`, `heroImageAlt`, `heroImageCaption`.
+  - Add the complete `up-board-2027-class-12-science-gap-day-revision-plan` entry with all sections, tables (Countdown from 13 Oct, Gap Days sequence), phase plans, subject tips, common mistakes, Class 10 notes, and 5 structured FAQs.
+  - Set `heroImage: 'https://i.ibb.co/4ZqpwCPY/1dcf9bba-10ba-4916-b2ee-a53345a3bfc3-1.png'`.
+  - Set category to `'exam-prep'` with category label `'Board Exams & Strategy'`.
+- Update `src/data/gazetteData.ts`:
+  - Add matching recruitment/notification alert under category `'board-exams'` with the direct image URL, so the article appears on the homepage live ticker and the `/board-exams` category directory.
 
-### Phase 2: Navigation & Routing Integration
-- Wire `/adsense-auditor` and `/trust/adsense-audit` in `src/App.tsx`.
-- Update `isKnownRoute` in `src/App.tsx` to recognize both routes.
-- Add navigation access points:
-  - Header: Link inside the Tools and Trust dropdown menus.
-  - Footer: Link under the "Trust & E-E-A-T" column.
-  - TrustHub: Direct tab/link to the AdSense Auditor.
+### Phase 2: Interactive Study Component
+- Create `src/components/tools/UPBoardGapDayCalculator.tsx`:
+  - PCM vs PCB stream toggle.
+  - Live clock/countdown calculations.
+  - Color-coded gap warnings with study hour recommendations.
+  - LocalStorage persistence for candidate checklist items.
 
-### Phase 3: Prerender & Crawler Synchronization
+### Phase 3: Article Template & Image Integration
+- Update `src/components/BlogView.tsx`:
+  - Render the hero image banner using the direct image URL `https://i.ibb.co/4ZqpwCPY/1dcf9bba-10ba-4916-b2ee-a53345a3bfc3-1.png` with responsive sizing, rounded borders, and clean caption.
+  - Conditionally embed `<UPBoardGapDayCalculator />` for the UP Board article.
+  - Update OpenGraph and Twitter card meta tags to include `image: post.heroImage`.
+- Update `src/components/BoardExamsView.tsx` / `RecruitmentDirectory.tsx` to highlight this featured guide.
+
+### Phase 4: Prerender & SEO Synchronization
 - Update `scripts/prerender.mjs`:
-  - Register `/adsense-auditor` and `/trust/adsense-audit` in `ROUTES` with full semantic pre-rendered HTML, canonical tags, and structured schema.
-- Re-run `npm run build` and regenerate pre-rendered HTML for all routes.
+  - Add `/blog/up-board-2027-class-12-science-gap-day-revision-plan` and alias `/article/up-board-2027-class-12-science-gap-day-revision-plan`.
+  - Include OpenGraph `og:image` pointing directly to `https://i.ibb.co/4ZqpwCPY/1dcf9bba-10ba-4916-b2ee-a53345a3bfc3-1.png`.
+  - Inject JSON-LD schemas: `BlogPosting`, `FAQPage`, and `BreadcrumbList`.
+  - Pre-render complete semantic tables, headers, and meta description.
 
-### Phase 4: Quality & Integrity Gate
-- Run `node scripts/quality-check.mjs` to ensure zero forbidden phrases and valid structured data.
-- Run `node scripts/verify-crawl.mjs` ensuring all routes pass crawl integrity and link resolution.
-- Run `compile_applet` to verify clean TypeScript compilation.
+### Phase 5: Verification & Quality Gate
+- Run `npm run build` to verify Vite bundling, prerendering, and static file generation.
+- Run `node scripts/verify-crawl.mjs` ensuring all routes (now 116 routes) pass 100%.
+- Run `node scripts/quality-check.mjs` verifying clean SEO, absence of forbidden phrases, and valid structured data.
+- Run `compile_applet` to confirm zero TypeScript or bundling errors.
 
 ---
 
 ## 4. Verification Checklist
 
-- [x] Interactive Auditor Component (`src/components/AdSenseAuditor.tsx`) built with zero dead clicks and WCAG AA contrast.
-- [x] Route Switcher allows inspecting all 114 URLs with real-time audit metric breakdowns.
-- [x] Auto Ads Placement Simulator shows safe ad margin containers with zero layout shift (CLS).
-- [x] One-click exportable AdSense Review Dossier with copy-to-clipboard functionality.
-- [x] Header, Footer, and TrustHub updated with accessible links.
-- [x] Prerender script updated to generate static HTML for `/adsense-auditor` and `/trust/adsense-audit`.
-- [x] Verification scripts pass 100% with zero errors (114/114 routes passed).
-- [x] `compile_applet` succeeds without errors or warnings.
+- [x] Direct image URL `https://i.ibb.co/4ZqpwCPY/1dcf9bba-10ba-4916-b2ee-a53345a3bfc3-1.png` assigned to the article's `heroImage` and OpenGraph metadata.
+- [x] Article registered in `src/content/blogData.ts` with all headings, tables, phase plans, and FAQs.
+- [x] Notification alert added to `src/data/gazetteData.ts` for `/board-exams` listing.
+- [x] Interactive `UPBoardGapDayCalculator` component created with PCM/PCB toggles and gap checklist.
+- [x] Hero image rendered cleanly in `BlogView.tsx` with responsive layout and semantic markup.
+- [x] `scripts/prerender.mjs` updated with full static HTML pre-rendering.
+- [x] Build, verify-crawl, and quality-check scripts pass with zero errors.
+- [x] `compile_applet` succeeds without errors.

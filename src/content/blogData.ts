@@ -38,6 +38,9 @@ export interface BlogPost {
   checklistItems?: string[];
   faqs?: Array<{ question: string; answer: string }>;
   relatedSlugs?: string[];
+  heroImage?: string;
+  heroImageAlt?: string;
+  heroImageCaption?: string;
 }
 
 export const BLOG_POSTS: BlogPost[] = [
@@ -867,5 +870,226 @@ Upon completion of 4 years, demobilized Agniveers receive approximately ₹11.71
       }
     ],
     relatedSlugs: ['army-1600-meter-running-time-agniveer-pft-standards', 'top-central-government-schemes-for-job-seekers-pmkvy-naps-employment']
+  },
+  {
+    slug: 'up-board-2027-class-12-science-gap-day-revision-plan',
+    title: 'UP Board 2027 Class 12 Science: Gap-Day Revision Plan for PCM and PCB',
+    category: 'exam-prep',
+    categoryLabel: 'Board Exams & Strategy',
+    readingTime: '18 min read',
+    publishDate: '13 October 2026',
+    author: 'Akash Singh Solanki, Founder and Editor',
+    heroImage: 'https://i.ibb.co/4ZqpwCPY/1dcf9bba-10ba-4916-b2ee-a53345a3bfc3-1.png',
+    heroImageAlt: 'UP Board 2027 Class 12 Science Gap-Day Revision Plan for PCM and PCB',
+    heroImageCaption: 'Official UPMSP 2027 Intermediate Science Timetable Gap Analysis — Strategic 5-Phase Plan for Physics, Chemistry, Maths & Biology',
+    summary: 'UP Board 2027 exams run 5–24 Feb. See exactly how many free days Class 12 Science students get between Hindi, English, Maths/Biology, Chemistry and Physics, and how to use each one.',
+    tags: [
+      'UP Board 2027 Class 12 revision plan',
+      'UP Board time table 2027 class 12',
+      'UP Board 2027 PCM strategy',
+      'UP Board 2027 PCB strategy',
+      'UP Board exam date 2027',
+      'UPMSP Intermediate Science 2027'
+    ],
+    sections: [
+      {
+        heading: '1. Overview: The 2027 UPMSP Intermediate Science Schedule',
+        content: `The Uttar Pradesh Madhyamik Shiksha Parishad (UPMSP) has officially published the High School (Class 10) and Intermediate (Class 12) examination timetable for 2027. Both Class 10 and Class 12 examinations are scheduled to run from 5 February to 24 February 2027 across two distinct shifts: the morning shift from 8:30 am to 11:45 am, and the afternoon shift from 2:00 pm to 5:15 pm.
+
+Each paper carries a testing duration of 3 hours and 15 minutes, which includes an initial 15-minute dedicated reading window to review the question paper, verify question choices, and devise an optimal time-budgeting strategy. Official administrative reports indicate that approximately 52 lakh students have registered for the 2027 board cycle, comprising roughly 27.8 lakh candidates in Class 10 and 24.3 lakh candidates in Class 12.
+
+Most online publications simply republish the raw calendar of dates. However, for a Class 12 Science aspirant pursuing either the Physics-Chemistry-Mathematics (PCM) or Physics-Chemistry-Biology (PCB) stream, the single most critical tactical question is: how many free preparation days do you actually get between each paper, and what is the smartest, most mathematically sound way to allocate your study hours?
+
+Furthermore, the 2027 schedule window is significantly tighter than the previous year. In 2026, the examinations extended from 18 February to 12 March. The compressed 2027 timeframe leaves less breathing space between papers, making proactive calendar planning an absolute prerequisite for scoring 90%+ marks.`
+      },
+      {
+        heading: '2. Countdown from 13 October 2026: Time Remaining',
+        content: `From 13 October 2026, the countdown to your primary Class 12 science papers provides a clear strategic runway. With roughly 16 to 18 weeks before the commencement of testing, there is sufficient buffer to achieve thorough conceptual mastery—provided you plan systematically in structured phases rather than postponing intensive revision until January.`,
+        table: {
+          title: 'Class 12 Science Countdown from 13 October 2026',
+          caption: 'Countdown to Core Intermediate Science Examination Dates',
+          headers: ['Subject Paper', 'Exam Date & Day', 'Shift', 'Days from 13 Oct 2026', 'Preparation Runway'],
+          rows: [
+            ['General Hindi / Sahityik Hindi', 'Friday, 5 February 2027', 'Afternoon (2:00 pm – 5:15 pm)', '115 Days', '~16.4 Weeks'],
+            ['English', 'Monday, 8 February 2027', 'Afternoon (2:00 pm – 5:15 pm)', '118 Days', '~16.8 Weeks'],
+            ['Mathematics (PCM) / Biology (PCB)', 'Friday, 12 February 2027', 'Afternoon (2:00 pm – 5:15 pm)', '122 Days', '~17.4 Weeks'],
+            ['Chemistry', 'Monday, 15 February 2027', 'Afternoon (2:00 pm – 5:15 pm)', '125 Days', '~17.8 Weeks'],
+            ['Physics', 'Wednesday, 17 February 2027', 'Afternoon (2:00 pm – 5:15 pm)', '127 Days', '~18.1 Weeks']
+          ]
+        }
+      },
+      {
+        heading: '3. The Real Gaps Between Your Papers: Critical Bottlenecks',
+        content: `All core science examinations for both PCM and PCB cohorts are slated for the afternoon shift (2:00 pm to 5:15 pm). A careful analysis of the dates reveals the real gap days available for last-mile revision.`,
+        table: {
+          title: 'Intermediate Science Examination Sequence and Free Gap Days',
+          caption: 'Breakdown of free revision days between consecutive science examination papers',
+          headers: ['Paper', 'Exam Date & Shift', 'Free Days Before Next Paper', 'Strategic Risk Level'],
+          rows: [
+            ['Hindi', 'Fri 5 Feb (2:00 pm – 5:15 pm)', '2 Days (Sat 6, Sun 7 Feb)', 'Moderate: Essential for English grammar and essay formatting'],
+            ['English', 'Mon 8 Feb (2:00 pm – 5:15 pm)', '3 Days (Tue 9, Wed 10, Thu 11 Feb)', 'Advantageous: Longest gap in the entire science schedule'],
+            ['Mathematics / Biology', 'Fri 12 Feb (2:00 pm – 5:15 pm)', '2 Days (Sat 13, Sun 14 Feb)', 'Moderate: Requires dedicated organic chemistry conversion drill'],
+            ['Chemistry', 'Mon 15 Feb (2:00 pm – 5:15 pm)', '1 Day (Tue 16 Feb)', 'CRITICAL: Severe bottleneck before high-derivation Physics'],
+            ['Physics', 'Wed 17 Feb (2:00 pm – 5:15 pm)', 'Final Science Paper', 'High: Cumulative mental fatigue risk']
+          ]
+        },
+        subsections: [
+          {
+            subheading: 'Critical Finding 1: Chemistry to Physics is Only One Day',
+            body: `You cannot rely on the single gap day (Tuesday, 16 February) to learn or re-learn Physics. Class 12 Physics is heavily derivation-intensive and loaded with ray optics diagrams and modern physics numerical problems. Physics must be thoroughly revised and locked in by 15 February. The single gap day on 16 February must be reserved strictly for a rapid formula pass, reviewing ray diagrams, and memorizing standard definitions.`
+          },
+          {
+            subheading: 'Critical Finding 2: The Longest Gap (3 Days) Precedes Mathematics / Biology',
+            body: `The 3-day window from Tuesday 9 February to Thursday 11 February represents your most valuable tactical asset. Use this extended buffer for your most demanding, high-weight topics. For PCM students, this means tackling Calculus (Integration, Differential Equations, and Definite Integrals) and 3D Geometry. For PCB students, this window must be deployed on Genetics, Biotechnology processes, and complex biological diagrams.`
+          },
+          {
+            subheading: 'Critical Finding 3: Physics is the Final Test of Stamina',
+            body: `After completing four rigorous papers (Hindi, English, Maths/Bio, and Chemistry), cognitive fatigue peaks. Many students drop marks in Physics simply due to burnout and sleep deprivation. Structuring adequate rest and maintaining disciplined sleep cycles during the 13–16 February window is as important as formula memorization.`
+          }
+        ]
+      },
+      {
+        heading: '4. Four-Phase Master Plan: 13 October to 5 February',
+        content: `To enter the examination hall with peak confidence, divide your preparation into four progressive, non-overlapping phases:`,
+        subsections: [
+          {
+            subheading: 'Phase 1: Syllabus Completion (13 October to 30 November — ~7 Weeks)',
+            body: `The primary objective of Phase 1 is zero conceptual debt. Ensure that every single chapter of the prescribed NCERT and UPMSP syllabus has been thoroughly studied at least once.
+• Clear any persistent theoretical backlogs in Optics, Electromagnetic Induction, Organic Chemistry reaction mechanisms, and Integration.
+• Compile personal one-page formula sheets and reaction roadmaps for each chapter.
+• Ensure all school practical files and laboratory notebooks are fully completed and signed by teachers before practical examinations commence.`
+          },
+          {
+            subheading: 'Phase 2: First Full Revision & Chapter-wise PYQs (1 December to 31 December — ~4.5 Weeks)',
+            body: `Shift focus from passive reading to active problem-solving using past UP Board papers from 2020 through 2026.
+• Solve at least the last 5 years of board question papers for each subject under untimed chapter-wise conditions.
+• Identify repetitive high-yield questions: Gauss Law applications, Lens Maker formula, Biot-Savart Law derivations, Aldol and Cannizzaro reactions, and DNA replication mechanisms.
+• Create a "Mistake Logbook" where you record every calculation slip or forgotten condition.`
+          },
+          {
+            subheading: 'Phase 3: Pre-Board Exams & Timed Full-Length Mocks (1 January to 20 January — ~3 Weeks)',
+            body: `Condition your mind and handwriting speed to the exact parameters of the UPMSP board examination.
+• Take at least 3 full-length timed mock tests per subject strictly between 2:00 pm and 5:15 pm to align your circadian rhythm with the afternoon shift.
+• Practice using official ruled board answer sheets. Emphasize neat question numbering, drawn margins, step-wise formula statements, and circled final answers with units.
+• Balance school pre-board exam schedules with self-study so you do not burn out.`
+          },
+          {
+            subheading: 'Phase 4: Final Sprint & Hindi Priority Warm-Up (21 January to 4 February — ~2 Weeks)',
+            body: `The final two weeks require strategic triage:
+• Dedicate the last 5 days (1 to 4 February) predominantly to General Hindi / Sahityik Hindi. Scoring 95+ in Hindi sets an indelible psychological tone for the rest of the board season.
+• Review Sanskrit Khand passages, character sketches (Charitra Chitran), literary history, and grammar rules (Ras, Chhand, Alankar).
+• Conduct rapid 30-minute daily formula reviews for Physics and Chemistry to prevent conceptual fading.`
+          }
+        ]
+      },
+      {
+        heading: '5. Gap-by-Gap Tactical Blueprint During Exam Period',
+        content: `Once exams begin on 5 February, execute this hourly roadmap for each interval:`,
+        subsections: [
+          {
+            subheading: 'Gap 1: 6–7 February (2 Days between Hindi and English)',
+            body: `• Day 1 (Saturday, 6 Feb): Morning: Complete revision of Flamingo prose and poetry, noting key poetic devices and central themes. Afternoon: Vistas chapters and core character insights. Evening (Bonus 2-Hour Science Maintenance): Spend 2 hours reviewing Physics Ray Optics derivations or Chemistry Electrochemistry numericals.
+• Day 2 (Sunday, 7 Feb): Morning: Formal letter writing, report/article formats, and comprehension strategies. Afternoon: Grammar rules (Synthesis, Transformation, Syntax, Idioms). Evening: Review one complete model paper and rest early by 10:00 pm.`
+          },
+          {
+            subheading: 'Gap 2: 9–11 February (3 Days between English and Maths / Biology)',
+            body: `• Day 1 (Tuesday, 9 Feb) — High-Yield Core: For PCM: Indefinite and Definite Integrals, Differential Equations, Applications of Integrals. For PCB: Genetics (Mendelian ratios, Chromosomal theory, DNA packaging, Transcription, Translation).
+• Day 2 (Wednesday, 10 Feb) — Structural Topics: For PCM: Vectors, 3D Geometry (shortest distance between skew lines, plane equations), Matrices & Determinants. For PCB: Biotechnology Principles and Applications, Human Health and Diseases.
+• Day 3 (Thursday, 11 Feb) — Full Simulation & Diagrams: For PCM: Linear Programming, Relations and Functions, Probability (Bayes Theorem). For PCB: Labeled diagrams of Male/Female reproductive systems, pollen grain, and ecological pyramids. Conduct a 2-hour timed run from 2:00 pm to 4:00 pm.`
+          },
+          {
+            subheading: 'Gap 3: 13–14 February (2 Days between Maths/Bio and Chemistry)',
+            body: `• Day 1 (Saturday, 13 Feb) — Organic Chemistry Sprint: Focus exclusively on name reactions: Aldol condensation, Cross-aldol, Cannizzaro, Reimer-Tiemann, Kolbe, Sandmeyer, and Hoffmann bromamide. Practice organic conversions and chemical tests to distinguish pairs (e.g. Lucas test, Iodoform test, Tollens test).
+• Day 2 (Sunday, 14 Feb) — Physical & Inorganic Core: Solutions (Colligative properties and van 't Hoff factor), Electrochemistry (Nernst equation numericals), Chemical Kinetics (First-order rate constant integrated equations), and Coordination Compounds (IUPAC nomenclature, CFT splitting, and isomerism).
+• CRITICAL EVENING ACTION: Dedicate 90 minutes on Sunday evening to review your Physics master formula sheet. Because Monday night leads directly into Physics, this pre-pass is your insurance policy.`
+          },
+          {
+            subheading: 'Gap 4: 16 February (1 Single Day between Chemistry and Physics)',
+            body: `This is the most dangerous bottleneck of the UP Board schedule. Do not attempt any new theory.
+• Post-Chemistry Evening (Monday, 15 Feb): Rest from 5:30 pm to 7:30 pm. From 8:00 pm to 10:30 pm, revise Optics ray diagrams (Astronomical telescope, Compound microscope, Lens maker derivation) and Huygens wave theory.
+• Full Day (Tuesday, 16 Feb):
+  - 8:00 am to 12:00 pm: Electromagnetism derivations (Gauss Law applications, Biot-Savart Law, Ampere's circuital law, AC generator, Mutual and Self inductance, LCR series resonance).
+  - 1:00 pm to 4:30 pm: Modern Physics (De Broglie relation, Einstein photoelectric equation, Bohr energy levels, p-n junction diode characteristics, full-wave rectifier).
+  - 5:30 pm to 8:30 pm: Standard textbook numericals on Electric field, Capacitors, Alternating current, and Nuclear binding energy.
+  - 8:30 pm to 10:00 pm: Formula sheet pass, SI units, dimensional formulas. Sleep strictly at 10:30 pm.`
+          }
+        ]
+      },
+      {
+        heading: '6. Subject-Specific Tactical Guidelines for Maximum Marks',
+        content: `UPMSP examiners reward clarity, step-wise mathematical justification, and textbook accuracy:`,
+        subsections: [
+          {
+            subheading: 'Physics Derivations & Diagrams',
+            body: `Always start derivations with a brief 2-line statement explaining the assumptions and notation. Draw diagrams with a sharpened pencil and ruler. State SI units explicitly for every numerical answer; omitting units costs 0.5 to 1 full mark per question.`
+          },
+          {
+            subheading: 'Chemistry Equations & Reagents',
+            body: `Write balanced organic equations specifying catalysts, temperature, and reaction conditions (e.g., anhydrous AlCl3, heat, concentrated H2SO4). For qualitative chemical tests, describe both the observed color change/precipitate and the balanced chemical equation.`
+          },
+          {
+            subheading: 'Mathematics Presentation',
+            body: `State formulas in a boxed header before substituting numerical values. Clearly indicate integration limits and arbitrary constants (+ C). In 3D geometry questions, draw a rough sketch illustrating vectors and normal directions.`
+          },
+          {
+            subheading: 'Biology Labeling & Terminology',
+            body: `All biological sketches must have horizontal label leader lines on the right side of the diagram. Underline standard scientific and Latin botanical names when handwritten.`
+          }
+        ]
+      },
+      {
+        heading: '7. Seven Costly Mistakes UP Board Science Students Make',
+        content: `Avoid these common pitfalls that routinely cost students a first-division distinction:
+1. Treating Hindi and English as "casual" subjects until late January. A 55 in Hindi damages your percentage just as severely as a 55 in Physics.
+2. Opening new reference books or unverified YouTube summaries during the gap days. Stick rigidly to your proven handwritten notes and NCERT.
+3. Writing continuous unformatted paragraphs instead of numbered, bulleted points with underlined headings.
+4. Squandering the official 15-minute question paper reading window by daydreaming instead of systematically choosing optional questions.
+5. Post-exam over-analysis: Discussing question papers with classmates immediately after the exam, inducing unnecessary anxiety that spoils preparation for the next paper.
+6. Sacrificing sleep on the night of 16 February before Physics. Sleep deprivation causes calculation blunders in multi-step derivations.
+7. Disregarding practical marks: Ensure your practical viva answers and project records are top tier, as internal practical marks form 30% of your total science score.`
+      },
+      {
+        heading: '8. Comparison with UP Board Class 10 Timetable',
+        content: `While Class 10 students also sit their examinations from 5 to 24 February 2027, their papers are scheduled during the morning shift (8:30 am to 11:45 am). Class 10 students benefit from wider spacing between major theoretical subjects like Science and Mathematics.
+
+Class 12 Intermediate Science students face greater curriculum density and narrower gap margins, particularly between 12 February and 17 February when three major scientific disciplines (Maths/Bio, Chemistry, Physics) are examined within six days. This heightened intensity requires Class 12 aspirants to maintain superior emotional resilience and rigorous physical stamina.`
+      }
+    ],
+    checklistItems: [
+      'Download and print the official UPMSP 2027 time table admitted to your regional center.',
+      'Highlight your specific stream dates (PCM vs PCB) and mark shifts (2:00 pm to 5:15 pm).',
+      'Finish 100% of NCERT syllabus theory before 30 November 2026.',
+      'Complete and bind all laboratory practical record files before pre-board evaluations.',
+      'Draft chapter-wise one-page formula reference summaries for Physics and Chemistry.',
+      'Solve at least 5 years of authentic UP Board past question papers (2020–2026).',
+      'Take 3 full-length 3 hr 15 min mock tests in the 2:00 pm to 5:15 pm afternoon time slot.',
+      'Strictly avoid learning new, unfamiliar chapters during the 1-day Chemistry-to-Physics gap.'
+    ],
+    faqs: [
+      {
+        question: 'What are the exact exam shifts for UP Board 2027 Class 12 Science?',
+        answer: 'All core Class 12 Science papers (Hindi, English, Mathematics/Biology, Chemistry, and Physics) are conducted in the afternoon shift from 2:00 pm to 5:15 pm. Each paper lasts 3 hours 15 minutes, which includes 15 minutes for reading the question paper.'
+      },
+      {
+        question: 'Is the 15-minute question paper reading time included in the total duration?',
+        answer: 'Yes. The total examination time is 3 hours and 15 minutes (2:00 pm to 5:15 pm). The first 15 minutes are strictly designated for reading and reviewing the question paper, after which answer writing commences.'
+      },
+      {
+        question: 'How should students handle the 1-day gap between Chemistry and Physics?',
+        answer: 'Do not attempt to learn any new topic on 16 February. Complete all extensive Physics revisions before 15 February. Use the single gap day exclusively for formula review, ray diagrams, and solving key numerical types from modern physics and electromagnetism.'
+      },
+      {
+        question: 'Are calculators permitted in UP Board Class 12 examinations?',
+        answer: 'No. Electronic calculators, smartwatches, and programmable devices are strictly prohibited in UPMSP examination centers. All logarithmic tables or required constants are provided directly within the question paper.'
+      },
+      {
+        question: 'When will UP Board Class 12 Science practical examinations be conducted?',
+        answer: 'UPMSP typically conducts Class 12 Intermediate practical examinations in two phases during January 2027 across different geographic divisions of Uttar Pradesh under external examiners appointed by the Board.'
+      }
+    ],
+    relatedSlugs: [
+      'ssc-cgl-tier1-preparation-strategy',
+      'document-preparation-checklist'
+    ]
   }
 ];
