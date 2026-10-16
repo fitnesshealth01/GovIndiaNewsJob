@@ -29,6 +29,9 @@ import { NegativeMarkingPage } from './components/tools/NegativeMarkingPage';
 import { HeightEligibilityPage } from './components/tools/HeightEligibilityPage';
 import { RankPredictorPage } from './components/tools/RankPredictorPage';
 import { EligibilityMatcherPage } from './components/tools/EligibilityMatcherPage';
+import { PhysicalFitnessCountdownPage } from './components/tools/PhysicalFitnessCountdownPage';
+import { UPBoardGapDayCalculatorPage } from './components/tools/UPBoardGapDayCalculatorPage';
+import { NmcMbbsMercyCalculatorPage } from './components/tools/NmcMbbsMercyCalculatorPage';
 import { NotFoundView } from './components/NotFoundView';
 import { AdSenseAuditor } from './components/AdSenseAuditor';
 import { getBookmarks } from './utils/bookmarkStorage';
@@ -132,7 +135,13 @@ export default function App() {
       currentPath === '/tools/height' ||
       currentPath === '/tools/rank' ||
       currentPath === '/tools/eligibility' ||
-      currentPath === '/matcher'
+      currentPath === '/matcher' ||
+      currentPath === '/tools/fitness' ||
+      currentPath === '/tools/running' ||
+      currentPath === '/tools/up-board-gap-calculator' ||
+      currentPath === '/tools/up-board' ||
+      currentPath === '/tools/nmc-mbbs-mercy-calculator' ||
+      currentPath === '/tools/mbbs-attempt-calculator'
     ) return true;
     if (
       currentPath === '/nta-exams' ||
@@ -166,7 +175,8 @@ export default function App() {
       currentPath.startsWith('/trust') ||
       currentPath === '/editorial-policy' ||
       currentPath === '/grievance-redressal' ||
-      currentPath === '/adsense-auditor'
+      currentPath === '/adsense-auditor' ||
+      currentPath === '/adsense-audit'
     ) return true;
     if (currentPath.startsWith('/author') || currentPath.startsWith('/authors')) return true;
     return false;
@@ -211,6 +221,15 @@ export default function App() {
       title = 'Exam Rank & Score Normalization Predictor - GovIndiaNews';
     } else if (currentPath === '/tools/eligibility' || currentPath === '/matcher') {
       title = 'Instant Govt Job Eligibility Matcher - GovIndiaNews';
+    } else if (currentPath === '/tools/fitness' || currentPath === '/tools/running' || currentPath === '/tools/physical-fitness') {
+      title = 'Indian Army & Police Physical Fitness Run Countdown - GovIndiaNews';
+      metaDesc = 'Interactive countdown and phase-by-phase training plan for Indian Army Agniveer 1600m running test and police physical tests.';
+    } else if (currentPath === '/tools/up-board-gap-calculator' || currentPath === '/tools/up-board') {
+      title = 'UP Board 2027 Class 12 Science Gap-Day Revision Calculator - GovIndiaNews';
+      metaDesc = 'Interactive gap-day revision calculator and countdown for UP Board Class 12 PCM and PCB science exams with stream-specific schedules.';
+    } else if (currentPath === '/tools/nmc-mbbs-mercy-calculator' || currentPath === '/tools/mbbs-attempt-calculator') {
+      title = 'NMC 1st Prof MBBS Mercy Attempt Calculator - GovIndiaNews';
+      metaDesc = 'Check eligibility for the one-time 5th mercy attempt granted by National Medical Commission on 15 Oct 2026 and calculate your 10-year MBBS completion deadline.';
     } else if (currentPath === '/tools') {
       title = 'Govt Exam Smart Calculators Suite - GovIndiaNews';
     } else if (currentPath === '/jobs') {
@@ -251,9 +270,9 @@ export default function App() {
       }
     } else if (currentPath.startsWith('/author') || currentPath.startsWith('/authors')) {
       title = 'Akash Singh Solanki - Founder & Editor | GovIndiaNews';
-    } else if (currentPath === '/adsense-auditor' || currentPath.startsWith('/trust/adsense')) {
+    } else if (currentPath === '/adsense-auditor' || currentPath === '/adsense-audit' || currentPath.startsWith('/trust/adsense')) {
       title = 'Google AdSense Pre-Flight Auditor & Compliance Suite - GovIndiaNews';
-      metaDesc = 'Real-time AdSense compliance monitoring verifying 112 routes against Google publisher policies, content depth, and anti-misrepresentation rules.';
+      metaDesc = 'Real-time AdSense compliance monitoring verifying 114 routes against Google publisher policies, content depth, and anti-misrepresentation rules.';
     }
     document.title = title;
     if (typeof document !== 'undefined') {
@@ -539,6 +558,15 @@ export default function App() {
         {currentPath === '/tools/height' && <HeightEligibilityPage onNavigate={navigate} />}
         {currentPath === '/tools/rank' && <RankPredictorPage onNavigate={navigate} />}
         {(currentPath === '/tools/eligibility' || currentPath === '/matcher') && <EligibilityMatcherPage onNavigate={navigate} />}
+        {(currentPath === '/tools/fitness' || currentPath === '/tools/running' || currentPath === '/tools/physical-fitness') && (
+          <PhysicalFitnessCountdownPage onNavigate={navigate} />
+        )}
+        {(currentPath === '/tools/up-board-gap-calculator' || currentPath === '/tools/up-board') && (
+          <UPBoardGapDayCalculatorPage onNavigate={navigate} />
+        )}
+        {(currentPath === '/tools/nmc-mbbs-mercy-calculator' || currentPath === '/tools/mbbs-attempt-calculator') && (
+          <NmcMbbsMercyCalculatorPage onNavigate={navigate} />
+        )}
 
         {/* Tools Hub (/tools) */}
         {currentPath === '/tools' && (
@@ -562,6 +590,8 @@ export default function App() {
                 { title: 'Physical Height & Chest (PST) Checker', desc: 'Check minimum physical standards for Delhi Police SI, SSC GD Constable, and CAPF recruitment.', path: '/tools/height', icon: Ruler, badge: 'Uniformed' },
                 { title: 'Percentile Rank & Normalization', desc: 'Approximate statistical percentile rank based on shift difficulty and raw score distributions.', path: '/tools/rank', icon: TrendingUp, badge: 'Estimate' },
                 { title: 'Instant Eligibility Matcher', desc: 'Multi-criteria filter matching your DOB, qualification, and social category against active recruitment drives.', path: '/tools/eligibility', icon: Sparkles, badge: 'Discovery' },
+                { title: 'Army 1600m Run & Rally Countdown', desc: 'Phase-by-phase aerobic interval planner, tapering protocol, and daily training timer for Agniveer & Police PFT.', path: '/tools/fitness', icon: Play, badge: 'Fitness' },
+                { title: 'UP Board Class 12 Gap-Day Calculator', desc: 'Interactive countdown, gap-day analysis between science papers, and daily revision schedule for PCM & PCB.', path: '/tools/up-board-gap-calculator', icon: Calendar, badge: 'Board Exam' },
               ].map((tool, idx) => {
                 const IconComponent = tool.icon;
                 return (
@@ -732,7 +762,7 @@ export default function App() {
 
 
         {/* ROUTE 6.6: GOOGLE ADSENSE PRE-FLIGHT AUDITOR & COMPLIANCE SUITE */}
-        {(currentPath === '/adsense-auditor' || currentPath.startsWith('/trust/adsense')) && (
+        {(currentPath === '/adsense-auditor' || currentPath === '/adsense-audit' || currentPath.startsWith('/trust/adsense')) && (
           <AdSenseAuditor onNavigate={navigate} />
         )}
 

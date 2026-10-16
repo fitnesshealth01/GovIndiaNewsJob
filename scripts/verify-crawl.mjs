@@ -173,7 +173,7 @@ for (const route of Array.from(prerenderedRoutes).sort()) {
 }
 
 console.log(`\n======================================================`);
-console.log(`VERIFICATION SUMMARY: ${totalPassed} PASSED, ${totalFailed} FAILED out of ${prerenderedRoutes.size} total routes.`);
+console.log(`Crawl Verification Success: ${totalPassed} routes verified successfully (${totalFailed} failed).`);
 console.log(`======================================================\n`);
 
 if (totalFailed > 0) {

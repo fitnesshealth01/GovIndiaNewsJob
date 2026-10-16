@@ -56,6 +56,7 @@ export interface RecruitmentAlert {
   qualification: string;
   ageLimit?: string;
   fees?: string;
+  salary?: string;
   sourceNotice: SourceNotice;
   verifiedBy: string | null;
   status: 'verified' | 'unverified' | 'expired';
@@ -266,6 +267,139 @@ export interface PYQQuestion {
 }
 
 export const RECRUITMENT_ALERTS: RecruitmentAlert[] = [
+  {
+    id: "nmc-extra-attempt-first-professional-mbbs-mercy-rules",
+    slug: "nmc-extra-attempt-first-professional-mbbs-mercy-rules",
+    category: "jobs",
+    title: "NMC Grants One-Time Mercy 5th Attempt for First Professional MBBS: Complete Eligibility Roster, 10-Year Rule & University Examination Guide",
+    seoTitle: "NMC One-Time Mercy Attempt First Professional MBBS: 5th Chance Eligibility, 10-Year Rule & University Guide",
+    metaDescription: "National Medical Commission (NMC) issues public notice granting one-time 5th mercy attempt for MBBS students admitted from 2019-20 onwards to clear 1st Prof. Read complete eligibility criteria, 10-year degree limit, and university submission rules.",
+    primaryKeyword: "NMC extra attempt first professional MBBS eligibility criteria",
+    featuredImage: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=1200&q=80",
+    titleImage: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=1200&q=80",
+    secondaryKeywords: [
+      "nmc mercy attempt mbbs 1st prof 2019 batch",
+      "nmc extra attempt first professional mbbs",
+      "national medical commission 5th attempt notification",
+      "10 year mbbs completion rule nmc cbme",
+      "gmer 2019 regulation 11 mercy attempt"
+    ],
+    organization: "National Medical Commission (NMC)",
+    examName: "First Professional MBBS Examination (CBME Regulations)",
+    postCount: "All Eligible CBME MBBS Students",
+    publishDate: "15 Oct 2026",
+    reviewedDate: "16 Oct 2026",
+    lastDate: "As per State Health University Examination Schedules",
+    examDate: "Winter 2026 / Spring 2027 Supplementary Cycles",
+    qualification: "MBBS Students Admitted From 2019–20 Academic Session Onwards",
+    qualificationTier: "graduate",
+    sector: "other",
+    fees: "Prescribed University Supplementary Exam Fee (₹2,500 – ₹6,000)",
+    sourceNotice: {
+      title: "NMC Under-Graduate Medical Education Board Public Notice — One-Time Mercy Attempt for First Professional MBBS Examination",
+      url: "https://www.nmc.org.in",
+      checkedOn: "15 Oct 2026"
+    },
+    verifiedBy: "Akash Singh Solanki (Founder & Lead Educational Analyst)",
+    status: "verified",
+    readTime: "9 min read",
+    author: "Akash Singh Solanki",
+    summary: "The National Medical Commission (NMC), pursuant to the decisions adopted at its 18th Full Commission Meeting held on 23 September 2026, has published an official public notice on 15 October 2026 granting a one-time extraordinary mercy attempt (5th attempt) for eligible MBBS students admitted from the 2019–20 academic year onwards under Competency Based Medical Education (CBME) regulations to clear their First Professional MBBS Examination. Eligible candidates may utilize this attempt even if they have crossed the normally prescribed 4-year limit, provided their admission remains valid on university rolls and the overall 10-year degree completion ceiling is maintained.",
+    linkText: "Read Official NMC Mercy Circular & Eligibility Rules",
+    quickFacts: [
+      { detail: "Statutory Authority", information: "National Medical Commission (NMC) — UGMEB" },
+      { detail: "Decision Date & Meeting", information: "23 September 2026 (18th NMC Meeting) · Notified 15 October 2026" },
+      { detail: "Eligible Cohorts", information: "MBBS students admitted from academic session 2019–20 onwards" },
+      { detail: "Number of Attempts Granted", information: "One additional mercy attempt (allowing up to 5 total attempts)" },
+      { detail: "First Prof 4-Year Limit", information: "Relaxed as a one-time transitional measure" },
+      { detail: "Overall Degree Time Limit", information: "Strictly 10 years from admission (including 1-year CRMI internship)" },
+      { detail: "Exclusion Clause", information: "Students who already exhausted 5 attempts under previous court/NMC orders" },
+      { detail: "Legal Precedent Status", information: "Exceptional one-time relief; will not establish legal precedent for future batches" }
+    ],
+    whatsDifferentThisYear: [
+      {
+        parameter: "Attempt Ceiling for 1st Prof",
+        currentCycle: "5 attempts permitted (One-time mercy 5th attempt added)",
+        previousCycle: "Strict cap of 4 attempts (Regulation 11.1.2 GMER-2019)",
+        sourceOrVerify: "NMC Public Notice F.No. U.15024/01/2026-UGMEB"
+      },
+      {
+        parameter: "4-Year Cap for First Professional",
+        currentCycle: "Relaxed for active admission holders admitted 2019-20 onwards",
+        previousCycle: "Mandatory discharge/removal from MBBS upon exceeding 4 years",
+        sourceOrVerify: "NMC 18th Meeting Minutes (23 Sept 2026)"
+      },
+      {
+        parameter: "10-Year Overall Course Ceiling",
+        currentCycle: "Unchanged & Strictly Enforced (Must complete degree + CRMI in 10 yrs)",
+        previousCycle: "10 Years from Date of Admission",
+        sourceOrVerify: "NMC GMER Statutory Framework"
+      }
+    ],
+    whoShouldApply: [
+      "MBBS students admitted in 2019–20, 2020–21, 2021–22, 2022–23 or subsequent sessions under CBME regulations who have failed all 4 previous First Prof attempts.",
+      "Students whose names remain actively enrolled in the college register and have not been permanently discharged or cancelled by the university.",
+      "Candidates who can realistically complete all remaining phases (Second Prof, Third Prof Part 1, Third Prof Part 2, and 1-year CRMI) within 10 years of their original admission year."
+    ],
+    whoShouldSkip: [
+      "Students admitted prior to the 2019–20 academic session (governed by pre-CBME regulations).",
+      "Students who have already availed a mercy attempt and exhausted five attempts under any previous court order or NMC directive.",
+      "Candidates whose admissions have been formally revoked, cancelled, or terminated on disciplinary or legal grounds.",
+      "Candidates who have only taken 1, 2, or 3 attempts so far (they still have standard regular attempts remaining and do not require mercy relief)."
+    ],
+    commonRejectionMistakes: [
+      "Failing to submit a notarized undertaking declaring that no prior 5th attempt has been utilized under judicial orders.",
+      "Applying directly to NMC instead of routing the examination form through the Medical College Dean to the State Health University.",
+      "Assuming the 10-year course completion clock has been extended (the 10-year deadline is absolute and fixed from the admission year).",
+      "Neglecting internal assessment requirements and practical logbook clearance before submitting university examination fees."
+    ],
+    documentsNeeded: [
+      "Original MBBS College Admission Order and Enrolment Bonafide Certificate.",
+      "Marks Cards of all previous 4 First Professional Examination attempts.",
+      "Notarized Affidavit on non-judicial stamp paper declaring non-exhaustion of prior 5th mercy attempt.",
+      "Internal Assessment and Departmental Practical Clearance Certificate from Anatomy, Physiology, and Biochemistry.",
+      "Prescribed Health University Examination Registration Form with Dean's forwarding endorsement."
+    ],
+    preparationTips: [
+      "Focus heavily on high-yield clinical vignettes: CBME pattern emphasizes clinical application in Anatomy, clinical case correlations in Physiology, and metabolic pathways in Biochemistry.",
+      "Practice structured competency-based long questions (CBQs) and Objective Structured Clinical/Practical Examination (OSCE/OSPE) station drills.",
+      "Utilize previous 5 years' university supplementary question papers to master recurring essay themes.",
+      "Form dedicated revision circles with departmental tutors to clarify practical viva voce questions."
+    ],
+    faqs: [
+      {
+        question: "Is this NMC mercy attempt applicable to all MBBS students across India?",
+        answer: "Yes, this notification applies uniformly across all recognized government, municipal, private medical colleges, and deemed universities across India operating under NMC CBME regulations."
+      },
+      {
+        question: "Does this decision mean medical colleges must hold a special examination?",
+        answer: "No separate special examination is mandated; eligible candidates are permitted to appear in the next upcoming supplementary or regular First Professional MBBS examination conducted by their affiliated health university."
+      },
+      {
+        question: "What happens if a candidate fails in this 5th mercy attempt?",
+        answer: "The circular explicitly maintains a hard maximum ceiling of 5 attempts. Candidates who do not clear First Professional in this 5th attempt will be disqualified from continuing the MBBS course under statutory regulations."
+      },
+      {
+        question: "Where can students verify the authentic copy of this NMC public notice?",
+        answer: "The authentic notice is hosted on the official National Medical Commission portal at nmc.org.in under the What's New and Public Notices section, dated 15 October 2026."
+      }
+    ],
+    officialLinks: [
+      {
+        title: "National Medical Commission Official Portal",
+        label: "nmc.org.in",
+        url: "https://www.nmc.org.in",
+        isPrimary: true,
+        linkType: "official"
+      },
+      {
+        title: "NMC Public Notices Repository",
+        label: "nmc.org.in/rules-regulations/public-notices",
+        url: "https://www.nmc.org.in",
+        linkType: "pdf"
+      }
+    ]
+  },
   {
     "id": "up-board-2027-class-12-science-gap-day-revision-plan",
     "slug": "up-board-2027-class-12-science-gap-day-revision-plan",

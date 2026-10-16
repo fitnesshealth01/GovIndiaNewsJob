@@ -36,6 +36,8 @@ import { EliteAdmitCardTemplate } from './EliteAdmitCardTemplate';
 import { EliteBoardExamTemplate } from './EliteBoardExamTemplate';
 import { EliteNtaExamTemplate } from './EliteNtaExamTemplate';
 import { NavLink } from './NavLink';
+import { ArticleCredibilityHeader } from './ArticleCredibilityHeader';
+import { ArticleAnalyticalSuite } from './ArticleAnalyticalSuite';
 
 interface ArticleViewProps {
   article: RecruitmentAlert;
@@ -235,6 +237,14 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
               {article.title}
             </h1>
 
+            {/* TRIPLE EDITORIAL CREDIBILITY MARKERS LEADING ARTICLE HEADER */}
+            <ArticleCredibilityHeader
+              article={article}
+              author={author}
+              onNavigate={onNavigate}
+              onOpenAuthorModal={() => setShowAuthorModal(true)}
+            />
+
             {/* Article Title Image / Featured Banner */}
             {(article.titleImage || article.featuredImage) && (
               <div className="relative w-full rounded-2xl overflow-hidden border border-slate-200 shadow-md bg-slate-950 my-3">
@@ -374,6 +384,9 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
           ) : (
             <EliteJobTemplate article={article} onNavigate={onNavigate} />
           )}
+
+          {/* HIGH-VALUE ANALYTICAL SUITE (Executive Briefing, In-Article Smart Calculator, City X/Y/Z Salary Slips, 15-Year Ladder, DV Traps) */}
+          <ArticleAnalyticalSuite article={article} onNavigate={onNavigate} />
 
           {/* Discrepancy & Correction Note */}
           <div className="py-3 border-t border-slate-200 flex flex-wrap items-center justify-between gap-2 text-xs text-slate-500">

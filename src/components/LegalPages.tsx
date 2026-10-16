@@ -481,12 +481,30 @@ export const LegalPages: React.FC<LegalPageProps> = ({ type, onNavigate }) => {
               <li><strong>Right to Nominate:</strong> You have the right to nominate another individual to exercise rights on your behalf in the event of death or incapacity.</li>
             </ul>
 
-            <h2 className="text-base font-bold text-slate-900 pt-2">4. Third-Party Advertising Partners</h2>
+            <h2 className="text-base font-bold text-slate-900 pt-2">4. Third-Party Advertising Partners & AdSense Compliance</h2>
             <p>
-              Our advertising partners may use cookies and web beacons on our site. These third-party ad servers or networks use technology in their respective advertisements and links that appear on GovIndiaNews, which are sent directly to users' browsers. They automatically receive your IP address when this occurs. GovIndiaNews has no access to or control over cookies that are used by third-party advertisers.
+              Our advertising partners, including Google AdSense, may use cookies, web beacons, and JavaScript on our site. These third-party ad networks automatically receive your IP address when ad units render in your browser. They use these technologies to measure the effectiveness of their advertising campaigns and personalize the advertising content that you see. GovIndiaNews has no access to or control over these third-party cookies.
+            </p>
+            <p className="text-xs text-slate-600">
+              Users can opt out of personalized advertising by visiting:
+            </p>
+            <ul className="list-disc pl-5 space-y-1 text-xs text-blue-700 font-semibold">
+              <li><a href="https://adssettings.google.com" target="_blank" rel="noreferrer" className="underline hover:text-blue-900">Google Ads Settings (adssettings.google.com)</a></li>
+              <li><a href="https://optout.networkadvertising.org/" target="_blank" rel="noreferrer" className="underline hover:text-blue-900">Network Advertising Initiative Consumer Opt-Out (optout.networkadvertising.org)</a></li>
+              <li><a href="https://optout.aboutads.info/" target="_blank" rel="noreferrer" className="underline hover:text-blue-900">Digital Advertising Alliance WebChoices Tool (optout.aboutads.info)</a></li>
+            </ul>
+
+            <h2 className="text-base font-bold text-slate-900 pt-2">5. CCPA Privacy Rights (Do Not Sell My Personal Information)</h2>
+            <p>
+              Under the California Consumer Privacy Act (CCPA), California consumers have the right to request that a business disclose what personal data it collects, request deletion of collected personal data, and opt out of the sale or sharing of personal data. GovIndiaNews does NOT sell, rent, or trade any personal data of its readers to third-party brokers.
             </p>
 
-            <h2 className="text-base font-bold text-slate-900 pt-2">5. Children's Information Protection</h2>
+            <h2 className="text-base font-bold text-slate-900 pt-2">6. GDPR Data Protection Rights</h2>
+            <p>
+              Every user is entitled to the following under the General Data Protection Regulation: the right to access, the right to rectification, the right to erasure, the right to restrict processing, the right to object to processing, and the right to data portability. If you make a request, we have one month to respond to you.
+            </p>
+
+            <h2 className="text-base font-bold text-slate-900 pt-2">7. Children's Information Protection</h2>
             <p>
               Protecting the privacy of young individuals using the internet is especially vital. GovIndiaNews does not knowingly collect any Personal Identifiable Information from children under the age of 13. If a parent or guardian believes that GovIndiaNews has personally identifiable information of a child under 13 in its database, please contact us immediately, and we will promptly remove such records.
             </p>

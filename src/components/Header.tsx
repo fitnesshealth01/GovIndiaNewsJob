@@ -937,6 +937,13 @@ export const Header: React.FC<HeaderProps> = ({
                   >
                     Terms
                   </NavLink>
+                  <NavLink
+                    href="/adsense-auditor"
+                    onNavigate={handleNavClick}
+                    className="hover:text-emerald-600 text-emerald-700 font-semibold transition-colors cursor-pointer"
+                  >
+                    AdSense Auditor
+                  </NavLink>
                 </div>
                 <div className="text-[11px] text-slate-400 flex items-center gap-1.5 pt-1">
                   <ShieldAlert className="w-3.5 h-3.5 text-amber-500 shrink-0" />

@@ -17,8 +17,26 @@ import {
   BookOpen,
   TrendingUp,
   ChevronRight,
+  ShieldCheck,
+  UserCheck,
+  Sparkles,
+  MapPin,
+  Clock,
+  ArrowRight,
+  Flame,
 } from 'lucide-react';
 import { RecruitmentAlert } from '../data/gazetteData';
+import {
+  getStartingBasicPay,
+  calculateAllCitySalaries,
+  getCareerPromotionLadder,
+  getDocumentVerificationTraps,
+  getEditorialBriefing,
+} from '../utils/articleEditorialEnhancer';
+import {
+  calculate7thCpcSalary,
+  PAY_LEVEL_STARTING_BASIC,
+} from '../utils/calculatorLogic';
 
 interface EliteJobTemplateProps {
   article: RecruitmentAlert;
@@ -28,22 +46,51 @@ interface EliteJobTemplateProps {
 export const EliteJobTemplate: React.FC<EliteJobTemplateProps> = ({ article, onNavigate }) => {
   const [openFaq, setOpenFaq] = React.useState<number | null>(null);
 
+  // High-Level Editorial Analysis Modules
+  const startingBasic = getStartingBasicPay(article.salary, article.salaryArithmetic?.basicPay);
+  const citySalaries = calculateAllCitySalaries(startingBasic);
+  const careerLadder = getCareerPromotionLadder(article);
+  const dvTraps = getDocumentVerificationTraps(article);
+  const briefing = getEditorialBriefing(article);
+
+  // In-Article Interactive Live Salary Calculator State
+  const initialLevel = React.useMemo(() => {
+    const match = (article.salary || '').match(/level[- ]?(\d+)/i);
+    return match ? parseInt(match[1], 10) : 7;
+  }, [article.salary]);
+
+  const [calcPayLevel, setCalcPayLevel] = React.useState<number>(initialLevel);
+  const [calcCityClass, setCalcCityClass] = React.useState<'X' | 'Y' | 'Z'>('X');
+  const [calcBasicPay, setCalcBasicPay] = React.useState<number>(() => PAY_LEVEL_STARTING_BASIC[initialLevel] || startingBasic);
+
+  const handleCalcLevelChange = (lvl: number) => {
+    setCalcPayLevel(lvl);
+    setCalcBasicPay(PAY_LEVEL_STARTING_BASIC[lvl] || 35400);
+  };
+
+  const interactiveCalcSalary = calculate7thCpcSalary({
+    payLevel: calcPayLevel,
+    basicPay: calcBasicPay,
+    cityClass: calcCityClass,
+    daPercent: 50,
+  });
+
   // Generate fallback arithmetic if specific salaryArithmetic wasn't provided
   const salary = article.salaryArithmetic || {
-    basicPay: 35400,
+    basicPay: startingBasic,
     daRate: 0.50,
-    daAmount: 17700,
-    hraRate: 0.27,
-    hraAmount: 9558,
+    daAmount: Math.round(startingBasic * 0.50),
+    hraRate: 0.30,
+    hraAmount: Math.round(startingBasic * 0.30),
     transportAllowance: 3600,
-    grossMonthly: 66258,
-    npsDeduction: 5310,
+    grossMonthly: Math.round(startingBasic * 1.80 + 3600),
+    npsDeduction: Math.round(startingBasic * 1.50 * 0.10),
     otherDeductions: 650,
-    totalDeductions: 5960,
-    netInHandMonthly: 60298,
+    totalDeductions: Math.round(startingBasic * 1.50 * 0.10 + 650),
+    netInHandMonthly: Math.round(startingBasic * 1.80 + 3600 - (startingBasic * 1.50 * 0.10 + 650)),
     inputsDated: '01 July 2026 (DoPT & Ministry of Finance DA Rates)',
     isEstimate: true,
-    notes: 'Calculated for Class-X cities (Delhi, Mumbai, Bengaluru, Kolkata). Class-Y and Z cities have lower HRA (18% and 9%).',
+    notes: 'Calculated for Class-X cities (Delhi, Mumbai, Bengaluru, Kolkata). Class-Y and Z cities have lower HRA (20% and 10%).',
   };
 
   const differences = article.whatsDifferentThisYear || [
