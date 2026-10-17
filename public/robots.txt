@@ -1,4 +1,14 @@
 User-agent: *
 Allow: /
 
+User-agent: Googlebot
+Allow: /
+
+User-agent: Googlebot-News
+Allow: /
+
+User-agent: Mediapartners-Google
+Allow: /
+
 Sitemap: https://govindianews.com/sitemap.xml
+Sitemap: https://govindianews.com/news-sitemap.xml

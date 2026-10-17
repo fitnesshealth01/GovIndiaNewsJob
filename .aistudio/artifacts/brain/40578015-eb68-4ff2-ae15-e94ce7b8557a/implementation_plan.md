@@ -1,98 +1,100 @@
-# Implementation Plan: NMC First Professional MBBS One-Time Mercy Attempt (Elite Discover & Search Guide)
+# Implementation Plan: Diagnosing & Unlocking Google Impressions, SERP Rankings & Discover for GovIndiaNews
 
-A high-ranking, 100% original, plagiarism-free comprehensive guide on the breakout Google Trends topic **"NMC extra attempt first professional MBBS"** (notified on October 15, 2026, following the 18th NMC meeting).
-
----
-
-## 1. Editorial & Discover Keyword Strategy
-
-### Primary Long-Tail Target Keyword
-`nmc extra attempt first professional mbbs eligibility criteria and rules`
-
-### High-Volume Supporting & Google Discover Search Phrases
-- `nmc mercy attempt mbbs 1st prof 2019 batch onwards`
-- `national medical commission first professional mbbs 5th attempt public notice`
-- `nmc mbbs 1st prof 4 year limit relaxation rules`
-- `10 year mbbs course completion ceiling nmc cbme`
-- `how to apply for nmc 1st prof mercy examination university portal`
-
-### Article Metadata & Search Assets
-- **Headline (Discover & SERP Optimized):**
-  *NMC Grants One-Time Mercy 5th Attempt for First Professional MBBS: Complete Eligibility Roster, 10-Year Rule & University Examination Guide*
-- **Meta Description:**
-  *National Medical Commission (NMC) has notified a one-time 5th mercy attempt for MBBS students admitted from 2019-20 onwards to clear 1st Prof. Read complete eligibility criteria, 10-year course limit, exclusions, and check your status with our interactive checker.*
-- **Structured Data:** `NewsArticle`, `MedicalWebPage`, `FAQPage`, and `BreadcrumbList` JSON-LD schemas.
-- **Editorial Byline:** Akash Singh Solanki (Founder & Lead Educational Analyst) · Cross-referenced against NMC Public Notice No. F.No. U.15024/01/2026-UGMEB.
+An exhaustive root-cause analysis and step-by-step technical and algorithmic action plan to resolve why articles get indexed in minutes on a 3–6 month old domain with Google Publisher Center approval, yet receive near-zero impressions in Google Search Console.
 
 ---
 
-## 2. In-Depth Multi-Angle Article Content Architecture
+## 1. Executive Root-Cause Diagnostic: Why "Indexed in Minutes" Still Yields Zero Impressions
 
-### Section 1: Breaking Executive Summary & Primary Source Gazette Lockup
-- Executive briefing signed by Lead Educational Analyst Akash Singh Solanki.
-- Formal citation: **NMC Under-Graduate Medical Education Board (UGMEB) Public Notice dated 15 October 2026**, arising from the 18th NMC Full Commission Meeting held on 23 September 2026.
-- Official primary portal link: `nmc.org.in`.
-- Triple Credibility Bar: Verified Domain Author, Cryptographic True-Copy Gazette Digest (`GIN-EGT-NMC-MBBS-2026`), and Non-Affiliation Disclaimer.
+### Core Principle: Indexation vs. Serving (Ranking) Disconnect
+Google uses a two-tier architecture:
+1. **The Ingestion & Indexing Pipeline (Caffeine):** Downloads, parses HTML, and registers the URL in the database. Fast indexation (within minutes) proves that your server health, Google Publisher Center ping, and sitemap fetch are functioning properly.
+2. **The Serving & Scoring Pipeline (Ascending Ranking & Twiddlers):** Evaluates whether the indexed URL deserves to appear in the top 100 search results for active user queries.
+   - **If a URL ranks at Position 50 or beyond, Google Search Console logs virtually 0 impressions.**
+   - In Search Console, an "impression" is recorded *only* when a user views a search results page containing your URL link. If users never scroll to Page 5, impressions remain zero.
 
-### Section 2: Comprehensive Eligibility & Ineligibility Matrix
-- **Eligible Cohorts:**
-  - MBBS students admitted from the **2019–20 academic session onwards** under Competency Based Medical Education (CBME) regulations.
-  - Students who have exhausted the maximum 4 attempts previously allowed under Regulation 11.1.2 of the Graduate Medical Education Regulations (GMER-2019).
-  - Students who have exceeded the 4-year completion window for First Professional MBBS, provided their admission remains active and valid in their respective university roll.
-- **Strict Exclusions & Disqualification Traps:**
-  - Any candidate who has already availed a mercy attempt and exhausted five attempts under any previous NMC circular or court directive.
-  - Students admitted prior to the 2019–20 academic session.
-  - Students whose college or university admissions were revoked, cancelled, or terminated on disciplinary/administrative grounds.
-- **The Absolute 10-Year Outer Ceiling:**
-  - Detailed explanation of GMER Regulation 11: The relaxation of the 4-year limit for First Prof does **not** extend the mandatory 10-year maximum duration for completing the entire MBBS degree (including Compulsory Rotating Medical Internship - CRMI).
+### The 5 Compounding Bottlenecks Identified on GovIndiaNews:
 
-### Section 3: Step-by-Step University Application & Examination Protocol
-- Walkthrough of the university registration sequence:
-  1. Verification of roll number and previous marks cards at the Medical College Academic Cell.
-  2. Execution of a legal undertaking/affidavit confirming no previous 5th mercy attempt has been utilized.
-  3. Formal forwarding by College Dean/Principal to the Controller of Examinations (WBUHS, RGUHS, MUHS, KNRUHS, BFUHS, etc.).
-  4. Internal assessment validity and minimum attendance criteria compliance.
-  5. Schedule alignment for upcoming supplementary/winter first-professional examinations.
-
-### Section 4: Regulatory Evolution & Legal Background Explainer
-- **MCI Pre-2019 Era:** Unlimited attempts within overall course limits.
-- **CBME GMER-2019 Overhaul:** Introduction of strict 4-attempt cap and 4-year limit for First Prof to uphold clinical foundation standards.
-- **COVID-19 Disruption & Supreme Court Litigation:** Historical recap of student representations regarding lock-down batch disruptions, online preclinical instruction hurdles, and subsequent judicial directions.
-- **Why It Is a Non-Precedent Transitional Relief:** NMC's explicit caveat that this one-time exception will not establish a precedent for future academic cycles.
+| Bottleneck | Current State in Codebase | Algorithmic Impact on Google |
+| :--- | :--- | :--- |
+| **1. Missing `max-image-preview:large` Directive** | Missing across `index.html` and prerendered templates | **Blocks Google Discover entirely.** Google's documentation explicitly requires `max-image-preview:large` to feature articles in Discover feeds. |
+| **2. RSS Feed Missing `/blog/` Deep Guides** | `scripts/prerender.mjs` (Line 3331) filters only `/article/`, `/exams/`, `/guides/` — **excludes all `/blog/*` URLs** | Google Publisher Center never receives your in-depth 3,500+ word guides (like the NMC MBBS mercy guide), preventing them from appearing in Google News Top Stories. |
+| **3. Absence of Dedicated Google News Sitemap** | Only standard `sitemap.xml` exists; no `news-sitemap.xml` with `<news:news>` tag | Google News bots treat the site as a generic blog instead of a high-velocity news feed, delaying algorithmic news ranking. |
+| **4. The YMYL "NavBoost" & Query Log Cold-Start (3–6 Month Domain)** | Domain is 3–6 months old with low historical click-through logs | In the hyper-competitive government jobs & exams niche, Google defaults to DA 80+ incumbents (Jagran Josh, Times of India, Sarkari Result) unless low-competition query phrasing is targeted. |
+| **5. Head Keyword Competition Trap** | Articles target broad head phrases (e.g. "NMC extra attempt 1st prof") where legacy portals have thousands of authoritative backlinks | The URL ranks in positions 45–80 where impression volume drops to zero. Zero impressions means Google cannot gather CTR or dwell time data to promote the page. |
 
 ---
 
-## 3. Interactive In-Article Utility: 1st Prof MBBS Mercy Eligibility & Timeline Calculator
+## 2. Technical SEO Fixes (Immediate Execution)
 
-A custom, live interactive React component embedded directly within the article body:
-- **Input Controls:**
-  - Academic Admission Session Dropdown: `2018-19 or earlier`, `2019-20`, `2020-21`, `2021-22`, `2022-23`, `2023-24`.
-  - Number of First Prof Attempts Taken So Far: `1`, `2`, `3`, `4`, `5 or more`.
-  - Prior Mercy Attempt Availment Status: `No, never availed`, `Yes, availed under court order / prior notice`.
-  - College Admission Status: `Active on university rolls`, `Canceled / Terminated`.
-- **Live Output Engine:**
-  - Instant dynamic eligibility status: **Eligible for 5th Mercy Attempt** vs **Ineligible (with statutory clause explanation)**.
-  - Exact year by which final MBBS degree and CRMI internship must be completed (Admission Year + 10 Years).
-  - Next actionable steps checklist tailored to candidate's state university.
+### Fix A: Inject Global Discover & Robots Directives
+- Update `index.html` and `scripts/prerender.mjs` to inject:
+  ```html
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+  <meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+  <meta name="googlebot-news" content="index, follow" />
+  ```
+- This satisfies Google Discover's mandatory prerequisite for displaying high-resolution cards.
+
+### Fix B: Repair `rss.xml` to Include All High-Value Editorial Content
+- Modify `scripts/prerender.mjs` to include `/blog/*` articles in the RSS 2.0 feed so Google Publisher Center ingests deep analysis guides within seconds of release.
+- Ensure all RSS items include `<dc:creator>`, `<content:encoded>`, `<enclosure>` or `<media:content>` with high-res 1200px+ images.
+
+### Fix C: Build Dedicated Automated Google News Sitemap (`news-sitemap.xml`)
+- Create an automated generator in `scripts/prerender.mjs` outputting `news-sitemap.xml`:
+  - Contains articles published within the last 48 hours.
+  - Formatted with standard Google News XML schema:
+    ```xml
+    <url>
+      <loc>https://govindianews.com/article/...</loc>
+      <news:news>
+        <news:publication>
+          <news:name>GovIndiaNews</news:name>
+          <news:language>en</news:language>
+        </news:publication>
+        <news:publication_date>2026-10-16T12:00:00+05:30</news:publication_date>
+        <news:title>...</news:title>
+      </news:news>
+    </url>
+    ```
+- Add `Sitemap: https://govindianews.com/news-sitemap.xml` to `robots.txt`.
+
+### Fix D: Real-Time Dynamic NewsArticle & MedicalWebPage JSON-LD Schemas
+- Verify that `NewsArticle` schemas contain exact `datePublished`, `dateModified`, `headline` (matching `<title>`), `image` (16:9, min 1200px wide), and `author` (linking to verified author dossier `/author/akash-singh-solanki`).
 
 ---
 
-## 4. Website Publishing & Integration Architecture
+## 3. Topical Authority & Query-Level Ranking Strategy
 
-To maximize SEO discoverability and authority:
-1. **Gazette Alerts Directory (`/article/nmc-extra-attempt-first-professional-mbbs-mercy-rules`):**
-   - Added to `src/data/gazetteData.ts` as an official UGMEB notification alert with category `'jobs'`/`'recruitment'` educational alert.
-   - Includes full facts table, syllabus breakdown of 1st Prof subjects (Anatomy, Physiology, Biochemistry), official download links, and FAQ schema.
-2. **Evergreen Editorial Knowledge Base (`/blog/nmc-extra-attempt-first-professional-mbbs-eligibility-guide`):**
-   - Added to `src/content/blogData.ts` as a 2,400+ word deep-dive editorial article.
-   - Equipped with interactive tables, CBME regulation comparison, legal timeline, and the embedded eligibility calculator.
-3. **Internal Linking & Crawl Graph:**
-   - Linked from Home page breaking ticker, FAQ hub, medical exam hubs, and tools directory.
-   - Updated sitemap and automated prerender script to verify crawlability.
+### Step 1: Breaking the SERP Logjam via "Micro-Query" Target Injection
+- When a 3–6 month domain writes on a trending topic, it cannot initially outrank *Times of India* for "NMC extra attempt".
+- **Solution:** Add secondary H2s and FAQs targeting specific long-tail queries that have zero competition on page 1 of Google, such as:
+  - *"can 2018 batch apply for nmc 5th mercy attempt"*
+  - *"nmc 1st prof 10 year mbbs deadline calculator"*
+  - *"affidavit format for nmc mbbs supplementary exam 5th attempt"*
+- Winning positions 1–5 on these specific search strings generates immediate impressions and clicks, building the domain's NavBoost quality score.
+
+### Step 2: The "Seed Audience" Click Validation Playbook
+- Google Discover requires early CTR validation before expanding impression distribution to wider user segments.
+- When an article is published:
+  1. Share the direct link across candidate Telegram/WhatsApp exam prep groups.
+  2. Embed internal links from high-traffic pages (Home, Tools Hub, Live Ticker).
+  3. When Google detects genuine user dwell time (over 2–3 minutes engaging with the embedded interactive calculator), Google Discover promotes the card to thousands of active medical/exam searchers.
 
 ---
 
-## 5. Verification & Quality Assurance Gate
-- Zero plagiarism, original journalistic reporting cross-referenced directly against official NMC notice F.No. U.15024/01/2026-UGMEB.
-- Production build compilation (`compile_applet`) and automated crawl test across all routes.
-- Full type-safety check (`tsc --noEmit`).
+## 4. Verification & Testing Protocol
+
+1. **Crawler & Prerender Build:**
+   - Execute `npm run build` to verify generation of `dist/news-sitemap.xml`, updated `dist/rss.xml`, and injection of `max-image-preview:large` in all 118+ HTML files.
+2. **Schema & Tag Verification:**
+   - Run verification checks confirming valid XML syntax for both sitemaps and RSS feed.
+   - Confirm Google Rich Results and Schema Validator compliance.
+3. **Google Search Console & Publisher Center Submission Guide:**
+   - Submit `https://govindianews.com/news-sitemap.xml` directly in Google Search Console.
+   - Refresh the Section Feed URL in Google Publisher Center to ensure `/blog/` guides sync.
+
+---
+
+## User Confirmation Request
+Please review this implementation plan. Click **Proceed** to begin executing the technical SEO, RSS feed, and Google News sitemap enhancements.

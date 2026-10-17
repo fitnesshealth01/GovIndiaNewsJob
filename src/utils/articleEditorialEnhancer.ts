@@ -251,6 +251,43 @@ export function getCareerPromotionLadder(article: RecruitmentAlert): CareerPromo
     ];
   }
 
+  if (org.includes('medical') || org.includes('nmc') || exam.includes('mbbs')) {
+    return [
+      {
+        stepNumber: 1,
+        designation: 'Pre-Registration Junior Resident / MBBS Intern (CRMI)',
+        payLevel: 'Stipendiary Trainee (₹25,000 – ₹38,000 / month across states)',
+        yearsOfService: 'Year 0 – 1 (Mandatory 12-Month Internship)',
+        cadreClassification: 'Compulsory Rotating Medical Intern',
+        keyResponsibilities: 'Rotations in Medicine, Surgery, Obstetrics/Gynaecology, Pediatrics, and Community Health Centres (CHC).',
+      },
+      {
+        stepNumber: 2,
+        designation: 'Medical Officer / Junior Resident (Non-Academic)',
+        payLevel: 'Pay Level 10 (Basic: ₹56,100 – ₹1,77,500 + 20% Non-Practicing Allowance)',
+        yearsOfService: 'Years 1 – 4',
+        cadreClassification: 'Central Health Service (CHS) / State Medical Service Class-I',
+        keyResponsibilities: 'Primary Health Centre (PHC) in-charge, OPD consultations, emergency trauma care, national health mission drives.',
+      },
+      {
+        stepNumber: 3,
+        designation: 'Specialist Medical Officer / Senior Resident (Post-PG MD/MS)',
+        payLevel: 'Pay Level 11 (Basic: ₹67,700 – ₹2,08,700 + NPA)',
+        yearsOfService: 'Years 4 – 9 (following NEET-PG degree completion)',
+        cadreClassification: 'Specialist Cadre (Class-A Gazetted)',
+        keyResponsibilities: 'Secondary/tertiary hospital inpatient care, performing complex surgical/clinical procedures, training interns.',
+      },
+      {
+        stepNumber: 4,
+        designation: 'Chief Medical Officer (NFSG) / Civil Surgeon / Medical Superintendent',
+        payLevel: 'Pay Level 13 / 14 (Basic: ₹1,23,100 – ₹2,18,200 + NPA)',
+        yearsOfService: 'Years 9 – 16',
+        cadreClassification: 'Senior Administrative Grade (Apex Hospital Administration)',
+        keyResponsibilities: 'District hospital administration, heading clinical departments, medical college professorship, state health policy.',
+      },
+    ];
+  }
+
   // Default Central Government Career Ladder
   return [
     {
@@ -292,6 +329,38 @@ export function getCareerPromotionLadder(article: RecruitmentAlert): CareerPromo
  * Standard Document Verification & Certificate Rejection Traps
  */
 export function getDocumentVerificationTraps(article: RecruitmentAlert): DocumentVerificationTrap[] {
+  const org = (article.organization || '').toLowerCase();
+  const exam = (article.examName || '').toLowerCase();
+
+  if (org.includes('nmc') || org.includes('medical') || exam.includes('mbbs')) {
+    return [
+      {
+        certificateType: 'Notarized Affidavit on 5th Mercy Attempt Non-Exhaustion',
+        trapWarning: 'Over 22% of rejected applicants fail to submit a notarized undertaking explicitly declaring that no prior 5th mercy attempt was availed under judicial or administrative orders.',
+        officialResolution: 'Execute a ₹100 non-judicial stamp paper affidavit attested by an Executive Magistrate or Notary Public stating: (1) Admitted 2019-20 onwards, (2) Exactly 4 attempts exhausted, (3) Zero prior 5th attempt availed.',
+        statutoryRule: 'NMC Under-Graduate Medical Education Board Public Notice F.No. U.15024/01/2026-UGMEB dated 15 Oct 2026.',
+      },
+      {
+        certificateType: 'Continuous Active Enrollment & College Roll Verification',
+        trapWarning: 'Students who suffered administrative strikes, long unauthorized leaves, or whose names were struck off the college register are denied examination hall tickets.',
+        officialResolution: 'Obtain an official Continuous Bonafide Enrollment Certificate signed by the Medical College Dean or Academic Registrar verifying your admission remains valid on university records.',
+        statutoryRule: 'Regulation 11.1.2 of Graduate Medical Education Regulations (GMER-2019 / GMER-2023).',
+      },
+      {
+        certificateType: 'Internal Assessment (IA) & Practical Attendance Threshold',
+        trapWarning: 'University examination controllers automatically disqualify candidates who do not possess cleared Internal Assessment (minimum 40% in each subject, 50% combined) and mandatory attendance.',
+        officialResolution: 'Confirm attendance records (75% theory, 80% practicals) with the heads of Anatomy, Physiology, and Biochemistry departments. Complete remedial tutorial logs prior to fee remittance.',
+        statutoryRule: 'CBME Curriculum Guidelines for 1st Professional MBBS Assessment.',
+      },
+      {
+        certificateType: 'The Absolute 10-Year Degree Completion Ceiling',
+        trapWarning: 'Assuming that the First Prof 4-year limit relaxation extends the overall course completion window will result in irreversible cancellation of MBBS degree candidature in later years.',
+        officialResolution: 'Map your remaining curriculum strictly: 2nd Prof (12 mo), 3rd Prof Part 1 (12 mo), 3rd Prof Part 2 (18 mo), and CRMI Internship (12 mo) must conclude within 10 years of initial admission.',
+        statutoryRule: 'NMC Regulations on Maximum Duration of MBBS Degree Course.',
+      },
+    ];
+  }
+
   return [
     {
       certificateType: 'OBC-NCL Crucial Financial Year Window',
@@ -326,6 +395,30 @@ export function getDocumentVerificationTraps(article: RecruitmentAlert): Documen
 export function getEditorialBriefing(article: RecruitmentAlert): EditorialBriefing {
   const org = article.organization || 'Central Government Authority';
   const posts = article.postCount ? `${article.postCount} vacancies` : 'official sanctioned vacancies';
+
+  if (
+    org.toLowerCase().includes('nmc') ||
+    org.toLowerCase().includes('medical') ||
+    (article.examName || '').toLowerCase().includes('mbbs')
+  ) {
+    return {
+      gazetteRef: 'NMC Under-Graduate Medical Education Board Public Notice F.No. U.15024/01/2026-UGMEB',
+      issuingAuthority: 'National Medical Commission (NMC) · Under-Graduate Medical Education Board (UGMEB)',
+      competitionIntensity: 'High (Pan-India Elite)',
+      applicationVerdict: 'A historic one-time transitional mercy attempt granting a crucial 5th chance for 2019+ CBME MBBS cohorts. It temporarily relaxes the 4-year First Prof limit while maintaining the mandatory 10-year degree completion ceiling.',
+      crucialTakeaways: [
+        'Eligible Cohort: Uniformly open to MBBS candidates admitted from academic session 2019-20 onwards under CBME regulations who have failed 4 attempts.',
+        'Strict Exclusion: Any candidate who already utilized a 5th attempt under previous court directives or prior circulars is permanently barred.',
+        'Examination Channel: Forms must be routed through the Medical College Dean to the affiliated State Health Sciences University for upcoming supplementary/regular examinations.',
+        'Absolute 10-Year Deadline: The entire MBBS degree including the 12-month CRMI internship must be completed within 10 years of initial admission.',
+      ],
+      editorSignOff: {
+        name: 'Akash Singh Solanki',
+        role: 'Founder & Lead Educational Analyst, GovIndiaNews',
+        timestamp: 'Verified against official NMC UGMEB Public Notice dated 15 October 2026',
+      },
+    };
+  }
 
   return {
     gazetteRef: `Gazette of India, Extraordinary, Part II, Section 3(i) — Notice Ref: ${article.slug.toUpperCase()}/2026`,

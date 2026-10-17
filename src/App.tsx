@@ -54,6 +54,7 @@ import {
   ExternalLink,
   Pause,
   BookOpen,
+  GraduationCap,
 } from 'lucide-react';
 import { RECRUITMENT_ALERTS, RecruitmentAlert } from './data/gazetteData';
 import { isAlertActive, isAlertActiveAndVerified, isAlertExpired, parsePublishDateToTimestamp } from './utils/alertStatus';
@@ -592,6 +593,7 @@ export default function App() {
                 { title: 'Instant Eligibility Matcher', desc: 'Multi-criteria filter matching your DOB, qualification, and social category against active recruitment drives.', path: '/tools/eligibility', icon: Sparkles, badge: 'Discovery' },
                 { title: 'Army 1600m Run & Rally Countdown', desc: 'Phase-by-phase aerobic interval planner, tapering protocol, and daily training timer for Agniveer & Police PFT.', path: '/tools/fitness', icon: Play, badge: 'Fitness' },
                 { title: 'UP Board Class 12 Gap-Day Calculator', desc: 'Interactive countdown, gap-day analysis between science papers, and daily revision schedule for PCM & PCB.', path: '/tools/up-board-gap-calculator', icon: Calendar, badge: 'Board Exam' },
+                { title: 'NMC 1st Prof MBBS Mercy Calculator', desc: 'Instant eligibility diagnostic for 5th mercy attempt, 10-year degree completion deadline, and CBME rules.', path: '/tools/nmc-mbbs-mercy-calculator', icon: GraduationCap, badge: 'NMC Medical' },
               ].map((tool, idx) => {
                 const IconComponent = tool.icon;
                 return (

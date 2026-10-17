@@ -1,6 +1,6 @@
 {
-  "summary": "Implementation plan for creating an Elite, Google Discover-optimized, high-ranking long-tail article and interactive eligibility calculator on the trending National Medical Commission (NMC) 1st Professional MBBS one-time mercy 5th attempt notification. Covers complete eligibility rules, 10-year course timeline, university application roadmap, CBME regulatory history, and dual publication across Gazette Alerts and Editorial Guides.",
-  "updatedAt": "2026-10-16T10:51:25.017453062Z",
+  "summary": "Comprehensive diagnostic audit and implementation plan to resolve the 'Fast Indexing but Zero Impressions / Zero Ranking' problem for GovIndiaNews on Google Search, Google News, and Google Discover. Includes technical fixes (max-image-preview:large, Google News sitemap, RSS feed inclusion for /blog/), topical authority strategy, query gap targeting, and Discover activation protocols.",
+  "updatedAt": "2026-10-17T07:51:16.320010830Z",
   "requestFeedback": true,
   "userFacing": true
 }

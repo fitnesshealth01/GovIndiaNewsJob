@@ -3042,7 +3042,9 @@ for (const route of ROUTES) {
     route.path === '/archive' ||
     (route.alertData && (route.alertData.status !== 'verified' || isAlertExpired(route.alertData)))
   );
-  const robotsTagContent = shouldNoindex ? 'noindex, follow' : 'index, follow';
+  const robotsTagContent = shouldNoindex
+    ? 'noindex, follow'
+    : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1';
   if (html.includes('<meta name="robots"')) {
     html = html.replace(/<meta name="robots" content=".*?"\s*\/?>/i, `<meta name="robots" content="${robotsTagContent}" />`);
   } else {
@@ -3323,19 +3325,19 @@ ${uniqueSitemapRoutes.map(r => {
 fs.writeFileSync(path.join(distDir, 'sitemap.xml'), sitemapXml, 'utf8');
 fs.writeFileSync(path.join(rootDir, 'public', 'sitemap.xml'), sitemapXml, 'utf8');
 
-// 9. Generate dynamic rss.xml with real publication pubDates (no new Date())
+// 9. Generate dynamic rss.xml with real publication pubDates (including /article/ and /blog/ deep guides)
 const authorRoute = ROUTES.find(r => r.path === '/author/akash-singh-solanki');
 const articleRoutes = ROUTES.filter(r => {
   if (r.path === '/404' || r.path === '/archive' || r.noindex) return false;
   if (r.alertData && (r.alertData.status !== 'verified' || isAlertExpired(r.alertData))) return false;
-  return r.path.startsWith('/article/') || r.path.startsWith('/exams/') || r.path.startsWith('/guides/');
-}).slice(0, 35);
+  return r.path.startsWith('/article/') || r.path.startsWith('/blog/') || r.path.startsWith('/exams/') || r.path.startsWith('/guides/');
+}).slice(0, 45);
 const rssItems = authorRoute ? [authorRoute, ...articleRoutes] : articleRoutes;
 
 const newestDateRfc = toRfc822Date(activeVerifiedAlerts[0]?.reviewedDate || activeVerifiedAlerts[0]?.publishDate || '08 Oct 2026');
 
 const rssXml = `<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/">
   <channel>
     <title>GovIndiaNews — Independent Government Jobs &amp; Exam Updates</title>
     <link>${DOMAIN}</link>
@@ -3343,17 +3345,52 @@ const rssXml = `<?xml version="1.0" encoding="UTF-8"?>
     <language>en-in</language>
     <lastBuildDate>${newestDateRfc}</lastBuildDate>
     <atom:link href="${DOMAIN}/rss.xml" rel="self" type="application/rss+xml"/>
-${rssItems.map(r => `    <item>
+${rssItems.map(r => {
+  const itemImg = r.image || r.alertData?.titleImage || r.alertData?.featuredImage || `${DOMAIN}/og-image.jpg`;
+  return `    <item>
       <title><![CDATA[${r.title}]]></title>
       <link>${r.canonical}</link>
-      <guid>${r.canonical}</guid>
+      <guid isPermaLink="true">${r.canonical}</guid>
       <description><![CDATA[${r.description}]]></description>
       <pubDate>${toRfc822Date(r.publishDate || '08 Oct 2026')}</pubDate>
-    </item>`).join('\n')}
+      <enclosure url="${escapeHtml(itemImg)}" length="150000" type="image/jpeg" />
+      <media:content url="${escapeHtml(itemImg)}" medium="image" />
+    </item>`;
+}).join('\n')}
   </channel>
 </rss>`;
 
 fs.writeFileSync(path.join(distDir, 'rss.xml'), rssXml, 'utf8');
 fs.writeFileSync(path.join(rootDir, 'public', 'rss.xml'), rssXml, 'utf8');
 
-console.log(`Successfully prerendered ${ROUTES.length} routes, sitemap.xml, and rss.xml with full semantic HTML.`);
+// 10. Generate dedicated Google News sitemap (news-sitemap.xml) for Publisher Center & Google News bot
+const newsRoutes = ROUTES.filter(r => {
+  if (r.path === '/404' || r.path === '/archive' || r.noindex) return false;
+  if (r.alertData && (r.alertData.status !== 'verified' || isAlertExpired(r.alertData))) return false;
+  return r.path.startsWith('/article/') || r.path.startsWith('/blog/');
+}).slice(0, 50);
+
+const newsSitemapXml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
+${newsRoutes.map(r => {
+  const pubDateIso = toIsoDate(r.alertData?.reviewedDate || r.alertData?.publishDate || r.publishDate || '08 Oct 2026');
+  const cleanTitle = r.title.replace(/\s*—\s*GovIndiaNews.*$/i, '').trim();
+  return `  <url>
+    <loc>${r.canonical}</loc>
+    <news:news>
+      <news:publication>
+        <news:name>GovIndiaNews</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>${pubDateIso}T06:00:00+05:30</news:publication_date>
+      <news:title>${escapeHtml(cleanTitle)}</news:title>
+    </news:news>
+  </url>`;
+}).join('\n')}
+</urlset>`;
+
+fs.writeFileSync(path.join(distDir, 'news-sitemap.xml'), newsSitemapXml, 'utf8');
+fs.writeFileSync(path.join(rootDir, 'public', 'news-sitemap.xml'), newsSitemapXml, 'utf8');
+
+console.log(`Successfully prerendered ${ROUTES.length} routes, sitemap.xml, news-sitemap.xml, and rss.xml with full semantic HTML.`);

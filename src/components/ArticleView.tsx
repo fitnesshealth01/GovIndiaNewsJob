@@ -38,6 +38,7 @@ import { EliteNtaExamTemplate } from './EliteNtaExamTemplate';
 import { NavLink } from './NavLink';
 import { ArticleCredibilityHeader } from './ArticleCredibilityHeader';
 import { ArticleAnalyticalSuite } from './ArticleAnalyticalSuite';
+import { NmcMbbsMercyCalculator } from './tools/NmcMbbsMercyCalculator';
 
 interface ArticleViewProps {
   article: RecruitmentAlert;
@@ -383,6 +384,13 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
             <EliteNtaExamTemplate article={article} onNavigate={onNavigate} />
           ) : (
             <EliteJobTemplate article={article} onNavigate={onNavigate} />
+          )}
+
+          {/* Embedded Interactive 1st Prof MBBS Mercy Eligibility Checker */}
+          {article.slug === 'nmc-extra-attempt-first-professional-mbbs-mercy-rules' && (
+            <div className="my-6">
+              <NmcMbbsMercyCalculator onNavigate={onNavigate} embedded={true} />
+            </div>
           )}
 
           {/* HIGH-VALUE ANALYTICAL SUITE (Executive Briefing, In-Article Smart Calculator, City X/Y/Z Salary Slips, 15-Year Ladder, DV Traps) */}
