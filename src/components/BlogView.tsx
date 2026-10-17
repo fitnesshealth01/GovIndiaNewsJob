@@ -31,6 +31,7 @@ import {
 import { PhysicalFitnessCountdown } from './tools/PhysicalFitnessCountdown';
 import { UPBoardGapDayCalculator } from './tools/UPBoardGapDayCalculator';
 import { NmcMbbsMercyCalculator } from './tools/NmcMbbsMercyCalculator';
+import { CareerPathMatcher } from './tools/CareerPathMatcher';
 
 interface BlogViewProps {
   slug?: string;
@@ -416,6 +417,14 @@ export const BlogView: React.FC<BlogViewProps> = ({ slug, onNavigate }) => {
       {/* Embedded NMC 1st Prof MBBS Mercy Attempt Calculator */}
       {post.slug === 'nmc-extra-attempt-first-professional-mbbs-eligibility-guide' && (
         <NmcMbbsMercyCalculator onNavigate={onNavigate} embedded={true} />
+      )}
+
+      {/* Embedded Youth Career Path & Salary Eligibility Matcher */}
+      {(post.category === 'career-guide' ||
+        post.slug === 'skip-college-for-central-govt-jobs-after-12th-salary-reality-check' ||
+        post.slug === 'nda-vs-cds-vs-afcat-ssb-selection-secrets-officer-salary-reality' ||
+        post.slug === 'upsc-ias-vs-ssc-cgl-inspector-brutal-salary-power-workload-reality') && (
+        <CareerPathMatcher onNavigate={onNavigate} embedded={true} />
       )}
 
       {/* Main Content Sections */}

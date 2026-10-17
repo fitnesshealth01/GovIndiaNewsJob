@@ -116,6 +116,15 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
               </li>
               <li>
                 <NavLink
+                  href="/tools/zero-impression-audit"
+                  onNavigate={onNavigate}
+                  className="hover:text-cyan-400 font-semibold transition-colors cursor-pointer text-left block"
+                >
+                  Zero-Impression SEO &amp; GSC Diagnostic
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
                   href="/tools"
                   onNavigate={onNavigate}
                   className="hover:text-blue-400 transition-colors cursor-pointer text-left block font-medium"

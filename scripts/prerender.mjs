@@ -833,6 +833,44 @@ Under this mathematical method, candidates in tougher shifts with lower mean mar
     bodyText: `Navigating dozens of simultaneous central and state recruitment notifications can be daunting. Different posts require different educational degrees (10th pass, 12th pass, Graduate in any stream, B.Tech/B.E., or LLB), varying age thresholds (18-25, 20-28, 21-30, or 21-32), and specific reservation category benefits.
 
 This candidate discovery utility cross-references your exact date of birth, social reservation category, and highest educational qualification against active government notifications. It immediately outputs the active recruitments for which you meet the statutory eligibility requirements, complete with application closing deadlines and direct links to official notifications. Save time and never miss a recruitment drive for which you qualify.`
+  },
+  {
+    path: '/tools/zero-impression-audit',
+    title: 'Google Search Console Zero-Impression Diagnostic & Recovery Action Center',
+    description: 'Diagnose why fast-indexed trending articles receive zero impressions in Google Search and Discover: cold-tier sandbox audit, Discover 1200px image gate, and 72-hour recovery.',
+    heading: 'Google Search Console Zero-Impression Diagnostic & Recovery Action Center',
+    bodyText: `When publishing articles on breaking recruitment news or trending competitive examination topics, digital editors frequently experience the frustrating discrepancy between immediate indexation and zero search impressions. A URL marked "Indexed" in Google Search Console merely indicates that Googlebot has fetched, parsed, and recorded the document into its secondary storage. It does not ensure entry into Google’s primary Query Candidate Serving Pool.
+
+For domains between 3 to 6 months of age, Google enforces cold-start evaluation tiers. On competitive high-velocity search queries, Google’s Query Deserves Freshness (QDF) algorithm prioritizes established national media domains with high Domain Authority (DA 80+) and proven user dwell times. Independent portals targeting generic 2-3 word head terms are often filtered out of candidate serving sets, resulting in zero logged impressions.
+
+This diagnostic tool audits your published articles across five key vectors: Indexing vs Serving Tier gaps, SERP Head-Term Competition, Google Discover 1200px hero image compliance, E-E-A-T entity schema salience, and internal topical link distribution. It provides actionable long-tail micro-intent headline modifiers and a 72-hour recovery checklist to unlock top-10 candidate retrieval and activate Google NavBoost signals.`
+  },
+  {
+    path: '/tools/career-matcher',
+    title: 'Youth Career Path & Salary Eligibility Matcher — 10th, 12th & Graduate Entries',
+    description: 'Interactive career path diagnostic matching your age (15 to 30) and qualification to eligible government exams, NDA officer commissions, and 7th CPC take-home pay.',
+    heading: 'Youth Career Path & Salary Eligibility Matcher (Ages 15 to 30)',
+    bodyText: `Finding the right competitive examination path early can save aspirants years of misdirected effort and unnecessary academic expense. This utility maps candidate age brackets from 15 to 30 years and educational milestones—from 10th matriculation and 12th Science/Commerce/Arts through general and technical graduation—against active central government recruitment pathways.
+
+The tool evaluates direct officer entry commissions including the National Defence Academy (NDA, Army, Navy, Air Force) and Combined Defence Services (CDS), ministerial executive posts under SSC CGL and SSC CHSL, Railway Recruitment Board technical cadres (ALP, Technician, Station Master), and State Police sub-inspectorships. Each matched result card provides verified 7th CPC Pay Level benchmarks, starting gross emoluments, statutory NPS deductions, and estimated net monthly take-home pay across Class X, Y, and Z cities.`
+  },
+  {
+    path: '/tools/nmc-mbbs-mercy-calculator',
+    title: 'NMC 1st Prof MBBS Mercy Attempt Calculator — CBME Rules & 10-Year Deadline',
+    description: 'Instant eligibility diagnostic for the National Medical Commission (NMC) 5th mercy attempt public notice, 10-year degree completion deadline, and CBME guidelines.',
+    heading: 'NMC 1st Prof MBBS Mercy Attempt & 10-Year Degree Completion Calculator',
+    bodyText: `Under the Under-Graduate Medical Education Board (UGMEB) public notice issued by the National Medical Commission (NMC), candidates who enrolled under the Competency-Based Medical Education (CBME) curriculum (enforced from the 2019-20 academic session) who have exhausted four regular and supplementary attempts in their First Professional MBBS examination are granted a strictly one-time extraordinary fifth mercy attempt.
+
+This calculator evaluates candidate eligibility based on four mandatory statutory conditions: (1) Initial admission year must fall on or after the 2019-20 batch; (2) The candidate must have exhausted exactly 4 attempts without having previously utilized any court-directed mercy attempt; (3) The total elapsed time from the initial MBBS admission date must not exceed the strict 10-year outer boundary mandated by Graduate Medical Education Regulations; and (4) The candidate must maintain valid university roll registration without formal institutional expulsion.`
+  },
+  {
+    path: '/tools/up-board-gap-calculator',
+    title: 'UP Board Class 12 Science Gap-Day Calculator — 2027 Timetable & Revision Planner',
+    description: 'Interactive countdown, paper-to-paper interval analysis, and daily revision schedule for UPMSP Class 12th Science (PCM & PCB) theory examinations.',
+    heading: 'UP Board Class 12 Science Exam Gap-Day Calculator & Revision Planner',
+    bodyText: `Preparing for the Uttar Pradesh Madhyamik Shiksha Parishad (UPMSP) Class 12 Intermediate Board Examinations requires rigorous schedule management, particularly for Science stream candidates balancing Physics, Chemistry, Mathematics, and Biology. When examination dates are published, the number of gap days between demanding theoretical papers directly dictates revision depth and mock test allocation.
+
+This planning utility calculates the exact countdown to day-one examinations, analyzes calendar intervals between consecutive science papers, and generates a structured daily revision distribution. It highlights high-stakes crunch days, suggests topic-wise revision pacing, and cross-references statutory blueprint requirements so candidates can optimize their preparatory weeks effectively.`
   }
 ];
 

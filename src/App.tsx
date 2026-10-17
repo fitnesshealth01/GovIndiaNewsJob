@@ -32,6 +32,8 @@ import { EligibilityMatcherPage } from './components/tools/EligibilityMatcherPag
 import { PhysicalFitnessCountdownPage } from './components/tools/PhysicalFitnessCountdownPage';
 import { UPBoardGapDayCalculatorPage } from './components/tools/UPBoardGapDayCalculatorPage';
 import { NmcMbbsMercyCalculatorPage } from './components/tools/NmcMbbsMercyCalculatorPage';
+import { CareerPathMatcherPage } from './components/tools/CareerPathMatcherPage';
+import { ZeroImpressionAuditPage } from './components/tools/ZeroImpressionAuditPage';
 import { NotFoundView } from './components/NotFoundView';
 import { AdSenseAuditor } from './components/AdSenseAuditor';
 import { getBookmarks } from './utils/bookmarkStorage';
@@ -55,6 +57,7 @@ import {
   Pause,
   BookOpen,
   GraduationCap,
+  Gauge,
 } from 'lucide-react';
 import { RECRUITMENT_ALERTS, RecruitmentAlert } from './data/gazetteData';
 import { isAlertActive, isAlertActiveAndVerified, isAlertExpired, parsePublishDateToTimestamp } from './utils/alertStatus';
@@ -142,7 +145,9 @@ export default function App() {
       currentPath === '/tools/up-board-gap-calculator' ||
       currentPath === '/tools/up-board' ||
       currentPath === '/tools/nmc-mbbs-mercy-calculator' ||
-      currentPath === '/tools/mbbs-attempt-calculator'
+      currentPath === '/tools/mbbs-attempt-calculator' ||
+      currentPath === '/tools/career-matcher' ||
+      currentPath === '/tools/career-path-matcher'
     ) return true;
     if (
       currentPath === '/nta-exams' ||
@@ -231,6 +236,9 @@ export default function App() {
     } else if (currentPath === '/tools/nmc-mbbs-mercy-calculator' || currentPath === '/tools/mbbs-attempt-calculator') {
       title = 'NMC 1st Prof MBBS Mercy Attempt Calculator - GovIndiaNews';
       metaDesc = 'Check eligibility for the one-time 5th mercy attempt granted by National Medical Commission on 15 Oct 2026 and calculate your 10-year MBBS completion deadline.';
+    } else if (currentPath === '/tools/career-matcher' || currentPath === '/tools/career-path-matcher') {
+      title = 'Youngster Career Path, Qualification & 7th CPC Salary Matcher - GovIndiaNews';
+      metaDesc = 'Select your age (15-32) and qualification to instantly discover eligible government exams, starting 7th CPC pay levels, take-home salaries, and officer roadmaps.';
     } else if (currentPath === '/tools') {
       title = 'Govt Exam Smart Calculators Suite - GovIndiaNews';
     } else if (currentPath === '/jobs') {
@@ -568,6 +576,12 @@ export default function App() {
         {(currentPath === '/tools/nmc-mbbs-mercy-calculator' || currentPath === '/tools/mbbs-attempt-calculator') && (
           <NmcMbbsMercyCalculatorPage onNavigate={navigate} />
         )}
+        {(currentPath === '/tools/career-matcher' || currentPath === '/tools/career-path-matcher') && (
+          <CareerPathMatcherPage onNavigate={navigate} />
+        )}
+        {(currentPath === '/tools/zero-impression-audit' || currentPath === '/tools/seo-diagnostic' || currentPath === '/tools/gsc-diagnostic') && (
+          <ZeroImpressionAuditPage onNavigate={navigate} />
+        )}
 
         {/* Tools Hub (/tools) */}
         {currentPath === '/tools' && (
@@ -583,7 +597,9 @@ export default function App() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {[
+                { title: 'Zero-Impression SEO Diagnostic', desc: 'Diagnose why fast-indexed trending articles receive 0 impressions in GSC: sandbox audit, Discover image gate, and 72h unlock.', path: '/tools/zero-impression-audit', icon: Gauge, badge: 'Webmaster' },
                 { title: '7th CPC In-Hand Salary Calculator', desc: 'Compute monthly gross, 10% NPS deduction, and net take-home pay across Levels 1 to 18 and Class X/Y/Z cities.', path: '/tools/salary', icon: Calculator, badge: 'Popular' },
+                { title: 'Youth Career Path & Salary Matcher', desc: 'Instant eligibility diagnostic matching your age and qualification to eligible government exams and 7th CPC take-home pay.', path: '/tools/career-matcher', icon: GraduationCap, badge: 'Youth Guide' },
                 { title: 'Photo & Signature Compliance Checker', desc: 'Validate and compress image dimensions (KB limits, aspect ratios) for SSC, UPSC, IBPS, and RRB portals.', path: '/tools/photo-checker', icon: Sparkles, badge: 'Client-Side' },
                 { title: 'Fee & Category Relaxation Calculator', desc: 'Determine exact upper age concessions and fee exemptions for OBC, SC, ST, PwBD, and ESM under DoPT rules.', path: '/tools/relaxation', icon: ShieldCheck, badge: 'Statutory' },
                 { title: 'Crucial Cut-Off Age Calculator', desc: 'Calculate exact completed years, months, and days against the official gazette notification cutoff date.', path: '/tools/age', icon: Calendar, badge: 'Essential' },
