@@ -1,6 +1,6 @@
 {
-  "summary": "Comprehensive diagnostic audit and implementation plan to resolve the 'Fast Indexing but Zero Impressions / Zero Ranking' problem for GovIndiaNews on Google Search, Google News, and Google Discover. Includes technical fixes (max-image-preview:large, Google News sitemap, RSS feed inclusion for /blog/), topical authority strategy, query gap targeting, and Discover activation protocols.",
-  "updatedAt": "2026-10-17T07:51:16.320010830Z",
+  "summary": "Implementation plan to integrate Google Reader Revenue Manager (Subscribe with Google SwG Basic) CMS sync script globally across all pages of GovIndiaNews, configure open-access verification without blocking popups, and align Schema.org NewsArticle productID metadata.",
+  "updatedAt": "2026-10-17T08:02:35.350385589Z",
   "requestFeedback": true,
   "userFacing": true
 }

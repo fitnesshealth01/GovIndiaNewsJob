@@ -1041,6 +1041,7 @@ for (const post of BLOG_POSTS) {
     canonical: `${DOMAIN}/blog/${post.slug}`,
     publishDate: post.publishDate || '08 Oct 2026',
     image: post.heroImage,
+    blogData: post,
     render: () => {
       return `
         ${renderSiteHeader()}
@@ -3133,7 +3134,13 @@ for (const route of ROUTES) {
         name: 'GovIndiaNews',
         url: `${DOMAIN}/`
       },
-      mainEntityOfPage: route.canonical
+      mainEntityOfPage: route.canonical,
+      isAccessibleForFree: true,
+      isPartOf: {
+        '@type': ['CreativeWork', 'Product'],
+        name: 'GovIndiaNews Open Access',
+        productID: 'CAow8trHDA:openaccess'
+      }
     });
 
     // EducationEvent for admit cards, board exams, NTA exams, or any alert with examDate
@@ -3270,6 +3277,55 @@ for (const route of ROUTES) {
         }
       }))
     });
+  }
+
+  // NewsArticle & FAQPage for Blog Posts (Knowledge Base / Guides)
+  if (route.blogData) {
+    const post = route.blogData;
+    const isoDate = toIsoDate(post.publishDate);
+    const postImage = post.heroImage || `${DOMAIN}/og-image.jpg`;
+    schemas.push({
+      '@context': 'https://schema.org',
+      '@type': 'NewsArticle',
+      headline: post.title,
+      description: post.summary,
+      url: route.canonical,
+      image: [postImage],
+      datePublished: `${isoDate}T06:00:00+05:30`,
+      dateModified: `${isoDate}T06:00:00+05:30`,
+      author: {
+        '@type': 'Person',
+        name: (post.author || 'Akash Singh Solanki').split(',')[0].trim(),
+        url: `${DOMAIN}/author/akash-singh-solanki`
+      },
+      publisher: {
+        '@type': 'NewsMediaOrganization',
+        name: 'GovIndiaNews',
+        url: `${DOMAIN}/`
+      },
+      mainEntityOfPage: route.canonical,
+      isAccessibleForFree: true,
+      isPartOf: {
+        '@type': ['CreativeWork', 'Product'],
+        name: 'GovIndiaNews Open Access',
+        productID: 'CAow8trHDA:openaccess'
+      }
+    });
+
+    if (post.faqs && post.faqs.length > 0) {
+      schemas.push({
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: post.faqs.map(f => ({
+          '@type': 'Question',
+          name: f.question,
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: f.answer
+          }
+        }))
+      });
+    }
   }
 
   // Inject JSON-LD into <head>

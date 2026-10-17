@@ -307,6 +307,12 @@ export function buildNewsArticleSchema(item: RecruitmentAlert): Record<string, u
       '@type': 'WebPage',
       '@id': url,
     },
+    isAccessibleForFree: true,
+    isPartOf: {
+      '@type': ['CreativeWork', 'Product'],
+      name: 'GovIndiaNews Open Access',
+      productID: 'CAow8trHDA:openaccess',
+    },
   };
 }
 
